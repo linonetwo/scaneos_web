@@ -1,6 +1,5 @@
-
-export default initialState => ({
-  state: initialState || {},
+export default (initialState = {}) => ({
+  state: { ...initialState },
   reducers: {},
   effects: {},
 });

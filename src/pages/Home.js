@@ -2,11 +2,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import {} from 'antd';
+import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const Container = styled(Flex)``;
+import Header from '../components/Layout';
+
+const Container = styled.div``;
 
 type Props = {
   match: {
@@ -21,10 +23,11 @@ type Dispatch = {};
 class Home extends Component<Props & Store & Dispatch, *> {
   state = {};
   render() {
-    const currentBlockID = this.props.currentBlockID || this.props.match.params.blockId;
     return (
-      <Container column>
-        <div />
+      <Container>
+        <Layout>
+          <Header />
+        </Layout>
       </Container>
     );
   }
