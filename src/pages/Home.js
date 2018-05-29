@@ -7,16 +7,16 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Header from '../components/Layout';
+import OverviewList from '../components/OverviewList';
 
 const Container = styled.div``;
+const Content = styled(Flex)`
+  margin-top: 50px;
+  
+  width: 100vw;
+`;
 
-type Props = {
-  match: {
-    params: {
-      blockId: string,
-    },
-  },
-};
+type Props = {};
 type Store = {};
 type Dispatch = {};
 
@@ -27,6 +27,9 @@ class Home extends Component<Props & Store & Dispatch, *> {
       <Container>
         <Layout>
           <Header />
+          <Content center>
+            <OverviewList />
+          </Content>
         </Layout>
       </Container>
     );

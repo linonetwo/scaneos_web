@@ -13,6 +13,8 @@
     "@rematch/immer": "^1.0.2",
     "antd": "^3.5.3",
     "babel-eslint": "^8.2.3",
+    "camelize": "^1.0.0",
+    "date-fns": "^2.0.0-alpha.9",
     "flow-bin": "^0.73.0",
     "flow-runtime": "^0.17.0",
     "lodash": "^4.17.10",
