@@ -1,29 +1,50 @@
 // @flow
 import camelize from 'camelize';
+import type { Timestamp, Id } from './block';
 
-export type Id = {
-  $id: string,
+type Authorization =  {
+  account: string,
+  permission: string,
 };
-export type Timestamp = {
-  sec: number,
-  usec: number,
+type Accounts =  {
+  permission: Authorization,
+  weight: number,
 };
-
-export type BlockData = {
+type Keys =  {
+  key: string,
+  weight: number,
+};
+type Owner =  {
+  threshold: number,
+  keys: Keys[],
+  accounts: Accounts[],
+};
+type Data =  {
+  creator?: string,
+  name?: string,
+  owner?: Owner,
+  active?: Owner,
+  recovery?: Owner,
+  deposit?: string,
+  from?: string,
+  to?: string,
+  amount?: number,
+  memo?: string,
+};
+export type MessageData =  {
   Id: Id,
-  blockNum: number,
-  blockId: string,
-  prevBlockId: string,
-  timestamp: Timestamp,
-  transactionMerkleRoot: string,
-  producerAccountId: string,
-  transactions: any[],
+  messageId: number,
+  transactionId: string,
+  authorization: Authorization[],
+  handlerAccountName: string,
+  type: string,
+  data: Data,
   createdAt: Timestamp,
 };
 
 export type Store = {
   loading: boolean,
-  data: BlockData[],
+  data: MessageData[],
   pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
   currentPage: number,
 };
@@ -40,7 +61,7 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
-    initBlockData(state: Store, data: BlockData[]) {
+    initMessageData(state: Store, data: MessageData[]) {
       state.data = data;
       return state;
     },
@@ -52,7 +73,7 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, data: BlockData[]) {
+    appendResult(state: Store, data: MessageData[]) {
       state.data = [...state.data, ...data];
       return state;
     },
@@ -63,16 +84,17 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getBlockData(size: number = 20, gotoPage?: number) {
+    async getMessageData(page: number = 0, gotoPage?: number) {
       const {
-        store: { dispatch, block },
+        store: { dispatch, message },
       } = await import('./');
       dispatch.info.toggleLoading();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/blocks?size=${size}`)
+        const data = await fetch(`http://api.eostracker.io/messages?page=${page}`)
           .then(res => res.json())
           .then(camelize);
+        console.log(data)
 
         // if (!gotoPage) {
         //   this.clearState();
@@ -86,7 +108,7 @@ export default (initialState?: Object = {}) => ({
         //   limit: pageSize * block.pagination.pageCountToLoad + 1,
         // });
 
-        // let results: BlockData[] = await fetch(`${API}/blocks`, {
+        // let results: MessageData[] = await fetch(`${API}/blocks`, {
         //   method: 'POST',
         //   headers: { 'Content-Type': 'application/json' },
         //   body,
@@ -110,7 +132,7 @@ export default (initialState?: Object = {}) => ({
         // }
         // this.increaseOffset(results.length, loadable);
 
-        this.initBlockData(data);
+        this.initMessageData(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

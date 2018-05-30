@@ -5,16 +5,18 @@ import infoModel from './info';
 import blockModel from './block';
 import transactionModel from './transaction';
 import accountModel from './account';
+import messageModel from './message';
 import historyModel from './history';
 
 const immer = immerPlugin();
-const configureStore = ({ info, block, history, transaction, account } = {}) =>
+const configureStore = ({ info, block, history, transaction, account, message } = {}) =>
   init({
     models: {
       info: infoModel(info),
       block: blockModel(block),
       transaction: transactionModel(transaction),
       account: accountModel(account),
+      message: messageModel(message),
       history: historyModel(history),
     },
     plugins: [immer],

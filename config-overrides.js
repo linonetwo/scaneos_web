@@ -15,7 +15,7 @@ module.exports = function override(config, env) {
   config = injectBabelPlugin('transform-decorators-legacy', config);
   config = injectBabelPlugin('@babel/plugin-proposal-do-expressions', config);
   config = injectBabelPlugin('@babel/plugin-proposal-optional-chaining', config);
-  config = injectBabelPlugin(['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }], config);
+  config = injectBabelPlugin(['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }], config);
   config = rewireLess.withLoaderOptions({
     modifyVars: { '@primary-color': '#443f54' },
   })(config, env);

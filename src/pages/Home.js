@@ -13,7 +13,6 @@ const Container = styled.div`
   overflow-x: hidden;
 `;
 const Content = styled(Flex)`
-  margin-top: 50px;
   min-height: calc(100vh - 64px);
 
   width: 100vw;

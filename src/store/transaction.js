@@ -1,11 +1,7 @@
 // @flow
 import { initial } from 'lodash';
 import camelize from 'camelize';
-import type { Timestamp } from './block';
-
-type Id = {
-  $id: string,
-};
+import type { Timestamp, Id } from './block';
 
 export type TransactionData = {
   Id: Id,
