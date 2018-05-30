@@ -60,7 +60,9 @@ export function BlockList(props: { loading: boolean, data: BlockData[] }) {
   return (
     <ListContainer>
       <Title justifyBetween alignCenter>
-        Blocks<Link to="/blocks"><ViewAll>View All</ViewAll></Link>
+        Blocks<Link to="/blocks">
+          <ViewAll>View All</ViewAll>
+        </Link>
       </Title>
       <List
         size="small"
@@ -68,7 +70,12 @@ export function BlockList(props: { loading: boolean, data: BlockData[] }) {
         itemLayout="vertical"
         dataSource={props.data}
         renderItem={(item: BlockData) => (
-          <List.Item actions={[<a>By: {item.producerAccountId}</a>, <a>{item.blockId}</a>]}>
+          <List.Item
+            actions={[
+              <Link to={`/account/${item.producerAccountId}`}>By: {item.producerAccountId}</Link>,
+              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
+            ]}
+          >
             <div>
               {format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')} {JSON.stringify(item.transactions)}
             </div>
@@ -82,7 +89,9 @@ export function TransactionList(props: { loading: boolean, data: TransactionData
   return (
     <ListContainer>
       <Title justifyBetween alignCenter>
-        Transactions<Link to="/transactions"><ViewAll>View All</ViewAll></Link>
+        Transactions<Link to="/transactions">
+          <ViewAll>View All</ViewAll>
+        </Link>
       </Title>
       <List
         size="small"
@@ -90,7 +99,12 @@ export function TransactionList(props: { loading: boolean, data: TransactionData
         itemLayout="vertical"
         dataSource={props.data}
         renderItem={(item: TransactionData) => (
-          <List.Item actions={[<a>{item.transactionId}</a>, <a>{item.blockId}</a>]}>
+          <List.Item
+            actions={[
+              <Link to={`/transaction/${item.transactionId}`}>{item.transactionId}</Link>,
+              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
+            ]}
+          >
             <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
           </List.Item>
         )}
@@ -103,7 +117,9 @@ export function AccountList(props: { loading: boolean, data: AccountData[] }) {
   return (
     <ListContainer small>
       <Title justifyBetween alignCenter>
-        Accounts<Link to="/accounts"><ViewAll>View All</ViewAll></Link>
+        Accounts<Link to="/accounts">
+          <ViewAll>View All</ViewAll>
+        </Link>
       </Title>
       <List
         size="small"
@@ -111,7 +127,12 @@ export function AccountList(props: { loading: boolean, data: AccountData[] }) {
         itemLayout="vertical"
         dataSource={props.data}
         renderItem={(item: AccountData) => (
-          <List.Item actions={[<a>{item.transactionId}</a>, <a>{item.blockId}</a>]}>
+          <List.Item
+            actions={[
+              <Link to={`/transaction/${item.transactionId}`}>{item.transactionId}</Link>,
+              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
+            ]}
+          >
             <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
           </List.Item>
         )}
@@ -124,7 +145,9 @@ export function MessageList(props: { loading: boolean, data: MessageData[] }) {
   return (
     <ListContainer small>
       <Title justifyBetween alignCenter>
-        Messages<Link to="/messages"><ViewAll>View All</ViewAll></Link>
+        Messages<Link to="/messages">
+          <ViewAll>View All</ViewAll>
+        </Link>
       </Title>
       <List
         size="small"
@@ -132,7 +155,12 @@ export function MessageList(props: { loading: boolean, data: MessageData[] }) {
         itemLayout="vertical"
         dataSource={props.data}
         renderItem={(item: MessageData) => (
-          <List.Item actions={[<a>{item.transactionId}</a>, <a>{item.blockId}</a>]}>
+          <List.Item
+            actions={[
+              <Link to={`/transaction/${item.transactionId}`}>{item.transactionId}</Link>,
+              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
+            ]}
+          >
             <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
           </List.Item>
         )}
