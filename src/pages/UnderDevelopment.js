@@ -5,11 +5,9 @@ import Flex from 'styled-flex-component';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
 import Header, { Footer } from '../components/Layout';
-import OverviewList from '../components/OverviewList';
 
-const Container = styled.div`
+const Container = styled(Flex)`
   overflow-x: hidden;
 `;
 const Content = styled(Flex)`
@@ -19,20 +17,25 @@ const Content = styled(Flex)`
   width: 100vw;
 `;
 
-type Props = {};
+type Props = {
+  match: {
+    params: {
+      blockId: string,
+    },
+  },
+};
 type Store = {};
 type Dispatch = {};
 
-class Home extends Component<Props & Store & Dispatch, *> {
+class UnderDevelopment extends Component<Props & Store & Dispatch, *> {
   state = {};
   render() {
+    const currentTransactionID = this.props.currentTransactionID || this.props.match.params.transactionId;
     return (
       <Container>
         <Layout>
           <Header />
-          <Content center>
-            <OverviewList />
-          </Content>
+          <Content center>Under Development...</Content>
           <Footer />
         </Layout>
       </Container>
@@ -46,5 +49,5 @@ export default withRouter(
   connect(
     mapState,
     mapDispatch,
-  )(Home),
+  )(UnderDevelopment),
 );
