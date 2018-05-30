@@ -20,14 +20,14 @@ export type TransactionData = {
 
 export type Store = {
   loading: boolean,
-  data: TransactionData[],
+  list: TransactionData[],
   pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
   currentPage: number,
 };
 
 const defaultState = {
   loading: false,
-  data: [],
+  list: [],
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };
@@ -37,8 +37,8 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
-    initTransactionData(state: Store, data: TransactionData[]) {
-      state.data = data;
+    initTransactionList(state: Store, list: TransactionData[]) {
+      state.list = list;
       return state;
     },
     setPage(state: Store, newPage: number) {
@@ -49,8 +49,8 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, data: TransactionData[]) {
-      state.data = [...state.data, ...data];
+    appendResult(state: Store, list: TransactionData[]) {
+      state.list = [...state.list, ...list];
       return state;
     },
     increaseOffset(state: Store, newOffset: number, loadable: boolean) {
@@ -60,14 +60,14 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getTransactionData(size: number = 20, gotoPage?: number) {
+    async getTransactionList(size: number = 20, gotoPage?: number) {
       const {
         store: { dispatch, transaction },
       } = await import('./');
       dispatch.info.toggleLoading();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/transactions?size=${size}`)
+        const list = await fetch(`http://api.eostracker.io/transactions?size=${size}`)
           .then(res => res.json())
           .then(camelize);
 
@@ -107,7 +107,7 @@ export default (initialState?: Object = {}) => ({
         // }
         // this.increaseOffset(results.length, loadable);
 
-        this.initTransactionData(data);
+        this.initTransactionList(list);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

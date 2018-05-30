@@ -180,17 +180,17 @@ type Store = {
   messageData: MessageData[],
 };
 type Dispatch = {
-  getBlockData: (size?: number) => void,
-  getTransactionData: (size?: number) => void,
-  getAccountData: (page?: number) => void,
-  getMessageData: (page?: number) => void,
+  getBlocksList: (size?: number) => void,
+  getTransactionList: (size?: number) => void,
+  getAccountList: (page?: number) => void,
+  getMessageList: (page?: number) => void,
 };
 class OverviewList extends Component<Store & Dispatch> {
   componentDidMount() {
-    this.props.getBlockData(10);
-    this.props.getTransactionData(10);
-    this.props.getAccountData(0);
-    this.props.getMessageData(0);
+    this.props.getBlocksList(10);
+    this.props.getTransactionList(10);
+    this.props.getAccountList(0);
+    this.props.getMessageList(0);
   }
 
   render() {
@@ -206,10 +206,10 @@ class OverviewList extends Component<Store & Dispatch> {
 }
 
 const mapState = ({
-  block: { loading: blockLoading, data: blockData },
-  transaction: { loading: transactionLoading, data: transactionData },
-  account: { loading: accountLoading, data: accountData },
-  message: { loading: messageLoading, data: messageData },
+  block: { loading: blockLoading, list: blockData },
+  transaction: { loading: transactionLoading, list: transactionData },
+  account: { loading: accountLoading, list: accountData },
+  message: { loading: messageLoading, list: messageData },
 }): Store => ({
   blockLoading,
   blockData,
@@ -221,11 +221,11 @@ const mapState = ({
   messageData,
 });
 const mapDispatch = ({
-  block: { getBlockData },
-  transaction: { getTransactionData },
-  account: { getAccountData },
-  message: { getMessageData },
-}): Dispatch => ({ getBlockData, getTransactionData, getAccountData, getMessageData });
+  block: { getBlocksList },
+  transaction: { getTransactionList },
+  account: { getAccountList },
+  message: { getMessageList },
+}): Dispatch => ({ getBlocksList, getTransactionList, getAccountList, getMessageList });
 export default connect(
   mapState,
   mapDispatch,

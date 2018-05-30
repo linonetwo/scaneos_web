@@ -2,15 +2,17 @@
 import { compact, take, flatten, last } from 'lodash';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Spin, Table, Breadcrumb } from 'antd';
+import { Table, Tooltip, Spin } from 'antd';
 import styled from 'styled-components';
-import { translate } from 'react-i18next';
 
 import type { BlockData } from '../store/block';
 import type { TransactionData } from '../store/transaction';
+import { getPageSize } from '../store/utils'
 
 const Container = styled.div`
+  width: calc(100vw - 410px);
   height: 100vh;
+  overflow: hidden;
 
   .ant-spin-container {
     display: flex;
@@ -19,6 +21,13 @@ const Container = styled.div`
   }
   .ant-table {
     width: 100%;
+  }
+  .ant-table-pagination.ant-pagination {
+    float: unset;
+  }
+
+  li.ant-pagination-jump-next + li.ant-pagination-item {
+    display: none;
   }
 `;
 const OriginalPageOpener = styled.div`
@@ -51,6 +60,20 @@ class Transaction extends PureComponent<*> {
         <Container>
           <Table
             dataSource={this.props.results}
+            pagination={{
+              pageSize: getPageSize(),
+              total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
+              current: this.props.currentPage,
+            }}
+            onChange={pagination => {
+              this.props.setPage(pagination.current);
+              if (
+                pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
+                  this.props.pagination.loadable
+              ) {
+                this.props.search(pagination.current);
+              }
+            }}
           >
             <Table.Column
               title={this.props.t('title')}
@@ -94,4 +117,4 @@ const mapState = ({
   transaction: { loading: transactionLoading, list: transactionData },
 }): Store => ({ blockLoading, blockData, transactionLoading, transactionData });
 const mapDispatch = ({ block: { getBlocksData }, transaction: { getTransactionData } }): Dispatch => ({ getBlocksData, getTransactionData });
-export default translate(connect(mapState, mapDispatch)(Transaction));
+export default connect(mapState, mapDispatch)(Transaction);

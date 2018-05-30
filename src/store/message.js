@@ -44,14 +44,14 @@ export type MessageData =  {
 
 export type Store = {
   loading: boolean,
-  data: MessageData[],
+  list: MessageData[],
   pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
   currentPage: number,
 };
 
 const defaultState = {
   loading: false,
-  data: [],
+  list: [],
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };
@@ -61,8 +61,8 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
-    initMessageData(state: Store, data: MessageData[]) {
-      state.data = data;
+    initMessageList(state: Store, list: MessageData[]) {
+      state.list = list;
       return state;
     },
     setPage(state: Store, newPage: number) {
@@ -73,8 +73,8 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, data: MessageData[]) {
-      state.data = [...state.data, ...data];
+    appendResult(state: Store, list: MessageData[]) {
+      state.list = [...state.list, ...list];
       return state;
     },
     increaseOffset(state: Store, newOffset: number, loadable: boolean) {
@@ -84,14 +84,14 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getMessageData(page: number = 0, gotoPage?: number) {
+    async getMessageList(page: number = 0, gotoPage?: number) {
       const {
         store: { dispatch, message },
       } = await import('./');
       dispatch.info.toggleLoading();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/messages?page=${page}`)
+        const list = await fetch(`http://api.eostracker.io/messages?page=${page}`)
           .then(res => res.json())
           .then(camelize);
 
@@ -131,7 +131,7 @@ export default (initialState?: Object = {}) => ({
         // }
         // this.increaseOffset(results.length, loadable);
 
-        this.initMessageData(data);
+        this.initMessageList(list);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

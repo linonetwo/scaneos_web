@@ -23,14 +23,14 @@ export type BlockData = {
 
 export type Store = {
   loading: boolean,
-  data: BlockData[],
+  list: BlockData[],
   pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
   currentPage: number,
 };
 
 const defaultState = {
   loading: false,
-  data: [],
+  list: [],
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };
@@ -40,8 +40,8 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
-    initBlockData(state: Store, data: BlockData[]) {
-      state.data = data;
+    initBlocksList(state: Store, list: BlockData[]) {
+      state.list = list;
       return state;
     },
     setPage(state: Store, newPage: number) {
@@ -52,8 +52,8 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, data: BlockData[]) {
-      state.data = [...state.data, ...data];
+    appendResult(state: Store, list: BlockData[]) {
+      state.list = [...state.list, ...list];
       return state;
     },
     increaseOffset(state: Store, newOffset: number, loadable: boolean) {
@@ -63,14 +63,40 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getBlockData(size: number = 20, gotoPage?: number) {
+    async getBlockList(blockNum: number) {
+      const {
+        store: { dispatch },
+      } = await import('./');
+      dispatch.info.toggleLoading();
+
+      try {
+        const list = await fetch(`http://api.eostracker.io/blocks?block_num=${blockNum}`)
+          .then(res => res.json())
+          .then(camelize);
+
+        this.initBlocksList(list);
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch data from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+      }
+    },
+    async getBlocksList(size: number = 20, gotoPage?: number) {
       const {
         store: { dispatch, block },
       } = await import('./');
       dispatch.info.toggleLoading();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/blocks?size=${size}`)
+        const list = await fetch(`http://api.eostracker.io/blocks?size=${size}`)
           .then(res => res.json())
           .then(camelize);
 
@@ -110,7 +136,7 @@ export default (initialState?: Object = {}) => ({
         // }
         // this.increaseOffset(results.length, loadable);
 
-        this.initBlockData(data);
+        this.initBlocksList(list);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -118,7 +144,7 @@ export default (initialState?: Object = {}) => ({
         if (errorString.match(/^SyntaxError: Unexpected token/)) {
           notificationString = 'Connection lost, maybe due to some Network error.';
         } else if (errorString.match(/^TypeError/)) {
-          notificationString = 'Failed to fetch data from server.';
+          notificationString = 'Failed to fetch list from server.';
         }
         dispatch.info.displayNotification(notificationString);
       } finally {
