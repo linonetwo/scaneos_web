@@ -149,17 +149,27 @@ export default withRouter(
   )(Header),
 );
 
-export class Footer extends Component<Store> {
-  render() {
-    const currentBlockID = this.props.currentBlockID || this.props.match.params.blockId;
-    return (
-      <Container>
-        <Layout>
-          <Layout.Header>Scan EOS</Layout.Header>
-          <Layout.Content>Content</Layout.Content>
-          <Layout.Footer>Footer</Layout.Footer>
-        </Layout>
-      </Container>
-    );
+const FooterContainer = styled.div`
+  .ant-layout-footer {
+    background-color: #443f54;
+    color: white;
   }
+
+  margin-top: 50px;
+`;
+const Introduction = styled(Flex)`
+  width: 300px;
+`;
+
+export function Footer() {
+  return (
+    <FooterContainer>
+      <Layout.Footer>
+        <Introduction>
+          Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts
+          platform.
+        </Introduction>
+      </Layout.Footer>
+    </FooterContainer>
+  );
 }

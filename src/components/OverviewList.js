@@ -13,7 +13,6 @@ import type { TransactionData } from '../store/transaction';
 
 const Container = styled(Flex)`
   width: 1100px;
-  background-color: white;
 `;
 const ListContainer = styled.div`
   margin: 0;
@@ -106,8 +105,8 @@ type Dispatch = {
 };
 class OverviewList extends Component<Store & Dispatch> {
   componentDidMount() {
-    this.props.getBlockData(8);
-    this.props.getTransactionData(8);
+    this.props.getBlockData(10);
+    this.props.getTransactionData(10);
   }
 
   render() {

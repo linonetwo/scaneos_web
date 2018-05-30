@@ -6,13 +6,15 @@ import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import Header from '../components/Layout';
+import Header, { Footer } from '../components/Layout';
 import OverviewList from '../components/OverviewList';
 
-const Container = styled.div``;
+const Container = styled.div`
+  overflow-x: hidden;
+`;
 const Content = styled(Flex)`
   margin-top: 50px;
-  
+
   width: 100vw;
 `;
 
@@ -30,6 +32,7 @@ class Home extends Component<Props & Store & Dispatch, *> {
           <Content center>
             <OverviewList />
           </Content>
+          <Footer />
         </Layout>
       </Container>
     );
