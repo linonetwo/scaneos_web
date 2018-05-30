@@ -18,6 +18,7 @@ const Logo = styled.h1`
   font-size: 30px;
   color: rgba(68, 63, 84, 0.7);
   float: left;
+  margin: 0;
 `;
 const NavDropDowns = styled(Flex)``;
 const NavDropDownsButton = styled.a`
@@ -36,7 +37,9 @@ const NavDropDownsButton = styled.a`
     }
   `};
 `;
-const NavDropDownsButtonLink = NavDropDownsButton.withComponent(Link);
+const NavDropDownsButtonLink = NavDropDownsButton.extend`
+  margin-right: 10px;
+`.withComponent(Link);
 
 type Store = {
   navTab: string,
@@ -109,13 +112,13 @@ class Header extends Component<Store & Dispatch> {
             </NavDropDownsButtonLink>
 
             <Dropdown overlay={this.blockChainMenu}>
-              <NavDropDownsButton selected={this.props.navTab === 'blockChain'} href="#">
+              <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
                 BlockChain <Icon type="down" />
               </NavDropDownsButton>
             </Dropdown>
 
             <Dropdown overlay={this.tokensMenu}>
-              <NavDropDownsButton selected={this.props.navTab === 'tokens'} href="#">
+              <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
                 Tokens <Icon type="down" />
               </NavDropDownsButton>
             </Dropdown>
@@ -129,7 +132,7 @@ class Header extends Component<Store & Dispatch> {
             </NavDropDownsButtonLink>
 
             <Dropdown overlay={this.miscMenu}>
-              <NavDropDownsButton selected={this.props.navTab === 'misc'} href="#">
+              <NavDropDownsButton selected={this.props.navTab === 'misc'}>
                 Misc <Icon type="down" />
               </NavDropDownsButton>
             </Dropdown>
