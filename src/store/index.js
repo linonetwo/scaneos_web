@@ -4,15 +4,17 @@ import { init } from '@rematch/core';
 import infoModel from './info';
 import blockModel from './block';
 import transactionModel from './transaction';
+import accountModel from './account';
 import historyModel from './history';
 
 const immer = immerPlugin();
-const configureStore = ({ info, block, history, transaction } = {}) =>
+const configureStore = ({ info, block, history, transaction, account } = {}) =>
   init({
     models: {
       info: infoModel(info),
       block: blockModel(block),
       transaction: transactionModel(transaction),
+      account: accountModel(account),
       history: historyModel(history),
     },
     plugins: [immer],

@@ -1,4 +1,5 @@
 // @flow
+import { take } from 'lodash'
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -9,6 +10,7 @@ import { format } from 'date-fns';
 
 import type { BlockData } from '../store/block';
 import type { TransactionData } from '../store/transaction';
+import type { AccountData } from '../store/account';
 
 const Container = styled(Flex)`
   width: 1100px;
@@ -83,9 +85,28 @@ export function TransactionList(props: { loading: boolean, data: TransactionData
         dataSource={props.data}
         renderItem={(item: TransactionData) => (
           <List.Item actions={[<a>{item.transactionId}</a>, <a>{item.blockId}</a>]}>
-            <div>
-              {format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}
-            </div>
+            <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
+          </List.Item>
+        )}
+      />
+    </ListContainer>
+  );
+}
+
+export function AccountList(props: { loading: boolean, data: AccountData[] }) {
+  return (
+    <ListContainer>
+      <Title justifyBetween alignCenter>
+        Accounts<ViewAll>View All</ViewAll>
+      </Title>
+      <List
+        size="small"
+        loading={props.loading}
+        itemLayout="vertical"
+        dataSource={props.data}
+        renderItem={(item: AccountData) => (
+          <List.Item actions={[<a>{item.transactionId}</a>, <a>{item.blockId}</a>]}>
+            <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
           </List.Item>
         )}
       />
@@ -96,24 +117,29 @@ export function TransactionList(props: { loading: boolean, data: TransactionData
 type Store = {
   blockLoading: boolean,
   transactionLoading: boolean,
+  accountLoading: boolean,
   blockData: BlockData[],
   transactionData: TransactionData[],
+  accountData: AccountData[],
 };
 type Dispatch = {
   getBlockData: (size?: number) => void,
   getTransactionData: (size?: number) => void,
+  getAccountData: (page?: number) => void,
 };
 class OverviewList extends Component<Store & Dispatch> {
   componentDidMount() {
     this.props.getBlockData(10);
     this.props.getTransactionData(10);
+    this.props.getAccountData(0);
   }
 
   render() {
     return (
-      <Container alignCenter justifyAround>
+      <Container alignCenter justifyAround wrap>
         <BlockList loading={this.props.blockLoading} data={this.props.blockData} />
         <TransactionList loading={this.props.transactionLoading} data={this.props.transactionData} />
+        <AccountList loading={this.props.accountLoading} data={take(this.props.accountData, 10)} />
       </Container>
     );
   }
@@ -122,8 +148,13 @@ class OverviewList extends Component<Store & Dispatch> {
 const mapState = ({
   block: { loading: blockLoading, data: blockData },
   transaction: { loading: transactionLoading, data: transactionData },
-}): Store => ({ blockLoading, blockData, transactionLoading, transactionData });
-const mapDispatch = ({ block: { getBlockData }, transaction: { getTransactionData } }): Dispatch => ({ getBlockData, getTransactionData });
+  account: { loading: accountLoading, data: accountData },
+}): Store => ({ blockLoading, blockData, transactionLoading, transactionData, accountLoading, accountData });
+const mapDispatch = ({
+  block: { getBlockData },
+  transaction: { getTransactionData },
+  account: { getAccountData },
+}): Dispatch => ({ getBlockData, getTransactionData, getAccountData });
 export default connect(
   mapState,
   mapDispatch,

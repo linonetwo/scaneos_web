@@ -1,29 +1,24 @@
 // @flow
 import camelize from 'camelize';
+import type { Timestamp } from './block';
 
-type Id = {
-  $id: string,
-};
-export type Timestamp = {
-  sec: number,
-  usec: number,
+type Id =  {
+  "$id": string,
 };
 
-export type BlockData = {
+export type AccountData =  {
   Id: Id,
-  blockNum: number,
-  blockId: string,
-  prevBlockId: string,
-  timestamp: Timestamp,
-  transactionMerkleRoot: string,
-  producerAccountId: string,
-  transactions: any[],
+  name: string,
+  eosBalance: string,
+  stakedBalance: string,
+  unstakingBalance: string,
   createdAt: Timestamp,
+  updatedAt: Timestamp,
 };
 
 export type Store = {
   loading: boolean,
-  data: BlockData[],
+  data: AccountData[],
   pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
   currentPage: number,
 };
@@ -40,7 +35,7 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
-    initBlockData(state: Store, data: BlockData[]) {
+    initAccountData(state: Store, data: AccountData[]) {
       state.data = data;
       return state;
     },
@@ -52,7 +47,7 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, data: BlockData[]) {
+    appendResult(state: Store, data: AccountData[]) {
       state.data = [...state.data, ...data];
       return state;
     },
@@ -63,14 +58,14 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getBlockData(size: number = 20, gotoPage?: number) {
+    async getAccountData(page: number = 0, gotoPage?: number) {
       const {
-        store: { dispatch, block },
+        store: { dispatch, account },
       } = await import('./');
       dispatch.info.toggleLoading();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/blocks?size=${size}`)
+        const data = await fetch(`http://api.eostracker.io/accounts?page=${page}`)
           .then(res => res.json())
           .then(camelize);
 
@@ -86,7 +81,7 @@ export default (initialState?: Object = {}) => ({
         //   limit: pageSize * block.pagination.pageCountToLoad + 1,
         // });
 
-        // let results: BlockData[] = await fetch(`${API}/blocks`, {
+        // let results: AccountData[] = await fetch(`${API}/blocks`, {
         //   method: 'POST',
         //   headers: { 'Content-Type': 'application/json' },
         //   body,
@@ -110,7 +105,7 @@ export default (initialState?: Object = {}) => ({
         // }
         // this.increaseOffset(results.length, loadable);
 
-        this.initBlockData(data);
+        this.initAccountData(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
