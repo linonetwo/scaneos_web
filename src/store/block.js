@@ -24,6 +24,7 @@ export type BlockData = {
 export type Store = {
   loading: boolean,
   list: BlockData[],
+  data: BlockData,
   pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
   currentPage: number,
 };
@@ -31,6 +32,17 @@ export type Store = {
 const defaultState = {
   loading: false,
   list: [],
+  data: {
+    Id: { $id: '' },
+    blockNum: 0,
+    blockId: '',
+    prevBlockId: '',
+    timestamp: { sec: 0, usec: 0 },
+    transactionMerkleRoot: '',
+    producerAccountId: '',
+    transactions: [{ $id: '' }],
+    createdAt: { sec: 0, usec: 0 },
+  },
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };
@@ -42,6 +54,10 @@ export default (initialState?: Object = {}) => ({
   reducers: {
     initBlocksList(state: Store, list: BlockData[]) {
       state.list = list;
+      return state;
+    },
+    initBlockData(state: Store, data: BlockData) {
+      state.data = data;
       return state;
     },
     setPage(state: Store, newPage: number) {
@@ -63,18 +79,18 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getBlockList(blockNum: number) {
+    async getBlockData(blockNum: number) {
       const {
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
 
       try {
-        const list = await fetch(`http://api.eostracker.io/blocks?block_num=${blockNum}`)
+        const data = await fetch(`http://api.eostracker.io/blocks?block_num=${blockNum}`)
           .then(res => res.json())
           .then(camelize);
 
-        this.initBlocksList(list);
+        this.initBlockData(data[0]);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
