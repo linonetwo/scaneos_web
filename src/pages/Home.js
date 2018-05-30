@@ -2,17 +2,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import Header, { Footer } from '../components/Layout';
 import OverviewList from '../components/OverviewList';
 
-const Container = styled.div`
+const Container = styled(Flex)`
   overflow-x: hidden;
-`;
-const Content = styled(Flex)`
   min-height: calc(100vh - 64px);
 
   width: 100vw;
@@ -26,14 +22,8 @@ class Home extends Component<Props & Store & Dispatch, *> {
   state = {};
   render() {
     return (
-      <Container>
-        <Layout>
-          <Header />
-          <Content center>
-            <OverviewList />
-          </Content>
-          <Footer />
-        </Layout>
+      <Container center>
+        <OverviewList />
       </Container>
     );
   }
