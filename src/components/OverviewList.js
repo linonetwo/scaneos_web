@@ -23,7 +23,7 @@ const ListContainer = styled.div`
   width: 500px;
   height: 815px;
   ${is('small')`
-    height: 400px;
+    height: 435px;
   `};
   .ant-list {
     margin: 0;

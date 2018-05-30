@@ -94,7 +94,6 @@ export default (initialState?: Object = {}) => ({
         const data = await fetch(`http://api.eostracker.io/messages?page=${page}`)
           .then(res => res.json())
           .then(camelize);
-        console.log(data)
 
         // if (!gotoPage) {
         //   this.clearState();
