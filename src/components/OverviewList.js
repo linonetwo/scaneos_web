@@ -16,6 +16,7 @@ const Container = styled(Flex)`
 const ListContainer = styled.div`
   margin: 0;
   width: 500px;
+  height: 815px;
   .ant-list {
     margin: 0;
   }
