@@ -84,6 +84,7 @@ export default (initialState?: Object = {}) => ({
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.history.updateURI();
 
       try {
         const data = await fetch(`http://api.eostracker.io/blocks?block_num=${blockNum}`)

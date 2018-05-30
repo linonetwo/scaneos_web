@@ -55,17 +55,28 @@ type Dispatch = {
   changeNavTab: string => void,
 };
 export const blockChainPaths = [
-  '/transactions',
-  '/pendingTransactions',
-  '/internalTransactions',
-  '/blocks',
-  '/uncles',
-  '/accounts',
-  '/verifiedContracts',
-  '/messages',
-  '/charts',
+  // list
+  'transactions',
+  'pendingTransactions',
+  'internalTransactions',
+  'blocks',
+  'uncles',
+  'accounts',
+  'verifiedContracts',
+  'messages',
+  'charts',
+  // single data
+  'transaction',
+  'pendingTransaction',
+  'internalTransaction',
+  'block',
+  'uncle',
+  'account',
+  'verifiedContract',
+  'message',
+  'chart',
 ];
-export const tokenPaths = ['/tokens', '/tokenTransfers'];
+export const tokenPaths = ['tokens', 'token', 'tokenTransfers', 'tokenTransfer'];
 class Header extends Component<Store & Dispatch> {
   blockChainMenu = (
     <Menu>

@@ -20,15 +20,17 @@ export default (initialState: Object = {}) => ({
       return state;
     },
     updateURI(state: Store) {
-      if (blockChainPaths.includes(window.location.pathname)) {
+      const mainPath = window.location.pathname.split('/')?.[1]
+      console.log(mainPath)
+      if (blockChainPaths.includes(mainPath)) {
         state.navTab = 'blockChain';
         return state;
       }
-      if (tokenPaths.includes(window.location.pathname)) {
+      if (tokenPaths.includes(mainPath)) {
         state.navTab = 'tokens';
         return state;
       }
-      state.navTab = window.location.pathname.split('/')[1] || 'home';
+      state.navTab = mainPath || 'home';
     },
   },
   effects: {},

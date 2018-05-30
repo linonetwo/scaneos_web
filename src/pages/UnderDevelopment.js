@@ -5,7 +5,6 @@ import Flex from 'styled-flex-component';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Header, { Footer } from '../components/Layout';
 
 const Container = styled(Flex)`
   overflow-x: hidden;
@@ -33,11 +32,7 @@ class UnderDevelopment extends Component<Props & Store & Dispatch, *> {
     const currentTransactionID = this.props.currentTransactionID || this.props.match.params.transactionId;
     return (
       <Container>
-        <Layout>
-          <Header />
-          <Content center>Under Development...</Content>
-          <Footer />
-        </Layout>
+        <Content center>Under Development...</Content>
       </Container>
     );
   }
