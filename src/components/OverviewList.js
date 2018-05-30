@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import is from 'styled-is';
-import { List, Avatar } from 'antd';
+import { List } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { format } from 'date-fns';
