@@ -60,7 +60,7 @@ export function BlockList(props: { loading: boolean, data: BlockData[] }) {
   return (
     <ListContainer>
       <Title justifyBetween alignCenter>
-        Blocks<ViewAll>View All</ViewAll>
+        Blocks<Link to="/block"><ViewAll>View All</ViewAll></Link>
       </Title>
       <List
         size="small"
@@ -82,7 +82,7 @@ export function TransactionList(props: { loading: boolean, data: TransactionData
   return (
     <ListContainer>
       <Title justifyBetween alignCenter>
-        Transactions<ViewAll>View All</ViewAll>
+        Transactions<Link to="/transaction"><ViewAll>View All</ViewAll></Link>
       </Title>
       <List
         size="small"
@@ -103,7 +103,7 @@ export function AccountList(props: { loading: boolean, data: AccountData[] }) {
   return (
     <ListContainer small>
       <Title justifyBetween alignCenter>
-        Accounts<ViewAll>View All</ViewAll>
+        Accounts<Link to="/account"><ViewAll>View All</ViewAll></Link>
       </Title>
       <List
         size="small"
@@ -124,7 +124,7 @@ export function MessageList(props: { loading: boolean, data: MessageData[] }) {
   return (
     <ListContainer small>
       <Title justifyBetween alignCenter>
-        Messages<ViewAll>View All</ViewAll>
+        Messages<Link to="/message"><ViewAll>View All</ViewAll></Link>
       </Title>
       <List
         size="small"

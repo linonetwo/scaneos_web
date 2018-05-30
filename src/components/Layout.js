@@ -75,6 +75,10 @@ class Header extends Component<Store & Dispatch> {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="7">
+        <Link to="/message">Messages</Link>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="8">
         <Link to="/chart">Charts</Link>
       </Menu.Item>
     </Menu>
