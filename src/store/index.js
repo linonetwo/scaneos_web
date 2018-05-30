@@ -1,6 +1,7 @@
 import immerPlugin from '@rematch/immer';
 import { init } from '@rematch/core';
 
+import searchModel from './search';
 import infoModel from './info';
 import blockModel from './block';
 import transactionModel from './transaction';
@@ -9,9 +10,10 @@ import messageModel from './message';
 import historyModel from './history';
 
 const immer = immerPlugin();
-const configureStore = ({ info, block, history, transaction, account, message } = {}) =>
+const configureStore = ({ search, info, block, history, transaction, account, message } = {}) =>
   init({
     models: {
+      search: searchModel(search),
       info: infoModel(info),
       block: blockModel(block),
       transaction: transactionModel(transaction),

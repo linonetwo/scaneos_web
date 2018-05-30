@@ -7,19 +7,26 @@ import { Layout, Menu, Dropdown, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
+import SearchBar from './SearchBar';
+
 const HeaderContainer = styled.div`
   height: 64px;
   .ant-layout-header {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
+
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 const Logo = styled.h1`
   font-size: 30px;
   color: rgba(68, 63, 84, 0.7);
-  float: left;
   margin: 0;
+  position: absolute;
+  left: 50px;
 `;
+const DropDownsContainer = styled.nav``;
 const NavDropDowns = styled(Flex)``;
 const NavDropDownsButton = styled.a`
   margin-left: 20px;
@@ -106,41 +113,44 @@ class Header extends Component<Store & Dispatch> {
       <HeaderContainer>
         <Layout.Header>
           <Logo>Scan EOS</Logo>
-          <NavDropDowns justifyEnd>
-            <NavDropDownsButtonLink
-              selected={this.props.navTab === 'home'}
-              onClick={() => this.props.changeNavTab('home')}
-              to="/"
-            >
-              Home
-            </NavDropDownsButtonLink>
+          <SearchBar size="small" />
+          <DropDownsContainer>
+            <NavDropDowns justifyEnd>
+              <NavDropDownsButtonLink
+                selected={this.props.navTab === 'home'}
+                onClick={() => this.props.changeNavTab('home')}
+                to="/"
+              >
+                Home
+              </NavDropDownsButtonLink>
 
-            <Dropdown overlay={this.blockChainMenu}>
-              <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
-                BlockChain <Icon type="down" />
-              </NavDropDownsButton>
-            </Dropdown>
+              <Dropdown overlay={this.blockChainMenu}>
+                <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
+                  BlockChain <Icon type="down" />
+                </NavDropDownsButton>
+              </Dropdown>
 
-            <Dropdown overlay={this.tokensMenu}>
-              <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
-                Tokens <Icon type="down" />
-              </NavDropDownsButton>
-            </Dropdown>
+              <Dropdown overlay={this.tokensMenu}>
+                <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
+                  Tokens <Icon type="down" />
+                </NavDropDownsButton>
+              </Dropdown>
 
-            <NavDropDownsButtonLink
-              selected={this.props.navTab === 'resources'}
-              onClick={() => this.props.changeNavTab('resources')}
-              to="/resources"
-            >
-              Resources
-            </NavDropDownsButtonLink>
+              <NavDropDownsButtonLink
+                selected={this.props.navTab === 'resources'}
+                onClick={() => this.props.changeNavTab('resources')}
+                to="/resources"
+              >
+                Resources
+              </NavDropDownsButtonLink>
 
-            <Dropdown overlay={this.miscMenu}>
-              <NavDropDownsButton selected={this.props.navTab === 'misc'}>
-                Misc <Icon type="down" />
-              </NavDropDownsButton>
-            </Dropdown>
-          </NavDropDowns>
+              <Dropdown overlay={this.miscMenu}>
+                <NavDropDownsButton selected={this.props.navTab === 'misc'}>
+                  Misc <Icon type="down" />
+                </NavDropDownsButton>
+              </Dropdown>
+            </NavDropDowns>
+          </DropDownsContainer>
         </Layout.Header>
       </HeaderContainer>
     );
