@@ -38,7 +38,7 @@ const NavDropDownsButton = styled.a`
   }
   ${is('selected')`
     color: rgb(68, 63, 84);
-    text-decoration: underline;
+    text-decoration: overline;
     &:hover {
       color: rgb(68, 63, 84);
     }
@@ -54,50 +54,62 @@ type Store = {
 type Dispatch = {
   changeNavTab: string => void,
 };
+export const blockChainPaths = [
+  '/transactions',
+  '/pendingTransactions',
+  '/internalTransactions',
+  '/blocks',
+  '/uncles',
+  '/accounts',
+  '/verifiedContracts',
+  '/messages',
+  '/charts',
+];
+export const tokenPaths = ['/tokens', '/tokenTransfers'];
 class Header extends Component<Store & Dispatch> {
   blockChainMenu = (
     <Menu>
-      <Menu.Item key="0">
-        <Link to="/transaction">Transactions</Link>
+      <Menu.Item key="0" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/transactions">Transactions</Link>
       </Menu.Item>
-      <Menu.Item key="1">
-        <Link to="/transactionPending">Pending Transactions</Link>
+      <Menu.Item key="1" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/pendingTransactions">Pending Transactions</Link>
       </Menu.Item>
-      <Menu.Item key="2">
-        <Link to="/transactionInternal">Contract Internal Transactions</Link>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3">
-        <Link to="/block">Blocks</Link>
-      </Menu.Item>
-      <Menu.Item key="4">
-        <Link to="/uncle">Uncles</Link>
+      <Menu.Item key="2" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/internalTransactions">Contract Internal Transactions</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="5">
-        <Link to="/account">Accounts</Link>
+      <Menu.Item key="3" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/blocks">Blocks</Link>
       </Menu.Item>
-      <Menu.Item key="6">
+      <Menu.Item key="4" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/uncles">Uncles</Link>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="5" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/accounts">Accounts</Link>
+      </Menu.Item>
+      <Menu.Item key="6" onClick={() => this.props.changeNavTab('blockChain')}>
         <Link to="/verifiedContracts">Verified Contracts</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="7">
-        <Link to="/message">Messages</Link>
+      <Menu.Item key="7" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/messages">Messages</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="8">
-        <Link to="/chart">Charts</Link>
+      <Menu.Item key="8" onClick={() => this.props.changeNavTab('blockChain')}>
+        <Link to="/charts">Charts</Link>
       </Menu.Item>
     </Menu>
   );
   tokensMenu = (
     <Menu>
-      <Menu.Item key="0">
-        <Link to="/token">Tokens</Link>
+      <Menu.Item key="0" onClick={() => this.props.changeNavTab('tokens')}>
+        <Link to="/tokens">Tokens</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="1">
-        <Link to="/tokenTransfer">Token Transfers</Link>
+      <Menu.Item key="1" onClick={() => this.props.changeNavTab('tokens')}>
+        <Link to="/tokenTransfers">Token Transfers</Link>
       </Menu.Item>
     </Menu>
   );

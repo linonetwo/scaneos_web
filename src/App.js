@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
@@ -10,8 +11,10 @@ import Message from './pages/Message';
 import Home from './pages/Home';
 import UnderDevelopment from './pages/UnderDevelopment';
 
-export default class App extends Component {
-  state = {};
+export default class App extends Component<{}> {
+  componentDidMount() {
+    store.dispatch.history.updateURI();
+  }
   render() {
     return (
       <Provider store={store}>
