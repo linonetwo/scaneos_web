@@ -7,6 +7,8 @@
     "start": "yarn clear:babel-cache && react-app-rewired start",
     "build": "yarn clear:babel-cache && react-app-rewired build",
     "test": "yarn clear:babel-cache && react-app-rewired test --env=jsdom",
+    "docker-build": "docker build . -t scaneos_web",
+    "docker-run": "docker run --rm --name scaneos_web -p 16227:5000 scaneos_web",
     "eject": "react-scripts eject"
   },
   "dependencies": {
