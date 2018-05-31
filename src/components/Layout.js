@@ -8,6 +8,7 @@ import { Layout, Menu, Dropdown, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import breakpoint from 'styled-components-breakpoint';
+import noScroll from 'no-scroll';
 
 import SearchBar from './SearchBar';
 
@@ -28,6 +29,9 @@ const MobileMenuContainer = styled.div`
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+
+  padding: 30px 0;
+  background-color: white;
 
   display: none;
   ${is('opened')`
@@ -144,6 +148,10 @@ class Header extends Component<Store & Dispatch, *> {
   state = {
     sideMenuOpened: false,
   };
+  toggleSideMenu = () => {
+    this.setState({ sideMenuOpened: !this.state.sideMenuOpened });
+    noScroll.toggle();
+  }
 
   blockChainMenu = (
     <Menu>
@@ -240,7 +248,7 @@ class Header extends Component<Store & Dispatch, *> {
       <Fragment>
         <Fixed
           opened={this.state.sideMenuOpened}
-          onClick={() => this.setState({ sideMenuOpened: !this.state.sideMenuOpened })}
+          onClick={this.toggleSideMenu}
         />
         <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.mobileMenu}</MobileMenuContainer>
         <HeaderContainer>
@@ -286,7 +294,7 @@ class Header extends Component<Store & Dispatch, *> {
             </DropDownsContainer>
             <MenuOpenIconContainer center>
               <Icon
-                onClick={() => this.setState({ sideMenuOpened: !this.state.sideMenuOpened })}
+                onClick={this.toggleSideMenu}
                 type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'}
               />
             </MenuOpenIconContainer>
