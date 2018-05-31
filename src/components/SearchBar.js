@@ -4,11 +4,17 @@ import React, { Component } from 'react';
 import { Input } from 'antd';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import breakpoint from 'styled-components-breakpoint';
 
 const SearchContainer = styled.div`
-  margin: 0 9px;
   width: 200px;
-  max-width: calc(100% - 50px * 2 - 140px - 420px);
+
+  margin: 0 30px;
+  max-width: calc(100% - 140px - 100px);
+  ${breakpoint('tablet')`
+    margin: 0 9px;
+    max-width: calc(100% - 50px * 2 - 140px - 420px);
+  `};
 `;
 
 type Store = {
@@ -69,4 +75,7 @@ const mapDispatch = ({ search: { changeKeyWord, search } }): Dispatch => ({
   changeKeyWord: debounce(changeKeyWord, 100),
   search: debounce(search, 100),
 });
-export default connect(mapState, mapDispatch)(SearchBar);
+export default connect(
+  mapState,
+  mapDispatch,
+)(SearchBar);

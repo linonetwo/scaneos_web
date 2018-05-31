@@ -9418,6 +9418,10 @@ style-loader@0.19.1:
     loader-utils "^1.0.2"
     schema-utils "^0.3.0"
 
+styled-components-breakpoint@^2.0.2:
+  version "2.0.2"
+  resolved "http://registry.npm.taobao.org/styled-components-breakpoint/download/styled-components-breakpoint-2.0.2.tgz#c55dbab794e9ff3a4f813349e2b35727a9364b09"
+
 styled-components-mixins@^0.0.5:
   version "0.0.5"
   resolved "http://registry.npm.taobao.org/styled-components-mixins/download/styled-components-mixins-0.0.5.tgz#d4bee344c8ddb67038309eef7de77daf642a5ca2"
