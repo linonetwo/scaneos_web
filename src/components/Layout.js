@@ -59,7 +59,12 @@ const MenuOpenIconContainer = styled(Flex)`
   ${breakpoint('tablet')`
     display: none;
   `};
-  height: 100%;
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  ${breakpoint('tablet')`
+    right: 50px;
+  `};
 `;
 
 const Logo = styled.h1`
@@ -67,7 +72,10 @@ const Logo = styled.h1`
   color: rgba(68, 63, 84, 0.7);
   margin: 0;
   position: absolute;
-  left: 50px;
+  left: 20px;
+  ${breakpoint('tablet')`
+    left: 50px;
+  `};
 `;
 const DropDownsContainer = styled.nav`
   display: none;

@@ -10,7 +10,7 @@ const SearchContainer = styled.div`
   width: 200px;
 
   margin: 0 30px;
-  max-width: calc(100% - 140px - 100px);
+  max-width: calc(100% - 140px - 50px);
   ${breakpoint('tablet')`
     margin: 0 9px;
     max-width: calc(100% - 50px * 2 - 140px - 420px);
