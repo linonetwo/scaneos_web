@@ -1,0 +1,42 @@
+import React from 'react';
+import styled from 'styled-components';
+import Flex from 'styled-flex-component';
+import Countdown from 'react-countdown-now';
+import { translate } from 'react-i18next';
+
+const Container = styled(Flex)`
+  overflow-x: hidden;
+  height: calc(100vh - 64px);
+  width: 100%;
+`;
+const Intro = styled(Flex)`
+  font-size: 20px;
+`;
+const CountDownContainer = styled(Flex)`
+  font-size: 30px;
+`;
+
+function CountDown(props) {
+  return (
+    <Container center>
+      <Countdown
+        date={new Date('Sat Jun 02 2018 21:59:59 GMT+0000')}
+        renderer={({ days, hours, minutes, seconds, completed }) => {
+          if (completed) {
+            // Render a complete state
+            return <CountDownContainer>GO EOS!</CountDownContainer>;
+          }
+          // Render a countdown
+          return (
+            <CountDownContainer column>
+              <Intro>{props.t('Until')}</Intro>
+              {days} {props.t('Days')} {hours} {props.t('Hours')} {minutes} {props.t('Minutes')} {seconds}{' '}
+              {props.t('Seconds')}
+            </CountDownContainer>
+          );
+        }}
+      />
+    </Container>
+  );
+}
+export default translate('countdown')(CountDown);

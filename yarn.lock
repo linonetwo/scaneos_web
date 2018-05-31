@@ -5007,6 +5007,14 @@ https-browserify@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/https-browserify/download/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
+i18next-browser-languagedetector@^2.2.0:
+  version "2.2.0"
+  resolved "http://registry.npm.taobao.org/i18next-browser-languagedetector/download/i18next-browser-languagedetector-2.2.0.tgz#5f41abe61964a56dce70102ab31c3ed5d5866edc"
+
+i18next@^11.3.2:
+  version "11.3.2"
+  resolved "http://registry.npm.taobao.org/i18next/download/i18next-11.3.2.tgz#4a1a7bb14383ba6aed4abca139b03681fc96e023"
+
 iconv-lite@0.4.19:
   version "0.4.19"
   resolved "http://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -8175,6 +8183,10 @@ react-cosmos@^4.4.0:
     webpack-dev-middleware "^1.12.0"
     webpack-hot-middleware "^2.22.2"
     yargs "^11.0.0"
+
+react-countdown-now@^1.3.0:
+  version "1.3.0"
+  resolved "http://registry.npm.taobao.org/react-countdown-now/download/react-countdown-now-1.3.0.tgz#13c262a530614c69e68a0d277bd33b45d925cd56"
 
 react-datasheet@^1.3.6:
   version "1.3.6"
