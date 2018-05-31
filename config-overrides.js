@@ -2,16 +2,6 @@ const { injectBabelPlugin } = require('react-app-rewired');
 const rewireLess = require('react-app-rewire-less');
 
 module.exports = function override(config, env) {
-  config = injectBabelPlugin(
-    [
-      'flow-runtime',
-      {
-        assert: true,
-        annotate: true,
-      },
-    ],
-    config,
-  );
   config = injectBabelPlugin('transform-decorators-legacy', config);
   config = injectBabelPlugin('@babel/plugin-proposal-do-expressions', config);
   config = injectBabelPlugin('@babel/plugin-proposal-optional-chaining', config);
@@ -25,6 +15,17 @@ module.exports = function override(config, env) {
     config = injectBabelPlugin('closure-elimination', config);
     config = injectBabelPlugin('@babel/plugin-transform-react-inline-elements', config);
     config = injectBabelPlugin('@babel/plugin-transform-react-constant-elements', config);
+  } else {
+    config = injectBabelPlugin(
+      [
+        'flow-runtime',
+        {
+          assert: true,
+          annotate: true,
+        },
+      ],
+      config,
+    );
   }
 
   // remove eslint in eslint, we only need it on VSCode
