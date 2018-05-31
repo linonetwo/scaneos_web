@@ -4,6 +4,8 @@ import Flex from 'styled-flex-component';
 import Countdown from 'react-countdown-now';
 import { translate } from 'react-i18next';
 
+import BackgroundAnimation from '../components/BackgroundAnimation';
+
 const Container = styled(Flex)`
   overflow-x: hidden;
   height: calc(100vh - 64px);
@@ -19,6 +21,7 @@ const CountDownContainer = styled(Flex)`
 function CountDown(props) {
   return (
     <Container center>
+      <BackgroundAnimation />
       <Countdown
         date={new Date('Sat Jun 02 2018 21:59:59 GMT+0000')}
         renderer={({ days, hours, minutes, seconds, completed }) => {
