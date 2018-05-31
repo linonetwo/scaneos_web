@@ -25,7 +25,6 @@ RUN yarn global add serve
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 
-RUN mv ./src/config.example.devtool.js ./src/config.js
 RUN yarn build
 # Expose port
 EXPOSE 5000
