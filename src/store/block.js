@@ -1,4 +1,5 @@
 // @flow
+import { initial } from 'lodash';
 import camelize from 'camelize';
 
 export type Id = {
@@ -56,6 +57,10 @@ export default (initialState?: Object = {}) => ({
       state.list = list;
       return state;
     },
+    appendBlocksList(state: Store, list: BlockData[]) {
+      state.list = [...state.list, ...list];
+      return state;
+    },
     initBlockData(state: Store, data: BlockData) {
       state.data = data;
       return state;
@@ -66,10 +71,6 @@ export default (initialState?: Object = {}) => ({
     },
     clearState(state: Store) {
       state = defaultState;
-      return state;
-    },
-    appendResult(state: Store, list: BlockData[]) {
-      state.list = [...state.list, ...list];
       return state;
     },
     increaseOffset(state: Store, newOffset: number, loadable: boolean) {
@@ -106,54 +107,43 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.toggleLoading();
       }
     },
-    async getBlocksList(size: number = 20, gotoPage?: number) {
+    async getBlocksList(gotoPage?: number) {
       const {
-        store: { dispatch, block },
+        store: { dispatch, getState },
       } = await import('./');
+      const { block } = await getState();
       dispatch.info.toggleLoading();
 
       try {
-        const list = await fetch(`http://api.eostracker.io/blocks?size=${size}`)
-          .then(res => res.json())
-          .then(camelize);
-
-        // if (!gotoPage) {
-        //   this.clearState();
-        //   this.setPage(0);
-        // }
-
-        // const { getPageSize } = await import('./utils');
-        // const pageSize = getPageSize();
-        // const body = JSON.stringify({
-        //   offset: gotoPage ? block.pagination.currentTotal : 0,
-        //   limit: pageSize * block.pagination.pageCountToLoad + 1,
-        // });
-
-        // let results: BlockData[] = await fetch(`${API}/blocks`, {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body,
-        // })
+        // const list = await fetch(`http://api.eostracker.io/blocks?page=${page}&size=${size}`)
         //   .then(res => res.json())
         //   .then(camelize);
 
-        // const loadable = results.length === pageSize * block.pagination.pageCountToLoad + 1;
+        if (!gotoPage) {
+          this.clearState();
+          this.setPage(0);
+        }
 
-        // if (loadable) {
-        //   results = initial(results);
-        // }
-        // if (gotoPage) {
-        //   dispatch.block.appendResult(results);
-        //   dispatch.block.appendTrees(results);
-        //   dispatch.block.appendTags(results);
-        // } else {
-        //   dispatch.block.initResult(results);
-        //   dispatch.block.initTrees(results);
-        //   dispatch.block.initTags(results);
-        // }
-        // this.increaseOffset(results.length, loadable);
+        const { getPageSize } = await import('./utils');
+        const pageSize = getPageSize();
+        const offset = gotoPage ? block.pagination.currentTotal : 0;
+        const limit = pageSize * block.pagination.pageCountToLoad + 1;
 
-        this.initBlocksList(list);
+        let list: BlockData[] = await fetch(`http://api.eostracker.io/blocks?page=${offset}&size=${limit}`)
+          .then(res => res.json())
+          .then(camelize);
+
+        const loadable = list.length === pageSize * block.pagination.pageCountToLoad + 1;
+
+        if (loadable) {
+          list = initial(list);
+        }
+        if (gotoPage) {
+          this.appendBlocksList(list);
+        } else {
+          this.initBlocksList(list);
+        }
+        this.increaseOffset(list.length, loadable);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
