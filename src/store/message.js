@@ -84,7 +84,7 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getMessageList(page: number = 0, gotoPage?: number) {
+    async getMessagesList(page: number = 0, gotoPage?: number) {
       const {
         store: { dispatch, message },
       } = await import('./');

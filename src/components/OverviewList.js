@@ -170,10 +170,7 @@ export function MessageList(props: { loading: boolean, data: MessageData[] }) {
 }
 
 type Store = {
-  blockLoading: boolean,
-  transactionLoading: boolean,
-  accountLoading: boolean,
-  messageLoading: boolean,
+  loading: boolean,
   blockData: BlockData[],
   transactionData: TransactionData[],
   accountData: AccountData[],
@@ -181,51 +178,49 @@ type Store = {
 };
 type Dispatch = {
   getBlocksList: (size?: number) => void,
-  getTransactionList: (size?: number) => void,
-  getAccountList: (page?: number) => void,
-  getMessageList: (page?: number) => void,
+  getTransactionsList: (size?: number) => void,
+  getAccountsList: (page?: number) => void,
+  getMessagesList: (page?: number) => void,
 };
 class OverviewList extends Component<Store & Dispatch> {
   componentDidMount() {
     this.props.getBlocksList(10);
-    this.props.getTransactionList(10);
-    this.props.getAccountList(0);
-    this.props.getMessageList(0);
+    this.props.getTransactionsList(10);
+    this.props.getAccountsList(0);
+    this.props.getMessagesList(0);
   }
 
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        <BlockList loading={this.props.blockLoading} data={this.props.blockData} />
-        <TransactionList loading={this.props.transactionLoading} data={this.props.transactionData} />
-        <AccountList loading={this.props.accountLoading} data={take(this.props.accountData, 5)} />
-        <MessageList loading={this.props.messageLoading} data={take(this.props.messageData, 5)} />
+        <BlockList loading={this.props.loading} data={take(this.props.blockData, 10)} />
+        <TransactionList loading={this.props.loading} data={take(this.props.transactionData, 10)} />
+        <AccountList loading={this.props.loading} data={take(this.props.accountData, 5)} />
+        <MessageList loading={this.props.loading} data={take(this.props.messageData, 5)} />
       </Container>
     );
   }
 }
 
 const mapState = ({
-  block: { loading: blockLoading, list: blockData },
-  transaction: { loading: transactionLoading, list: transactionData },
-  account: { loading: accountLoading, list: accountData },
-  message: { loading: messageLoading, list: messageData },
+  block: { list: blockData },
+  transaction: { list: transactionData },
+  account: { list: accountData },
+  message: { list: messageData },
+  info: { loading },
 }): Store => ({
-  blockLoading,
+  loading,
   blockData,
-  transactionLoading,
   transactionData,
-  accountLoading,
   accountData,
-  messageLoading,
   messageData,
 });
 const mapDispatch = ({
   block: { getBlocksList },
-  transaction: { getTransactionList },
-  account: { getAccountList },
-  message: { getMessageList },
-}): Dispatch => ({ getBlocksList, getTransactionList, getAccountList, getMessageList });
+  transaction: { getTransactionsList },
+  account: { getAccountsList },
+  message: { getMessagesList },
+}): Dispatch => ({ getBlocksList, getTransactionsList, getAccountsList, getMessagesList });
 export default connect(
   mapState,
   mapDispatch,

@@ -54,7 +54,7 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getAccountList(page: number = 0, gotoPage?: number) {
+    async getAccountsList(page: number = 0, gotoPage?: number) {
       const {
         store: { dispatch, account },
       } = await import('./');

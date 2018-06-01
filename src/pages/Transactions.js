@@ -1,65 +1,41 @@
 // @flow
-import { compact, take, flatten, last } from 'lodash';
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
-import { Table, Tooltip, Spin } from 'antd';
-import styled from 'styled-components';
+import { translate } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-import type { BlockData } from '../store/block';
+import { getPageSize } from '../store/utils';
 import type { TransactionData } from '../store/transaction';
-import { getPageSize } from '../store/utils'
+import type { Pagination } from '../store/block';
+import { ListContainer } from '../components/Table';
 
-const Container = styled.div`
-  width: calc(100vw - 410px);
-  height: 100vh;
-  overflow: hidden;
-
-  .ant-spin-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .ant-table {
-    width: 100%;
-  }
-  .ant-table-pagination.ant-pagination {
-    float: unset;
-  }
-
-  li.ant-pagination-jump-next + li.ant-pagination-item {
-    display: none;
-  }
-`;
-const OriginalPageOpener = styled.div`
-  cursor: pointer;
-`;
-const Tags = styled.div`
-  max-width: 100px;
-  width: 100px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
-
+type Props = {
+  t: Function,
+};
 type Store = {
-  blockLoading: boolean,
-  transactionLoading: boolean,
-  blockData: BlockData[],
-  transactionData: TransactionData[],
+  list: TransactionData[],
+  pagination: Pagination,
+  currentPage: number,
+  loading: boolean,
 };
 type Dispatch = {
-  getBlocksData: (size?: number) => void,
-  getTransactionData: (size?: number) => void,
+  getTransactionsList: (gotoPage?: number) => void,
+  setPage: (newPage: number) => void,
 };
 
-class Transaction extends PureComponent<*> {
-
+class Transactions extends Component<Props & Store & Dispatch, *> {
+  state = {};
+  componentDidMount() {
+    this.props.getTransactionsList();
+  }
   render() {
     return (
-      <Spin tip="Connecting Database" spinning={this.props.loading} size="large">
-        <Container>
+      <Spin tip="Connecting" spinning={this.props.loading} size="large">
+        <ListContainer column>
           <Table
-            dataSource={this.props.results}
+            size="middle"
+            dataSource={this.props.list}
             pagination={{
               pageSize: getPageSize(),
               total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
@@ -69,52 +45,53 @@ class Transaction extends PureComponent<*> {
               this.props.setPage(pagination.current);
               if (
                 pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
-                  this.props.pagination.loadable
+                this.props.pagination.loadable
               ) {
-                this.props.search(pagination.current);
+                this.props.getTransactionsList(pagination.current);
               }
             }}
           >
             <Table.Column
-              title={this.props.t('title')}
-              render={(text, item) => (
-                <OriginalPageOpener onClick={() => this.openLink(item.url)}>{text}</OriginalPageOpener>
-              )}
-              dataIndex="title"
-              key="title"
+              title={this.props.t('transactionId')}
+              dataIndex="transactionId"
+              key="transactionId"
+              render={transactionId => <Link to={`/transaction/${transactionId}`}>{transactionId}</Link>}
             />
             <Table.Column
-              title={this.props.t('source')}
-              render={(text, item) => (
-                <OriginalPageOpener onClick={() => this.openLink(item.url)}>{text}</OriginalPageOpener>
-              )}
-              dataIndex="source"
-              key="source"
+              title={this.props.t('createdAt')}
+              dataIndex="createdAt"
+              key="createdAt"
+              render={({ sec }) => sec}
             />
             <Table.Column
-              title={this.props.t('tags')}
-              dataIndex="tags"
-              key="tags"
-              render={({ events, concepts, company, industries }) => {
-                const tagList = compact(
-                  events
-                    .concat(concepts)
-                    .concat(take(company, 5))
-                    .concat(flatten(industries.map(flattenCascade)).map(industryTag => last(industryTag.split('.')))),
-                ).join(', ');
-                return <Tooltip title={tagList}><Tags>{tagList}</Tags></Tooltip>;
-              }}
+              title={this.props.t('blockId')}
+              dataIndex="blockId"
+              key="blockId"
+              render={blockId => <Link to={`/block/${blockId}`}>{blockId}</Link>}
+            />
+            <Table.Column
+              title={this.props.t('messages')}
+              dataIndex="messages"
+              key="messages"
+              render={messages => messages.map(({ $id }) => <Link to={`/message/${$id}`}>{$id}</Link>)}
             />
           </Table>
-        </Container>
+        </ListContainer>
       </Spin>
     );
   }
 }
 
-const mapState = ({
-  block: { loading: blockLoading, list: blockData },
-  transaction: { loading: transactionLoading, list: transactionData },
-}): Store => ({ blockLoading, blockData, transactionLoading, transactionData });
-const mapDispatch = ({ block: { getBlocksData }, transaction: { getTransactionData } }): Dispatch => ({ getBlocksData, getTransactionData });
-export default connect(mapState, mapDispatch)(Transaction);
+const mapState = ({ transaction: { list, pagination, currentPage }, info: { loading } }): Store => ({
+  list,
+  pagination,
+  currentPage,
+  loading,
+});
+const mapDispatch = ({ transaction: { getTransactionsList, setPage } }): Dispatch => ({ getTransactionsList, setPage });
+export default translate()(
+  connect(
+    mapState,
+    mapDispatch,
+  )(Transactions),
+);

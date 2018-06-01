@@ -24,7 +24,6 @@ export type BlockData = {
 
 export type Pagination = { currentTotal: number, loadable: boolean, pageCountToLoad: number };
 export type Store = {
-  loading: boolean,
   list: BlockData[],
   data: BlockData,
   pagination: Pagination,
@@ -43,7 +42,6 @@ export const emptyBlockData = {
   createdAt: { sec: 0, usec: 0 },
 };
 const defaultState = {
-  loading: false,
   list: [],
   data: emptyBlockData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },

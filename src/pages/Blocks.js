@@ -66,9 +66,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('transactions')}
               dataIndex="transactions"
               key="transactions"
-              render={JSON.stringify(transactions =>
-                transactions.map(({ $id }) => <Link to={`/transaction/${$id}`}>{$id}</Link>),
-              )}
+              render={transactions => transactions.map(({ $id }) => <Link to={`/transaction/${$id}`}>{$id}</Link>)}
             />
             <Table.Column
               title={this.props.t('producerAccountId')}

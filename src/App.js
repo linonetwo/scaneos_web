@@ -10,6 +10,7 @@ import i18n from './i18n';
 import Block from './pages/Block';
 import Blocks from './pages/Blocks';
 import Transaction from './pages/Transaction';
+import Transactions from './pages/Transactions';
 import Account from './pages/Account';
 import Message from './pages/Message';
 import Home from './pages/Home';
@@ -32,6 +33,7 @@ export default class App extends Component<{}> {
                 <Route exact path="/blocks" component={Blocks} />
                 <Route exact path="/block/:blockId" component={Block} />
                 <Route exact path="/transaction/:transactionId" component={Transaction} />
+                <Route exact path="/transactions" component={Transactions} />
                 <Route exact path="/account/:accountId" component={Account} />
                 <Route exact path="/message/:messageId" component={Message} />
                 <Route exact path="/" component={Home} />
