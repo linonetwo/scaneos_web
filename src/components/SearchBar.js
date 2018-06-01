@@ -13,7 +13,7 @@ const SearchContainer = styled.div`
   max-width: calc(100% - 140px - 50px);
   ${breakpoint('tablet')`
     margin: 0 9px;
-    max-width: calc(100% - 50px * 2 - 140px - 420px);
+    max-width: calc(100% - 50px * 2 - 180px - 420px);
   `};
 `;
 

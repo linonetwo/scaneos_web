@@ -76,13 +76,19 @@ const LogoContainer = styled(Flex)`
   `};
 `
 const Logo = styled.h1`
-  font-size: 30px;
+  font-size: 20px;
+  ${breakpoint('tablet')`
+    font-size: 30px;
+  `};
   color: rgba(68, 63, 84, 0.7);
   margin: 0;
 `;
 const LogoIcon = styled.img`
-  height: 30px;
-  margin-left: 20px;
+  height: 20px;
+  ${breakpoint('tablet')`
+    height: 30px;
+  `};
+  margin-right: 20px;
 `;
 const DropDownsContainer = styled.nav`
   display: none;
@@ -268,7 +274,7 @@ class Header extends Component<Store & Dispatch, *> {
         <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.mobileMenu}</MobileMenuContainer>
         <HeaderContainer>
           <Layout.Header>
-            <LogoContainer center><Logo>Scan EOS</Logo><LogoIcon src={logoIcon} /></LogoContainer>
+            <LogoContainer center><LogoIcon src={logoIcon} /><Logo>Scan EOS</Logo></LogoContainer>
             <SearchBar size="small" />
             <DropDownsContainer>
               <NavDropDowns justifyEnd>
