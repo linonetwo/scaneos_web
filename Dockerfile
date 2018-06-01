@@ -14,7 +14,8 @@ RUN mkdir -p /usr/src/app
 # when we change our application's nodejs dependencies:
 COPY package.json /tmp/package.json
 COPY yarn.lock /tmp/yarn.lock
-RUN cd /tmp && yarn --registry https://registry.npmjs.org/
+RUN sed -i '' 's/registry.npm.taobao.org/registry.npmjs.org/g' yarn.lock
+RUN cd /tmp && yarn
 RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app/
 
 # simple http server
