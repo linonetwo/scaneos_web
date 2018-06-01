@@ -15,6 +15,9 @@ export default i18n
     debug: true,
     resources: {
       en: {
+        translations: {
+          locale: 'en',
+        },
         layout: {
           logoIcon: logoIconEn,
           underDev: 'Under development...',
@@ -28,6 +31,11 @@ export default i18n
         },
       },
       'zh-CN': {
+        translations: {
+          field: '字段',
+          value: '值',
+          locale: 'zh',
+        },
         layout: {
           logoIcon: logoIconZh,
           Home: '首页',

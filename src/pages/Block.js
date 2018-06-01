@@ -1,15 +1,14 @@
 // @flow
+import { toPairs } from 'lodash';
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import Flex from 'styled-flex-component';
-import { Spin, Table, Breadcrumb } from 'antd';
+import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
+import { formatTimeStamp } from '../store/utils';
 import type { BlockData } from '../store/block';
-
-const Container = styled(Flex)``;
+import { ListContainer } from '../components/Table';
 
 type Props = {
   match: {
@@ -17,9 +16,11 @@ type Props = {
       blockId: string,
     },
   },
+  t: Function,
 };
 type Store = {
   data: BlockData,
+  loading: boolean,
 };
 type Dispatch = {
   getBlockData: (blockNum: number) => void,
@@ -31,38 +32,55 @@ class Block extends Component<Props & Store & Dispatch, *> {
     const currentBlockID = Number(this.props.match.params.blockId);
     this.props.getBlockData(currentBlockID);
   }
+
+  getValueRendering(field: string, value: any) {
+    switch (field) {
+      case 'Id':
+        return value.$id;
+      case 'createdAt':
+      case 'timestamp':
+        return formatTimeStamp(value.sec, this.props.t('locale'));
+      case 'blockNum':
+        return <Link to={`/block/${value}`}>{value}</Link>;
+      case 'producerAccountId':
+        return <Link to={`/account/${value}`}>{value}</Link>;
+      default: {
+        if (typeof value === 'string' || typeof value === 'number') {
+          return value;
+        }
+        return (
+          <pre>
+            <code>{JSON.stringify(value, null, '  ')}</code>
+          </pre>
+        );
+      }
+    }
+  }
+
   render() {
     return (
-      <Container column>
-        <pre>
-          <code>{JSON.stringify(this.props.data, null, '  ')}</code>
-        </pre>
-        {/* <Table dataSource={[this.props.data]}>
-          <Table.Column
-            title={this.props.t('tags')}
-            dataIndex="tags"
-            key="tags"
-            render={({ events, concepts, company, industries }) => {
-              const tagList = compact(
-                events
-                  .concat(concepts)
-                  .concat(take(company, 5))
-                  .concat(flatten(industries.map(flattenCascade)).map(industryTag => last(industryTag.split('.')))),
-              ).join(', ');
-              return (
-                <Tooltip title={tagList}>
-                  <Tags>{tagList}</Tags>
-                </Tooltip>
-              );
-            }}
-          />
-        </Table> */}
-      </Container>
+      <Spin tip="Connecting" spinning={this.props.loading} size="large">
+        <ListContainer column>
+          <Table
+            size="middle"
+            pagination={false}
+            dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
+          >
+            <Table.Column title={this.props.t('field')} dataIndex="field" key="field" />
+            <Table.Column
+              title={this.props.t('value')}
+              dataIndex="value"
+              key="value"
+              render={(value, { field }) => this.getValueRendering(field, value)}
+            />
+          </Table>
+        </ListContainer>
+      </Spin>
     );
   }
 }
 
-const mapState = ({ block: { data } }): Store => ({ data });
+const mapState = ({ block: { data }, info: { loading } }): Store => ({ data, loading });
 const mapDispatch = ({ block: { getBlockData } }): Dispatch => ({ getBlockData });
 export default withRouter(
   translate()(

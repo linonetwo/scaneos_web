@@ -1,3 +1,15 @@
+import { format, distanceInWordsToNow } from 'date-fns';
+import en from 'date-fns/locale/en';
+import zh from 'date-fns/locale/zh_cn';
+
+const locales = { en, zh };
+
+export function formatTimeStamp(timeStamp, locale) {
+  // polyfill ms
+  const now = new Date(timeStamp * 1000);
+  return `${format(now, 'YYYY-MM-DD HH:mm:ss ZZ')} ${distanceInWordsToNow(now, { locale: locales[locale], addSuffix: true })}`;
+}
+
 // for table
 const navHeight = 64;
 const rowHeight = 46;
