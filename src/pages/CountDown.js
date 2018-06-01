@@ -18,6 +18,8 @@ const CountDownContainer = styled.div`
   font-size: 30px;
   max-width: 100vw;
   overflow-wrap: break-word;
+  word-break: normal;
+  word-wrap: break-word;
 `;
 
 function CountDown(props) {
