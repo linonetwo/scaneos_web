@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import Countdown from 'react-countdown-now';
 import { translate } from 'react-i18next';
+import breakpoint from 'styled-components-breakpoint';
 
 import BackgroundAnimation from '../components/BackgroundAnimation';
 
@@ -20,6 +21,13 @@ const CountDownContainer = styled.div`
   overflow-wrap: break-word;
   word-break: normal;
   word-wrap: break-word;
+
+  padding: 40px;
+  margin-top: -100px;
+  ${breakpoint('tablet')`
+    padding: 0px;
+    margin: 0;
+  `};
 `;
 
 function CountDown(props) {
