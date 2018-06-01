@@ -24,6 +24,7 @@ export type BlockData = {
 
 export type Pagination = { currentTotal: number, loadable: boolean, pageCountToLoad: number };
 export type Store = {
+  loading: boolean,
   list: BlockData[],
   data: BlockData,
   pagination: Pagination,
@@ -42,6 +43,7 @@ export const emptyBlockData = {
   createdAt: { sec: 0, usec: 0 },
 };
 const defaultState = {
+  loading: false,
   list: [],
   data: emptyBlockData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
@@ -53,6 +55,10 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
     initBlocksList(state: Store, list: BlockData[]) {
       state.list = list;
       return state;
@@ -85,6 +91,7 @@ export default (initialState?: Object = {}) => ({
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.block.toggleLoading();
       dispatch.history.updateURI();
 
       try {
@@ -105,6 +112,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.block.toggleLoading();
       }
     },
     async getBlocksList(gotoPage?: number) {
@@ -113,6 +121,7 @@ export default (initialState?: Object = {}) => ({
       } = await import('./');
       const { block } = await getState();
       dispatch.info.toggleLoading();
+      dispatch.block.toggleLoading();
 
       try {
         if (!gotoPage) {
@@ -152,6 +161,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.block.toggleLoading();
       }
     },
   },

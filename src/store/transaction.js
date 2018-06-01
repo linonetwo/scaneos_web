@@ -19,6 +19,7 @@ export type TransactionData = {
 };
 
 export type Store = {
+  loading: boolean,
   list: TransactionData[],
   pagination: Pagination,
   currentPage: number,
@@ -39,6 +40,7 @@ export const emptyTransactionData = {
   createdAt: { sec: 0, usec: 0 },
 };
 const defaultState = {
+  loading: false,
   list: [],
   data: emptyTransactionData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
@@ -50,6 +52,10 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
     initTransactionsList(state: Store, list: TransactionData[]) {
       state.list = list;
       return state;
@@ -82,6 +88,7 @@ export default (initialState?: Object = {}) => ({
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.transaction.toggleLoading();
       dispatch.history.updateURI();
 
       try {
@@ -102,6 +109,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.transaction.toggleLoading();
       }
     },
     async getTransactionsList(gotoPage?: number) {
@@ -110,6 +118,7 @@ export default (initialState?: Object = {}) => ({
       } = await import('./');
       const { transaction } = await getState();
       dispatch.info.toggleLoading();
+      dispatch.transaction.toggleLoading();
 
       try {
         if (!gotoPage) {
@@ -149,6 +158,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.transaction.toggleLoading();
       }
     },
   },

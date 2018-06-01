@@ -14,6 +14,7 @@ export type AccountData = {
 };
 
 export type Store = {
+  loading: boolean,
   data: AccountData,
   list: AccountData[],
   pagination: Pagination,
@@ -30,6 +31,7 @@ export const emptyAccountData = {
   updatedAt: { sec: 0, usec: 0 },
 };
 const defaultState = {
+  loading: false,
   list: [],
   data: emptyAccountData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
@@ -41,6 +43,10 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
     initAccountsList(state: Store, list: AccountData[]) {
       state.list = list;
       return state;
@@ -73,6 +79,7 @@ export default (initialState?: Object = {}) => ({
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.account.toggleLoading();
       dispatch.history.updateURI();
 
       try {
@@ -92,6 +99,7 @@ export default (initialState?: Object = {}) => ({
         }
         dispatch.info.displayNotification(notificationString);
       } finally {
+        dispatch.account.toggleLoading();
         dispatch.info.toggleLoading();
       }
     },
@@ -100,6 +108,7 @@ export default (initialState?: Object = {}) => ({
         store: { dispatch, getState },
       } = await import('./');
       const { account } = await getState();
+      dispatch.account.toggleLoading();
       dispatch.info.toggleLoading();
 
       try {
@@ -140,6 +149,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.account.toggleLoading();
       }
     },
   },

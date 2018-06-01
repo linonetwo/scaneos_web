@@ -62,7 +62,10 @@ type Props = {
   t: Function,
 };
 type Store = {
-  loading: boolean,
+  blockLoading: boolean,
+  transactionLoading: boolean,
+  accountLoading: boolean,
+  messageLoading: boolean,
   blockData: BlockData[],
   transactionData: TransactionData[],
   accountData: AccountData[],
@@ -236,27 +239,32 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.loading })}
-        {this.getTransactionList({ data: take(this.props.transactionData, 10), loading: this.props.loading })}
-        {this.getAccountList({ data: take(this.props.accountData, 4), loading: this.props.loading })}
-        {this.getMessageList({ data: take(this.props.messageData, 5), loading: this.props.loading })}
+        {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.blockLoading })}
+        {this.getTransactionList({
+          data: take(this.props.transactionData, 10),
+          loading: this.props.transactionLoading,
+        })}
+        {this.getAccountList({ data: take(this.props.accountData, 4), loading: this.props.accountLoading })}
+        {this.getMessageList({ data: take(this.props.messageData, 5), loading: this.props.messageLoading })}
       </Container>
     );
   }
 }
 
 const mapState = ({
-  block: { list: blockData },
-  transaction: { list: transactionData },
-  account: { list: accountData },
-  message: { list: messageData },
-  info: { loading },
+  block: { loading: blockLoading, list: blockData },
+  transaction: { loading: transactionLoading, list: transactionData },
+  account: { loading: accountLoading, list: accountData },
+  message: { loading: messageLoading, list: messageData },
 }): Store => ({
-  loading,
   blockData,
   transactionData,
   accountData,
   messageData,
+  blockLoading,
+  transactionLoading,
+  accountLoading,
+  messageLoading,
 });
 const mapDispatch = ({
   block: { getBlocksList },
