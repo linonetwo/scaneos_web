@@ -1,40 +1,90 @@
 // @flow
+import { toPairs } from 'lodash';
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import Flex from 'styled-flex-component';
-import {} from 'antd';
+import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import { translate } from 'react-i18next';
 
-const Container = styled(Flex)``;
+import { formatTimeStamp } from '../store/utils';
+import type { AccountData } from '../store/account';
+import { ListContainer } from '../components/Table';
 
 type Props = {
   match: {
     params: {
-      blockId: string,
+      accountId: string,
     },
   },
+  t: Function,
 };
-type Store = {};
-type Dispatch = {};
+type Store = {
+  data: AccountData,
+  loading: boolean,
+};
+type Dispatch = {
+  getAccountData: (accountName: string) => void,
+};
 
 class Account extends Component<Props & Store & Dispatch, *> {
   state = {};
+  componentDidMount() {
+    const currentAccountName = String(this.props.match.params.accountId);
+    this.props.getAccountData(currentAccountName);
+  }
+
+  getValueRendering(field: string, value: any) {
+    switch (field) {
+      case 'Id':
+        return value.$id;
+      case 'createdAt':
+      case 'updatedAt':
+        return formatTimeStamp(value.sec, this.props.t('locale'));
+      case 'name':
+        return <Link to={`/account/${value}`}>{value}</Link>;
+      default: {
+        if (typeof value === 'string' || typeof value === 'number') {
+          return value;
+        }
+        return (
+          <pre>
+            <code>{JSON.stringify(value, null, '  ')}</code>
+          </pre>
+        );
+      }
+    }
+  }
+
   render() {
-    const currentBlockID = this.props.currentBlockID || this.props.match.params.blockId;
     return (
-      <Container column>
-        <div />
-      </Container>
+      <Spin tip="Connecting" spinning={this.props.loading} size="large">
+        <ListContainer column>
+          <Table
+            size="middle"
+            pagination={false}
+            dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
+          >
+            <Table.Column title={this.props.t('field')} dataIndex="field" key="field" />
+            <Table.Column
+              title={this.props.t('value')}
+              dataIndex="value"
+              key="value"
+              render={(value, { field }) => this.getValueRendering(field, value)}
+            />
+          </Table>
+        </ListContainer>
+      </Spin>
     );
   }
 }
 
-const mapState = ({}): Store => ({});
-const mapDispatch = ({}): Dispatch => ({});
+const mapState = ({ account: { data }, info: { loading } }): Store => ({ data, loading });
+const mapDispatch = ({ account: { getAccountData } }): Dispatch => ({ getAccountData });
 export default withRouter(
-  connect(
-    mapState,
-    mapDispatch,
-  )(Account),
+  translate()(
+    connect(
+      mapState,
+      mapDispatch,
+    )(Account),
+  ),
 );
