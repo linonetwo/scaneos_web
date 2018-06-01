@@ -38,7 +38,7 @@ export default class App extends Component<{}> {
                 <Route exact path="/transactions" component={Transactions} />
                 <Route exact path="/account/:accountId" component={Account} />
                 <Route exact path="/accounts" component={Accounts} />
-                <Route exact path="/message/:messageId" component={Message} />
+                <Route exact path="/message/:transactionId" component={Message} />
                 <Route exact path="/messages" component={Messages} />
                 <Route exact path="/" component={Home} />
                 <Route component={UnderDevelopment} />

@@ -107,7 +107,7 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/transaction_id?name=${transactionId}`)
+        const data = await fetch(`http://api.eostracker.io/messages?transaction_id=${transactionId}`)
           .then(res => res.json())
           .then(camelize);
 

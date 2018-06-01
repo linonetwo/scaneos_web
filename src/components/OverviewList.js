@@ -205,13 +205,16 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: MessageData) => (
             <List.Item
               actions={compact([
+                <Link to={`/message/${item.transactionId}`}>
+                  {this.props.t('Messages')}: {truncate(item.transactionId, { length: 7, omission: '...' })}
+                </Link>,
                 <Link to={`/transaction/${item.transactionId}`}>
-                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 10, omission: '...' })}
+                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 7, omission: '...' })}
                 </Link>,
                 ...flatten(
                   item.authorization.map(({ account }) => (
                     <Link to={`/account/${account}`}>
-                      {this.props.t('account')}: {truncate(account, { length: 10, omission: '...' })}
+                      {this.props.t('account')}: {truncate(account, { length: 7, omission: '...' })}
                     </Link>
                   )),
                 ),

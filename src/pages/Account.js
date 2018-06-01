@@ -8,7 +8,7 @@ import { translate } from 'react-i18next';
 
 import { formatTimeStamp } from '../store/utils';
 import type { AccountData } from '../store/account';
-import { ListContainer } from '../components/Table';
+import { LongListContainer } from '../components/Table';
 
 type Props = {
   match: {
@@ -58,7 +58,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
   render() {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
-        <ListContainer column>
+        <LongListContainer column>
           <Table
             size="middle"
             pagination={false}
@@ -72,7 +72,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
               render={(value, { field }) => this.getValueRendering(field, value)}
             />
           </Table>
-        </ListContainer>
+        </LongListContainer>
       </Spin>
     );
   }

@@ -53,6 +53,12 @@ class Messages extends Component<Props & Store & Dispatch, *> {
             }}
           >
             <Table.Column
+              title={this.props.t('messageId')}
+              dataIndex="messageId"
+              key="messageId"
+              render={messageId => <Link to={`/transaction/${messageId}`}>{messageId}</Link>}
+            />
+            <Table.Column
               title={this.props.t('transactionId')}
               dataIndex="transactionId"
               key="transactionId"
