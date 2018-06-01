@@ -19,7 +19,8 @@ const Container = styled(Flex)`
   }
   .ant-table {
     width: 100%;
-    height: ${getTableHeight() - titleHeight}px;
+    height: ${getTableHeight()}px;
+    padding: 0 40px;
   }
   .ant-table-pagination.ant-pagination {
     float: unset;
@@ -54,6 +55,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
         <Container column>
           <Table
+            size="middle"
             dataSource={this.props.list}
             pagination={{
               pageSize: getPageSize(),

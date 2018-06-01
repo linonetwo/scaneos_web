@@ -33,7 +33,7 @@ injectGlobal`
   }
 
   a {
-    color: #667d9a;
+    color: #3498db;
     text-decoration: none;
   }
   

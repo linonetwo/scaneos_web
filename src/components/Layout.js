@@ -17,7 +17,7 @@ const HeaderContainer = styled.div`
   height: 64px;
   .ant-layout-header {
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
+    border-bottom: 1px solid #d8d8d8;
 
     display: flex;
     justify-content: flex-end;
