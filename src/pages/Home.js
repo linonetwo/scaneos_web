@@ -8,10 +8,8 @@ import { withRouter } from 'react-router-dom';
 import OverviewList from '../components/OverviewList';
 
 const Container = styled(Flex)`
-  overflow-x: hidden;
   min-height: calc(100vh - 64px);
-
-  width: 100vw;
+  width: 100%;
 `;
 
 type Props = {};

@@ -10,15 +10,23 @@ export default i18n
   .use(reactI18nextModule)
   .init({
     fallbackLng: 'en',
-    ns: ['translations'],
+    ns: ['translations', 'layout'],
     defaultNS: 'translations',
     debug: true,
     resources: {
       en: {
         translations: {
           locale: 'en',
-        },
-        layout: {
+          handlerAccountName: 'Handler',
+          account: 'Account',
+          producerAccountId: 'Producer Account',
+          name: 'Name',
+          transactionId: 'Transaction ID',
+          blockId: 'Block ID',
+          blockNum: 'Block Number',
+          createdAt: 'Created At',
+          updatedAt: 'Updated At',
+          ViewAll: 'View All',
           logoIcon: logoIconEn,
           underDev: 'Under development...',
           PendingTransactions: 'Pending Transactions',
@@ -32,11 +40,19 @@ export default i18n
       },
       'zh-CN': {
         translations: {
+          locale: 'zh',
           field: '字段',
           value: '值',
-          locale: 'zh',
-        },
-        layout: {
+          handlerAccountName: '处理者账户',
+          account: '账户',
+          producerAccountId: '超级节点',
+          name: '账户名',
+          transactionId: '交易ID',
+          blockId: '区块ID',
+          blockNum: '区块高度',
+          createdAt: '创建日期',
+          updatedAt: '更新日期',
+          ViewAll: '查看全部',
           logoIcon: logoIconZh,
           Home: '首页',
           BlockChain: '区块',

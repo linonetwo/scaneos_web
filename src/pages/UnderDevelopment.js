@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -10,10 +9,8 @@ const Container = styled(Flex)`
   overflow-x: hidden;
 `;
 const Content = styled(Flex)`
-  margin-top: 50px;
   min-height: calc(100vh - 64px);
-
-  width: 100vw;
+  width: 100%;
 `;
 
 type Props = {

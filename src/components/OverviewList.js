@@ -1,5 +1,5 @@
 // @flow
-import { take, flatten, compact } from 'lodash';
+import { take, flatten, compact, truncate } from 'lodash';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -51,6 +51,7 @@ const ViewAll = styled(Flex)`
   font-size: 14px;
 
   cursor: pointer;
+  color: #443f54;
   &:hover {
     background-color: #555;
     color: white;
@@ -85,8 +86,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer>
         <Title justifyBetween alignCenter>
-          Blocks<Link to="/blocks">
-            <ViewAll>View All</ViewAll>
+          {this.props.t('Blocks')}
+          <Link to="/blocks">
+            <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
         <List
@@ -106,7 +108,11 @@ class OverviewList extends Component<Props & Store & Dispatch> {
               ]}
             >
               <div>
-                {formatTimeStamp(item.createdAt.sec, this.props.t('locale'))} {JSON.stringify(item.transactions)}
+                {formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}{' '}
+                {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
+                {item.transactions.map(({ $id }) => (
+                  <Link to={`/transaction/${$id}`}>{truncate($id, { length: 4, omission: ' ' })}</Link>
+                ))}
               </div>
             </List.Item>
           )}
@@ -118,8 +124,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer>
         <Title justifyBetween alignCenter>
-          Transactions<Link to="/transactions">
-            <ViewAll>View All</ViewAll>
+          {this.props.t('Transactions')}
+          <Link to="/transactions">
+            <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
         <List
@@ -131,10 +138,10 @@ class OverviewList extends Component<Props & Store & Dispatch> {
             <List.Item
               actions={[
                 <Link to={`/transaction/${item.transactionId}`}>
-                  {this.props.t('transactionId')}: {item.transactionId}
+                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 20, omission: '...' })}
                 </Link>,
                 <Link to={`/block/${item.blockId}`}>
-                  {this.props.t('blockId')}: {item.blockId}
+                  {this.props.t('blockId')}: {truncate(item.blockId, { length: 20, omission: '...' })}
                 </Link>,
               ]}
             >
@@ -150,8 +157,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
-          Accounts<Link to="/accounts">
-            <ViewAll>View All</ViewAll>
+          {this.props.t('Accounts')}
+          <Link to="/accounts">
+            <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
         <List
@@ -184,8 +192,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
-          Messages<Link to="/messages">
-            <ViewAll>View All</ViewAll>
+          {this.props.t('Messages')}
+          <Link to="/messages">
+            <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
         <List
@@ -197,12 +206,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
             <List.Item
               actions={compact([
                 <Link to={`/transaction/${item.transactionId}`}>
-                  {this.props.t('transactionId')}: {item.transactionId}
+                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 10, omission: '...' })}
                 </Link>,
                 ...flatten(
                   item.authorization.map(({ account }) => (
                     <Link to={`/account/${account}`}>
-                      {this.props.t('account')}: {account}
+                      {this.props.t('account')}: {truncate(account, { length: 10, omission: '...' })}
                     </Link>
                   )),
                 ),
@@ -226,7 +235,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
       <Container alignCenter justifyAround wrap="true">
         {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.loading })}
         {this.getTransactionList({ data: take(this.props.transactionData, 10), loading: this.props.loading })}
-        {this.getAccountList({ data: take(this.props.accountData, 5), loading: this.props.loading })}
+        {this.getAccountList({ data: take(this.props.accountData, 4), loading: this.props.loading })}
         {this.getMessageList({ data: take(this.props.messageData, 5), loading: this.props.loading })}
       </Container>
     );

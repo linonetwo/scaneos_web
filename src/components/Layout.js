@@ -349,7 +349,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
 const mapState = ({ history: { navTab } }): Store => ({ navTab });
 const mapDispatch = ({ history: { changeNavTab } }): Dispatch => ({ changeNavTab });
 export default withRouter(
-  translate('layout')(
+  translate()(
     connect(
       mapState,
       mapDispatch,
