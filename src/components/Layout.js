@@ -159,7 +159,7 @@ class Header extends Component<Store & Dispatch, *> {
   toggleSideMenu = () => {
     this.setState({ sideMenuOpened: !this.state.sideMenuOpened });
     noScroll.toggle();
-  }
+  };
 
   blockChainMenu = (
     <Menu>
@@ -254,14 +254,13 @@ class Header extends Component<Store & Dispatch, *> {
   render() {
     return (
       <Fragment>
-        <Fixed
-          opened={this.state.sideMenuOpened}
-          onClick={this.toggleSideMenu}
-        />
+        <Fixed opened={this.state.sideMenuOpened} onClick={this.toggleSideMenu} />
         <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.mobileMenu}</MobileMenuContainer>
         <HeaderContainer>
           <Layout.Header>
-            <Logo>Scan EOS</Logo>
+            <Link to="/">
+              <Logo>Scan EOS</Logo>
+            </Link>
             <SearchBar size="small" />
             <DropDownsContainer>
               <NavDropDowns justifyEnd>
@@ -301,10 +300,7 @@ class Header extends Component<Store & Dispatch, *> {
               </NavDropDowns>
             </DropDownsContainer>
             <MenuOpenIconContainer center>
-              <Icon
-                onClick={this.toggleSideMenu}
-                type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'}
-              />
+              <Icon onClick={this.toggleSideMenu} type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
             </MenuOpenIconContainer>
           </Layout.Header>
         </HeaderContainer>
