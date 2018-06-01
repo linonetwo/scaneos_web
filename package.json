@@ -6,10 +6,19 @@
     "clear:babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
     "start": "yarn clear:babel-cache && react-app-rewired start",
     "build": "yarn clear:babel-cache && react-app-rewired build",
+    "postbuild": "react-snap",
     "test": "yarn clear:babel-cache && react-app-rewired test --env=jsdom",
     "docker-build": "docker build . -t scaneos_web",
     "docker-run": "docker run --rm --name scaneos_web -p 80:5000 scaneos_web",
     "eject": "react-scripts eject"
+  },
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--disable-setuid-sandbox"
+    ],
+    "concurrency": 1,
+    "inlineCss": false,
+    "puppeteerExecutablePath": "/usr/bin/chromium-browser"
   },
   "dependencies": {
     "@rematch/core": "^1.0.0-alpha.5",
@@ -66,7 +75,8 @@
     "react-cosmos": "^4.4.0",
     "react-cosmos-fetch-proxy": "^4.4.0",
     "react-cosmos-redux-proxy": "^4.4.0",
-    "react-cosmos-router-proxy": "^4.4.0"
+    "react-cosmos-router-proxy": "^4.4.0",
+    "react-snap": "^1.12.2"
   },
   "browserslist": {
     "development": [
