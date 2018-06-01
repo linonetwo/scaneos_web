@@ -25,14 +25,14 @@ export type Store = {
 };
 
 export const emptyTransactionData = {
-  _id: { $id: '' },
-  transaction_id: '',
-  sequence_num: 0,
-  block_id: '',
-  ref_block_num: 0,
-  ref_block_prefix: '',
+  Id: { $id: '' },
+  transactionId: '',
+  sequenceNum: 0,
+  blockId: '',
+  refBlockNum: 0,
+  refBlockPrefix: '',
   scope: ['eos'],
-  read_scope: [],
+  readScope: [],
   expiration: { sec: 0, usec: 0 },
   signatures: [''],
   messages: [{ $id: '' }],
