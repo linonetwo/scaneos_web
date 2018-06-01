@@ -5,7 +5,7 @@ FROM mhart/alpine-node:latest
 # RUN apk add --no-cache make gcc g++ python
 
 # Setup yarn
-RUN yarn config set registry https://registry.npm.taobao.org
+# RUN yarn config set registry https://registry.npm.taobao.org
 
 # Create app directory and bundle app source
 RUN mkdir -p /usr/src/app
