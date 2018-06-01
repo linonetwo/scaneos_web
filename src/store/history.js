@@ -25,7 +25,6 @@ export default (initialState: Object = {}) => ({
     },
     updateURI(state: Store) {
       const mainPath = window.location.pathname.split('/')?.[1];
-      console.log(mainPath);
       if (blockChainPath.includes(mainPath)) {
         state.navTab = 'blockChain';
         return state;

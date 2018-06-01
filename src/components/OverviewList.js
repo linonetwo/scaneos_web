@@ -73,7 +73,7 @@ export function BlockList(props: { loading: boolean, data: BlockData[] }) {
           <List.Item
             actions={[
               <Link to={`/account/${item.producerAccountId}`}>By: {item.producerAccountId}</Link>,
-              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
+              <Link to={`/block/${item.blockNum}`}>{item.blockNum}</Link>,
             ]}
           >
             <div>
