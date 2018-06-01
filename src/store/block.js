@@ -115,10 +115,6 @@ export default (initialState?: Object = {}) => ({
       dispatch.info.toggleLoading();
 
       try {
-        // const list = await fetch(`http://api.eostracker.io/blocks?page=${page}&size=${size}`)
-        //   .then(res => res.json())
-        //   .then(camelize);
-
         if (!gotoPage) {
           this.clearState();
           this.setPage(0);
