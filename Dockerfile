@@ -4,7 +4,7 @@ FROM mhart/alpine-node:latest
 # If you have native dependencies, you'll need extra tools
 # RUN apk add --no-cache make gcc g++ python
 # Setup yarn
-RUN yarn config set registry https://registry.npm.taobao.org
+# RUN yarn config set registry https://registry.npm.taobao.org
 
 # Create app directory
 RUN mkdir -p /usr/src/app
