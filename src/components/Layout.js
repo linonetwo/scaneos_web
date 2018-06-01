@@ -364,7 +364,6 @@ const FooterContainer = styled.div`
     color: white;
   }
 
-  margin-top: 50px;
 `;
 const Introduction = styled(Flex)`
   width: 300px;

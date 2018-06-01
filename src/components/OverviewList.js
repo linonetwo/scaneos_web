@@ -17,6 +17,7 @@ import type { MessageData } from '../store/message';
 
 const Container = styled(Flex)`
   width: 1100px;
+  padding-bottom: 50px;
 `;
 const ListContainer = styled.div`
   margin: 0;
