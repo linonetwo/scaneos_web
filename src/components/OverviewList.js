@@ -1,14 +1,15 @@
 // @flow
-import { take } from 'lodash';
+import { take, flatten, compact } from 'lodash';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { List } from 'antd';
 import is from 'styled-is';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { translate } from 'react-i18next';
 
+import { formatTimeStamp } from '../store/utils';
 import type { BlockData } from '../store/block';
 import type { TransactionData } from '../store/transaction';
 import type { AccountData } from '../store/account';
@@ -56,119 +57,9 @@ const ViewAll = styled(Flex)`
   }
 `;
 
-export function BlockList(props: { loading: boolean, data: BlockData[] }) {
-  return (
-    <ListContainer>
-      <Title justifyBetween alignCenter>
-        Blocks<Link to="/blocks">
-          <ViewAll>View All</ViewAll>
-        </Link>
-      </Title>
-      <List
-        size="small"
-        loading={props.loading}
-        itemLayout="vertical"
-        dataSource={props.data}
-        renderItem={(item: BlockData) => (
-          <List.Item
-            actions={[
-              <Link to={`/account/${item.producerAccountId}`}>By: {item.producerAccountId}</Link>,
-              <Link to={`/block/${item.blockNum}`}>{item.blockNum}</Link>,
-            ]}
-          >
-            <div>
-              {format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')} {JSON.stringify(item.transactions)}
-            </div>
-          </List.Item>
-        )}
-      />
-    </ListContainer>
-  );
-}
-export function TransactionList(props: { loading: boolean, data: TransactionData[] }) {
-  return (
-    <ListContainer>
-      <Title justifyBetween alignCenter>
-        Transactions<Link to="/transactions">
-          <ViewAll>View All</ViewAll>
-        </Link>
-      </Title>
-      <List
-        size="small"
-        loading={props.loading}
-        itemLayout="vertical"
-        dataSource={props.data}
-        renderItem={(item: TransactionData) => (
-          <List.Item
-            actions={[
-              <Link to={`/transaction/${item.transactionId}`}>{item.transactionId}</Link>,
-              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
-            ]}
-          >
-            <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
-          </List.Item>
-        )}
-      />
-    </ListContainer>
-  );
-}
-
-export function AccountList(props: { loading: boolean, data: AccountData[] }) {
-  return (
-    <ListContainer small>
-      <Title justifyBetween alignCenter>
-        Accounts<Link to="/accounts">
-          <ViewAll>View All</ViewAll>
-        </Link>
-      </Title>
-      <List
-        size="small"
-        loading={props.loading}
-        itemLayout="vertical"
-        dataSource={props.data}
-        renderItem={(item: AccountData) => (
-          <List.Item
-            actions={[
-              <Link to={`/transaction/${item.transactionId}`}>{item.transactionId}</Link>,
-              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
-            ]}
-          >
-            <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
-          </List.Item>
-        )}
-      />
-    </ListContainer>
-  );
-}
-
-export function MessageList(props: { loading: boolean, data: MessageData[] }) {
-  return (
-    <ListContainer small>
-      <Title justifyBetween alignCenter>
-        Messages<Link to="/messages">
-          <ViewAll>View All</ViewAll>
-        </Link>
-      </Title>
-      <List
-        size="small"
-        loading={props.loading}
-        itemLayout="vertical"
-        dataSource={props.data}
-        renderItem={(item: MessageData) => (
-          <List.Item
-            actions={[
-              <Link to={`/transaction/${item.transactionId}`}>{item.transactionId}</Link>,
-              <Link to={`/block/${item.blockId}`}>{item.blockId}</Link>,
-            ]}
-          >
-            <div>{format(item.createdAt.sec, 'YYYY-MM-DD HH:mm:ss')}</div>
-          </List.Item>
-        )}
-      />
-    </ListContainer>
-  );
-}
-
+type Props = {
+  t: Function,
+};
 type Store = {
   loading: boolean,
   blockData: BlockData[],
@@ -182,7 +73,7 @@ type Dispatch = {
   getAccountsList: (page?: number) => void,
   getMessagesList: (page?: number) => void,
 };
-class OverviewList extends Component<Store & Dispatch> {
+class OverviewList extends Component<Props & Store & Dispatch> {
   componentDidMount() {
     this.props.getBlocksList(10);
     this.props.getTransactionsList(10);
@@ -190,13 +81,153 @@ class OverviewList extends Component<Store & Dispatch> {
     this.props.getMessagesList(0);
   }
 
+  getBlockList(data: { loading: boolean, data: BlockData[] }) {
+    return (
+      <ListContainer>
+        <Title justifyBetween alignCenter>
+          Blocks<Link to="/blocks">
+            <ViewAll>View All</ViewAll>
+          </Link>
+        </Title>
+        <List
+          size="small"
+          loading={data.loading}
+          itemLayout="vertical"
+          dataSource={data.data}
+          renderItem={(item: BlockData) => (
+            <List.Item
+              actions={[
+                <Link to={`/account/${item.producerAccountId}`}>
+                  {this.props.t('producerAccountId')}: {item.producerAccountId}
+                </Link>,
+                <Link to={`/block/${item.blockNum}`}>
+                  {this.props.t('blockNum')}: {item.blockNum}
+                </Link>,
+              ]}
+            >
+              <div>
+                {formatTimeStamp(item.createdAt.sec, this.props.t('locale'))} {JSON.stringify(item.transactions)}
+              </div>
+            </List.Item>
+          )}
+        />
+      </ListContainer>
+    );
+  }
+  getTransactionList(data: { loading: boolean, data: TransactionData[] }) {
+    return (
+      <ListContainer>
+        <Title justifyBetween alignCenter>
+          Transactions<Link to="/transactions">
+            <ViewAll>View All</ViewAll>
+          </Link>
+        </Title>
+        <List
+          size="small"
+          loading={data.loading}
+          itemLayout="vertical"
+          dataSource={data.data}
+          renderItem={(item: TransactionData) => (
+            <List.Item
+              actions={[
+                <Link to={`/transaction/${item.transactionId}`}>
+                  {this.props.t('transactionId')}: {item.transactionId}
+                </Link>,
+                <Link to={`/block/${item.blockId}`}>
+                  {this.props.t('blockId')}: {item.blockId}
+                </Link>,
+              ]}
+            >
+              <div>{formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}</div>
+            </List.Item>
+          )}
+        />
+      </ListContainer>
+    );
+  }
+
+  getAccountList(data: { loading: boolean, data: AccountData[] }) {
+    return (
+      <ListContainer small>
+        <Title justifyBetween alignCenter>
+          Accounts<Link to="/accounts">
+            <ViewAll>View All</ViewAll>
+          </Link>
+        </Title>
+        <List
+          size="small"
+          loading={data.loading}
+          itemLayout="vertical"
+          dataSource={data.data}
+          renderItem={(item: AccountData) => (
+            <List.Item
+              actions={[
+                <Link to={`/account/${item.name}`}>
+                  {this.props.t('name')}: {item.name}
+                </Link>,
+              ]}
+            >
+              <div>
+                {this.props.t('createdAt')}: {formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}
+              </div>
+              <div>
+                {this.props.t('updatedAt')}: {formatTimeStamp(item.updatedAt.sec, this.props.t('locale'))}
+              </div>
+            </List.Item>
+          )}
+        />
+      </ListContainer>
+    );
+  }
+
+  getMessageList(data: { loading: boolean, data: MessageData[] }) {
+    return (
+      <ListContainer small>
+        <Title justifyBetween alignCenter>
+          Messages<Link to="/messages">
+            <ViewAll>View All</ViewAll>
+          </Link>
+        </Title>
+        <List
+          size="small"
+          loading={data.loading}
+          itemLayout="vertical"
+          dataSource={data.data}
+          renderItem={(item: MessageData) => (
+            <List.Item
+              actions={compact([
+                <Link to={`/transaction/${item.transactionId}`}>
+                  {this.props.t('transactionId')}: {item.transactionId}
+                </Link>,
+                ...flatten(
+                  item.authorization.map(({ account }) => (
+                    <Link to={`/account/${account}`}>
+                      {this.props.t('account')}: {account}
+                    </Link>
+                  )),
+                ),
+                item.handlerAccountName !== undefined && (
+                  <Link to={`/account/${String(item.handlerAccountName)}`}>
+                    {this.props.t('handlerAccountName')}: {item.handlerAccountName}
+                  </Link>
+                ),
+              ])}
+            >
+              <div>{formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}</div>
+            </List.Item>
+          )}
+        />
+      </ListContainer>
+    );
+  }
+
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        <BlockList loading={this.props.loading} data={take(this.props.blockData, 10)} />
-        <TransactionList loading={this.props.loading} data={take(this.props.transactionData, 10)} />
-        <AccountList loading={this.props.loading} data={take(this.props.accountData, 5)} />
-        <MessageList loading={this.props.loading} data={take(this.props.messageData, 5)} />
+        {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.loading })}
+        {this.getTransactionList({ data: take(this.props.transactionData, 10), loading: this.props.loading })}
+        {this.getAccountList({ data: take(this.props.accountData, 5), loading: this.props.loading })}
+        {this.getMessageList({ data: take(this.props.messageData, 5), loading: this.props.loading })}
       </Container>
     );
   }
@@ -221,7 +252,9 @@ const mapDispatch = ({
   account: { getAccountsList },
   message: { getMessagesList },
 }): Dispatch => ({ getBlocksList, getTransactionsList, getAccountsList, getMessagesList });
-export default connect(
-  mapState,
-  mapDispatch,
-)(OverviewList);
+export default translate()(
+  connect(
+    mapState,
+    mapDispatch,
+  )(OverviewList),
+);

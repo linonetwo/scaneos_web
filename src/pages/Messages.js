@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { getPageSize } from '../store/utils';
+import { getPageSize, formatTimeStamp } from '../store/utils';
 import type { MessageData } from '../store/message';
 import type { Pagination } from '../store/block';
 import { ListContainer } from '../components/Table';
@@ -62,7 +62,7 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={({ sec }) => sec}
+              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
             <Table.Column
               title={this.props.t('authorization')}
