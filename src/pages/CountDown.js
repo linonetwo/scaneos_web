@@ -14,8 +14,10 @@ const Container = styled(Flex)`
 const Intro = styled(Flex)`
   font-size: 20px;
 `;
-const CountDownContainer = styled(Flex)`
+const CountDownContainer = styled.div`
   font-size: 30px;
+  max-width: 100vw;
+  overflow-wrap: break-word;
 `;
 
 function CountDown(props) {
