@@ -33,13 +33,21 @@ injectGlobal`
   }
 
   a {
-    color: #333;
+    color: #667d9a;
     text-decoration: none;
   }
   
   a:hover {
+    color: #435a77;
     opacity: 1;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .ant-layout {
+    background-color: white;
+  }
+  .ant-table-tbody > tr:hover > td {
+    background-color: rgba(68, 63, 84, 0.1) !important;
   }
 `;
