@@ -6,6 +6,7 @@ FROM mhart/alpine-node:latest
 
 # Setup yarn
 # RUN yarn config set registry https://registry.npm.taobao.org
+RUN yarn config set registry https://registry.npmjs.org/
 
 # Create app directory and bundle app source
 RUN mkdir -p /usr/src/app
