@@ -1,35 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import Flex from 'styled-flex-component';
 import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { getPageSize, getTableHeight, titleHeight } from '../store/utils';
+import { getPageSize } from '../store/utils';
 import type { BlockData, Pagination } from '../store/block';
-
-const Container = styled(Flex)`
-  .ant-spin-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .ant-table {
-    width: 100%;
-    height: ${getTableHeight()}px;
-    padding: 0 40px;
-  }
-  .ant-table-pagination.ant-pagination {
-    float: unset;
-  }
-
-  li.ant-pagination-jump-next + li.ant-pagination-item {
-    display: none;
-  }
-`;
+import { ListContainer } from '../components/Table';
 
 type Props = {
   t: Function,
@@ -53,7 +31,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
   render() {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
-        <Container column>
+        <ListContainer column>
           <Table
             size="middle"
             dataSource={this.props.list}
@@ -99,7 +77,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
               render={producerAccountId => <Link to={`/account/${producerAccountId}`}>{producerAccountId}</Link>}
             />
           </Table>
-        </Container>
+        </ListContainer>
       </Spin>
     );
   }
@@ -112,11 +90,9 @@ const mapState = ({ block: { list, pagination, currentPage }, info: { loading } 
   loading,
 });
 const mapDispatch = ({ block: { getBlocksList, setPage } }): Dispatch => ({ getBlocksList, setPage });
-export default withRouter(
-  translate()(
-    connect(
-      mapState,
-      mapDispatch,
-    )(Blocks),
-  ),
+export default translate()(
+  connect(
+    mapState,
+    mapDispatch,
+  )(Blocks),
 );
