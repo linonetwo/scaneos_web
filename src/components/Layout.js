@@ -265,6 +265,15 @@ class Header extends Component<Props & Store & Dispatch, *> {
           <span>{this.props.t('underDev')}</span>
         </Menu.Item>
       </Menu.SubMenu>
+      <Menu.Item>
+        <NavDropDownsButtonLink
+          selected={this.props.navTab === 'blockProducers'}
+          onClick={() => this.props.changeNavTab('blockProducers')}
+          to="/blockProducers"
+        >
+          {this.props.t('BlockProducers')}
+        </NavDropDownsButtonLink>
+      </Menu.Item>
     </Menu>
   );
 
@@ -275,7 +284,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
         <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.mobileMenu}</MobileMenuContainer>
         <HeaderContainer>
           <Layout.Header>
-            <Link to="/">
+            <Link to="/" onClick={() => this.props.changeNavTab('home')}>
               <LogoContainer center>
                 <LogoIcon src={this.props.t('logoIcon')} />
               </LogoContainer>
@@ -317,6 +326,14 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     {this.props.t('Misc')} <Icon type="down" />
                   </NavDropDownsButton>
                 </Dropdown>
+
+                <NavDropDownsButtonLink
+                  selected={this.props.navTab === 'blockProducers'}
+                  onClick={() => this.props.changeNavTab('blockProducers')}
+                  to="/blockProducers"
+                >
+                  {this.props.t('BlockProducers')}
+                </NavDropDownsButtonLink>
               </NavDropDowns>
             </DropDownsContainer>
             <MenuOpenIconContainer center>

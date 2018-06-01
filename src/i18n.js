@@ -21,6 +21,7 @@ export default i18n
           PendingTransactions: 'Pending Transactions',
           ContractInternalTransactions: 'Contract Internal Transactions',
           VerifiedContracts: 'Verified Contracts',
+          BlockProducers: 'Block Producers',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -46,6 +47,7 @@ export default i18n
           VerifiedContracts: '已确认合约',
           Messages: '消息',
           Charts: '图表',
+          BlockProducers: '超级节点',
         },
         countdown: {
           Days: '天',
