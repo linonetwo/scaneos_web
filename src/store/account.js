@@ -1,8 +1,9 @@
 // @flow
+import { initial } from 'lodash';
 import camelize from 'camelize';
-import type { Timestamp, Id } from './block';
+import type { Timestamp, Id, Pagination } from './block';
 
-export type AccountData =  {
+export type AccountData = {
   Id: Id,
   name: string,
   eosBalance: string,
@@ -13,15 +14,24 @@ export type AccountData =  {
 };
 
 export type Store = {
-  loading: boolean,
+  data: AccountData,
   list: AccountData[],
-  pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
+  pagination: Pagination,
   currentPage: number,
 };
 
+export const emptyAccountData = {
+  Id: { $id: '' },
+  name: '',
+  eosBalance: '',
+  stakedBalance: '',
+  unstakingBalance: '',
+  createdAt: { sec: 0, usec: 0 },
+  updatedAt: { sec: 0, usec: 0 },
+};
 const defaultState = {
-  loading: false,
   list: [],
+  data: emptyAccountData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };
@@ -31,8 +41,16 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
-    initAccountList(state: Store, list: AccountData[]) {
+    initAccountsList(state: Store, list: AccountData[]) {
       state.list = list;
+      return state;
+    },
+    appendAccountsList(state: Store, list: AccountData[]) {
+      state.list = [...state.list, ...list];
+      return state;
+    },
+    initAccountData(state: Store, data: AccountData) {
+      state.data = data;
       return state;
     },
     setPage(state: Store, newPage: number) {
@@ -43,10 +61,6 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, list: AccountData[]) {
-      state.list = [...state.list, ...list];
-      return state;
-    },
     increaseOffset(state: Store, newOffset: number, loadable: boolean) {
       state.pagination.currentTotal += newOffset;
       state.pagination.loadable = loadable;
@@ -54,54 +68,19 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getAccountsList(page: number = 0, gotoPage?: number) {
+    async getAccountData(accountName: number) {
       const {
-        store: { dispatch, account },
+        store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.history.updateURI();
 
       try {
-        const list = await fetch(`http://api.eostracker.io/accounts?page=${page}`)
+        const data = await fetch(`http://api.eostracker.io/accounts?name=${accountName}`)
           .then(res => res.json())
           .then(camelize);
 
-        // if (!gotoPage) {
-        //   this.clearState();
-        //   this.setPage(0);
-        // }
-
-        // const { getPageSize } = await import('./utils');
-        // const pageSize = getPageSize();
-        // const body = JSON.stringify({
-        //   offset: gotoPage ? block.pagination.currentTotal : 0,
-        //   limit: pageSize * block.pagination.pageCountToLoad + 1,
-        // });
-
-        // let results: AccountData[] = await fetch(`${API}/blocks`, {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body,
-        // })
-        //   .then(res => res.json())
-        //   .then(camelize);
-
-        // const loadable = results.length === pageSize * block.pagination.pageCountToLoad + 1;
-
-        // if (loadable) {
-        //   results = initial(results);
-        // }
-        // if (gotoPage) {
-        //   dispatch.block.appendResult(results);
-        //   dispatch.block.appendTrees(results);
-        //   dispatch.block.appendTags(results);
-        // } else {
-        //   dispatch.block.initResult(results);
-        //   dispatch.block.initTrees(results);
-        //   dispatch.block.initTags(results);
-        // }
-        // this.increaseOffset(results.length, loadable);
-
-        this.initAccountList(list);
+        this.initAccountData(data[0]);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -110,6 +89,53 @@ export default (initialState?: Object = {}) => ({
           notificationString = 'Connection lost, maybe due to some Network error.';
         } else if (errorString.match(/^TypeError/)) {
           notificationString = 'Failed to fetch data from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+      }
+    },
+    async getAccountsList(gotoPage?: number) {
+      const {
+        store: { dispatch, getState },
+      } = await import('./');
+      const { account } = await getState();
+      dispatch.info.toggleLoading();
+
+      try {
+        if (!gotoPage) {
+          this.clearState();
+          this.setPage(0);
+        }
+
+        const { getPageSize } = await import('./utils');
+        const pageSize = getPageSize();
+        const offset = gotoPage ? account.pagination.currentTotal : 0;
+        const limit = pageSize * account.pagination.pageCountToLoad + 1;
+
+        let list: AccountData[] = await fetch(`http://api.eostracker.io/accounts?page=${offset}&size=${limit}`)
+          .then(res => res.json())
+          .then(camelize);
+
+        const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
+
+        if (loadable) {
+          list = initial(list);
+        }
+        if (gotoPage) {
+          this.appendAccountsList(list);
+        } else {
+          this.initAccountsList(list);
+        }
+        this.increaseOffset(list.length, loadable);
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
         }
         dispatch.info.displayNotification(notificationString);
       } finally {

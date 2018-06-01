@@ -12,6 +12,7 @@ import Blocks from './pages/Blocks';
 import Transaction from './pages/Transaction';
 import Transactions from './pages/Transactions';
 import Account from './pages/Account';
+import Accounts from './pages/Accounts';
 import Message from './pages/Message';
 import Home from './pages/Home';
 import UnderDevelopment from './pages/UnderDevelopment';
@@ -35,6 +36,7 @@ export default class App extends Component<{}> {
                 <Route exact path="/transaction/:transactionId" component={Transaction} />
                 <Route exact path="/transactions" component={Transactions} />
                 <Route exact path="/account/:accountId" component={Account} />
+                <Route exact path="/accounts" component={Accounts} />
                 <Route exact path="/message/:messageId" component={Message} />
                 <Route exact path="/" component={Home} />
                 <Route component={UnderDevelopment} />
