@@ -66,7 +66,7 @@ class Block extends Component<Props & Store & Dispatch, *> {
             pagination={false}
             dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
           >
-            <Table.Column title={this.props.t('field')} dataIndex="field" key="field" />
+            <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
             <Table.Column
               title={this.props.t('value')}
               dataIndex="value"
