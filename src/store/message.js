@@ -111,6 +111,7 @@ export default (initialState?: Object = {}) => ({
           .then(res => res.json())
           .then(camelize);
 
+        if (data.length === 0) throw new Error('No data.');
         this.initMessageData(data[0]);
       } catch (error) {
         console.error(error);

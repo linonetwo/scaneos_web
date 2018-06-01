@@ -1,5 +1,5 @@
 // @flow
-import { flatten } from 'lodash';
+import { flatten, truncate } from 'lodash';
 import React, { Component } from 'react';
 import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
@@ -59,10 +59,22 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               render={messageId => <Link to={`/transaction/${messageId}`}>{messageId}</Link>}
             />
             <Table.Column
+              title={this.props.t('messages')}
+              dataIndex="transactionId"
+              key="transactionId"
+              render={transactionId => (
+                <Link to={`/message/${transactionId}`}>{truncate(transactionId, { length: 10, omission: '...' })}</Link>
+              )}
+            />
+            <Table.Column
               title={this.props.t('transactionId')}
               dataIndex="transactionId"
               key="transactionId"
-              render={transactionId => <Link to={`/transaction/${transactionId}`}>{transactionId}</Link>}
+              render={transactionId => (
+                <Link to={`/transaction/${transactionId}`}>
+                  {truncate(transactionId, { length: 10, omission: '...' })}
+                </Link>
+              )}
             />
             <Table.Column
               title={this.props.t('createdAt')}
