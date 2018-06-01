@@ -6,6 +6,7 @@ import { Spin, Table, Breadcrumb } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import type { BlockData } from '../store/block';
 
@@ -27,29 +28,37 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
   render() {
     return (
       <Container column>
-        <pre>
+        {/* <pre>
           <code>{JSON.stringify(this.props.list, null, '  ')}</code>
-        </pre>
-        {/* <Table dataSource={[this.props.list]}>
+        </pre> */}
+        <Table dataSource={this.props.list}>
           <Table.Column
-            title={this.props.t('tags')}
-            dataIndex="tags"
-            key="tags"
-            render={({ events, concepts, company, industries }) => {
-              const tagList = compact(
-                events
-                  .concat(concepts)
-                  .concat(take(company, 5))
-                  .concat(flatten(industries.map(flattenCascade)).map(industryTag => last(industryTag.split('.')))),
-              ).join(', ');
-              return (
-                <Tooltip title={tagList}>
-                  <Tags>{tagList}</Tags>
-                </Tooltip>
-              );
-            }}
+            title={this.props.t('blockNum')}
+            dataIndex="blockNum"
+            key="blockNum"
+            render={blockNum => <Link to={`/block/${blockNum}`}>{blockNum}</Link>}
           />
-        </Table> */}
+          <Table.Column
+            title={this.props.t('createdAt')}
+            dataIndex="createdAt"
+            key="createdAt"
+            render={({ sec }) => sec}
+          />
+          <Table.Column
+            title={this.props.t('transactions')}
+            dataIndex="transactions"
+            key="transactions"
+            render={JSON.stringify(transactions =>
+              transactions.map(({ $id }) => <Link to={`/transaction/${$id}`}>{$id}</Link>),
+            )}
+          />
+          <Table.Column
+            title={this.props.t('producerAccountId')}
+            dataIndex="producerAccountId"
+            key="producerAccountId"
+            render={producerAccountId => <Link to={`/account/${producerAccountId}`}>{producerAccountId}</Link>}
+          />
+        </Table>
       </Container>
     );
   }
