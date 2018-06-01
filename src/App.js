@@ -32,15 +32,15 @@ export default class App extends Component<{}> {
             <Layout>
               <Header />
               <Switch>
-                <Route exact path="/blocks" component={Blocks} />
+                {/* <Route exact path="/blocks" component={Blocks} />
                 <Route exact path="/block/:blockId" component={Block} />
                 <Route exact path="/transaction/:transactionId" component={Transaction} />
                 <Route exact path="/transactions" component={Transactions} />
                 <Route exact path="/account/:accountId" component={Account} />
                 <Route exact path="/accounts" component={Accounts} />
                 <Route exact path="/message/:messageId" component={Message} />
-                <Route exact path="/messages" component={Messages} />
-                <Route exact path="/" component={Home} />
+                <Route exact path="/messages" component={Messages} /> */}
+                <Route exact path="/" component={CountDown} />
                 <Route component={UnderDevelopment} />
               </Switch>
               <Footer />
