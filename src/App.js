@@ -8,6 +8,7 @@ import { I18nextProvider } from 'react-i18next';
 import { store, history } from './store';
 import i18n from './i18n';
 import Block from './pages/Block';
+import Blocks from './pages/Blocks';
 import Transaction from './pages/Transaction';
 import Account from './pages/Account';
 import Message from './pages/Message';
@@ -28,11 +29,12 @@ export default class App extends Component<{}> {
             <Layout>
               <Header />
               <Switch>
-                {/* <Route exact path="/block/:blockId" component={Block} />
-              <Route exact path="/transaction/:transactionId" component={Transaction} />
-              <Route exact path="/account/:accountId" component={Account} />
-              <Route exact path="/message/:messageId" component={Message} /> */}
-                <Route exact path="/" component={CountDown} />
+                <Route exact path="/blocks" component={Blocks} />
+                <Route exact path="/block/:blockId" component={Block} />
+                <Route exact path="/transaction/:transactionId" component={Transaction} />
+                <Route exact path="/account/:accountId" component={Account} />
+                <Route exact path="/message/:messageId" component={Message} />
+                <Route exact path="/" component={Home} />
                 <Route component={UnderDevelopment} />
               </Switch>
               <Footer />
