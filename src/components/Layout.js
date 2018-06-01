@@ -1,10 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 // @flow
+import { capitalize } from 'lodash';
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is from 'styled-is';
-import { Layout, Menu, Dropdown, Icon } from 'antd';
+import { Layout, Menu, Dropdown, Icon, Breadcrumb } from 'antd';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { withRouter, Link } from 'react-router-dom';
@@ -379,5 +380,30 @@ export function Footer() {
         </Introduction>
       </Layout.Footer>
     </FooterContainer>
+  );
+}
+
+const BreadCrumbContainer = styled.nav`
+  height: 48px;
+  width: 100%;
+  background-color: white;
+
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+`;
+export function getBreadcrumb(route: string, t: Function) {
+  return (
+    <BreadCrumbContainer>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to="/">{t('Home')}</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={`/${route}s`}>{t(capitalize(`${route}s`))}</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{t(capitalize(route))}</Breadcrumb.Item>
+      </Breadcrumb>
+    </BreadCrumbContainer>
   );
 }

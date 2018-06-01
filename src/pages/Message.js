@@ -1,11 +1,12 @@
 // @flow
 import { toPairs } from 'lodash';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
+import { getBreadcrumb } from '../components/Layout';
 import { formatTimeStamp } from '../store/utils';
 import type { MessageData } from '../store/message';
 import { LongListContainer } from '../components/Table';
@@ -66,23 +67,26 @@ class Message extends Component<Props & Store & Dispatch, *> {
 
   render() {
     return (
-      <Spin tip="Connecting" spinning={this.props.loading} size="large">
-        <LongListContainer column>
-          <Table
-            size="middle"
-            pagination={false}
-            dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
-          >
-            <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-            <Table.Column
-              title={this.props.t('value')}
-              dataIndex="value"
-              key="value"
-              render={(value, { field }) => this.getValueRendering(field, value)}
-            />
-          </Table>
-        </LongListContainer>
-      </Spin>
+      <Fragment>
+        {getBreadcrumb('message', this.props.t)}
+        <Spin tip="Connecting" spinning={this.props.loading} size="large">
+          <LongListContainer column>
+            <Table
+              size="middle"
+              pagination={false}
+              dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
+            >
+              <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
+              <Table.Column
+                title={this.props.t('value')}
+                dataIndex="value"
+                key="value"
+                render={(value, { field }) => this.getValueRendering(field, value)}
+              />
+            </Table>
+          </LongListContainer>
+        </Spin>
+      </Fragment>
     );
   }
 }
