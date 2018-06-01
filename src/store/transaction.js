@@ -77,7 +77,7 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getTransactionData(transactionId: number) {
+    async getTransactionData(transactionId: string) {
       const {
         store: { dispatch },
       } = await import('./');

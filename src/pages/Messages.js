@@ -1,4 +1,5 @@
 // @flow
+import { flatten } from 'lodash';
 import React, { Component } from 'react';
 import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
@@ -6,7 +7,7 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { getPageSize } from '../store/utils';
-import type { AccountData } from '../store/account';
+import type { MessageData } from '../store/message';
 import type { Pagination } from '../store/block';
 import { ListContainer } from '../components/Table';
 
@@ -14,20 +15,20 @@ type Props = {
   t: Function,
 };
 type Store = {
-  list: AccountData[],
+  list: MessageData[],
   pagination: Pagination,
   currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
-  getAccountsList: (gotoPage?: number) => void,
+  getMessagesList: (gotoPage?: number) => void,
   setPage: (newPage: number) => void,
 };
 
-class Accounts extends Component<Props & Store & Dispatch, *> {
+class Messages extends Component<Props & Store & Dispatch, *> {
   state = {};
   componentDidMount() {
-    this.props.getAccountsList();
+    this.props.getMessagesList();
   }
   render() {
     return (
@@ -47,17 +48,16 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
                 pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
                 this.props.pagination.loadable
               ) {
-                this.props.getAccountsList(pagination.current);
+                this.props.getMessagesList(pagination.current);
               }
             }}
           >
             <Table.Column
-              title={this.props.t('name')}
-              dataIndex="name"
-              key="name"
-              render={(name) => <Link to={`/account/${name}`}>{name}</Link>}
+              title={this.props.t('transactionId')}
+              dataIndex="transactionId"
+              key="transactionId"
+              render={transactionId => <Link to={`/transaction/${transactionId}`}>{transactionId}</Link>}
             />
-            <Table.Column title={this.props.t('eosBalance')} dataIndex="eosBalance" key="eosBalance" />
             <Table.Column
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
@@ -65,11 +65,20 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
               render={({ sec }) => sec}
             />
             <Table.Column
-              title={this.props.t('updatedAt')}
-              dataIndex="updatedAt"
-              key="updatedAt"
-              render={({ sec }) => sec}
+              title={this.props.t('authorization')}
+              dataIndex="authorization"
+              key="authorization"
+              render={authorization =>
+                flatten(authorization.map(({ account }) => <Link to={`/account/${account}`}>{account}</Link>))
+              }
             />
+            <Table.Column
+              title={this.props.t('handlerAccountName')}
+              dataIndex="handlerAccountName"
+              key="handlerAccountName"
+              render={handlerAccountName => <Link to={`/account/${handlerAccountName}`}>{handlerAccountName}</Link>}
+            />
+            <Table.Column title={this.props.t('type')} dataIndex="type" key="type" />
           </Table>
         </ListContainer>
       </Spin>
@@ -77,16 +86,16 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ account: { list, pagination, currentPage }, info: { loading } }): Store => ({
+const mapState = ({ message: { list, pagination, currentPage }, info: { loading } }): Store => ({
   list,
   pagination,
   currentPage,
   loading,
 });
-const mapDispatch = ({ account: { getAccountsList, setPage } }): Dispatch => ({ getAccountsList, setPage });
+const mapDispatch = ({ message: { getMessagesList, setPage } }): Dispatch => ({ getMessagesList, setPage });
 export default translate()(
   connect(
     mapState,
     mapDispatch,
-  )(Accounts),
+  )(Messages),
 );

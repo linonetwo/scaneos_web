@@ -68,7 +68,7 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getAccountData(accountName: number) {
+    async getAccountData(accountName: string) {
       const {
         store: { dispatch },
       } = await import('./');

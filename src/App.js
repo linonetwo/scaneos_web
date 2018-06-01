@@ -14,6 +14,7 @@ import Transactions from './pages/Transactions';
 import Account from './pages/Account';
 import Accounts from './pages/Accounts';
 import Message from './pages/Message';
+import Messages from './pages/Messages';
 import Home from './pages/Home';
 import UnderDevelopment from './pages/UnderDevelopment';
 import CountDown from './pages/CountDown';
@@ -38,6 +39,7 @@ export default class App extends Component<{}> {
                 <Route exact path="/account/:accountId" component={Account} />
                 <Route exact path="/accounts" component={Accounts} />
                 <Route exact path="/message/:messageId" component={Message} />
+                <Route exact path="/messages" component={Messages} />
                 <Route exact path="/" component={Home} />
                 <Route component={UnderDevelopment} />
               </Switch>
