@@ -6,7 +6,6 @@ FROM mhart/alpine-node:latest
 
 # Setup yarn
 # RUN yarn config set registry https://registry.npm.taobao.org
-RUN yarn config set registry https://registry.npmjs.org/
 
 # Create app directory and bundle app source
 RUN mkdir -p /usr/src/app
@@ -15,7 +14,7 @@ RUN mkdir -p /usr/src/app
 # when we change our application's nodejs dependencies:
 COPY package.json /tmp/package.json
 COPY yarn.lock /tmp/yarn.lock
-RUN cd /tmp && yarn
+RUN cd /tmp && yarn --registry https://registry.npmjs.org/
 RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app/
 
 # simple http server
