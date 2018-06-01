@@ -22,28 +22,30 @@ export type BlockData = {
   createdAt: Timestamp,
 };
 
+export type Pagination = { currentTotal: number, loadable: boolean, pageCountToLoad: number };
 export type Store = {
   loading: boolean,
   list: BlockData[],
   data: BlockData,
-  pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
+  pagination: Pagination,
   currentPage: number,
 };
 
+export const emptyBlockData = {
+  Id: { $id: '' },
+  blockNum: 0,
+  blockId: '',
+  prevBlockId: '',
+  timestamp: { sec: 0, usec: 0 },
+  transactionMerkleRoot: '',
+  producerAccountId: '',
+  transactions: [{ $id: '' }],
+  createdAt: { sec: 0, usec: 0 },
+};
 const defaultState = {
   loading: false,
   list: [],
-  data: {
-    Id: { $id: '' },
-    blockNum: 0,
-    blockId: '',
-    prevBlockId: '',
-    timestamp: { sec: 0, usec: 0 },
-    transactionMerkleRoot: '',
-    producerAccountId: '',
-    transactions: [{ $id: '' }],
-    createdAt: { sec: 0, usec: 0 },
-  },
+  data: emptyBlockData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };

@@ -8,7 +8,8 @@ import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import type { BlockData } from '../store/block';
+import { getPageSize, getTableHeight, titleHeight } from '../store/utils';
+import type { BlockData, Pagination } from '../store/block';
 
 const Container = styled(Flex)`
   .ant-spin-container {
@@ -18,6 +19,7 @@ const Container = styled(Flex)`
   }
   .ant-table {
     width: 100%;
+    height: ${getTableHeight() - titleHeight}px;
   }
   .ant-table-pagination.ant-pagination {
     float: unset;
@@ -28,13 +30,18 @@ const Container = styled(Flex)`
   }
 `;
 
-type Props = {};
+type Props = {
+  t: Function,
+};
 type Store = {
   list: BlockData[],
+  pagination: Pagination,
+  currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
-  getBlocksList: () => void,
+  getBlocksList: (gotoPage?: number) => void,
+  setPage: (newPage: number) => void,
 };
 
 class Blocks extends Component<Props & Store & Dispatch, *> {
@@ -46,7 +53,23 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
         <Container column>
-          <Table dataSource={this.props.list}>
+          <Table
+            dataSource={this.props.list}
+            pagination={{
+              pageSize: getPageSize(),
+              total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
+              current: this.props.currentPage,
+            }}
+            onChange={pagination => {
+              this.props.setPage(pagination.current);
+              if (
+                pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
+                this.props.pagination.loadable
+              ) {
+                this.props.getBlocksList(pagination.current);
+              }
+            }}
+          >
             <Table.Column
               title={this.props.t('blockNum')}
               dataIndex="blockNum"
@@ -80,8 +103,13 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ block: { list }, info: { loading } }): Store => ({ list, loading });
-const mapDispatch = ({ block: { getBlocksList } }): Dispatch => ({ getBlocksList });
+const mapState = ({ block: { list, pagination, currentPage }, info: { loading } }): Store => ({
+  list,
+  pagination,
+  currentPage,
+  loading,
+});
+const mapDispatch = ({ block: { getBlocksList, setPage } }): Dispatch => ({ getBlocksList, setPage });
 export default withRouter(
   translate()(
     connect(
