@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import breakpoint from 'styled-components-breakpoint';
 import noScroll from 'no-scroll';
+import logoIcon from './logoIcon.svg';
 
 import SearchBar from './SearchBar';
 
@@ -67,15 +68,21 @@ const MenuOpenIconContainer = styled(Flex)`
   `};
 `;
 
-const Logo = styled.h1`
-  font-size: 30px;
-  color: rgba(68, 63, 84, 0.7);
-  margin: 0;
+const LogoContainer = styled(Flex)`
   position: absolute;
   left: 20px;
   ${breakpoint('tablet')`
     left: 50px;
   `};
+`
+const Logo = styled.h1`
+  font-size: 30px;
+  color: rgba(68, 63, 84, 0.7);
+  margin: 0;
+`;
+const LogoIcon = styled.img`
+  height: 30px;
+  margin-left: 20px;
 `;
 const DropDownsContainer = styled.nav`
   display: none;
@@ -261,7 +268,7 @@ class Header extends Component<Store & Dispatch, *> {
         <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.mobileMenu}</MobileMenuContainer>
         <HeaderContainer>
           <Layout.Header>
-            <Logo>Scan EOS</Logo>
+            <LogoContainer center><Logo>Scan EOS</Logo><LogoIcon src={logoIcon} /></LogoContainer>
             <SearchBar size="small" />
             <DropDownsContainer>
               <NavDropDowns justifyEnd>
