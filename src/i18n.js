@@ -58,6 +58,11 @@ export default i18n
           signatures: 'Signatures',
           scope: 'Scope',
           readScope: 'Read Scope',
+          introduction: 'Intro',
+          prerequisites: 'Checks',
+          location: 'Location',
+          nodeLocation: 'NodeLocation',
+          server: 'Server',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -127,6 +132,11 @@ export default i18n
           signatures: '签名',
           scope: 'scope',
           readScope: 'readScope',
+          introduction: '介绍',
+          prerequisites: '申请条件',
+          location: '位置',
+          nodeLocation: '节点位置',
+          server: '服务器配置',
         },
         countdown: {
           Days: '天',

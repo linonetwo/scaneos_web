@@ -4,14 +4,19 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { translate } from 'react-i18next';
 import MapGL, { Marker, Popup, NavigationControl } from 'react-map-gl';
+import { Table } from 'antd';
 
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../API.config';
+import { LongListContainer } from '../components/Table';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
   width: 100%;
   background-color: rgb(250, 250, 250);
+`;
+const MapContainer = styled(Flex)`
+  width: 100%;
 `;
 const MapNav = styled.nav`
   position: absolute;
@@ -23,6 +28,7 @@ const MapNav = styled.nav`
 type Props = {
   width?: number,
   height?: number,
+  t: Function,
 };
 type Store = {};
 type Dispatch = {};
@@ -54,8 +60,8 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
     this.setState({
       viewport: {
         ...this.state.viewport,
-        width: this.props.width || window.innerWidth,
-        height: this.props.height || window.innerHeight,
+        width: window.innerWidth * 0.9,
+        height: window.innerHeight,
       },
     });
   };
@@ -116,19 +122,54 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
   }
   render() {
     return (
-      <Container center>
-        <MapGL
-          {...this.state.viewport}
-          mapStyle="mapbox://styles/mapbox/dark-v9"
-          onViewportChange={viewport => this.setState({ viewport })}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-        >
-          {blockProducersList.map(this.renderCityMarker)}
-          {this.renderPopup()}
-          <MapNav className="nav">
-            <NavigationControl onViewportChange={viewport => this.setState({ viewport })} />
-          </MapNav>
-        </MapGL>
+      <Container column>
+        <MapContainer center>
+          <MapGL
+            {...this.state.viewport}
+            mapStyle="mapbox://styles/mapbox/dark-v9"
+            onViewportChange={viewport => this.setState({ viewport })}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+          >
+            {blockProducersList.map(this.renderCityMarker)}
+            {this.renderPopup()}
+            <MapNav className="nav">
+              <NavigationControl onViewportChange={viewport => this.setState({ viewport })} />
+            </MapNav>
+          </MapGL>
+        </MapContainer>
+
+        <LongListContainer>
+          <Table size="middle" dataSource={blockProducersList} pagination={false}>
+            <Table.Column width={30} title={this.props.t('name')} dataIndex="name" key="name" />
+            <Table.Column width={30} title={this.props.t('location')} dataIndex="location" key="location" />
+            <Table.Column
+              width={10}
+              title={this.props.t('prerequisites')}
+              dataIndex="prerequisites"
+              key="prerequisites"
+            />
+            <Table.Column width={30} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" key="nodeLocation" />
+            <Table.Column
+              width={100}
+              title={this.props.t('introduction')}
+              dataIndex="introduction"
+              key="introduction"
+            />
+            <Table.Column width={100} title={this.props.t('server')} dataIndex="server" key="server" />
+            <Table.Column
+              width={30}
+              title={this.props.t('homepage')}
+              dataIndex="homepage"
+              key="homepage"
+              render={url => (
+                <a href={url} target="_black" rel="noopener noreferrer">
+                  {url}
+                </a>
+              )}
+            />
+            <Table.Column width={20} title={this.props.t('contact')} dataIndex="contact" key="contact" />
+          </Table>
+        </LongListContainer>
       </Container>
     );
   }
