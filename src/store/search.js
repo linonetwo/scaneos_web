@@ -41,8 +41,9 @@ export default (initialState?: Object = {}) => ({
         const { history } = await import('./history');
 
         if (data.blockId === keyWord && typeof data.blockNum === 'number') {
-          history.push(`/block/${data.blockNum}`);
+          return history.push(`/block/${data.blockNum}`);
         }
+        return history.push(`/account/${keyWord}`);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
