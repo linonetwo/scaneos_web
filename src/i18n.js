@@ -12,7 +12,7 @@ export default i18n
     fallbackLng: 'en',
     ns: ['translations', 'layout'],
     defaultNS: 'translations',
-    debug: true,
+    debug: false,
     resources: {
       en: {
         translations: {

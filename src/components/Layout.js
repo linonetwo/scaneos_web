@@ -409,7 +409,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
           </Layout.Header>
         </HeaderContainer>
         <MobileSearchBarContainer center>
-          <SearchBar size="medium" />
+          <SearchBar />
         </MobileSearchBarContainer>
       </Fragment>
     );
