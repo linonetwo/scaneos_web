@@ -190,8 +190,8 @@ const blockProducersList = [
   },
   {
     location: 'China',
-    latitude: 35.86166,
-    longitude: 104.195397,
+    latitude: 31.2303904,
+    longitude: 121.4737021,
     name: 'EOS Gravity',
     homepage: 'http://eosfans.one/',
     prerequisites: '8/8',
@@ -744,8 +744,8 @@ const blockProducersList = [
   },
   {
     location: 'China',
-    latitude: 35.86166,
-    longitude: 104.195397,
+    latitude: 22.543096,
+    longitude: 114.057865,
     name: 'EOS Shenzhen',
     homepage: 'https://eoshenzhen.io',
     prerequisites: '6/8',
