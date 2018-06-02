@@ -24,7 +24,7 @@ const Container = styled(Flex)`
 const AggregationContainer = styled(Flex)`
   width: 90vw;
   margin: 30px auto 0;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     width: 1050px;
     margin: 50px 0 0;
   `};
@@ -43,7 +43,7 @@ const AggregationItem = styled(Flex)`
 const ListContainer = styled.div`
   width: 90vw;
   margin: 30px auto 0;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     width: 500px;
     margin: 50px 0 0;
   `};

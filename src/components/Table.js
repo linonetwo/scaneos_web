@@ -13,7 +13,7 @@ const adjustAntdTable = css`
   .ant-table {
     width: 100%;
     padding: 0 20px;
-    ${breakpoint('tablet')`
+    ${breakpoint('desktop')`
       height: ${getTableHeight()}px;
       padding: 0 40px;
     `};

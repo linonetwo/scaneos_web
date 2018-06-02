@@ -58,13 +58,13 @@ const Fixed = styled.div`
   `};
 `;
 const MenuOpenIconContainer = styled(Flex)`
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     display: none;
   `};
   position: absolute;
   top: 25px;
   right: 20px;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     right: 50px;
   `};
 `;
@@ -74,7 +74,7 @@ const LogoContainer = styled(Flex)`
   top: 10px;
 
   left: 20px;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     left: 50px;
   `};
 `;
@@ -84,7 +84,7 @@ const LogoIcon = styled.img`
 
 const DropDownsContainer = styled.nav`
   display: none;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     display: unset;
   `};
 `;
@@ -129,12 +129,12 @@ const NavButtonSelectedIndicator = styled.div`
 `;
 const DesktopSearchBarContainer = styled(Flex)`
   display: none;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     display: unset;
   `};
 `;
 const MobileSearchBarContainer = styled(Flex)`
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     display: none;
   `};
   height: 50px;

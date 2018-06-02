@@ -12,7 +12,7 @@ const SearchContainer = styled.div`
 
   margin: 0;
   width: 90vw;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     margin: 0 9px;
     max-width: calc(100vw - 50px * 2 - 150px - 650px);
     &:focus-within {
