@@ -1,5 +1,6 @@
 // @flow
 import styled, { css } from 'styled-components';
+import breakpoint from 'styled-components-breakpoint';
 
 import { getTableHeight } from '../store/utils';
 
@@ -11,7 +12,9 @@ const adjustAntdTable = css`
   }
   .ant-table {
     width: 100%;
-    height: ${getTableHeight()}px;
+    ${breakpoint('tablet')`
+      height: ${getTableHeight()}px;
+    `};
     padding: 0 40px;
   }
   .ant-table-pagination.ant-pagination {
