@@ -15,10 +15,30 @@ import type { BlockData } from '../store/block';
 import type { TransactionData } from '../store/transaction';
 import type { AccountData } from '../store/account';
 import type { MessageData } from '../store/message';
+import type { AggregationData } from '../store/aggregation';
 
 const Container = styled(Flex)`
   width: 1100px;
   padding-bottom: 50px;
+`;
+const AggregationContainer = styled(Flex)`
+  width: 90vw;
+  margin: 30px auto 0;
+  ${breakpoint('tablet')`
+    width: 1050px;
+    margin: 50px 0 0;
+  `};
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0px 0px 10px 0 rgba(7, 17, 27, 0.05);
+`;
+const AggregationItem = styled(Flex)`
+  color: rgba(68, 63, 84, 0.9);
+  font-size: 24px;
+  & h4 {
+    color: rgba(68, 63, 84, 0.6);
+    font-size: 14px;
+  }
 `;
 const ListContainer = styled.div`
   width: 90vw;
@@ -71,16 +91,19 @@ type Store = {
   transactionLoading: boolean,
   accountLoading: boolean,
   messageLoading: boolean,
+  aggregationLoading: boolean,
   blockData: BlockData[],
   transactionData: TransactionData[],
   accountData: AccountData[],
   messageData: MessageData[],
+  aggregationData: AggregationData,
 };
 type Dispatch = {
   getBlocksList: (size?: number) => void,
   getTransactionsList: (size?: number) => void,
   getAccountsList: (page?: number) => void,
   getMessagesList: (page?: number) => void,
+  getAggregationData: () => void,
 };
 class OverviewList extends Component<Props & Store & Dispatch> {
   componentDidMount() {
@@ -88,6 +111,30 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     this.props.getTransactionsList(10);
     this.props.getAccountsList(0);
     this.props.getMessagesList(0);
+    this.props.getAggregationData();
+  }
+
+  getAggregationList(data: { loading: boolean, data: AggregationData }) {
+    return (
+      <AggregationContainer justifyAround>
+        <AggregationItem column center>
+          <h4>{this.props.t('blocksNum')}</h4>
+          {data.data.blocksNum}
+        </AggregationItem>
+        <AggregationItem column center>
+          <h4>{this.props.t('transactionNum')}</h4>
+          {data.data.transactionNum}
+        </AggregationItem>
+        <AggregationItem column center>
+          <h4>{this.props.t('accountNum')}</h4>
+          {data.data.accountNum}
+        </AggregationItem>
+        <AggregationItem column center>
+          <h4>{this.props.t('messageNum')}</h4>
+          {data.data.messageNum}
+        </AggregationItem>
+      </AggregationContainer>
+    );
   }
 
   getBlockList(data: { loading: boolean, data: BlockData[] }) {
@@ -244,6 +291,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
+        {this.getAggregationList({ data: this.props.aggregationData, loading: this.props.aggregationLoading })}
         {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 10),
@@ -261,22 +309,26 @@ const mapState = ({
   transaction: { loading: transactionLoading, list: transactionData },
   account: { loading: accountLoading, list: accountData },
   message: { loading: messageLoading, list: messageData },
+  aggregation: { loading: aggregationLoading, data: aggregationData },
 }): Store => ({
   blockData,
   transactionData,
   accountData,
   messageData,
+  aggregationData,
   blockLoading,
   transactionLoading,
   accountLoading,
   messageLoading,
+  aggregationLoading,
 });
 const mapDispatch = ({
   block: { getBlocksList },
   transaction: { getTransactionsList },
   account: { getAccountsList },
   message: { getMessagesList },
-}): Dispatch => ({ getBlocksList, getTransactionsList, getAccountsList, getMessagesList });
+  aggregation: { getAggregationData },
+}): Dispatch => ({ getBlocksList, getTransactionsList, getAccountsList, getMessagesList, getAggregationData });
 export default translate()(
   connect(
     mapState,
