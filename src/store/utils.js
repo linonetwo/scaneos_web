@@ -4,10 +4,17 @@ import zh from 'date-fns/locale/zh_cn';
 
 const locales = { en, zh };
 
-export function formatTimeStamp(timeStamp, locale) {
+export function formatTimeStamp(timeStamp, locale, { time, distance } = { time: true, distance: true }) {
   // polyfill ms
   const now = new Date(timeStamp * 1000);
-  return `${format(now, 'YYYY-MM-DD HH:mm:ss ZZ')} ${distanceInWordsToNow(now, { locale: locales[locale], addSuffix: true })}`;
+  return `${time ? `${format(now, 'YYYY-MM-DD HH:mm:ss ZZ')} ` : ''}${
+    distance
+      ? distanceInWordsToNow(now, {
+          locale: locales[locale],
+          addSuffix: true,
+        })
+      : ''
+  }`;
 }
 
 // for table

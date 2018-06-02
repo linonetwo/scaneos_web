@@ -33,9 +33,6 @@ class Block extends Component<Props & Store & Dispatch, *> {
     const currentBlockNumberOrID = this.props.match.params.blockNum;
     this.props.getBlockData(currentBlockNumberOrID);
   }
-  // componentWillReceiveProps(prevProps, nextProps) {
-
-  // }
 
   getValueRendering(field: string, value: any) {
     switch (field) {

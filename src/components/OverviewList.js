@@ -70,6 +70,10 @@ const Title = styled(Flex)`
   font-size: 20px;
   padding: 0 10px;
 `;
+const BlockNumberContainer = styled(Flex)`
+  background-color: #443f54;
+  color: white;
+`;
 const ViewAll = styled(Flex)`
   border: 1px solid #555;
   padding: 5px 13px;
@@ -163,7 +167,10 @@ class OverviewList extends Component<Props & Store & Dispatch> {
               ]}
             >
               <div>
-                {formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}{' '}
+              <BlockNumberContainer column>
+              {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
+              </BlockNumberContainer>
+                
                 {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
                 {item.transactions.map(({ $id }) => (
                   <Link to={`/transaction/${$id}`}>{truncate($id, { length: 4, omission: ' ' })}</Link>

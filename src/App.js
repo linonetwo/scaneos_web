@@ -16,6 +16,7 @@ import Accounts from './pages/Accounts';
 import Message from './pages/Message';
 import Messages from './pages/Messages';
 import Home from './pages/Home';
+import BlockProducers from './pages/BlockProducers';
 import UnderDevelopment from './pages/UnderDevelopment';
 import CountDown from './pages/CountDown';
 import Header, { Footer } from './components/Layout';
@@ -40,6 +41,7 @@ export default class App extends Component<{}> {
                 <Route exact path="/accounts" component={Accounts} />
                 <Route exact path="/message/:transactionId" component={Message} />
                 <Route exact path="/messages" component={Messages} />
+                <Route exact path="/blockProducers" component={BlockProducers} />
                 <Route exact path="/" component={Home} />
                 <Route component={UnderDevelopment} />
               </Switch>
