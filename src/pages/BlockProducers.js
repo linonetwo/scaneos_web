@@ -39,7 +39,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
     viewport: {
       latitude: 37.785164,
       longitude: 100,
-      zoom: 1,
+      zoom: 1.1,
       bearing: 0,
       pitch: 0,
       width: 500,
@@ -62,7 +62,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
       viewport: {
         ...this.state.viewport,
         width: window.innerWidth * 0.9,
-        height: window.innerHeight,
+        height: window.innerHeight * 0.9 - 100,
       },
     });
   };
@@ -140,16 +140,16 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         </MapContainer>
 
         <LongListContainer>
-          <Table size="middle" dataSource={blockProducersList} pagination={false}>
+          <Table size="middle" dataSource={blockProducersList} pagination={{ pageSize: 10 }}>
+            <Table.Column width={10} title={this.props.t('index')} dataIndex="index" key="index" />
             <Table.Column width={30} title={this.props.t('name')} dataIndex="name" key="name" />
-            <Table.Column width={50} title={this.props.t('location')} dataIndex="location" key="location" />
+            <Table.Column width={50} title={this.props.t('location')} dataIndex="location" />
             <Table.Column
               width={10}
               title={this.props.t('prerequisites')}
               dataIndex="prerequisites"
-              key="prerequisites"
             />
-            <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" key="nodeLocation" />
+            <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
             <Table.Column
               width={200}
               title={this.props.t('introduction')}

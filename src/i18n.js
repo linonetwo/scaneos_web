@@ -63,6 +63,9 @@ export default i18n
           location: 'Location',
           nodeLocation: 'NodeLocation',
           server: 'Server',
+          index: 'Index',
+          homepage: 'Home',
+          contact: 'Contact',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -137,6 +140,9 @@ export default i18n
           location: '位置',
           nodeLocation: '节点位置',
           server: '服务器配置',
+          index: '序号',
+          homepage: '主页',
+          contact: '联系方式',
         },
         countdown: {
           Days: '天',

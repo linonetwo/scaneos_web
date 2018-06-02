@@ -1215,4 +1215,4 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eosfish\r\nTelegram\r\nhttps://t.me/eosfish_en\r\nSteemit\r\nhttps://steemit.com/eos/@hibitfish/eos-fish-e',
   },
 ];
-export default blockProducersList;
+export default blockProducersList.map((data, index) => ({ ...data, index: index + 1 }));
