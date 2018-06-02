@@ -141,7 +141,6 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
 
         <LongListContainer>
           <Table size="middle" dataSource={blockProducersList} pagination={{ pageSize: 10 }}>
-            <Table.Column width={10} title={this.props.t('index')} dataIndex="index" key="index" />
             <Table.Column width={30} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column width={50} title={this.props.t('location')} dataIndex="location" />
             <Table.Column
