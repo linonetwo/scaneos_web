@@ -14,7 +14,7 @@ import { LongListContainer } from '../components/Table';
 type Props = {
   match: {
     params: {
-      blockId: string,
+      blockNum: string,
     },
   },
   t: Function,
@@ -30,8 +30,8 @@ type Dispatch = {
 class Block extends Component<Props & Store & Dispatch, *> {
   state = {};
   componentDidMount() {
-    const currentBlockID = Number(this.props.match.params.blockId);
-    this.props.getBlockData(currentBlockID);
+    const currentBlockNumber = Number(this.props.match.params.blockNum);
+    this.props.getBlockData(currentBlockNumber);
   }
 
   getValueRendering(field: string, value: any) {
