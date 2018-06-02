@@ -47,9 +47,9 @@ const ListContainer = styled.div`
     width: 500px;
     margin: 50px 0 0;
   `};
-  height: 815px;
+  height: 840px;
   ${is('small')`
-    height: 435px;
+    height: 440px;
   `};
   .ant-list {
     margin: 0;
