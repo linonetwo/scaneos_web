@@ -18,6 +18,7 @@ export default i18n
         translations: {
           locale: 'en',
           Locale: 'Language',
+          webSiteIntroduction: 'Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts platform.',
           Id: 'ID',
           type: 'Type',
           timestamp: 'Timestamp',
@@ -75,6 +76,7 @@ export default i18n
         translations: {
           locale: 'zh',
           Locale: '语言',
+          webSiteIntroduction: 'Scan EOS 是一个区块链浏览器，也是一个关于 EOS 的数据分析平台。我们所关注的 EOS 是一个先进的分布式智能合约平台。',
           Id: 'ID',
           type: '类型',
           timestamp: '时间戳',

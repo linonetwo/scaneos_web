@@ -443,6 +443,9 @@ const FooterContainer = styled.div`
 const Introduction = styled(Flex)`
   width: 300px;
   margin-bottom: 20px;
+  ${breakpoint('desktop')`
+    margin-right: 20px;
+  `};
 `;
 
 const FriendLinks = styled(Flex)`
@@ -474,26 +477,21 @@ const friendLinks = [
   { name: 'EOSeoul', homepage: 'http://eoseoul.io/' },
   { name: 'EOS TEA', homepage: 'https://node.eosfans.io/' },
 ];
-export function Footer() {
-  return (
-    <FooterContainer>
-      <Layout.Footer>
-        <Introduction>
-          Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts
-          platform.
-        </Introduction>
-        <FriendLinks column wrap>
-          {friendLinks.map(({ name, homepage }) => (
-            <FriendLink>
-              {name}
-              <a href={homepage}>{homepage}</a>
-            </FriendLink>
-          ))}
-        </FriendLinks>
-      </Layout.Footer>
-    </FooterContainer>
-  );
-}
+export const Footer = translate()((props: { t: Function }) => (
+  <FooterContainer>
+    <Layout.Footer>
+      <Introduction>{props.t('webSiteIntroduction')}</Introduction>
+      <FriendLinks column wrap>
+        {friendLinks.map(({ name, homepage }) => (
+          <FriendLink>
+            {name}
+            <a href={homepage}>{homepage}</a>
+          </FriendLink>
+        ))}
+      </FriendLinks>
+    </Layout.Footer>
+  </FooterContainer>
+));
 
 const BreadCrumbContainer = styled.nav`
   height: 48px;
