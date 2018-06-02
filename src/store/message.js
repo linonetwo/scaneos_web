@@ -1,10 +1,10 @@
 // @flow
 import { initial } from 'lodash';
-import camelize from 'camelize';
+import get from '../API.config';
 import type { Timestamp, Id, Pagination } from './block';
 
 type Authorization = {
-  account: string,
+  account?: string,
   permission: string,
 };
 type Accounts = {
@@ -34,16 +34,17 @@ type Data = {
 };
 export type MessageData = {
   Id: Id,
-  messageId: number,
+  actionId: number,
   transactionId: string,
   authorization: Authorization[],
   handlerAccountName?: string,
-  type: string,
+  type?: string,
   data?: Data,
   createdAt: Timestamp,
 };
 
 export type Store = {
+  loading: boolean,
   data: MessageData,
   list: MessageData[],
   pagination: Pagination,
@@ -52,7 +53,7 @@ export type Store = {
 
 export const emptyMessageData = {
   Id: { $id: '' },
-  messageId: 0,
+  actionId: 0,
   transactionId: '',
   authorization: [{ account: '', permission: 'active' }],
   handlerAccountName: 'eos',
@@ -61,6 +62,7 @@ export const emptyMessageData = {
   createdAt: { sec: 0, usec: 0 },
 };
 const defaultState = {
+  loading: false,
   list: [],
   data: emptyMessageData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
@@ -72,6 +74,10 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
     initMessagesList(state: Store, list: MessageData[]) {
       state.list = list;
       return state;
@@ -104,13 +110,13 @@ export default (initialState?: Object = {}) => ({
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.message.toggleLoading();
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/transaction_id?name=${transactionId}`)
-          .then(res => res.json())
-          .then(camelize);
+        const data = await get(`/actions?transaction_id=${transactionId}`);
 
+        if (data.length === 0) throw new Error('No data.');
         this.initMessageData(data[0]);
       } catch (error) {
         console.error(error);
@@ -124,6 +130,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.message.toggleLoading();
       }
     },
     async getMessagesList(gotoPage?: number) {
@@ -132,6 +139,7 @@ export default (initialState?: Object = {}) => ({
       } = await import('./');
       const { account } = await getState();
       dispatch.info.toggleLoading();
+      dispatch.message.toggleLoading();
 
       try {
         if (!gotoPage) {
@@ -144,9 +152,7 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? account.pagination.currentTotal : 0;
         const limit = pageSize * account.pagination.pageCountToLoad + 1;
 
-        let list: MessageData[] = await fetch(`http://api.eostracker.io/messages?page=${offset}&size=${limit}`)
-          .then(res => res.json())
-          .then(camelize);
+        let list: MessageData[] = await get(`/actions?page=${offset}&size=${limit}`);
 
         const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
 
@@ -171,6 +177,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.message.toggleLoading();
       }
     },
   },

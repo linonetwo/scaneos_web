@@ -1,14 +1,27 @@
 // @flow
 import get from '../API.config';
 
-type Store = {
-  loading: boolean,
-  keyWord: string,
+export type AggregationData = {
+  blocksNum: number,
+  transactionNum: number,
+  accountNum: number,
+  messageNum: number,
 };
 
+export type Store = {
+  loading: boolean,
+  data: AggregationData,
+};
+
+export const emptyAggregationData: AggregationData = {
+  blocksNum: 0,
+  transactionNum: 0,
+  accountNum: 0,
+  messageNum: 0,
+};
 const defaultState = {
   loading: false,
-  keyWord: '',
+  data: emptyAggregationData,
 };
 export default (initialState?: Object = {}) => ({
   state: {
@@ -20,21 +33,24 @@ export default (initialState?: Object = {}) => ({
       state.loading = !state.loading;
       return state;
     },
-    changeKeyWord(state: Store, keyWord: string) {
-      state.keyWord = keyWord;
+    initAggregationData(state: Store, data: AggregationData) {
+      state.data = data;
       return state;
     },
   },
   effects: {
-    async searchKeyWord(keyWord: string) {
+    async getAggregationData() {
       const {
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
-      dispatch.message.toggleLoading();
+      dispatch.aggregation.toggleLoading();
+      dispatch.history.updateURI();
+
       try {
-        const data = await get(`/search?query=${keyWord}`);
-        return data;
+        const [blocksNum, transactionNum, accountNum, messageNum] = await get('/stats');
+
+        this.initAggregationData({ blocksNum, transactionNum, accountNum, messageNum });
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -47,24 +63,8 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
-        dispatch.message.toggleLoading();
+        dispatch.aggregation.toggleLoading();
       }
-    },
-    async search() {
-      const {
-        store: { getState },
-      } = await import('./');
-      const {
-        search: { keyWord },
-      } = await getState();
-
-      const data = await this.searchKeyWord(keyWord);
-      const { history } = await import('./history');
-
-      if (data.blockId === keyWord && typeof data.blockNum === 'number') {
-        return history.push(`/block/${data.blockNum}`);
-      }
-      return history.push(`/account/${keyWord}`);
     },
   },
 });

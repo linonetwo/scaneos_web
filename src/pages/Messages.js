@@ -1,12 +1,12 @@
 // @flow
-import { flatten } from 'lodash';
+import { flatten, truncate } from 'lodash';
 import React, { Component } from 'react';
 import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { getPageSize } from '../store/utils';
+import { getPageSize, formatTimeStamp } from '../store/utils';
 import type { MessageData } from '../store/message';
 import type { Pagination } from '../store/block';
 import { ListContainer } from '../components/Table';
@@ -53,16 +53,34 @@ class Messages extends Component<Props & Store & Dispatch, *> {
             }}
           >
             <Table.Column
+              title={this.props.t('messageId')}
+              dataIndex="messageId"
+              key="messageId"
+              render={messageId => <Link to={`/transaction/${messageId}`}>{messageId}</Link>}
+            />
+            <Table.Column
+              title={this.props.t('messages')}
+              dataIndex="transactionId"
+              key="transactionId"
+              render={transactionId => (
+                <Link to={`/message/${transactionId}`}>{truncate(transactionId, { length: 10, omission: '...' })}</Link>
+              )}
+            />
+            <Table.Column
               title={this.props.t('transactionId')}
               dataIndex="transactionId"
               key="transactionId"
-              render={transactionId => <Link to={`/transaction/${transactionId}`}>{transactionId}</Link>}
+              render={transactionId => (
+                <Link to={`/transaction/${transactionId}`}>
+                  {truncate(transactionId, { length: 10, omission: '...' })}
+                </Link>
+              )}
             />
             <Table.Column
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={({ sec }) => sec}
+              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
             <Table.Column
               title={this.props.t('authorization')}

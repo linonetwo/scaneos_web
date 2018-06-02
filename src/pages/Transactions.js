@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { getPageSize } from '../store/utils';
+import { getPageSize, formatTimeStamp } from '../store/utils';
 import type { TransactionData } from '../store/transaction';
 import type { Pagination } from '../store/block';
 import { ListContainer } from '../components/Table';
@@ -61,7 +61,7 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={({ sec }) => sec}
+              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
             <Table.Column
               title={this.props.t('blockId')}
@@ -69,12 +69,12 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               key="blockId"
               render={blockId => <Link to={`/block/${blockId}`}>{blockId}</Link>}
             />
-            <Table.Column
+            {/* <Table.Column
               title={this.props.t('messages')}
               dataIndex="messages"
               key="messages"
               render={messages => messages.map(({ $id }) => <Link to={`/message/${$id}`}>{$id}</Link>)}
-            />
+            /> */}
           </Table>
         </ListContainer>
       </Spin>

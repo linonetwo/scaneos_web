@@ -1,6 +1,6 @@
 // @flow
 import { initial } from 'lodash';
-import camelize from 'camelize';
+import get from '../API.config';
 import type { Timestamp, Id, Pagination } from './block';
 
 export type TransactionData = {
@@ -9,36 +9,39 @@ export type TransactionData = {
   sequenceNum: number,
   blockId: string,
   refBlockNum: number,
-  refBlockPrefix: string,
-  scope: string[],
-  readScope: any[],
+  refBlockPrefix: string | number,
+  scope?: string[],
+  readScope?: any[],
   expiration: Timestamp,
-  signatures: string[],
-  messages: Id[],
+  signatures?: string[],
+  messages?: Id[],
   createdAt: Timestamp,
 };
 
 export type Store = {
+  loading: boolean,
+  data: TransactionData,
   list: TransactionData[],
   pagination: Pagination,
   currentPage: number,
 };
 
 export const emptyTransactionData = {
-  _id: { $id: '' },
-  transaction_id: '',
-  sequence_num: 0,
-  block_id: '',
-  ref_block_num: 0,
-  ref_block_prefix: '',
+  Id: { $id: '' },
+  transactionId: '',
+  sequenceNum: 0,
+  blockId: '',
+  refBlockNum: 0,
+  refBlockPrefix: '',
   scope: ['eos'],
-  read_scope: [],
+  readScope: [],
   expiration: { sec: 0, usec: 0 },
   signatures: [''],
   messages: [{ $id: '' }],
   createdAt: { sec: 0, usec: 0 },
 };
 const defaultState = {
+  loading: false,
   list: [],
   data: emptyTransactionData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
@@ -50,6 +53,10 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
     initTransactionsList(state: Store, list: TransactionData[]) {
       state.list = list;
       return state;
@@ -82,12 +89,11 @@ export default (initialState?: Object = {}) => ({
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.transaction.toggleLoading();
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/transactions?transaction_id=${transactionId}`)
-          .then(res => res.json())
-          .then(camelize);
+        const data = await get(`/transactions?transaction_id=${transactionId}`);
 
         this.initTransactionData(data[0]);
       } catch (error) {
@@ -102,6 +108,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.transaction.toggleLoading();
       }
     },
     async getTransactionsList(gotoPage?: number) {
@@ -110,6 +117,7 @@ export default (initialState?: Object = {}) => ({
       } = await import('./');
       const { transaction } = await getState();
       dispatch.info.toggleLoading();
+      dispatch.transaction.toggleLoading();
 
       try {
         if (!gotoPage) {
@@ -122,9 +130,7 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? transaction.pagination.currentTotal : 0;
         const limit = pageSize * transaction.pagination.pageCountToLoad + 1;
 
-        let list: TransactionData[] = await fetch(`http://api.eostracker.io/transactions?page=${offset}&size=${limit}`)
-          .then(res => res.json())
-          .then(camelize);
+        let list: TransactionData[] = await get(`/transactions?page=${offset}&size=${limit}`);
 
         const loadable = list.length === pageSize * transaction.pagination.pageCountToLoad + 1;
 
@@ -149,6 +155,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.transaction.toggleLoading();
       }
     },
   },

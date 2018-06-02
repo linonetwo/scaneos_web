@@ -1,5 +1,10 @@
 const { injectBabelPlugin } = require('react-app-rewired');
 const rewireLess = require('react-app-rewire-less');
+const path = require('path');
+const fs = require('fs');
+
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 module.exports = function override(config, env) {
   config = injectBabelPlugin('transform-decorators-legacy', config);
@@ -30,6 +35,12 @@ module.exports = function override(config, env) {
 
   // remove eslint in eslint, we only need it on VSCode
   config.module.rules.splice(1, 1);
+
+  config.resolve = {
+    alias: {
+      'mapbox-gl$': path.join(resolveApp('node_modules'), '/mapbox-gl/dist/mapbox-gl.js'),
+    },
+  };
 
   return config;
 };

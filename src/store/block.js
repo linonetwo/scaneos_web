@@ -1,6 +1,7 @@
 // @flow
 import { initial } from 'lodash';
-import camelize from 'camelize';
+
+import get from '../API.config';
 
 export type Id = {
   $id: string,
@@ -18,12 +19,13 @@ export type BlockData = {
   timestamp: Timestamp,
   transactionMerkleRoot: string,
   producerAccountId: string,
-  transactions: any[],
+  transactions?: any[],
   createdAt: Timestamp,
 };
 
 export type Pagination = { currentTotal: number, loadable: boolean, pageCountToLoad: number };
 export type Store = {
+  loading: boolean,
   list: BlockData[],
   data: BlockData,
   pagination: Pagination,
@@ -42,6 +44,7 @@ export const emptyBlockData = {
   createdAt: { sec: 0, usec: 0 },
 };
 const defaultState = {
+  loading: false,
   list: [],
   data: emptyBlockData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
@@ -53,6 +56,10 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
     initBlocksList(state: Store, list: BlockData[]) {
       state.list = list;
       return state;
@@ -80,17 +87,31 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getBlockData(blockNum: number) {
+    async getBlockData(blockNumOrID: number | string) {
       const {
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.block.toggleLoading();
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/blocks?block_num=${blockNum}`)
-          .then(res => res.json())
-          .then(camelize);
+        let blockNum;
+        if (typeof blockNumOrID === 'number') {
+          blockNum = blockNumOrID;
+        } else if (Number.isFinite(Number(blockNumOrID))) {
+          blockNum = Number(blockNumOrID);
+        } else {
+          const data = await dispatch.search.searchKeyWord(blockNumOrID);
+          if (data.blockId === blockNumOrID && typeof data.blockNum === 'number') {
+            ({ blockNum } = data);
+          }
+        }
+        if (typeof blockNum !== 'number') {
+          throw new Error(`${blockNumOrID} is not a block Number nor a block ID.`)
+        }
+
+        const data = await get(`/blocks?block_num=${blockNum}`);
 
         this.initBlockData(data[0]);
       } catch (error) {
@@ -105,6 +126,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.block.toggleLoading();
       }
     },
     async getBlocksList(gotoPage?: number) {
@@ -113,6 +135,7 @@ export default (initialState?: Object = {}) => ({
       } = await import('./');
       const { block } = await getState();
       dispatch.info.toggleLoading();
+      dispatch.block.toggleLoading();
 
       try {
         if (!gotoPage) {
@@ -125,9 +148,7 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? block.pagination.currentTotal : 0;
         const limit = pageSize * block.pagination.pageCountToLoad + 1;
 
-        let list: BlockData[] = await fetch(`http://api.eostracker.io/blocks?page=${offset}&size=${limit}`)
-          .then(res => res.json())
-          .then(camelize);
+        let list: BlockData[] = await get(`/blocks?page=${offset}&size=${limit}`);
 
         const loadable = list.length === pageSize * block.pagination.pageCountToLoad + 1;
 
@@ -152,6 +173,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.block.toggleLoading();
       }
     },
   },

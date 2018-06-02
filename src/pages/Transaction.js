@@ -1,97 +1,103 @@
 // @flow
-import { compact, take, flatten, last } from 'lodash';
-import React, { PureComponent } from 'react';
+import { toPairs } from 'lodash';
+import React, { Component, Fragment } from 'react';
+import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
-import { Spin, Table, Breadcrumb } from 'antd';
-import styled from 'styled-components';
+import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
-import type { BlockData } from '../store/block';
+import { getBreadcrumb } from '../components/Layout';
+import { formatTimeStamp } from '../store/utils';
 import type { TransactionData } from '../store/transaction';
+import { LongListContainer } from '../components/Table';
 
-const Container = styled.div`
-  height: 100vh;
-
-  .ant-spin-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .ant-table {
-    width: 100%;
-  }
-`;
-const OriginalPageOpener = styled.div`
-  cursor: pointer;
-`;
-const Tags = styled.div`
-  max-width: 100px;
-  width: 100px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
-
+type Props = {
+  match: {
+    params: {
+      transactionId: string,
+    },
+  },
+  t: Function,
+};
 type Store = {
-  blockLoading: boolean,
-  transactionLoading: boolean,
-  blockData: BlockData[],
-  transactionData: TransactionData[],
+  data: TransactionData,
+  loading: boolean,
 };
 type Dispatch = {
-  getBlocksData: (size?: number) => void,
-  getTransactionData: (size?: number) => void,
+  getTransactionData: (transactionName: string) => void,
 };
 
-class Transaction extends PureComponent<*> {
+class Transaction extends Component<Props & Store & Dispatch, *> {
+  state = {};
+  componentDidMount() {
+    const currentTransactionName = String(this.props.match.params.transactionId);
+    this.props.getTransactionData(currentTransactionName);
+  }
+
+  getValueRendering(field: string, value: any) {
+    switch (field) {
+      case 'Id':
+        return value.$id;
+      case 'messages':
+        return value.map(({ $id }) => <Link to={`/message/${$id}`}>{$id}</Link>);
+      case 'createdAt':
+      case 'updatedAt':
+      case 'expiration':
+        return formatTimeStamp(value.sec, this.props.t('locale'));
+      case 'name':
+        return <Link to={`/transaction/${value}`}>{value}</Link>;
+      case 'transactionId':
+        return <Link to={`/transaction/${value}`}>{value}</Link>;
+      case 'blockId':
+        return <Link to={`/block/${value}`}>{value}</Link>;
+      case 'refBlockNum':
+        return <Link to={`/block/${value}`}>{value}</Link>;
+      default: {
+        if (typeof value === 'string' || typeof value === 'number') {
+          return value;
+        }
+        return (
+          <pre>
+            <code>{JSON.stringify(value, null, '  ')}</code>
+          </pre>
+        );
+      }
+    }
+  }
 
   render() {
     return (
-      <Spin tip="Connecting Database" spinning={this.props.loading} size="large">
-        <Container>
-          <Table
-            dataSource={this.props.results}
-          >
-            <Table.Column
-              title={this.props.t('title')}
-              render={(text, item) => (
-                <OriginalPageOpener onClick={() => this.openLink(item.url)}>{text}</OriginalPageOpener>
-              )}
-              dataIndex="title"
-              key="title"
-            />
-            <Table.Column
-              title={this.props.t('source')}
-              render={(text, item) => (
-                <OriginalPageOpener onClick={() => this.openLink(item.url)}>{text}</OriginalPageOpener>
-              )}
-              dataIndex="source"
-              key="source"
-            />
-            <Table.Column
-              title={this.props.t('tags')}
-              dataIndex="tags"
-              key="tags"
-              render={({ events, concepts, company, industries }) => {
-                const tagList = compact(
-                  events
-                    .concat(concepts)
-                    .concat(take(company, 5))
-                    .concat(flatten(industries.map(flattenCascade)).map(industryTag => last(industryTag.split('.')))),
-                ).join(', ');
-                return <Tooltip title={tagList}><Tags>{tagList}</Tags></Tooltip>;
-              }}
-            />
-          </Table>
-        </Container>
-      </Spin>
+      <Fragment>
+        {getBreadcrumb('transaction', this.props.t)}
+        <Spin tip="Connecting" spinning={this.props.loading} size="large">
+          <LongListContainer column>
+            <Table
+              size="middle"
+              pagination={false}
+              dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
+            >
+              <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
+              <Table.Column
+                title={this.props.t('value')}
+                dataIndex="value"
+                key="value"
+                render={(value, { field }) => this.getValueRendering(field, value)}
+              />
+            </Table>
+          </LongListContainer>
+        </Spin>
+      </Fragment>
     );
   }
 }
 
-const mapState = ({
-  block: { loading: blockLoading, list: blockData },
-  transaction: { loading: transactionLoading, list: transactionData },
-}): Store => ({ blockLoading, blockData, transactionLoading, transactionData });
-const mapDispatch = ({ block: { getBlocksData }, transaction: { getTransactionData } }): Dispatch => ({ getBlocksData, getTransactionData });
-export default translate(connect(mapState, mapDispatch)(Transaction));
+const mapState = ({ transaction: { data }, info: { loading } }): Store => ({ data, loading });
+const mapDispatch = ({ transaction: { getTransactionData } }): Dispatch => ({ getTransactionData });
+export default withRouter(
+  translate()(
+    connect(
+      mapState,
+      mapDispatch,
+    )(Transaction),
+  ),
+);

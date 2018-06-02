@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { getPageSize } from '../store/utils';
+import { getPageSize, formatTimeStamp } from '../store/utils';
 import type { AccountData } from '../store/account';
 import type { Pagination } from '../store/block';
 import { ListContainer } from '../components/Table';
@@ -52,23 +52,24 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
             }}
           >
             <Table.Column
+              width={70}
               title={this.props.t('name')}
               dataIndex="name"
               key="name"
-              render={(name) => <Link to={`/account/${name}`}>{name}</Link>}
+              render={name => <Link to={`/account/${name}`}>{name}</Link>}
             />
-            <Table.Column title={this.props.t('eosBalance')} dataIndex="eosBalance" key="eosBalance" />
+            <Table.Column width={70} title={this.props.t('eosBalance')} dataIndex="eosBalance" key="eosBalance" />
             <Table.Column
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={({ sec }) => sec}
+              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
             <Table.Column
               title={this.props.t('updatedAt')}
               dataIndex="updatedAt"
               key="updatedAt"
-              render={({ sec }) => sec}
+              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
           </Table>
         </ListContainer>

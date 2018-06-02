@@ -1,10 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 // @flow
+import { capitalize } from 'lodash';
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is from 'styled-is';
-import { Layout, Menu, Dropdown, Icon } from 'antd';
+import { Layout, Menu, Dropdown, Icon, Breadcrumb } from 'antd';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { withRouter, Link } from 'react-router-dom';
@@ -57,13 +58,13 @@ const Fixed = styled.div`
   `};
 `;
 const MenuOpenIconContainer = styled(Flex)`
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     display: none;
   `};
   position: absolute;
   top: 25px;
   right: 20px;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     right: 50px;
   `};
 `;
@@ -73,7 +74,7 @@ const LogoContainer = styled(Flex)`
   top: 10px;
 
   left: 20px;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     left: 50px;
   `};
 `;
@@ -83,22 +84,27 @@ const LogoIcon = styled.img`
 
 const DropDownsContainer = styled.nav`
   display: none;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     display: unset;
   `};
 `;
 const NavDropDowns = styled(Flex)``;
 const NavDropDownsButton = styled.a`
   margin-left: 20px;
+  text-decoration: none;
+  &:focus {
+    text-decoration: none;
+  }
+  &:hover > div {
+    display: block;
+  }
 
   color: rgba(68, 63, 84, 0.7);
   &:hover {
-    text-decoration: underline;
     color: rgba(68, 63, 84, 0.8);
   }
   ${is('selected')`
     color: rgb(68, 63, 84);
-    text-decoration: overline;
     &:hover {
       color: rgb(68, 63, 84);
     }
@@ -108,6 +114,32 @@ const NavDropDownsButtonLink = NavDropDownsButton.extend`
   margin-right: 10px;
 `.withComponent(Link);
 
+const NavButtonSelectedIndicator = styled.div`
+  width: 160%;
+  height: 2px;
+  background-color: #3498db;
+
+  margin-top: -2px;
+  margin-left: -30%;
+
+  display: none;
+  ${is('visible')`
+    display: block;
+  `};
+`;
+const DesktopSearchBarContainer = styled(Flex)`
+  display: none;
+  ${breakpoint('desktop')`
+    display: unset;
+  `};
+`;
+const MobileSearchBarContainer = styled(Flex)`
+  ${breakpoint('desktop')`
+    display: none;
+  `};
+  height: 50px;
+`;
+
 type Props = {
   t: Function,
 };
@@ -116,6 +148,7 @@ type Store = {
 };
 type Dispatch = {
   changeNavTab: string => void,
+  changeLanguage: (newLanguage: string) => void,
 };
 
 type RouteData = {
@@ -203,6 +236,16 @@ class Header extends Component<Props & Store & Dispatch, *> {
       </Menu.Item>
     </Menu>
   );
+  localeMenu = (
+    <Menu>
+      <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
+        <span>中文</span>
+      </Menu.Item>
+      <Menu.Item key="1" onClick={() => this.props.changeLanguage('en')}>
+        <span>English</span>
+      </Menu.Item>
+    </Menu>
+  );
 
   mobileMenu = (
     <Menu mode="inline" style={{ width: 256 }}>
@@ -274,8 +317,18 @@ class Header extends Component<Props & Store & Dispatch, *> {
           {this.props.t('BlockProducers')}
         </NavDropDownsButtonLink>
       </Menu.Item>
+      <Menu.SubMenu title={<NavDropDownsButton>{this.props.t('Locale')}</NavDropDownsButton>}>
+        <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
+          <span>中文</span>
+        </Menu.Item>
+        <Menu.Item key="1" onClick={() => this.props.changeLanguage('en')}>
+          <span>English</span>
+        </Menu.Item>
+      </Menu.SubMenu>
     </Menu>
   );
+
+  getSelectedIndicator = tabName => <NavButtonSelectedIndicator visible={this.props.navTab === tabName} />;
 
   render() {
     return (
@@ -290,7 +343,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </LogoContainer>
             </Link>
 
-            <SearchBar size="small" />
+            <DesktopSearchBarContainer>
+              <SearchBar size="small" />
+            </DesktopSearchBarContainer>
             <DropDownsContainer>
               <NavDropDowns justifyEnd>
                 <NavDropDownsButtonLink
@@ -299,17 +354,20 @@ class Header extends Component<Props & Store & Dispatch, *> {
                   to="/"
                 >
                   {this.props.t('Home')}
+                  {this.getSelectedIndicator('home')}
                 </NavDropDownsButtonLink>
 
                 <Dropdown overlay={this.blockChainMenu}>
                   <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
                     {this.props.t('BlockChain')} <Icon type="down" />
+                    {this.getSelectedIndicator('blockChain')}
                   </NavDropDownsButton>
                 </Dropdown>
 
                 <Dropdown overlay={this.tokensMenu}>
                   <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
                     {this.props.t('Tokens')} <Icon type="down" />
+                    {this.getSelectedIndicator('tokens')}
                   </NavDropDownsButton>
                 </Dropdown>
 
@@ -319,11 +377,13 @@ class Header extends Component<Props & Store & Dispatch, *> {
                   to="/resources"
                 >
                   {this.props.t('Resources')}
+                  {this.getSelectedIndicator('resources')}
                 </NavDropDownsButtonLink>
 
                 <Dropdown overlay={this.miscMenu}>
                   <NavDropDownsButton selected={this.props.navTab === 'misc'}>
                     {this.props.t('Misc')} <Icon type="down" />
+                    {this.getSelectedIndicator('misc')}
                   </NavDropDownsButton>
                 </Dropdown>
 
@@ -333,7 +393,15 @@ class Header extends Component<Props & Store & Dispatch, *> {
                   to="/blockProducers"
                 >
                   {this.props.t('BlockProducers')}
+                  {this.getSelectedIndicator('blockProducers')}
                 </NavDropDownsButtonLink>
+
+                <Dropdown overlay={this.localeMenu}>
+                  <NavDropDownsButton>
+                    {this.props.t('Locale')} <Icon type="down" />
+                    {this.getSelectedIndicator('locale')}
+                  </NavDropDownsButton>
+                </Dropdown>
               </NavDropDowns>
             </DropDownsContainer>
             <MenuOpenIconContainer center>
@@ -341,15 +409,21 @@ class Header extends Component<Props & Store & Dispatch, *> {
             </MenuOpenIconContainer>
           </Layout.Header>
         </HeaderContainer>
+        <MobileSearchBarContainer center>
+          <SearchBar />
+        </MobileSearchBarContainer>
       </Fragment>
     );
   }
 }
 
 const mapState = ({ history: { navTab } }): Store => ({ navTab });
-const mapDispatch = ({ history: { changeNavTab } }): Dispatch => ({ changeNavTab });
+const mapDispatch = ({ history: { changeNavTab }, info: { changeLanguage } }): Dispatch => ({
+  changeNavTab,
+  changeLanguage,
+});
 export default withRouter(
-  translate('layout')(
+  translate()(
     connect(
       mapState,
       mapDispatch,
@@ -361,23 +435,85 @@ const FooterContainer = styled.div`
   .ant-layout-footer {
     background-color: #443f54;
     color: white;
+    ${breakpoint('desktop')`
+      display: flex;
+    `};
   }
-
-  margin-top: 50px;
 `;
 const Introduction = styled(Flex)`
   width: 300px;
+  margin-bottom: 20px;
+  ${breakpoint('desktop')`
+    margin-right: 20px;
+  `};
 `;
 
-export function Footer() {
+const FriendLinks = styled(Flex)`
+  height: unset;
+  ${breakpoint('desktop')`
+    height: 130px;
+    width: 300px;
+  `};
+`;
+const FriendLink = styled(Flex)`
+  & a {
+    margin: 0 10px;
+  }
+`;
+const friendLinks = [
+  { name: 'Huobi Pool', homepage: 'http://www.eoshuobipool.com/' },
+  { name: 'EOS CANNON', homepage: 'https://eoscannon.io' },
+  { name: 'EOS Asia', homepage: 'https://www.eosasia.one/' },
+  { name: 'EOS Gravity', homepage: 'http://eosfans.one/' },
+  {
+    name: 'EOS Argentina ',
+    homepage: 'https://www.eosargentina.io/',
+  },
+  { name: 'EOSStore', homepage: 'http://www.eos.store/' },
+  { name: 'eosONO', homepage: 'https://www.ono.chat/eos/' },
+  { name: 'EOS Canada', homepage: 'https://www.eoscanada.com/' },
+  { name: 'EOSBeijing', homepage: 'http://www.eosbeijing.one/' },
+  { name: 'EOS UK', homepage: 'https://eosuk.io/' },
+  { name: 'EOSeoul', homepage: 'http://eoseoul.io/' },
+  { name: 'EOS TEA', homepage: 'https://node.eosfans.io/' },
+];
+export const Footer = translate()((props: { t: Function }) => (
+  <FooterContainer>
+    <Layout.Footer>
+      <Introduction>{props.t('webSiteIntroduction')}</Introduction>
+      <FriendLinks column wrap>
+        {friendLinks.map(({ name, homepage }) => (
+          <FriendLink>
+            {name}
+            <a href={homepage}>{homepage}</a>
+          </FriendLink>
+        ))}
+      </FriendLinks>
+    </Layout.Footer>
+  </FooterContainer>
+));
+
+const BreadCrumbContainer = styled.nav`
+  height: 48px;
+  width: 100%;
+  background-color: white;
+
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+`;
+export function getBreadcrumb(route: string, t: Function) {
   return (
-    <FooterContainer>
-      <Layout.Footer>
-        <Introduction>
-          Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts
-          platform.
-        </Introduction>
-      </Layout.Footer>
-    </FooterContainer>
+    <BreadCrumbContainer>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to="/">{t('Home')}</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={`/${route}s`}>{t(capitalize(`${route}s`))}</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{t(capitalize(route))}</Breadcrumb.Item>
+      </Breadcrumb>
+    </BreadCrumbContainer>
   );
 }

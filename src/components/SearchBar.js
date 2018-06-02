@@ -8,12 +8,16 @@ import breakpoint from 'styled-components-breakpoint';
 
 const SearchContainer = styled.div`
   width: 200px;
+  transition: width 0.3s;
 
-  margin: 0 30px;
-  max-width: calc(100% - 140px - 50px);
-  ${breakpoint('tablet')`
+  margin: 0;
+  width: 90vw;
+  ${breakpoint('desktop')`
     margin: 0 9px;
-    max-width: calc(100% - 50px * 2 - 180px - 420px);
+    max-width: calc(100vw - 50px * 2 - 150px - 650px);
+    &:focus-within {
+      width: calc(100vw - 50px * 2 - 150px - 650px);
+    }
   `};
 `;
 
@@ -52,7 +56,7 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
 
   render() {
     return (
-      <SearchContainer>
+      <SearchContainer active={this.state.keyWord}>
         <Input.Search
           value={this.state.keyWord}
           onChange={this.onSearchInputChange}

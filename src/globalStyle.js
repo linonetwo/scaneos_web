@@ -1,6 +1,7 @@
 /* eslint no-unused-expressions: "off" */
 import { injectGlobal } from 'styled-components';
 import styledNormalize from 'styled-normalize';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 injectGlobal`
   ${styledNormalize};
@@ -42,6 +43,14 @@ injectGlobal`
     opacity: 1;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  * {
+    -ms-overflow-style: none;  /* IE 10+ */
+    overflow: -moz-scrollbars-none;  /* Firefox */
+  }
+  *::-webkit-scrollbar { 
+      display: none;  /* Safari and Chrome */
   }
 
   .ant-layout {

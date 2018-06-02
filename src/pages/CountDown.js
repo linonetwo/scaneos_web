@@ -24,7 +24,7 @@ const CountDownContainer = styled.div`
 
   padding: 40px;
   margin-top: -100px;
-  ${breakpoint('tablet')`
+  ${breakpoint('desktop')`
     padding: 0px;
     margin: 0;
   `};
