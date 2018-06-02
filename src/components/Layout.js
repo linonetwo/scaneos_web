@@ -393,6 +393,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
                   to="/blockProducers"
                 >
                   {this.props.t('BlockProducers')}
+                  {this.getSelectedIndicator('blockProducers')}
                 </NavDropDownsButtonLink>
 
                 <Dropdown overlay={this.localeMenu}>
