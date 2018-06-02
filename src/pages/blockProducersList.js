@@ -1,5 +1,19 @@
 const blockProducersList = [
   {
+    location: 'Beijing China',
+    latitude: 39.90419989999999,
+    longitude: 116.4073963,
+    name: 'huobi global',
+    homepage: 'http://www.eoshuobipool.com/',
+    prerequisites: '8/8',
+    nodeLocation: 'Japan',
+    server:
+      '用于主服务器的裸机，用于测试云。首先，我们将部署3台物理服务器，2台负载均衡服务器和1台备用服务器，内存：64GB，CPU：8个内核，存储磁盘空间：2TB。我们有1个服务器进行测试，内存：8GB，CPU：4核，存储磁盘空间：100GB。\r\n',
+    introduction: '火币资产平台，致力于为用户提供方便安全的服务。',
+    contact:
+      'GitHub\r\nhttps://github.com/eoshuobipool\r\nTwitter\r\nhttps://twitter.com/EOS_huobipool\r\nTelegram\r\nhttps://t.me/eoshuobipool',
+  },
+  {
     location: 'Shanghai, China',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -13,6 +27,20 @@ const blockProducersList = [
       'EOS的发展将会为区块链以更好的方式改变着我们的生活，我们努力为EOS分散式生态系统做贡献！作为一个具有很高声望的社区，我们愿意连接并促进海外和中国EOS社区之间的共享。此外，我们很乐意带领大多数国内token持有者，参与全球EOS社区的增长。\r\n\r\nEOS Cannon将是一个可靠的区块生产者，致力为社区服务。此外，我们计划成为积极的EOS生态系统贡献者和项目孵化器，而不仅仅是一个EOS社区，我们将成为中国重要的EOS合作伙伴。',
     contact:
       'Twitter\r\nhttps://twitter.com/cannon_eos\r\nTelegram\r\nhttps://t.me/eos_cannon\r\nSteemit\r\nhttps://steemit.com/@eoscannon',
+  },
+  {
+    location: 'Hong Kong ',
+    latitude: 22.396428,
+    longitude: 114.109497,
+    name: 'EOS Asia',
+    homepage: 'https://www.eosasia.one/',
+    prerequisites: '8/8',
+    nodeLocation: 'Seoul, Singapore, Tokyo',
+    server:
+      '主要和备用块生产者节点：\r\n网络10 Gbps（最高25 Gbps）\r\nAWS Shield（受管DDoS保护）\r\n英特尔至强8 vCPU / 256GB RAM / 1TB SSD\r\n公开完整节点：\r\n网络10 Gbps（最高25 Gbps）\r\nAWS Shield（受管DDoS保护）\r\n英特尔至强4 vCPU / 256GB RAM / 1TB SSD\r\nTestnet：\r\n网络1G高共享网络\r\nAWS Shield（受管DDoS保护）\r\n英特尔至强4 vCPU / 32GB RAM / 128GB SSD',
+    introduction:
+      '我们是BP候选人EOS Asia，拥有世界级技术团队和经验丰富的区块链Dapp开发人员。作为亚洲最具国际和技术性的Block Producer候选人，我们汇集了来自中国，韩国，日本，香港，东南亚等地的EOS超级粉丝。\r\n\r\nEOS亚洲团队，核心价值观，当前进展，未来发展以及对社区的贡献。我们也将分享我们对EOS生态系统未来的理解和信念。\r\n\r\nEOS Asia的亮点：\r\n\r\n世界级的技术团队（Y Combinator，阿里云MVP，在各种技术会议上演讲）、大部分国际团队（中国，欧洲，美国和韩国）、致力于创建主流EOS DApps。',
+    contact: 'Twitter\r\nhttps://twitter.com/eosasia_one\r\nSteemit\r\nhttps://steemit.com/@eos-asia',
   },
   {
     location: 'Singapore',
@@ -217,20 +245,6 @@ const blockProducersList = [
       'GitHub\r\nhttps://github.com/eoscafe\r\nTwitter\r\nhttps://twitter.com/eoscafe\r\nTelegram\r\nhttps://t.me/eoscafe\r\nMedium\r\nhttps://medium.com/@eoscafe\r\nSteemit\r\nhttps://steemit.com/@eoscafe',
   },
   {
-    location: 'Beijing China',
-    latitude: 39.90419989999999,
-    longitude: 116.4073963,
-    name: 'huobi global',
-    homepage: 'http://www.eoshuobipool.com/',
-    prerequisites: '8/8',
-    nodeLocation: 'Japan',
-    server:
-      '用于主服务器的裸机，用于测试云。首先，我们将部署3台物理服务器，2台负载均衡服务器和1台备用服务器，内存：64GB，CPU：8个内核，存储磁盘空间：2TB。我们有1个服务器进行测试，内存：8GB，CPU：4核，存储磁盘空间：100GB。\r\n',
-    introduction: '火币资产平台，致力于为用户提供方便安全的服务。',
-    contact:
-      'GitHub\r\nhttps://github.com/eoshuobipool\r\nTwitter\r\nhttps://twitter.com/EOS_huobipool\r\nTelegram\r\nhttps://t.me/eoshuobipool',
-  },
-  {
     location: 'Wyoming',
     latitude: 43.0759678,
     longitude: -107.2902839,
@@ -272,20 +286,6 @@ const blockProducersList = [
     introduction:
       'EOS Detroit是一家位于密歇根州底特律的基础设施公司，专注于为EOS网络提供资源，这是一种共享的公共数据库即服务。\r\n\r\n在EOS主网启动后，我们的团队与全球其他BP候选人参与超级节点的竞选。这代表了一个新互联网的曙光，一个高度可用，值得信赖，审查抵制和分散的互联网。\r\n\r\n我们的团队努力获得EOStoken持有者的支持，他们将通过批准投票共同决定我们是否适合作为节点团队被网络雇佣。\r\n\r\n在收到他们的支持后，我们的收入将通过EOS网络直接获得，作为区块奖励，并反过来将通过扩展我们的基础架构和团队来引导EOS网络。\r\n\r\n除了作为网络基础架构的基石之外，我们的愿景是资助EOS.IO分布式应用程序开发，并通过教育，宣传和推广来发展EOS社区。我们的目标是通过我们为EOS网络和共同利益而努力创造相互价值',
     contact: 'Twitter\r\nhttps://twitter.com/eosiodetroit\r\nFacebook\r\nhttps://www.facebook.com/eosiodetroit',
-  },
-  {
-    location: 'Hong Kong ',
-    latitude: 22.396428,
-    longitude: 114.109497,
-    name: 'EOS Asia',
-    homepage: 'https://www.eosasia.one/',
-    prerequisites: '8/8',
-    nodeLocation: 'Seoul, Singapore, Tokyo',
-    server:
-      '主要和备用块生产者节点：\r\n网络10 Gbps（最高25 Gbps）\r\nAWS Shield（受管DDoS保护）\r\n英特尔至强8 vCPU / 256GB RAM / 1TB SSD\r\n公开完整节点：\r\n网络10 Gbps（最高25 Gbps）\r\nAWS Shield（受管DDoS保护）\r\n英特尔至强4 vCPU / 256GB RAM / 1TB SSD\r\nTestnet：\r\n网络1G高共享网络\r\nAWS Shield（受管DDoS保护）\r\n英特尔至强4 vCPU / 32GB RAM / 128GB SSD',
-    introduction:
-      '我们是BP候选人EOS Asia，拥有世界级技术团队和经验丰富的区块链Dapp开发人员。作为亚洲最具国际和技术性的Block Producer候选人，我们汇集了来自中国，韩国，日本，香港，东南亚等地的EOS超级粉丝。\r\n\r\nEOS亚洲团队，核心价值观，当前进展，未来发展以及对社区的贡献。我们也将分享我们对EOS生态系统未来的理解和信念。\r\n\r\nEOS Asia的亮点：\r\n\r\n世界级的技术团队（Y Combinator，阿里云MVP，在各种技术会议上演讲）、大部分国际团队（中国，欧洲，美国和韩国）、致力于创建主流EOS DApps。',
-    contact: 'Twitter\r\nhttps://twitter.com/eosasia_one\r\nSteemit\r\nhttps://steemit.com/@eos-asia',
   },
   {
     location: 'Dominican Republic ',
