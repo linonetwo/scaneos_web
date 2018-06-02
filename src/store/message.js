@@ -4,7 +4,7 @@ import get from '../API.config';
 import type { Timestamp, Id, Pagination } from './block';
 
 type Authorization = {
-  account: string,
+  account?: string,
   permission: string,
 };
 type Accounts = {
@@ -34,11 +34,11 @@ type Data = {
 };
 export type MessageData = {
   Id: Id,
-  messageId: number,
+  actionId: number,
   transactionId: string,
   authorization: Authorization[],
   handlerAccountName?: string,
-  type: string,
+  type?: string,
   data?: Data,
   createdAt: Timestamp,
 };
@@ -53,7 +53,7 @@ export type Store = {
 
 export const emptyMessageData = {
   Id: { $id: '' },
-  messageId: 0,
+  actionId: 0,
   transactionId: '',
   authorization: [{ account: '', permission: 'active' }],
   handlerAccountName: 'eos',
@@ -114,7 +114,7 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const data = await get(`/messages?transaction_id=${transactionId}`);
+        const data = await get(`/actions?transaction_id=${transactionId}`);
 
         if (data.length === 0) throw new Error('No data.');
         this.initMessageData(data[0]);
@@ -152,7 +152,7 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? account.pagination.currentTotal : 0;
         const limit = pageSize * account.pagination.pageCountToLoad + 1;
 
-        let list: MessageData[] = await get(`/messages?page=${offset}&size=${limit}`);
+        let list: MessageData[] = await get(`/actions?page=${offset}&size=${limit}`);
 
         const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
 
