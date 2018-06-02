@@ -8,6 +8,7 @@ import is from 'styled-is';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import breakpoint from 'styled-components-breakpoint';
 
 import { formatTimeStamp } from '../store/utils';
 import type { BlockData } from '../store/block';
@@ -20,9 +21,14 @@ const Container = styled(Flex)`
   padding-bottom: 50px;
 `;
 const ListContainer = styled.div`
-  margin: 0;
+  width: 90vw;
+  margin: auto;
+  ${breakpoint('tablet')`
+    margin: 0;
+    margin-top: 50px;
+    width: 500px;
+  `};
   margin-top: 50px;
-  width: 500px;
   height: 815px;
   ${is('small')`
     height: 435px;

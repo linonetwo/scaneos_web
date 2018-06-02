@@ -21,7 +21,7 @@ class Home extends Component<Props & Store & Dispatch, *> {
   state = {};
   render() {
     return (
-      <Container center>
+      <Container center wrap>
         <OverviewList />
       </Container>
     );
