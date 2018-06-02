@@ -39,6 +39,7 @@ class Block extends Component<Props & Store & Dispatch, *> {
       case 'Id':
         return value.$id;
       case 'createdAt':
+      case 'updatedAt':
       case 'timestamp':
         return formatTimeStamp(value.sec, this.props.t('locale'));
       case 'blockNum':

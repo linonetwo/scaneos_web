@@ -1,6 +1,7 @@
 // @flow
 import { initial } from 'lodash';
-import camelize from 'camelize';
+
+import get from '../API.config';
 
 export type Id = {
   $id: string,
@@ -18,7 +19,7 @@ export type BlockData = {
   timestamp: Timestamp,
   transactionMerkleRoot: string,
   producerAccountId: string,
-  transactions: any[],
+  transactions?: any[],
   createdAt: Timestamp,
 };
 
@@ -95,9 +96,7 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/blocks?block_num=${blockNum}`)
-          .then(res => res.json())
-          .then(camelize);
+        const data = await get(`/blocks?block_num=${blockNum}`);
 
         this.initBlockData(data[0]);
       } catch (error) {
@@ -134,9 +133,7 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? block.pagination.currentTotal : 0;
         const limit = pageSize * block.pagination.pageCountToLoad + 1;
 
-        let list: BlockData[] = await fetch(`http://api.eostracker.io/blocks?page=${offset}&size=${limit}`)
-          .then(res => res.json())
-          .then(camelize);
+        let list: BlockData[] = await get(`/blocks?page=${offset}&size=${limit}`);
 
         const loadable = list.length === pageSize * block.pagination.pageCountToLoad + 1;
 

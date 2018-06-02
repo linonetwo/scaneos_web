@@ -1,7 +1,7 @@
 // @flow
 import { initial } from 'lodash';
-import camelize from 'camelize';
 import type { Timestamp, Id, Pagination } from './block';
+import get from '../API.config';
 
 export type AccountData = {
   Id: Id,
@@ -83,9 +83,7 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/accounts?name=${accountName}`)
-          .then(res => res.json())
-          .then(camelize);
+        const data = await get(`/accounts?name=${accountName}`);
 
         this.initAccountData(data[0]);
       } catch (error) {
@@ -122,9 +120,7 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? account.pagination.currentTotal : 0;
         const limit = pageSize * account.pagination.pageCountToLoad + 1;
 
-        let list: AccountData[] = await fetch(`http://api.eostracker.io/accounts?page=${offset}&size=${limit}`)
-          .then(res => res.json())
-          .then(camelize);
+        let list: AccountData[] = await get(`/accounts?page=${offset}&size=${limit}`);
 
         const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
 

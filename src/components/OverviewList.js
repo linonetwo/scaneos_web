@@ -113,10 +113,10 @@ class OverviewList extends Component<Props & Store & Dispatch> {
             >
               <div>
                 {formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}{' '}
-                {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
+                {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
                 {item.transactions.map(({ $id }) => (
                   <Link to={`/transaction/${$id}`}>{truncate($id, { length: 4, omission: ' ' })}</Link>
-                ))}
+                ))} */}
               </div>
             </List.Item>
           )}

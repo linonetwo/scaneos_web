@@ -1,6 +1,6 @@
 // @flow
 import { initial } from 'lodash';
-import camelize from 'camelize';
+import get from '../API.config';
 import type { Timestamp, Id, Pagination } from './block';
 
 type Authorization = {
@@ -114,9 +114,7 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/messages?transaction_id=${transactionId}`)
-          .then(res => res.json())
-          .then(camelize);
+        const data = await get(`/messages?transaction_id=${transactionId}`);
 
         if (data.length === 0) throw new Error('No data.');
         this.initMessageData(data[0]);
@@ -154,9 +152,7 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? account.pagination.currentTotal : 0;
         const limit = pageSize * account.pagination.pageCountToLoad + 1;
 
-        let list: MessageData[] = await fetch(`http://api.eostracker.io/messages?page=${offset}&size=${limit}`)
-          .then(res => res.json())
-          .then(camelize);
+        let list: MessageData[] = await get(`/messages?page=${offset}&size=${limit}`);
 
         const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
 
