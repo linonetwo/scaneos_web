@@ -3,7 +3,7 @@ const blockProducersList = [
     location: 'Beijing China',
     latitude: 39.90419989999999,
     longitude: 116.4073963,
-    name: 'huobi global',
+    name: 'Huobi Pool',
     homepage: 'http://www.eoshuobipool.com/',
     prerequisites: '8/8',
     nodeLocation: 'Japan',
@@ -41,6 +41,134 @@ const blockProducersList = [
     introduction:
       '我们是BP候选人EOS Asia，拥有世界级技术团队和经验丰富的区块链Dapp开发人员。作为亚洲最具国际和技术性的Block Producer候选人，我们汇集了来自中国，韩国，日本，香港，东南亚等地的EOS超级粉丝。\r\n\r\nEOS亚洲团队，核心价值观，当前进展，未来发展以及对社区的贡献。我们也将分享我们对EOS生态系统未来的理解和信念。\r\n\r\nEOS Asia的亮点：\r\n\r\n世界级的技术团队（Y Combinator，阿里云MVP，在各种技术会议上演讲）、大部分国际团队（中国，欧洲，美国和韩国）、致力于创建主流EOS DApps。',
     contact: 'Twitter\r\nhttps://twitter.com/eosasia_one\r\nSteemit\r\nhttps://steemit.com/@eos-asia',
+  },
+  {
+    location: 'China',
+    latitude: 31.2303904,
+    longitude: 121.4737021,
+    name: 'EOS Gravity',
+    homepage: 'http://eosfans.one/',
+    prerequisites: '8/8',
+    server:
+      '主服务器：\r\nPowerEdge R730xd\r\n4个CPUIntelXeon\r\n128G * 2（2400 MHz）\r\n300G * 2（系统磁盘）7.2k rpm\r\n512G * 1（数据磁盘）SSD\r\n双电源\r\n\r\n从服务器：\r\nPowerEdge R730xd\r\n4个CPUIntelXeon\r\n128G * 2（2400 MHz）\r\n300G * 2（系统磁盘）7.2k rpm\r\n512G * 1（数据磁盘）SSD\r\n双电源\r\nSwitch：H3C S5130 48端口* 2',
+    introduction:
+      '总部位于中国上海的EOS Gravity是一个区块链生态社区，聚集了大量区块链和EOS追随者。该社区致力于为区块链技术感兴趣的人士提供帮助，并通过我们对区块链技术和EOS公共链的深入分析和明确指导鼓励更大规模的参与。\r\n\r\n此外，我们通过提供富有洞察力的评论，最新消息以及专业技术支持，为EOS生态系统的发展做出贡献。未来，EOS Gravity将致力于开发EOS社区，重点关注价值信息、技术讨论、离线研讨会、高峰论坛和生态系统的Dapp等各个方面，这些都为过渡到一个全新的世界。\r\n\r\n我们的价值观：安全，团结，高级和繁荣。\r\n我们的使命：为快速发展的EOS行业做出贡献。\r\n我们的未来前景：成为全球领先的EOS社区。',
+    contact: 'Twitter\r\nhttps://twitter.com/EOSGravity\r\n微信公众号\r\nEOS引力区',
+  },
+  {
+    location: 'Argentina',
+    latitude: -38.416097,
+    longitude: -63.61667199999999,
+    name: 'EOS Argentina ',
+    homepage: 'https://www.eosargentina.io/',
+    prerequisites: '8/8',
+    introduction:
+      'EOS阿根廷，主要目标是通过在一个已经以“区块链友好”而闻名的国家推广使用EOS，并在南美其他地区效仿这一成功举措，推动区块链的采用，我们相信我们大陆迫切需要区块链透明度。',
+    contact:
+      'Twitter\r\nhttps://twitter.com/EosArgentina\r\nFacebook\r\nhttps://www.facebook.com/groups/6108327225889\r\nSteemit\r\nhttps://steemit.com/@eosargentina',
+  },
+  {
+    location: 'Beijing',
+    latitude: 39.90419989999999,
+    longitude: 116.4073963,
+    name: 'EOSStore',
+    homepage: 'http://www.eos.store/',
+    prerequisites: '8/8',
+    nodeLocation: 'Beijing, China',
+    server:
+      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
+    introduction:
+      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
+    contact:
+      'GitHub\r\nhttps://github.com/eosstore\r\nTwitter\r\nhttps://twitter.com/StoreEos\r\nFacebook\r\nhttps://www.facebook.com/profile.php?id=10002\r\n微信公众号\r\nEosStore\r\nMedium\r\nhttps://steemit.com/@eos.store\r\nSteemit\r\nhttps://steemit.com/@eos.store',
+  },
+  {
+    location: 'Beijing China',
+    latitude: 39.90419989999999,
+    longitude: 116.4073963,
+    name: 'eosONO',
+    homepage: 'https://www.ono.chat/eos/',
+    prerequisites: '8/8',
+    nodeLocation: 'Beijing, Tokyo',
+    server:
+      '截至2018年6月3日的技术规格和资源总支出估算：\r\nAmazon EC2AWS m4.4xlargeCPU：16 CoreRAM：64GBSSD：512G​​B\r\n总费用：每月817美元\r\n2018年6月3日之后的硬件估算扩展计划：\r\nAmazon EC2AWS x1e.32xlargeCPU：128 CoreRAM：3904GSSD：2 x 1900GB（磁盘容量根据需要增加）网络：25 Gbps节点：共2个节点（1个livenet，1个备用）',
+    introduction:
+      '我们是EOS ONO，一个免费的，分散的社交网络Dapp，它保护和尊重人类社交互动的多样性和多样性，并且即将在EOS平台上推出。',
+    contact:
+      'Twitter\r\nhttps://twitter.com/onosocial\r\nFacebook\r\nhttps://www.facebook.com/ONOofficial\r\nTelegram\r\nhttps://t.me/ONOCN\r\n微信公众号\r\nonogogo\r\nMedium\r\nhttps://medium.com/@ONOsocial\r\nSteemit\r\nhttps://steemit.com/@onosocial',
+  },
+  {
+    location: 'Canada',
+    latitude: 56.130366,
+    longitude: -106.346771,
+    name: 'EOS Canada',
+    homepage: 'https://www.eoscanada.com/',
+    prerequisites: '8/8',
+    nodeLocation: 'Montrea',
+    server: 'Google云端平台',
+    introduction:
+      'EOS加拿大总部设在加拿大蒙特利尔，由知名加拿大金融企业支持。我们相信EOS.IO将资助系统，因此我们致力于为生态系统的发展做出贡献。\r\n\r\n\r\n我们一直积极参与运行和测试社区测试网络，创建BIOS BOOT序列，以及构建生态系统蓬勃发展所需的各种社区工具。我们的目标是成为公司，企业家和开发人员的中心，他们希望在EOS.IO之上构建基础架构和去中心化应用程序。由于我们深厚的技术背景和连接，我们希望利用我们的网络帮助为EOS.IO网络构建增值产品。',
+    contact:
+      'Twitter\r\nhttps://twitter.com/eos_canada\r\nTelegram\r\nhttps://t.me/eoscanada\r\nSteemit\r\nhttps://steemit.com/@eos-canada\r\nReddit\r\nhttps://www.reddit.com/user/EOSCanada/',
+  },
+  {
+    location: 'Beijing ',
+    latitude: 39.90419989999999,
+    longitude: 116.4073963,
+    name: 'EOSBeijing',
+    homepage: 'http://www.eosbeijing.one/',
+    prerequisites: '8/8',
+    nodeLocation: 'Beijing',
+    server:
+      'Before June 3\r\n\r\nMaster server\r\nCPU: Intel Xeon 64 core\r\nRAM: 256 Gb\r\nDisk : 4000 Gb SSD\r\nNetwork: 200 Mbps Bgp multi-line\r\nDual-node backup\r\n\r\nBackup server\r\nCPU: Dual Intel Xeon 32 core\r\nRAM: 256 Gb\r\nDisk: 500Gb hard disk + 10 Tb 7200 hard disk (dynamic increase when needed)\r\nNetwork: 200 Mbps Bgp multi-line\r\n\r\nAfter June 3\r\n\r\nMaster server\r\nCPU: Intel Xeon 64 core\r\nRAM: 1024 Gb\r\nDisk: 4000 Gb SSD\r\nNetwork: 200 Mbps Bgp multi-line\r\nDual-node backup\r\n\r\nBackup server\r\nCPU: Dual Intel Xeon 32 core\r\nRAM: 1024 Gb\r\nDisk: 500Gb hard disk + 10 Tb 7200 hard disk (dynamic increase when needed)\r\nNetwork: 200 Mbps Bgp multi-line\r\n\r\nFull-node server\r\nCPU: Dual Intel Xeon 32 core\r\nRAM: 1024 Gb\r\nDisk: 512 Gb SSD\r\nNetwork: 200 Mbps Bgp multi-line',
+    introduction:
+      'EOS Beijing将与大学合作研究项目和各种区块链社区团体,支持EOS-related学术研究和促进EOS意识和采用。的支持与合作交流、账户、cryptocurrency媒体,和其他元素的生态系统,我们将能够对EOS的成功做出了重大贡献。\r\nIn recent years, the development of blockchain technology has advanced faster than its practical applications. The balance of EOS performance and decentralization has led us to see the possibility of bridging this gap. The EOS Beijing team is composed of experienced digital currency professionals and investors who are eager to participate in this new cutting-edge technology. EOS Beijing will collaborate with university research programs and various blockchain community groups, to support EOS-related academic research and promote EOS awareness and adoption. With the support and cooperation of cryptocurrency wallets, media, and other elements of the ecosystem, we will be capable of making significant contributions to the development and adoption of EOS.',
+    contact:
+      'Twitter\r\nhttps://twitter.com/eosbeijing\r\nTelegram\r\nhttp://t.me/eosbeijing\r\nSteemit\r\nhttps://steemit.com/@eosbeijing',
+  },
+  {
+    location: 'England',
+    latitude: 52.3555177,
+    longitude: -1.1743197,
+    name: 'EOS UK',
+    homepage: 'https://eosuk.io/',
+    prerequisites: '8/8',
+    nodeLocation: 'Space Data Centre - Nottingham',
+    server:
+      '节点生产者服务器\r\n2个HPE ProLiant DL380 Gen10（1个主要1个故障切换）\r\n\r\n建议的启动配置\r\n2个Intel Xeon Gold 6134M处理器3.2 GHz 8核\r\n128GB RAM \r\n512 GB SSD（RAID 1）\r\n\r\n全节点服务器\r\n2个HPE ProLiant DL380 Gen10（1个主要1个故障切换）\r\n\r\n建议的启动配置\r\n2个Intel Xeon Gold 6134M处理器3.2 GHz 8核\r\n64GB RAM \r\n512 GB SSD（RAID 1）',
+    introduction:
+      'EOS UK坐落于伦敦，创始人Roger John Davies，打算为我区块生成者提供EOS网络上最透明和可靠的节点。\r\n\r\n除了对所有员工的工资合理和标准的运营成本，所有的初始收入将漏斗放回我们的砌块生产基础设施，以确保在弹性极限和达到的性能。\r\n\r\n未来想建立EOS大学，重点开展“下一代”下一代”在计算机科学，政治和经济问题，以及这些学科通过使用Blockchain技术和断词被从根本上改变。\r\n\r\nEOS UK将作为候选团队和区块生产者的一起推动EOS理念，通过聚会，信息发布和协作与商业和学术机构利用网络来造福英国。',
+    contact:
+      'Twitter\r\nhttps://twitter.com/eosukbp\r\nFacebook\r\nhttps://www.facebook.com/advantaproductions/\r\nSteemit\r\nhttps://steemit.com/@bodget',
+  },
+  {
+    location: 'South Korea',
+    latitude: 35.907757,
+    longitude: 127.766922,
+    name: 'EOSeoul',
+    homepage: 'http://eoseoul.io/',
+    prerequisites: '8/8',
+    nodeLocation: 'Seoul , Tokyo and Singapore',
+    server:
+      '预计2018年6月3日之后的硬件扩展计划\r\n我们将在早期阶段使用云和数据中心。我们将密切关注增长情况并根据需要制定充足的规定。有关安全，扩展，网关，数据的更多细节将在适当的时候公布。\r\n*地点：首尔AWS地区\r\n*机器：m5.12xlarge（最大x1.32xlarge）\r\n* 1号\r\n*内存：192GB（最高2TB）\r\n* CPU：vCPU 48核心（最多128个核心）\r\n*存储：SSD 2TB * 2EA（NVME）+ EBS 16TB（预置IOPS 20000）\r\n*网络：10 Gbps（最高25 Gbps）\r\n*每月账单：2,800美元（最高19,361美元）\r\n*类型：云（AWS）',
+    introduction:
+      'EOSeoul，韩国的节点候选团队。由韩国领先的网络游戏公司NEOPLY和NEOWIZ组成，NEOPLY是韩国NEOWIZ在2008年成立的第一个启动加速器。\r\n我们一直在全球范围内开发和管理PC在线和手机游戏，并且在过去的20年中一直是韩国这一领域的领导者之一。\r\nNEOWIZ的业务多年来一直在转型和扩张，紧跟互联网和行业发展的历史，不断寻找在这个领域上升的机会。我们相信下一个重大事件就是区块链协议，它将为这个时代带来新的范式。\r\n互联网上的用户可以复制和拥有数据，而不会产生任何费用。这种开放性让互联网能够爆炸并扩大。但是，这意味着数据的创建者/所有者没有得到适当的奖励，因为他/她有权获得。\r\n区块链协议识别数据的所有权。所有权属于贡献或创建数据的用户，奖励给那些对生态系统有积极贡献的人，从而为他们继续这样做提供动力。\r\n但是，还有很多问题需要解决。整个区块链生态系统需要更广泛的公众参与，开发者需要为这个生态系统提供更多有用的服务，从而创造一个良性循环。与此同时，区块生产商需要提供可靠的网络基础设施。我们相信EOS软件可能是我们所面临问题的最接近的解决方案。因此，我们愿意参与EOS生态系统的创新。',
+    contact:
+      'GitHub\r\nhttp://github.com/eoseoul\r\nTwitter\r\nhttp://twitter.com/eoseoul_kor\r\nFacebook\r\nhttp://facebook.com/eoseoul.kr\r\nTelegram\r\nhttp://t.me/eoseoul_en\r\nSteemit\r\nhttp://steemit.com/@eoseoul',
+  },
+  {
+    location: 'Hong Kong ',
+    latitude: 22.396428,
+    longitude: 114.109497,
+    name: 'EOS TEA',
+    homepage: 'https://node.eosfans.io/',
+    prerequisites: '8/8',
+    nodeLocation: 'Hong Kong',
+    server:
+      '利用云计算高效而强大的伸缩及容灾能力,可满足节点的任何资源需求.提供稳定的节点服务,同时节约资源,节省成本.\r\n48核+ CPU / 480G+内存/ 200Mbps+高速网络/ 32768G+ SSD硬盘/ 2节点互为备份\r\n初期我们会选用云服务器上合理的配置来搭建节点,云服务器可以对配置进行快速伸缩,满足节点初期不确定性的需求.当节点对性能的需求趋于稳定,我们会选择和数据中心合作,购买拥有超高配置的物理服务器,租用数据中心带宽,安全防护等资源,自建集群.无论以什么样的方式部署节点,我们都会优先保证节点的稳定性.',
+    introduction:
+      '部署在香港\r\n节点将部署在香港,与大陆地区采用CN2网络高速连接,合理的避免了一些不可抗因素,使网络连通性和安全性达到一个接近完美的平衡.\r\n\r\n由社区驱动\r\n没有内幕,没有阴谋,代表社区成员存在的一个节点.后期将会逐步完善社区的生态治理.\r\n\r\n利益最大化\r\n首先我们会尊重且履行EOS.IO官方及国际社区推行的宪法内容,同时我们会使用合理的方式使参与的社区成员利益最大化(欢迎广大社区成员给我们提议).',
+    contact: 'Telegram\r\nhttps://t.me/eosfanscn\r\n微信公众号\r\neosiochina',
   },
   {
     location: 'Singapore',
@@ -84,21 +212,6 @@ const blockProducersList = [
     introduction: '我们是一家全语种孵化交换平台TOP.ONE，TOP. ONE很高兴你们来社区分享交流意见。',
     contact:
       'Twitter\r\nhttps://twitter.com/TOPONE_2017\r\nFacebook\r\nhttps://www.facebook.com/top.oneexchange2017\r\nTelegram\r\nhttps://t.me/topone_2017',
-  },
-  {
-    location: 'Beijing ',
-    latitude: 39.90419989999999,
-    longitude: 116.4073963,
-    name: 'EOSBeijing',
-    homepage: 'http://www.eosbeijing.one/',
-    prerequisites: '8/8',
-    nodeLocation: 'Beijing',
-    server:
-      'Before June 3\r\n\r\nMaster server\r\nCPU: Intel Xeon 64 core\r\nRAM: 256 Gb\r\nDisk : 4000 Gb SSD\r\nNetwork: 200 Mbps Bgp multi-line\r\nDual-node backup\r\n\r\nBackup server\r\nCPU: Dual Intel Xeon 32 core\r\nRAM: 256 Gb\r\nDisk: 500Gb hard disk + 10 Tb 7200 hard disk (dynamic increase when needed)\r\nNetwork: 200 Mbps Bgp multi-line\r\n\r\nAfter June 3\r\n\r\nMaster server\r\nCPU: Intel Xeon 64 core\r\nRAM: 1024 Gb\r\nDisk: 4000 Gb SSD\r\nNetwork: 200 Mbps Bgp multi-line\r\nDual-node backup\r\n\r\nBackup server\r\nCPU: Dual Intel Xeon 32 core\r\nRAM: 1024 Gb\r\nDisk: 500Gb hard disk + 10 Tb 7200 hard disk (dynamic increase when needed)\r\nNetwork: 200 Mbps Bgp multi-line\r\n\r\nFull-node server\r\nCPU: Dual Intel Xeon 32 core\r\nRAM: 1024 Gb\r\nDisk: 512 Gb SSD\r\nNetwork: 200 Mbps Bgp multi-line',
-    introduction:
-      'EOS Beijing将与大学合作研究项目和各种区块链社区团体,支持EOS-related学术研究和促进EOS意识和采用。的支持与合作交流、账户、cryptocurrency媒体,和其他元素的生态系统,我们将能够对EOS的成功做出了重大贡献。\r\nIn recent years, the development of blockchain technology has advanced faster than its practical applications. The balance of EOS performance and decentralization has led us to see the possibility of bridging this gap. The EOS Beijing team is composed of experienced digital currency professionals and investors who are eager to participate in this new cutting-edge technology. EOS Beijing will collaborate with university research programs and various blockchain community groups, to support EOS-related academic research and promote EOS awareness and adoption. With the support and cooperation of cryptocurrency wallets, media, and other elements of the ecosystem, we will be capable of making significant contributions to the development and adoption of EOS.',
-    contact:
-      'Twitter\r\nhttps://twitter.com/eosbeijing\r\nTelegram\r\nhttp://t.me/eosbeijing\r\nSteemit\r\nhttps://steemit.com/@eosbeijing',
   },
   {
     location: 'China',
@@ -175,20 +288,6 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/bitfinex\r\nFacebook\r\nhttps://www.facebook.com/bitfinex1\r\nTelegram\r\nhttps://t.me/bitfinex',
   },
   {
-    location: 'Canada',
-    latitude: 56.130366,
-    longitude: -106.346771,
-    name: 'EOS Canada',
-    homepage: 'https://www.eoscanada.com/',
-    prerequisites: '8/8',
-    nodeLocation: 'Montrea',
-    server: 'Google云端平台',
-    introduction:
-      'EOS加拿大总部设在加拿大蒙特利尔，由知名加拿大金融企业支持。我们相信EOS.IO将资助系统，因此我们致力于为生态系统的发展做出贡献。\r\n\r\n\r\n我们一直积极参与运行和测试社区测试网络，创建BIOS BOOT序列，以及构建生态系统蓬勃发展所需的各种社区工具。我们的目标是成为公司，企业家和开发人员的中心，他们希望在EOS.IO之上构建基础架构和去中心化应用程序。由于我们深厚的技术背景和连接，我们希望利用我们的网络帮助为EOS.IO网络构建增值产品。',
-    contact:
-      'Twitter\r\nhttps://twitter.com/eos_canada\r\nTelegram\r\nhttps://t.me/eoscanada\r\nSteemit\r\nhttps://steemit.com/@eos-canada\r\nReddit\r\nhttps://www.reddit.com/user/EOSCanada/',
-  },
-  {
     location: 'China',
     latitude: 35.86166,
     longitude: 104.195397,
@@ -215,19 +314,6 @@ const blockProducersList = [
       'HelloEOS，在中国的区块生产者团队之一。具有开发和维护Graphene区块链的能力，以及拥有3万多个用户基础的社区，HelloEOS将会最大限度地帮助实现有效的社区治理，和一个充满活力、健康的EOS区块链生态系统。\r\n\r\nHelloEOS最早将EOS引入华语社区的群体，吸引了相当多的人，从而形成了最早的国内EOS社区。作为比特股的成员，HellEOS多年来一直是Bytemaster的坚定支持者。自从比特股1.0启动以来，我们就一直专注于操作和维护节点服务器并提供技术，而比特股区块链网络支持至少有3名活跃的独立操作者。\r\n\r\nHelloEOS团队在梓岑和Alex的带领下，创建和管理了几个社交媒体集团，不仅介绍了EOS，还翻译了许多技术和分析文章，帮助社区更好地理解了EOS。从初学者到高级用户，了解更多关于HelloEOS的信息，请访问我们的官方网站：www.helloeos.com.cn。',
     contact:
       'Twitter\r\nhttps://twitter.com/HelloEOS\r\nTelegram\r\nhttps://t.me/helloeos123\r\nSteemit\r\nhttps://steemit.com/@helloeos\r\nReddit\r\nhttps://www.reddit.com/user/helloeos/',
-  },
-  {
-    location: 'China',
-    latitude: 31.2303904,
-    longitude: 121.4737021,
-    name: 'EOS Gravity',
-    homepage: 'http://eosfans.one/',
-    prerequisites: '8/8',
-    server:
-      '主服务器：\r\nPowerEdge R730xd\r\n4个CPUIntelXeon\r\n128G * 2（2400 MHz）\r\n300G * 2（系统磁盘）7.2k rpm\r\n512G * 1（数据磁盘）SSD\r\n双电源\r\n\r\n从服务器：\r\nPowerEdge R730xd\r\n4个CPUIntelXeon\r\n128G * 2（2400 MHz）\r\n300G * 2（系统磁盘）7.2k rpm\r\n512G * 1（数据磁盘）SSD\r\n双电源\r\nSwitch：H3C S5130 48端口* 2',
-    introduction:
-      '总部位于中国上海的EOS Gravity是一个区块链生态社区，聚集了大量区块链和EOS追随者。该社区致力于为区块链技术感兴趣的人士提供帮助，并通过我们对区块链技术和EOS公共链的深入分析和明确指导鼓励更大规模的参与。\r\n\r\n此外，我们通过提供富有洞察力的评论，最新消息以及专业技术支持，为EOS生态系统的发展做出贡献。未来，EOS Gravity将致力于开发EOS社区，重点关注价值信息、技术讨论、离线研讨会、高峰论坛和生态系统的Dapp等各个方面，这些都为过渡到一个全新的世界。\r\n\r\n我们的价值观：安全，团结，高级和繁荣。\r\n我们的使命：为快速发展的EOS行业做出贡献。\r\n我们的未来前景：成为全球领先的EOS社区。',
-    contact: 'Twitter\r\nhttps://twitter.com/EOSGravity\r\n微信公众号\r\nEOS引力区',
   },
   {
     location: 'Canada',
@@ -342,36 +428,6 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/@eosys_io\r\nTelegram\r\nhttps://t.me/eosysiokor（KOR）\r\nMedium\r\nhttps://medium.com/@eosys\r\nSteemit\r\nhttps://steemit.com/@eosys',
   },
   {
-    location: 'Beijing China',
-    latitude: 39.90419989999999,
-    longitude: 116.4073963,
-    name: 'eosONO',
-    homepage: 'https://www.ono.chat/eos/',
-    prerequisites: '8/8',
-    nodeLocation: 'Beijing, Tokyo',
-    server:
-      '截至2018年6月3日的技术规格和资源总支出估算：\r\nAmazon EC2AWS m4.4xlargeCPU：16 CoreRAM：64GBSSD：512G​​B\r\n总费用：每月817美元\r\n2018年6月3日之后的硬件估算扩展计划：\r\nAmazon EC2AWS x1e.32xlargeCPU：128 CoreRAM：3904GSSD：2 x 1900GB（磁盘容量根据需要增加）网络：25 Gbps节点：共2个节点（1个livenet，1个备用）',
-    introduction:
-      '我们是EOS ONO，一个免费的，分散的社交网络Dapp，它保护和尊重人类社交互动的多样性和多样性，并且即将在EOS平台上推出。',
-    contact:
-      'Twitter\r\nhttps://twitter.com/onosocial\r\nFacebook\r\nhttps://www.facebook.com/ONOofficial\r\nTelegram\r\nhttps://t.me/ONOCN\r\n微信公众号\r\nonogogo\r\nMedium\r\nhttps://medium.com/@ONOsocial\r\nSteemit\r\nhttps://steemit.com/@onosocial',
-  },
-  {
-    location: 'Beijing',
-    latitude: 39.90419989999999,
-    longitude: 116.4073963,
-    name: 'EOSStore',
-    homepage: 'http://www.eos.store/',
-    prerequisites: '8/8',
-    nodeLocation: 'Beijing, China',
-    server:
-      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
-    introduction:
-      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
-    contact:
-      'GitHub\r\nhttps://github.com/eosstore\r\nTwitter\r\nhttps://twitter.com/StoreEos\r\nFacebook\r\nhttps://www.facebook.com/profile.php?id=10002\r\n微信公众号\r\nEosStore\r\nMedium\r\nhttps://steemit.com/@eos.store\r\nSteemit\r\nhttps://steemit.com/@eos.store',
-  },
-  {
     location: 'Hong Kong ',
     latitude: 22.396428,
     longitude: 114.109497,
@@ -385,20 +441,6 @@ const blockProducersList = [
       'Wancloud is a neutral and innovative Blockchain-as-a-Service platform. We aim to leverage blockchain technology to effectively serve the needs of business and society. Combining blockchain with cloud computing, Wancloud provides community, enterprise users and developers with a suite of blockchain services. Featured by its convenient, flexible and professional service, Wancloud is committed to lowering the cost and threshold of blockchain applications, to the reduction of repetitive workload for clients and to the promotion of blockchain technology adoption.\r\n\r\n\r\n\r\nWe have helped enterprise clients to deploy a wide range of blockchain pilots, such as financial record processing.\r\n\r\n\r\n\r\nAs part of our globalization efforts, we have been deploying servers and nodes globally in regions like Hong Kong, the United States, Singapore, South Korea, and Japan. Each Node Center will be equipped with professional maintenance team to provide responsive and secure service to suit the needs of blockchain operations.\r\n\r\n\r\n\r\nWhile we aim to provide reliable technical service as a super node, it is also important to note that our connection and community building efforts could bring unique value to EOS eco-system. In the process of providing services and building communities, we have accumulated a rich pool of resources of community, enterprises, and developers, providing guarantee for the sustainable development of the platform in the future. If elected, we could accelerate the promotion of EOS with respect to its industrial and enterprise adoptions.',
     contact:
       'Twitter\r\nhttps://twitter.com/WancloudEOS\r\nFacebook\r\nhttps://www.facebook.com/wan.cloud.73\r\nTelegram\r\nhttps://t.me/Wancloud',
-  },
-  {
-    location: 'Hong Kong ',
-    latitude: 22.396428,
-    longitude: 114.109497,
-    name: 'EOS TEA',
-    homepage: 'https://node.eosfans.io/',
-    prerequisites: '8/8',
-    nodeLocation: 'Hong Kong',
-    server:
-      '利用云计算高效而强大的伸缩及容灾能力,可满足节点的任何资源需求.提供稳定的节点服务,同时节约资源,节省成本.\r\n48核+ CPU / 480G+内存/ 200Mbps+高速网络/ 32768G+ SSD硬盘/ 2节点互为备份\r\n初期我们会选用云服务器上合理的配置来搭建节点,云服务器可以对配置进行快速伸缩,满足节点初期不确定性的需求.当节点对性能的需求趋于稳定,我们会选择和数据中心合作,购买拥有超高配置的物理服务器,租用数据中心带宽,安全防护等资源,自建集群.无论以什么样的方式部署节点,我们都会优先保证节点的稳定性.',
-    introduction:
-      '部署在香港\r\n节点将部署在香港,与大陆地区采用CN2网络高速连接,合理的避免了一些不可抗因素,使网络连通性和安全性达到一个接近完美的平衡.\r\n\r\n由社区驱动\r\n没有内幕,没有阴谋,代表社区成员存在的一个节点.后期将会逐步完善社区的生态治理.\r\n\r\n利益最大化\r\n首先我们会尊重且履行EOS.IO官方及国际社区推行的宪法内容,同时我们会使用合理的方式使参与的社区成员利益最大化(欢迎广大社区成员给我们提议).',
-    contact: 'Telegram\r\nhttps://t.me/eosfanscn\r\n微信公众号\r\neosiochina',
   },
   {
     location: 'Warsaw, Poland',
@@ -557,21 +599,6 @@ const blockProducersList = [
       'EOS42作为英国伦敦的节点候选团队，我们的主要目标是通过高性能，可靠的网络支持服务和保护EOS网络，投资使其可扩展，保护珍贵的EOS token资源和价值，并赋予社区创建健康和可持续的生态系统的权利。\r\n\r\n我们将以诚实、正直和道德的态度，来做到这一点。同时保持政治和财务的全面独立，并提供高度的团队和财务透明。此外，我们将承诺一部分净利润用于区块链教育慈善事业。',
     contact:
       'Twitter\r\nhttps://twitter.com/eos42io\r\nTelegram\r\nhttps://t.me/eos42\r\nSteemit\r\nhttps://steemit.com/@eos42\r\nReddit\r\nhttps://www.reddit.com/user/GunnisonCap/',
-  },
-  {
-    location: 'South Korea',
-    latitude: 35.907757,
-    longitude: 127.766922,
-    name: 'EOSeoul',
-    homepage: 'http://eoseoul.io/',
-    prerequisites: '8/8',
-    nodeLocation: 'Seoul , Tokyo and Singapore',
-    server:
-      '预计2018年6月3日之后的硬件扩展计划\r\n我们将在早期阶段使用云和数据中心。我们将密切关注增长情况并根据需要制定充足的规定。有关安全，扩展，网关，数据的更多细节将在适当的时候公布。\r\n*地点：首尔AWS地区\r\n*机器：m5.12xlarge（最大x1.32xlarge）\r\n* 1号\r\n*内存：192GB（最高2TB）\r\n* CPU：vCPU 48核心（最多128个核心）\r\n*存储：SSD 2TB * 2EA（NVME）+ EBS 16TB（预置IOPS 20000）\r\n*网络：10 Gbps（最高25 Gbps）\r\n*每月账单：2,800美元（最高19,361美元）\r\n*类型：云（AWS）',
-    introduction:
-      'EOSeoul，韩国的节点候选团队。由韩国领先的网络游戏公司NEOPLY和NEOWIZ组成，NEOPLY是韩国NEOWIZ在2008年成立的第一个启动加速器。\r\n我们一直在全球范围内开发和管理PC在线和手机游戏，并且在过去的20年中一直是韩国这一领域的领导者之一。\r\nNEOWIZ的业务多年来一直在转型和扩张，紧跟互联网和行业发展的历史，不断寻找在这个领域上升的机会。我们相信下一个重大事件就是区块链协议，它将为这个时代带来新的范式。\r\n互联网上的用户可以复制和拥有数据，而不会产生任何费用。这种开放性让互联网能够爆炸并扩大。但是，这意味着数据的创建者/所有者没有得到适当的奖励，因为他/她有权获得。\r\n区块链协议识别数据的所有权。所有权属于贡献或创建数据的用户，奖励给那些对生态系统有积极贡献的人，从而为他们继续这样做提供动力。\r\n但是，还有很多问题需要解决。整个区块链生态系统需要更广泛的公众参与，开发者需要为这个生态系统提供更多有用的服务，从而创造一个良性循环。与此同时，区块生产商需要提供可靠的网络基础设施。我们相信EOS软件可能是我们所面临问题的最接近的解决方案。因此，我们愿意参与EOS生态系统的创新。',
-    contact:
-      'GitHub\r\nhttp://github.com/eoseoul\r\nTwitter\r\nhttp://twitter.com/eoseoul_kor\r\nFacebook\r\nhttp://facebook.com/eoseoul.kr\r\nTelegram\r\nhttp://t.me/eoseoul_en\r\nSteemit\r\nhttp://steemit.com/@eoseoul',
   },
   {
     location: 'Hangzhou, China',
@@ -803,18 +830,6 @@ const blockProducersList = [
     contact: 'Telegram\r\nhttps://t.me/eosmedishares\r\nSteemit\r\nhttps://steemit.com/@ericfish',
   },
   {
-    location: 'Argentina',
-    latitude: -38.416097,
-    longitude: -63.61667199999999,
-    name: 'EOS Argentina ',
-    homepage: 'https://www.eosargentina.io/',
-    prerequisites: '8/8',
-    introduction:
-      'EOS阿根廷，主要目标是通过在一个已经以“区块链友好”而闻名的国家推广使用EOS，并在南美其他地区效仿这一成功举措，推动区块链的采用，我们相信我们大陆迫切需要区块链透明度。',
-    contact:
-      'Twitter\r\nhttps://twitter.com/EosArgentina\r\nFacebook\r\nhttps://www.facebook.com/groups/6108327225889\r\nSteemit\r\nhttps://steemit.com/@eosargentina',
-  },
-  {
     location: 'Thailand',
     latitude: 15.870032,
     longitude: 100.992541,
@@ -1011,21 +1026,6 @@ const blockProducersList = [
     introduction:
       'EOSbidu基于每日币读自媒体，为区块链项目提供信息、评级服务。我们致力于建立国内一流的区块链咨询评级媒体。通过普及区块链的基本知识，导出原创内容，创建互动社区，孵化区块链项目，我们将打造中国最具影响力和服务的区块链社区。\r\n自2017年4月成立以来，每日币读在微信公众号、微博上获得极高的人气和声誉，截至2018年4月20日，已经积累了超过10万名会员。',
     contact: 'Twitter\r\nhttps://twitter.com/Pink_FloydZAC',
-  },
-  {
-    location: 'England',
-    latitude: 52.3555177,
-    longitude: -1.1743197,
-    name: 'EOS UK',
-    homepage: 'https://eosuk.io/',
-    prerequisites: '8/8',
-    nodeLocation: 'Space Data Centre - Nottingham',
-    server:
-      '节点生产者服务器\r\n2个HPE ProLiant DL380 Gen10（1个主要1个故障切换）\r\n\r\n建议的启动配置\r\n2个Intel Xeon Gold 6134M处理器3.2 GHz 8核\r\n128GB RAM \r\n512 GB SSD（RAID 1）\r\n\r\n全节点服务器\r\n2个HPE ProLiant DL380 Gen10（1个主要1个故障切换）\r\n\r\n建议的启动配置\r\n2个Intel Xeon Gold 6134M处理器3.2 GHz 8核\r\n64GB RAM \r\n512 GB SSD（RAID 1）',
-    introduction:
-      'EOS UK坐落于伦敦，创始人Roger John Davies，打算为我区块生成者提供EOS网络上最透明和可靠的节点。\r\n\r\n除了对所有员工的工资合理和标准的运营成本，所有的初始收入将漏斗放回我们的砌块生产基础设施，以确保在弹性极限和达到的性能。\r\n\r\n未来想建立EOS大学，重点开展“下一代”下一代”在计算机科学，政治和经济问题，以及这些学科通过使用Blockchain技术和断词被从根本上改变。\r\n\r\nEOS UK将作为候选团队和区块生产者的一起推动EOS理念，通过聚会，信息发布和协作与商业和学术机构利用网络来造福英国。',
-    contact:
-      'Twitter\r\nhttps://twitter.com/eosukbp\r\nFacebook\r\nhttps://www.facebook.com/advantaproductions/\r\nSteemit\r\nhttps://steemit.com/@bodget',
   },
   {
     location: 'Singapore',

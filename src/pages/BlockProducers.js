@@ -9,7 +9,7 @@ import AutoLinkText from 'react-autolink-text2';
 
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../API.config';
-import { LongListContainer } from '../components/Table';
+import { ProducerListContainer } from '../components/Table';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -139,23 +139,9 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
           </MapGL>
         </MapContainer>
 
-        <LongListContainer>
+        <ProducerListContainer>
           <Table size="middle" dataSource={blockProducersList} pagination={{ pageSize: 10 }}>
-            <Table.Column width={30} title={this.props.t('name')} dataIndex="name" key="name" />
-            <Table.Column width={50} title={this.props.t('location')} dataIndex="location" />
-            <Table.Column
-              width={10}
-              title={this.props.t('prerequisites')}
-              dataIndex="prerequisites"
-            />
-            <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
-            <Table.Column
-              width={200}
-              title={this.props.t('introduction')}
-              dataIndex="introduction"
-              key="introduction"
-            />
-            <Table.Column width={100} title={this.props.t('server')} dataIndex="server" key="server" />
+            <Table.Column width={40} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column
               width={100}
               title={this.props.t('homepage')}
@@ -167,6 +153,20 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
                 </a>
               )}
             />
+            <Table.Column width={50} title={this.props.t('location')} dataIndex="location" />
+            <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
+            <Table.Column
+              width={200}
+              title={this.props.t('introduction')}
+              dataIndex="introduction"
+              key="introduction"
+            />
+            <Table.Column width={100} title={this.props.t('server')} dataIndex="server" key="server" />
+            <Table.Column
+              width={10}
+              title={this.props.t('prerequisites')}
+              dataIndex="prerequisites"
+            />
             <Table.Column
               width={100}
               title={this.props.t('contact')}
@@ -175,7 +175,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
               render={contact => <AutoLinkText text={contact} />}
             />
           </Table>
-        </LongListContainer>
+        </ProducerListContainer>
       </Container>
     );
   }
