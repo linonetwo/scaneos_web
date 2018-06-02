@@ -5,6 +5,7 @@ import Flex from 'styled-flex-component';
 import { translate } from 'react-i18next';
 import MapGL, { Marker, Popup, NavigationControl } from 'react-map-gl';
 import { Table } from 'antd';
+import AutoLinkText from 'react-autolink-text2';
 
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../API.config';
@@ -141,16 +142,16 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         <LongListContainer>
           <Table size="middle" dataSource={blockProducersList} pagination={false}>
             <Table.Column width={30} title={this.props.t('name')} dataIndex="name" key="name" />
-            <Table.Column width={30} title={this.props.t('location')} dataIndex="location" key="location" />
+            <Table.Column width={50} title={this.props.t('location')} dataIndex="location" key="location" />
             <Table.Column
               width={10}
               title={this.props.t('prerequisites')}
               dataIndex="prerequisites"
               key="prerequisites"
             />
-            <Table.Column width={30} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" key="nodeLocation" />
+            <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" key="nodeLocation" />
             <Table.Column
-              width={100}
+              width={200}
               title={this.props.t('introduction')}
               dataIndex="introduction"
               key="introduction"
@@ -167,7 +168,13 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
                 </a>
               )}
             />
-            <Table.Column width={20} title={this.props.t('contact')} dataIndex="contact" key="contact" />
+            <Table.Column
+              width={100}
+              title={this.props.t('contact')}
+              dataIndex="contact"
+              key="contact"
+              render={contact => <AutoLinkText text={contact} />}
+            />
           </Table>
         </LongListContainer>
       </Container>
