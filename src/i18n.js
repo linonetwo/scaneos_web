@@ -17,6 +17,7 @@ export default i18n
       en: {
         translations: {
           locale: 'en',
+          Locale: 'Language',
           Id: 'ID',
           type: 'Type',
           timestamp: 'Timestamp',
@@ -61,6 +62,7 @@ export default i18n
       'zh-CN': {
         translations: {
           locale: 'zh',
+          Locale: '语言',
           Id: 'ID',
           type: '类型',
           timestamp: '时间戳',

@@ -125,7 +125,7 @@ const NavButtonSelectedIndicator = styled.div`
   display: none;
   ${is('visible')`
     display: block;
-  `}
+  `};
 `;
 
 type Props = {
@@ -136,6 +136,7 @@ type Store = {
 };
 type Dispatch = {
   changeNavTab: string => void,
+  changeLanguage: (newLanguage: string) => void,
 };
 
 type RouteData = {
@@ -220,6 +221,16 @@ class Header extends Component<Props & Store & Dispatch, *> {
     <Menu>
       <Menu.Item key="0" disabled>
         <span>{this.props.t('underDev')}</span>
+      </Menu.Item>
+    </Menu>
+  );
+  localeMenu = (
+    <Menu>
+      <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
+        <span>中文</span>
+      </Menu.Item>
+      <Menu.Item key="1" onClick={() => this.props.changeLanguage('en')}>
+        <span>English</span>
       </Menu.Item>
     </Menu>
   );
@@ -361,6 +372,13 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 >
                   {this.props.t('BlockProducers')}
                 </NavDropDownsButtonLink>
+
+                <Dropdown overlay={this.localeMenu}>
+                  <NavDropDownsButton>
+                    {this.props.t('Locale')} <Icon type="down" />
+                    {this.getSelectedIndicator('locale')}
+                  </NavDropDownsButton>
+                </Dropdown>
               </NavDropDowns>
             </DropDownsContainer>
             <MenuOpenIconContainer center>
@@ -374,7 +392,10 @@ class Header extends Component<Props & Store & Dispatch, *> {
 }
 
 const mapState = ({ history: { navTab } }): Store => ({ navTab });
-const mapDispatch = ({ history: { changeNavTab } }): Dispatch => ({ changeNavTab });
+const mapDispatch = ({ history: { changeNavTab }, info: { changeLanguage } }): Dispatch => ({
+  changeNavTab,
+  changeLanguage,
+});
 export default withRouter(
   translate()(
     connect(
