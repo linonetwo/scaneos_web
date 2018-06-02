@@ -435,12 +435,45 @@ const FooterContainer = styled.div`
   .ant-layout-footer {
     background-color: #443f54;
     color: white;
+    ${breakpoint('desktop')`
+      display: flex;
+    `};
   }
 `;
 const Introduction = styled(Flex)`
   width: 300px;
+  margin-bottom: 20px;
 `;
 
+const FriendLinks = styled(Flex)`
+  height: unset;
+  ${breakpoint('desktop')`
+    height: 130px;
+    width: 300px;
+  `};
+`;
+const FriendLink = styled(Flex)`
+  & a {
+    margin: 0 10px;
+  }
+`;
+const friendLinks = [
+  { name: 'Huobi Pool', homepage: 'http://www.eoshuobipool.com/' },
+  { name: 'EOS CANNON', homepage: 'https://eoscannon.io' },
+  { name: 'EOS Asia', homepage: 'https://www.eosasia.one/' },
+  { name: 'EOS Gravity', homepage: 'http://eosfans.one/' },
+  {
+    name: 'EOS Argentina ',
+    homepage: 'https://www.eosargentina.io/',
+  },
+  { name: 'EOSStore', homepage: 'http://www.eos.store/' },
+  { name: 'eosONO', homepage: 'https://www.ono.chat/eos/' },
+  { name: 'EOS Canada', homepage: 'https://www.eoscanada.com/' },
+  { name: 'EOSBeijing', homepage: 'http://www.eosbeijing.one/' },
+  { name: 'EOS UK', homepage: 'https://eosuk.io/' },
+  { name: 'EOSeoul', homepage: 'http://eoseoul.io/' },
+  { name: 'EOS TEA', homepage: 'https://node.eosfans.io/' },
+];
 export function Footer() {
   return (
     <FooterContainer>
@@ -449,6 +482,14 @@ export function Footer() {
           Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts
           platform.
         </Introduction>
+        <FriendLinks column wrap>
+          {friendLinks.map(({ name, homepage }) => (
+            <FriendLink>
+              {name}
+              <a href={homepage}>{homepage}</a>
+            </FriendLink>
+          ))}
+        </FriendLinks>
       </Layout.Footer>
     </FooterContainer>
   );
