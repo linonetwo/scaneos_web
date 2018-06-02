@@ -127,6 +127,18 @@ const NavButtonSelectedIndicator = styled.div`
     display: block;
   `};
 `;
+const DesktopSearchBarContainer = styled(Flex)`
+  display: none;
+  ${breakpoint('tablet')`
+    display: unset;
+  `};
+`;
+const MobileSearchBarContainer = styled(Flex)`
+  ${breakpoint('tablet')`
+    display: none;
+  `};
+  height: 50px;
+`;
 
 type Props = {
   t: Function,
@@ -331,7 +343,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </LogoContainer>
             </Link>
 
-            <SearchBar size="small" />
+            <DesktopSearchBarContainer>
+              <SearchBar size="small" />
+            </DesktopSearchBarContainer>
             <DropDownsContainer>
               <NavDropDowns justifyEnd>
                 <NavDropDownsButtonLink
@@ -394,6 +408,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
             </MenuOpenIconContainer>
           </Layout.Header>
         </HeaderContainer>
+        <MobileSearchBarContainer center>
+          <SearchBar size="medium" />
+        </MobileSearchBarContainer>
       </Fragment>
     );
   }
