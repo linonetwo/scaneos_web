@@ -140,8 +140,8 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         </MapContainer>
 
         <ProducerListContainer>
-          <Table size="middle" dataSource={blockProducersList} pagination={{ pageSize: 10 }}>
-            <Table.Column width={40} title={this.props.t('name')} dataIndex="name" key="name" />
+          <Table size="middle" dataSource={blockProducersList} pagination={{ pageSize: 10 }} scroll={{ x: 2000 }}>
+            <Table.Column fixed="left" width={120} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column
               width={100}
               title={this.props.t('homepage')}
@@ -162,11 +162,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
               key="introduction"
             />
             <Table.Column width={100} title={this.props.t('server')} dataIndex="server" key="server" />
-            <Table.Column
-              width={10}
-              title={this.props.t('prerequisites')}
-              dataIndex="prerequisites"
-            />
+            <Table.Column width={10} title={this.props.t('prerequisites')} dataIndex="prerequisites" />
             <Table.Column
               width={100}
               title={this.props.t('contact')}
