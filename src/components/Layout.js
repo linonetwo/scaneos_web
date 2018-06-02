@@ -305,6 +305,14 @@ class Header extends Component<Props & Store & Dispatch, *> {
           {this.props.t('BlockProducers')}
         </NavDropDownsButtonLink>
       </Menu.Item>
+      <Menu.SubMenu title={<NavDropDownsButton>{this.props.t('Locale')}</NavDropDownsButton>}>
+        <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
+          <span>中文</span>
+        </Menu.Item>
+        <Menu.Item key="1" onClick={() => this.props.changeLanguage('en')}>
+          <span>English</span>
+        </Menu.Item>
+      </Menu.SubMenu>
     </Menu>
   );
 
