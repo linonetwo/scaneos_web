@@ -91,15 +91,20 @@ const DropDownsContainer = styled.nav`
 const NavDropDowns = styled(Flex)``;
 const NavDropDownsButton = styled.a`
   margin-left: 20px;
+  text-decoration: none;
+  &:focus {
+    text-decoration: none;
+  }
+  &:hover > div {
+    display: block;
+  }
 
   color: rgba(68, 63, 84, 0.7);
   &:hover {
-    text-decoration: underline;
     color: rgba(68, 63, 84, 0.8);
   }
   ${is('selected')`
     color: rgb(68, 63, 84);
-    text-decoration: overline;
     &:hover {
       color: rgb(68, 63, 84);
     }
@@ -108,6 +113,20 @@ const NavDropDownsButton = styled.a`
 const NavDropDownsButtonLink = NavDropDownsButton.extend`
   margin-right: 10px;
 `.withComponent(Link);
+
+const NavButtonSelectedIndicator = styled.div`
+  width: 160%;
+  height: 2px;
+  background-color: #3498db;
+
+  margin-top: -2px;
+  margin-left: -30%;
+
+  display: none;
+  ${is('visible')`
+    display: block;
+  `}
+`;
 
 type Props = {
   t: Function,
@@ -278,6 +297,8 @@ class Header extends Component<Props & Store & Dispatch, *> {
     </Menu>
   );
 
+  getSelectedIndicator = tabName => <NavButtonSelectedIndicator visible={this.props.navTab === tabName} />;
+
   render() {
     return (
       <Fragment>
@@ -300,17 +321,20 @@ class Header extends Component<Props & Store & Dispatch, *> {
                   to="/"
                 >
                   {this.props.t('Home')}
+                  {this.getSelectedIndicator('home')}
                 </NavDropDownsButtonLink>
 
                 <Dropdown overlay={this.blockChainMenu}>
                   <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
                     {this.props.t('BlockChain')} <Icon type="down" />
+                    {this.getSelectedIndicator('blockChain')}
                   </NavDropDownsButton>
                 </Dropdown>
 
                 <Dropdown overlay={this.tokensMenu}>
                   <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
                     {this.props.t('Tokens')} <Icon type="down" />
+                    {this.getSelectedIndicator('tokens')}
                   </NavDropDownsButton>
                 </Dropdown>
 
@@ -320,11 +344,13 @@ class Header extends Component<Props & Store & Dispatch, *> {
                   to="/resources"
                 >
                   {this.props.t('Resources')}
+                  {this.getSelectedIndicator('resources')}
                 </NavDropDownsButtonLink>
 
                 <Dropdown overlay={this.miscMenu}>
                   <NavDropDownsButton selected={this.props.navTab === 'misc'}>
                     {this.props.t('Misc')} <Icon type="down" />
+                    {this.getSelectedIndicator('misc')}
                   </NavDropDownsButton>
                 </Dropdown>
 
@@ -363,7 +389,6 @@ const FooterContainer = styled.div`
     background-color: #443f54;
     color: white;
   }
-
 `;
 const Introduction = styled(Flex)`
   width: 300px;
