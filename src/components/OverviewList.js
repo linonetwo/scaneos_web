@@ -22,13 +22,11 @@ const Container = styled(Flex)`
 `;
 const ListContainer = styled.div`
   width: 90vw;
-  margin: auto;
+  margin: 30px auto 0;
   ${breakpoint('tablet')`
-    margin: 0;
-    margin-top: 50px;
     width: 500px;
+    margin: 50px 0 0;
   `};
-  margin-top: 50px;
   height: 815px;
   ${is('small')`
     height: 435px;
