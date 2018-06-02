@@ -87,7 +87,7 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getBlockData(blockNum: number) {
+    async getBlockData(blockNumOrID: number | string) {
       const {
         store: { dispatch },
       } = await import('./');
@@ -96,6 +96,21 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
+        let blockNum;
+        if (typeof blockNumOrID === 'number') {
+          blockNum = blockNumOrID;
+        } else if (Number.isFinite(Number(blockNumOrID))) {
+          blockNum = Number(blockNumOrID);
+        } else {
+          const data = await dispatch.search.searchKeyWord(blockNumOrID);
+          if (data.blockId === blockNumOrID && typeof data.blockNum === 'number') {
+            ({ blockNum } = data);
+          }
+        }
+        if (typeof blockNum !== 'number') {
+          throw new Error(`${blockNumOrID} is not a block Number nor a block ID.`)
+        }
+
         const data = await get(`/blocks?block_num=${blockNum}`);
 
         this.initBlockData(data[0]);

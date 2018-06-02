@@ -24,15 +24,18 @@ type Store = {
   loading: boolean,
 };
 type Dispatch = {
-  getBlockData: (blockNum: number) => void,
+  getBlockData: (blockNumOrID: number | string) => void,
 };
 
 class Block extends Component<Props & Store & Dispatch, *> {
   state = {};
   componentDidMount() {
-    const currentBlockNumber = Number(this.props.match.params.blockNum);
-    this.props.getBlockData(currentBlockNumber);
+    const currentBlockNumberOrID = this.props.match.params.blockNum;
+    this.props.getBlockData(currentBlockNumberOrID);
   }
+  // componentWillReceiveProps(prevProps, nextProps) {
+
+  // }
 
   getValueRendering(field: string, value: any) {
     switch (field) {

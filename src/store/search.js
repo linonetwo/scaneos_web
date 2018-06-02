@@ -26,24 +26,15 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async search() {
+    async searchKeyWord(keyWord: string) {
       const {
-        store: { dispatch, getState },
+        store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
       dispatch.message.toggleLoading();
-      const {
-        search: { keyWord },
-      } = await getState();
-
       try {
         const data = await get(`/search?query=${keyWord}`);
-        const { history } = await import('./history');
-
-        if (data.blockId === keyWord && typeof data.blockNum === 'number') {
-          return history.push(`/block/${data.blockNum}`);
-        }
-        return history.push(`/account/${keyWord}`);
+        return data;
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -58,6 +49,22 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.toggleLoading();
         dispatch.message.toggleLoading();
       }
+    },
+    async search() {
+      const {
+        store: { getState },
+      } = await import('./');
+      const {
+        search: { keyWord },
+      } = await getState();
+
+      const data = await this.searchKeyWord(keyWord);
+      const { history } = await import('./history');
+
+      if (data.blockId === keyWord && typeof data.blockNum === 'number') {
+        return history.push(`/block/${data.blockNum}`);
+      }
+      return history.push(`/account/${keyWord}`);
     },
   },
 });
