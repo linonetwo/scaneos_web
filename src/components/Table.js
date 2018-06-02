@@ -12,10 +12,12 @@ const adjustAntdTable = css`
   }
   .ant-table {
     width: 100%;
+    padding: 0 20px;
     ${breakpoint('tablet')`
       height: ${getTableHeight()}px;
+      padding: 0 40px;
     `};
-    padding: 0 40px;
+
   }
   .ant-table-pagination.ant-pagination {
     float: unset;
@@ -32,5 +34,6 @@ export const LongListContainer = styled.div`
   ${adjustAntdTable};
   .ant-table {
     height: unset;
+    margin-bottom: 50px;
   }
 `;

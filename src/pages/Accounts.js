@@ -52,12 +52,13 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
             }}
           >
             <Table.Column
+              width={70}
               title={this.props.t('name')}
               dataIndex="name"
               key="name"
               render={name => <Link to={`/account/${name}`}>{name}</Link>}
             />
-            <Table.Column title={this.props.t('eosBalance')} dataIndex="eosBalance" key="eosBalance" />
+            <Table.Column width={70} title={this.props.t('eosBalance')} dataIndex="eosBalance" key="eosBalance" />
             <Table.Column
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
