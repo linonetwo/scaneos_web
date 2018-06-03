@@ -19,7 +19,7 @@ RUN cd /tmp && yarn
 RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app/
 
 # simple http server
-RUN yarn global add serve
+RUN yarn global add http-server
 
 # From here we load our application's code in, therefore the previous docker
 # "layer" thats been cached will be used if possible
@@ -30,5 +30,5 @@ RUN yarn build
 # Expose port
 EXPOSE 5000
 
-CMD [ "serve", "-s", "./build", "-l", "5000" ]
+CMD [ "http-server", "./build", "-g", "-p", "5000" ]
 # CMD [ "yarn", "start" ]
