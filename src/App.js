@@ -18,7 +18,6 @@ import Messages from './pages/Messages';
 import Home from './pages/Home';
 import BlockProducers from './pages/BlockProducers';
 import UnderDevelopment from './pages/UnderDevelopment';
-import CountDown from './pages/CountDown';
 import Header, { Footer } from './components/Layout';
 
 export default class App extends Component<{}> {
