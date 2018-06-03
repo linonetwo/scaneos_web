@@ -30,5 +30,5 @@ RUN yarn build
 # Expose port
 EXPOSE 5000
 
-CMD [ "http-server", "./build", "-g", "-p", "5000" ]
+CMD [ "http-server", "./build", "-g", "-p", "5000", "-P" ]
 # CMD [ "yarn", "start" ]
