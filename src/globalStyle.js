@@ -1,6 +1,7 @@
 /* eslint no-unused-expressions: "off" */
 import { injectGlobal } from 'styled-components';
 import styledNormalize from 'styled-normalize';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 injectGlobal`
   ${styledNormalize};
@@ -33,13 +34,29 @@ injectGlobal`
   }
 
   a {
-    color: #333;
+    color: #3498db;
     text-decoration: none;
   }
   
   a:hover {
+    color: #435a77;
     opacity: 1;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  * {
+    -ms-overflow-style: none;  /* IE 10+ */
+    overflow: -moz-scrollbars-none;  /* Firefox */
+  }
+  *::-webkit-scrollbar { 
+      display: none;  /* Safari and Chrome */
+  }
+
+  .ant-layout {
+    background-color: white;
+  }
+  .ant-table-tbody > tr:hover > td {
+    background-color: rgba(68, 63, 84, 0.1) !important;
   }
 `;

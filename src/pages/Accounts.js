@@ -6,7 +6,7 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { getPageSize, formatTimeStamp } from '../store/utils';
-import type { TransactionData } from '../store/transaction';
+import type { AccountData } from '../store/account';
 import type { Pagination } from '../store/block';
 import { ListContainer } from '../components/Table';
 
@@ -14,20 +14,20 @@ type Props = {
   t: Function,
 };
 type Store = {
-  list: TransactionData[],
+  list: AccountData[],
   pagination: Pagination,
   currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
-  getTransactionsList: (gotoPage?: number) => void,
+  getAccountsList: (gotoPage?: number) => void,
   setPage: (newPage: number) => void,
 };
 
-class Transactions extends Component<Props & Store & Dispatch, *> {
+class Accounts extends Component<Props & Store & Dispatch, *> {
   state = {};
   componentDidMount() {
-    this.props.getTransactionsList();
+    this.props.getAccountsList();
   }
   render() {
     return (
@@ -47,16 +47,18 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
                 pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
                 this.props.pagination.loadable
               ) {
-                this.props.getTransactionsList(pagination.current);
+                this.props.getAccountsList(pagination.current);
               }
             }}
           >
             <Table.Column
-              title={this.props.t('transactionId')}
-              dataIndex="transactionId"
-              key="transactionId"
-              render={transactionId => <Link to={`/transaction/${transactionId}`}>{transactionId}</Link>}
+              width={70}
+              title={this.props.t('name')}
+              dataIndex="name"
+              key="name"
+              render={name => <Link to={`/account/${name}`}>{name}</Link>}
             />
+            <Table.Column width={70} title={this.props.t('eosBalance')} dataIndex="eosBalance" key="eosBalance" />
             <Table.Column
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
@@ -64,17 +66,11 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
             <Table.Column
-              title={this.props.t('blockId')}
-              dataIndex="blockId"
-              key="blockId"
-              render={blockId => <Link to={`/block/${blockId}`}>{blockId}</Link>}
+              title={this.props.t('updatedAt')}
+              dataIndex="updatedAt"
+              key="updatedAt"
+              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
-            {/* <Table.Column
-              title={this.props.t('messages')}
-              dataIndex="messages"
-              key="messages"
-              render={messages => messages.map(({ $id }) => <Link to={`/message/${$id}`}>{$id}</Link>)}
-            /> */}
           </Table>
         </ListContainer>
       </Spin>
@@ -82,16 +78,16 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ transaction: { list, pagination, currentPage }, info: { loading } }): Store => ({
+const mapState = ({ account: { list, pagination, currentPage }, info: { loading } }): Store => ({
   list,
   pagination,
   currentPage,
   loading,
 });
-const mapDispatch = ({ transaction: { getTransactionsList, setPage } }): Dispatch => ({ getTransactionsList, setPage });
+const mapDispatch = ({ account: { getAccountsList, setPage } }): Dispatch => ({ getAccountsList, setPage });
 export default translate()(
   connect(
     mapState,
     mapDispatch,
-  )(Transactions),
+  )(Accounts),
 );

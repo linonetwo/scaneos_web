@@ -6,28 +6,27 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { getPageSize, formatTimeStamp } from '../store/utils';
-import type { TransactionData } from '../store/transaction';
-import type { Pagination } from '../store/block';
+import type { BlockData, Pagination } from '../store/block';
 import { ListContainer } from '../components/Table';
 
 type Props = {
   t: Function,
 };
 type Store = {
-  list: TransactionData[],
+  list: BlockData[],
   pagination: Pagination,
   currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
-  getTransactionsList: (gotoPage?: number) => void,
+  getBlocksList: (gotoPage?: number) => void,
   setPage: (newPage: number) => void,
 };
 
-class Transactions extends Component<Props & Store & Dispatch, *> {
+class Blocks extends Component<Props & Store & Dispatch, *> {
   state = {};
   componentDidMount() {
-    this.props.getTransactionsList();
+    this.props.getBlocksList();
   }
   render() {
     return (
@@ -47,15 +46,15 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
                 pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
                 this.props.pagination.loadable
               ) {
-                this.props.getTransactionsList(pagination.current);
+                this.props.getBlocksList(pagination.current);
               }
             }}
           >
             <Table.Column
-              title={this.props.t('transactionId')}
-              dataIndex="transactionId"
-              key="transactionId"
-              render={transactionId => <Link to={`/transaction/${transactionId}`}>{transactionId}</Link>}
+              title={this.props.t('blockNum')}
+              dataIndex="blockNum"
+              key="blockNum"
+              render={blockNum => <Link to={`/block/${blockNum}`}>{blockNum}</Link>}
             />
             <Table.Column
               title={this.props.t('createdAt')}
@@ -63,18 +62,18 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               key="createdAt"
               render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
-            <Table.Column
-              title={this.props.t('blockId')}
-              dataIndex="blockId"
-              key="blockId"
-              render={blockId => <Link to={`/block/${blockId}`}>{blockId}</Link>}
-            />
             {/* <Table.Column
-              title={this.props.t('messages')}
-              dataIndex="messages"
-              key="messages"
-              render={messages => messages.map(({ $id }) => <Link to={`/message/${$id}`}>{$id}</Link>)}
+              title={this.props.t('transactions')}
+              dataIndex="transactions"
+              key="transactions"
+              render={transactions => transactions.map(({ $id }) => <Link to={`/transaction/${$id}`}>{$id}</Link>)}
             /> */}
+            <Table.Column
+              title={this.props.t('producerAccountId')}
+              dataIndex="producerAccountId"
+              key="producerAccountId"
+              render={producerAccountId => <Link to={`/account/${producerAccountId}`}>{producerAccountId}</Link>}
+            />
           </Table>
         </ListContainer>
       </Spin>
@@ -82,16 +81,16 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ transaction: { list, pagination, currentPage }, info: { loading } }): Store => ({
+const mapState = ({ block: { list, pagination, currentPage }, info: { loading } }): Store => ({
   list,
   pagination,
   currentPage,
   loading,
 });
-const mapDispatch = ({ transaction: { getTransactionsList, setPage } }): Dispatch => ({ getTransactionsList, setPage });
+const mapDispatch = ({ block: { getBlocksList, setPage } }): Dispatch => ({ getBlocksList, setPage });
 export default translate()(
   connect(
     mapState,
     mapDispatch,
-  )(Transactions),
+  )(Blocks),
 );

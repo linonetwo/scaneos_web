@@ -1,25 +1,26 @@
 // @flow
-import camelize from 'camelize';
-import type { Timestamp, Id } from './block';
+import { initial } from 'lodash';
+import get from '../API.config';
+import type { Timestamp, Id, Pagination } from './block';
 
-type Authorization =  {
-  account: string,
+type Authorization = {
+  account?: string,
   permission: string,
 };
-type Accounts =  {
+type Accounts = {
   permission: Authorization,
   weight: number,
 };
-type Keys =  {
+type Keys = {
   key: string,
   weight: number,
 };
-type Owner =  {
+type Owner = {
   threshold: number,
   keys: Keys[],
   accounts: Accounts[],
 };
-type Data =  {
+type Data = {
   creator?: string,
   name?: string,
   owner?: Owner,
@@ -31,27 +32,39 @@ type Data =  {
   amount?: number,
   memo?: string,
 };
-export type MessageData =  {
+export type MessageData = {
   Id: Id,
-  messageId: number,
+  actionId: number,
   transactionId: string,
   authorization: Authorization[],
-  handlerAccountName: string,
-  type: string,
-  data: Data,
+  handlerAccountName?: string,
+  type?: string,
+  data?: Data,
   createdAt: Timestamp,
 };
 
 export type Store = {
   loading: boolean,
+  data: MessageData,
   list: MessageData[],
-  pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
+  pagination: Pagination,
   currentPage: number,
 };
 
+export const emptyMessageData = {
+  Id: { $id: '' },
+  actionId: 0,
+  transactionId: '',
+  authorization: [{ account: '', permission: 'active' }],
+  handlerAccountName: 'eos',
+  type: '',
+  data: {},
+  createdAt: { sec: 0, usec: 0 },
+};
 const defaultState = {
   loading: false,
   list: [],
+  data: emptyMessageData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };
@@ -61,8 +74,20 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
-    initMessageList(state: Store, list: MessageData[]) {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
+    initMessagesList(state: Store, list: MessageData[]) {
       state.list = list;
+      return state;
+    },
+    appendMessagesList(state: Store, list: MessageData[]) {
+      state.list = [...state.list, ...list];
+      return state;
+    },
+    initMessageData(state: Store, data: MessageData) {
+      state.data = data;
       return state;
     },
     setPage(state: Store, newPage: number) {
@@ -73,10 +98,6 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, list: MessageData[]) {
-      state.list = [...state.list, ...list];
-      return state;
-    },
     increaseOffset(state: Store, newOffset: number, loadable: boolean) {
       state.pagination.currentTotal += newOffset;
       state.pagination.loadable = loadable;
@@ -84,54 +105,19 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getMessageList(page: number = 0, gotoPage?: number) {
+    async getMessageData(transactionId: string) {
       const {
-        store: { dispatch, message },
+        store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.message.toggleLoading();
+      dispatch.history.updateURI();
 
       try {
-        const list = await fetch(`http://api.eostracker.io/messages?page=${page}`)
-          .then(res => res.json())
-          .then(camelize);
+        const data = await get(`/actions?transaction_id=${transactionId}`);
 
-        // if (!gotoPage) {
-        //   this.clearState();
-        //   this.setPage(0);
-        // }
-
-        // const { getPageSize } = await import('./utils');
-        // const pageSize = getPageSize();
-        // const body = JSON.stringify({
-        //   offset: gotoPage ? block.pagination.currentTotal : 0,
-        //   limit: pageSize * block.pagination.pageCountToLoad + 1,
-        // });
-
-        // let results: MessageData[] = await fetch(`${API}/blocks`, {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body,
-        // })
-        //   .then(res => res.json())
-        //   .then(camelize);
-
-        // const loadable = results.length === pageSize * block.pagination.pageCountToLoad + 1;
-
-        // if (loadable) {
-        //   results = initial(results);
-        // }
-        // if (gotoPage) {
-        //   dispatch.block.appendResult(results);
-        //   dispatch.block.appendTrees(results);
-        //   dispatch.block.appendTags(results);
-        // } else {
-        //   dispatch.block.initResult(results);
-        //   dispatch.block.initTrees(results);
-        //   dispatch.block.initTags(results);
-        // }
-        // this.increaseOffset(results.length, loadable);
-
-        this.initMessageList(list);
+        if (data.length === 0) throw new Error('No data.');
+        this.initMessageData(data[0]);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -144,6 +130,54 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.message.toggleLoading();
+      }
+    },
+    async getMessagesList(gotoPage?: number) {
+      const {
+        store: { dispatch, getState },
+      } = await import('./');
+      const { account } = await getState();
+      dispatch.info.toggleLoading();
+      dispatch.message.toggleLoading();
+
+      try {
+        if (!gotoPage) {
+          this.clearState();
+          this.setPage(0);
+        }
+
+        const { getPageSize } = await import('./utils');
+        const pageSize = getPageSize();
+        const offset = gotoPage ? account.pagination.currentTotal : 0;
+        const limit = pageSize * account.pagination.pageCountToLoad + 1;
+
+        let list: MessageData[] = await get(`/actions?page=${offset}&size=${limit}`);
+
+        const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
+
+        if (loadable) {
+          list = initial(list);
+        }
+        if (gotoPage) {
+          this.appendMessagesList(list);
+        } else {
+          this.initMessagesList(list);
+        }
+        this.increaseOffset(list.length, loadable);
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+        dispatch.message.toggleLoading();
       }
     },
   },

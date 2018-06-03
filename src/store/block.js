@@ -1,5 +1,7 @@
 // @flow
-import camelize from 'camelize';
+import { initial } from 'lodash';
+
+import get from '../API.config';
 
 export type Id = {
   $id: string,
@@ -17,32 +19,34 @@ export type BlockData = {
   timestamp: Timestamp,
   transactionMerkleRoot: string,
   producerAccountId: string,
-  transactions: any[],
+  transactions?: any[],
   createdAt: Timestamp,
 };
 
+export type Pagination = { currentTotal: number, loadable: boolean, pageCountToLoad: number };
 export type Store = {
   loading: boolean,
   list: BlockData[],
   data: BlockData,
-  pagination: { currentTotal: number, loadable: boolean, pageCountToLoad: number },
+  pagination: Pagination,
   currentPage: number,
 };
 
+export const emptyBlockData = {
+  Id: { $id: '' },
+  blockNum: 0,
+  blockId: '',
+  prevBlockId: '',
+  timestamp: { sec: 0, usec: 0 },
+  transactionMerkleRoot: '',
+  producerAccountId: '',
+  transactions: [{ $id: '' }],
+  createdAt: { sec: 0, usec: 0 },
+};
 const defaultState = {
   loading: false,
   list: [],
-  data: {
-    Id: { $id: '' },
-    blockNum: 0,
-    blockId: '',
-    prevBlockId: '',
-    timestamp: { sec: 0, usec: 0 },
-    transactionMerkleRoot: '',
-    producerAccountId: '',
-    transactions: [{ $id: '' }],
-    createdAt: { sec: 0, usec: 0 },
-  },
+  data: emptyBlockData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 0,
 };
@@ -52,8 +56,16 @@ export default (initialState?: Object = {}) => ({
     ...initialState,
   },
   reducers: {
+    toggleLoading(state: Store) {
+      state.loading = !state.loading;
+      return state;
+    },
     initBlocksList(state: Store, list: BlockData[]) {
       state.list = list;
+      return state;
+    },
+    appendBlocksList(state: Store, list: BlockData[]) {
+      state.list = [...state.list, ...list];
       return state;
     },
     initBlockData(state: Store, data: BlockData) {
@@ -68,10 +80,6 @@ export default (initialState?: Object = {}) => ({
       state = defaultState;
       return state;
     },
-    appendResult(state: Store, list: BlockData[]) {
-      state.list = [...state.list, ...list];
-      return state;
-    },
     increaseOffset(state: Store, newOffset: number, loadable: boolean) {
       state.pagination.currentTotal += newOffset;
       state.pagination.loadable = loadable;
@@ -79,17 +87,31 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getBlockData(blockNum: number) {
+    async getBlockData(blockNumOrID: number | string) {
       const {
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
+      dispatch.block.toggleLoading();
       dispatch.history.updateURI();
 
       try {
-        const data = await fetch(`http://api.eostracker.io/blocks?block_num=${blockNum}`)
-          .then(res => res.json())
-          .then(camelize);
+        let blockNum;
+        if (typeof blockNumOrID === 'number') {
+          blockNum = blockNumOrID;
+        } else if (Number.isFinite(Number(blockNumOrID))) {
+          blockNum = Number(blockNumOrID);
+        } else {
+          const data = await dispatch.search.searchKeyWord(blockNumOrID);
+          if (data.blockId === blockNumOrID && typeof data.blockNum === 'number') {
+            ({ blockNum } = data);
+          }
+        }
+        if (typeof blockNum !== 'number') {
+          throw new Error(`${blockNumOrID} is not a block Number nor a block ID.`)
+        }
+
+        const data = await get(`/blocks?block_num=${blockNum}`);
 
         this.initBlockData(data[0]);
       } catch (error) {
@@ -104,56 +126,41 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.block.toggleLoading();
       }
     },
-    async getBlocksList(size: number = 20, gotoPage?: number) {
+    async getBlocksList(gotoPage?: number) {
       const {
-        store: { dispatch, block },
+        store: { dispatch, getState },
       } = await import('./');
+      const { block } = await getState();
       dispatch.info.toggleLoading();
+      dispatch.block.toggleLoading();
 
       try {
-        const list = await fetch(`http://api.eostracker.io/blocks?size=${size}`)
-          .then(res => res.json())
-          .then(camelize);
+        if (!gotoPage) {
+          this.clearState();
+          this.setPage(0);
+        }
 
-        // if (!gotoPage) {
-        //   this.clearState();
-        //   this.setPage(0);
-        // }
+        const { getPageSize } = await import('./utils');
+        const pageSize = getPageSize();
+        const offset = gotoPage ? block.pagination.currentTotal : 0;
+        const limit = pageSize * block.pagination.pageCountToLoad + 1;
 
-        // const { getPageSize } = await import('./utils');
-        // const pageSize = getPageSize();
-        // const body = JSON.stringify({
-        //   offset: gotoPage ? block.pagination.currentTotal : 0,
-        //   limit: pageSize * block.pagination.pageCountToLoad + 1,
-        // });
+        let list: BlockData[] = await get(`/blocks?page=${offset}&size=${limit}`);
 
-        // let results: BlockData[] = await fetch(`${API}/blocks`, {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body,
-        // })
-        //   .then(res => res.json())
-        //   .then(camelize);
+        const loadable = list.length === pageSize * block.pagination.pageCountToLoad + 1;
 
-        // const loadable = results.length === pageSize * block.pagination.pageCountToLoad + 1;
-
-        // if (loadable) {
-        //   results = initial(results);
-        // }
-        // if (gotoPage) {
-        //   dispatch.block.appendResult(results);
-        //   dispatch.block.appendTrees(results);
-        //   dispatch.block.appendTags(results);
-        // } else {
-        //   dispatch.block.initResult(results);
-        //   dispatch.block.initTrees(results);
-        //   dispatch.block.initTags(results);
-        // }
-        // this.increaseOffset(results.length, loadable);
-
-        this.initBlocksList(list);
+        if (loadable) {
+          list = initial(list);
+        }
+        if (gotoPage) {
+          this.appendBlocksList(list);
+        } else {
+          this.initBlocksList(list);
+        }
+        this.increaseOffset(list.length, loadable);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -166,6 +173,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
+        dispatch.block.toggleLoading();
       }
     },
   },
