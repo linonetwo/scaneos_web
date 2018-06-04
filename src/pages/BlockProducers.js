@@ -78,8 +78,8 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         viewBox="0 0 24 24"
         style={{
           cursor: 'pointer',
-          fill: '#d00',
-          stroke: 'none',
+          fill: '#443f54',
+          stroke: '#fff',
           transform: `translate(${-this.iconSize / 2}px,${-this.iconSize}px)`,
         }}
         onClick={() => this.setState({ popupInfo: city })}
@@ -92,9 +92,8 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
   getPopUpInfo = info => (
     <Flex column>
       <div>{info.name}</div>
-      <div>{info.location || ''}</div>
-      <div>{info.prerequisites || ''}</div>
-      <div>{info.nodeLocation || ''}</div>
+      <div>{this.props.t('location')}: {info.location || ''}</div>
+      <div>{this.props.t('prerequisites')}: {info.prerequisites || ''}</div>
       {info.homepage && (
         <a href={info.homepage} target="_black" rel="noopener noreferrer">
           {info.homepage}
@@ -127,7 +126,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         <MapContainer center>
           <MapGL
             {...this.state.viewport}
-            mapStyle="mapbox://styles/mapbox/satellite-v9"
+            mapStyle="mapbox://styles/mapbox/satellite-streets-v9"
             onViewportChange={viewport => this.setState({ viewport })}
             mapboxApiAccessToken={MAPBOX_TOKEN}
           >
