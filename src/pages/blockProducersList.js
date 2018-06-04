@@ -14,6 +14,21 @@ const blockProducersList = [
       'GitHub\r\nhttps://github.com/eoshuobipool\r\nTwitter\r\nhttps://twitter.com/EOS_huobipool\r\nTelegram\r\nhttps://t.me/eoshuobipool',
   },
   {
+    location: 'Beijing',
+    latitude: 39.90419989999999,
+    longitude: 116.4073963,
+    name: 'EOSStore',
+    homepage: 'http://www.eos.store/',
+    prerequisites: '8/8',
+    nodeLocation: 'Beijing, China',
+    server:
+      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
+    introduction:
+      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
+    contact:
+      'GitHub\r\nhttps://github.com/eosstore\r\nTwitter\r\nhttps://twitter.com/StoreEos\r\nFacebook\r\nhttps://www.facebook.com/profile.php?id=10002\r\n微信公众号\r\nEosStore\r\nMedium\r\nhttps://steemit.com/@eos.store\r\nSteemit\r\nhttps://steemit.com/@eos.store',
+  },
+  {
     location: 'Shanghai, China',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -66,21 +81,6 @@ const blockProducersList = [
       'EOS阿根廷，主要目标是通过在一个已经以“区块链友好”而闻名的国家推广使用EOS，并在南美其他地区效仿这一成功举措，推动区块链的采用，我们相信我们大陆迫切需要区块链透明度。',
     contact:
       'Twitter\r\nhttps://twitter.com/EosArgentina\r\nFacebook\r\nhttps://www.facebook.com/groups/6108327225889\r\nSteemit\r\nhttps://steemit.com/@eosargentina',
-  },
-  {
-    location: 'Beijing',
-    latitude: 39.90419989999999,
-    longitude: 116.4073963,
-    name: 'EOSStore',
-    homepage: 'http://www.eos.store/',
-    prerequisites: '8/8',
-    nodeLocation: 'Beijing, China',
-    server:
-      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
-    introduction:
-      'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
-    contact:
-      'GitHub\r\nhttps://github.com/eosstore\r\nTwitter\r\nhttps://twitter.com/StoreEos\r\nFacebook\r\nhttps://www.facebook.com/profile.php?id=10002\r\n微信公众号\r\nEosStore\r\nMedium\r\nhttps://steemit.com/@eos.store\r\nSteemit\r\nhttps://steemit.com/@eos.store',
   },
   {
     location: 'Beijing China',

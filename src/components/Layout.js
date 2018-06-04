@@ -455,21 +455,20 @@ const FriendLinks = styled(Flex)`
     width: 300px;
   `};
 `;
-const FriendLink = styled(Flex)`
-  & a {
-    margin: 0 10px;
-  }
+const FriendLink = styled.a`
+  margin: 0 10px;
+  color: white;
 `;
 const friendLinks = [
+  { name: 'EOSStore', homepage: 'http://www.eos.store/' },
+  { name: 'EOS Asia', homepage: 'https://www.eosasia.one/' },
   { name: 'Huobi Pool', homepage: 'http://www.eoshuobipool.com/' },
   { name: 'EOS CANNON', homepage: 'https://eoscannon.io' },
-  { name: 'EOS Asia', homepage: 'https://www.eosasia.one/' },
   { name: 'EOS Gravity', homepage: 'http://eosfans.one/' },
   {
     name: 'EOS Argentina ',
     homepage: 'https://www.eosargentina.io/',
   },
-  { name: 'EOSStore', homepage: 'http://www.eos.store/' },
   { name: 'eosONO', homepage: 'https://www.ono.chat/eos/' },
   { name: 'EOS Canada', homepage: 'https://www.eoscanada.com/' },
   { name: 'EOSBeijing', homepage: 'http://www.eosbeijing.one/' },
@@ -483,9 +482,8 @@ export const Footer = translate()((props: { t: Function }) => (
       <Introduction>{props.t('webSiteIntroduction')}</Introduction>
       <FriendLinks column wrap>
         {friendLinks.map(({ name, homepage }) => (
-          <FriendLink>
+          <FriendLink href={homepage} target="_black" rel="noopener noreferrer">
             {name}
-            <a href={homepage}>{homepage}</a>
           </FriendLink>
         ))}
       </FriendLinks>
