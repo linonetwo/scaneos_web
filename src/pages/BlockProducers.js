@@ -156,7 +156,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
             <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
             <Table.Column
               width={200}
-              title={this.props.t('introduction')}
+              title={<div>{this.props.t('introduction')} <small>{this.props.t('bpcontactus')}</small></div>}
               dataIndex="introduction"
               key="introduction"
             />

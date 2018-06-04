@@ -49,4 +49,8 @@ export const ProducerListContainer = styled.div`
     width: 90vw;
     padding: 0;
   }
+
+  & small {
+    color: #999;
+  }
 `;

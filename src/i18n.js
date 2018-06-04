@@ -67,6 +67,7 @@ export default i18n
           index: 'Index',
           homepage: 'Home',
           contact: 'Contact',
+          bpcontactus: 'If you are the owner of this BP, please contact scaneos.io@gmail.com to update the info here.',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -145,6 +146,7 @@ export default i18n
           index: '序号',
           homepage: '主页',
           contact: '联系方式',
+          bpcontactus: '如果您是该BP的所有者，请联系 scaneos.io@gmail.com 更新关于该BP的信息。',
         },
         countdown: {
           Days: '天',
