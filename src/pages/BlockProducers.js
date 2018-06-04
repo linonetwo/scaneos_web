@@ -127,7 +127,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         <MapContainer center>
           <MapGL
             {...this.state.viewport}
-            mapStyle="mapbox://styles/mapbox/dark-v9"
+            mapStyle="mapbox://styles/mapbox/satellite-v9"
             onViewportChange={viewport => this.setState({ viewport })}
             mapboxApiAccessToken={MAPBOX_TOKEN}
           >
