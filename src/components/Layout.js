@@ -480,7 +480,7 @@ export const Footer = translate()((props: { t: Function }) => (
   <FooterContainer>
     <Layout.Footer>
       <Introduction>{props.t('webSiteIntroduction')}</Introduction>
-      <FriendLinks column wrap>
+      <FriendLinks column wrap="true">
         {friendLinks.map(({ name, homepage }) => (
           <FriendLink href={homepage} target="_black" rel="noopener noreferrer">
             {name}

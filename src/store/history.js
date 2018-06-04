@@ -24,6 +24,7 @@ export default (initialState: Object = {}) => ({
       return state;
     },
     updateURI(state: Store) {
+      // set nav tab heightlight
       const mainPath = window.location.pathname.split('/')?.[1];
       if (blockChainPath.includes(mainPath)) {
         state.navTab = 'blockChain';
@@ -34,7 +35,32 @@ export default (initialState: Object = {}) => ({
         return state;
       }
       state.navTab = mainPath || 'home';
+
+      // set URI query string
     },
   },
   effects: {},
 });
+
+history.location.state = {};
+async function followURI(location) {
+  const { store: { dispatch } } = await import('./');
+  // 如果不是从 store 发出的 push 导致的路由变动
+  if (location.state && location.state.isAction !== true) {
+    const { page } = queryString.parse(location.search);
+    console.log(location, page);
+    if (location.pathname === "/blocks/") {
+      dispatch.block.getBlocksList(page);
+    } else if (location.pathname === "/transactions/") {
+      dispatch.transaction.getTransactionsList(page);
+    } else if (location.pathname === "/accounts/") {
+      dispatch.account.getAccountsList(page);
+    } else if (location.pathname === "/messages/") {
+      dispatch.message.getMessagesList(page);
+    }
+  }
+}
+history.listen(location => {
+  followURI(location);
+});
+followURI(history.location);

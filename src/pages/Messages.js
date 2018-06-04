@@ -27,9 +27,7 @@ type Dispatch = {
 
 class Messages extends Component<Props & Store & Dispatch, *> {
   state = {};
-  componentDidMount() {
-    this.props.getMessagesList();
-  }
+
   render() {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">

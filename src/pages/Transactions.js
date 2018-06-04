@@ -26,9 +26,7 @@ type Dispatch = {
 
 class Transactions extends Component<Props & Store & Dispatch, *> {
   state = {};
-  componentDidMount() {
-    this.props.getTransactionsList();
-  }
+
   render() {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">

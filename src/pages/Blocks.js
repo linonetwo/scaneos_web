@@ -25,9 +25,7 @@ type Dispatch = {
 
 class Blocks extends Component<Props & Store & Dispatch, *> {
   state = {};
-  componentDidMount() {
-    this.props.getBlocksList();
-  }
+
   render() {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
