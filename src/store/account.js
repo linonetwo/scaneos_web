@@ -112,12 +112,15 @@ export default (initialState?: Object = {}) => ({
       try {
         if (!gotoPage) {
           this.clearState();
-          this.setPage(0);
+          this.setPage(1);
+        } else {
+          this.setPage(gotoPage);
         }
+        dispatch.history.updateURI();
 
         const { getPageSize } = await import('./utils');
         const pageSize = getPageSize();
-        const offset = gotoPage ? account.pagination.currentTotal : 0;
+        const offset = gotoPage ? account.pagination.currentTotal / (pageSize * account.pagination.pageCountToLoad) : 0;
         const limit = pageSize * account.pagination.pageCountToLoad + 1;
 
         let list: AccountData[] = await get(`/accounts?page=${offset}&size=${limit}`);

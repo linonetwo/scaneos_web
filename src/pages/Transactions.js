@@ -22,6 +22,7 @@ type Store = {
 type Dispatch = {
   getTransactionsList: (gotoPage?: number) => void,
   setPage: (newPage: number) => void,
+  updateURI: () => void,
 };
 
 class Transactions extends Component<Props & Store & Dispatch, *> {
@@ -41,6 +42,7 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
             }}
             onChange={pagination => {
               this.props.setPage(pagination.current);
+              this.props.updateURI();
               if (
                 pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
                 this.props.pagination.loadable
@@ -86,7 +88,7 @@ const mapState = ({ transaction: { list, pagination, currentPage }, info: { load
   currentPage,
   loading,
 });
-const mapDispatch = ({ transaction: { getTransactionsList, setPage } }): Dispatch => ({ getTransactionsList, setPage });
+const mapDispatch = ({ transaction: { getTransactionsList, setPage }, history: { updateURI } }): Dispatch => ({ getTransactionsList, setPage, updateURI });
 export default translate()(
   connect(
     mapState,

@@ -108,7 +108,7 @@ export default (initialState?: Object = {}) => ({
           }
         }
         if (typeof blockNum !== 'number') {
-          throw new Error(`${blockNumOrID} is not a block Number nor a block ID.`)
+          throw new Error(`${blockNumOrID} is not a block Number nor a block ID.`);
         }
 
         const data = await get(`/blocks?block_num=${blockNum}`);
@@ -140,12 +140,15 @@ export default (initialState?: Object = {}) => ({
       try {
         if (!gotoPage) {
           this.clearState();
-          this.setPage(0);
+          this.setPage(1);
+        } else {
+          this.setPage(gotoPage);
         }
+        dispatch.history.updateURI();
 
         const { getPageSize } = await import('./utils');
         const pageSize = getPageSize();
-        const offset = gotoPage ? block.pagination.currentTotal : 0;
+        const offset = gotoPage ? block.pagination.currentTotal / (pageSize * block.pagination.pageCountToLoad) : 0;
         const limit = pageSize * block.pagination.pageCountToLoad + 1;
 
         let list: BlockData[] = await get(`/blocks?page=${offset}&size=${limit}`);

@@ -23,39 +23,70 @@ export default (initialState: Object = {}) => ({
       state.navTab = nextNavTab;
       return state;
     },
-    updateURI(state: Store) {
+  },
+  effects: {
+    async updateURI() {
       // set nav tab heightlight
       const mainPath = window.location.pathname.split('/')?.[1];
       if (blockChainPath.includes(mainPath)) {
-        state.navTab = 'blockChain';
-        return state;
+        this.changeNavTab('blockChain');
+      } else if (tokenPath.includes(mainPath)) {
+        this.changeNavTab('tokens');
+      } else {
+        this.changeNavTab(mainPath || 'home');
       }
-      if (tokenPath.includes(mainPath)) {
-        state.navTab = 'tokens';
-        return state;
-      }
-      state.navTab = mainPath || 'home';
 
       // set URI query string
+      const {
+        store: { getState },
+      } = await import('./');
+      const state = getState();
+      if (window.location.pathname === '/blocks/') {
+        const query = queryString.stringify({
+          ...queryString.parse(window.location.search),
+          page: state.block.currentPage,
+        });
+        history.push(`/blocks/?${query}`);
+      } else if (window.location.pathname === '/transactions/') {
+        const query = queryString.stringify({
+          ...queryString.parse(window.location.search),
+          page: state.transaction.currentPage,
+        });
+        history.push(`/transactions/?${query}`);
+      } else if (window.location.pathname === '/accounts/') {
+        const query = queryString.stringify({
+          ...queryString.parse(window.location.search),
+          page: state.account.currentPage,
+        });
+        history.push(`/accounts/?${query}`);
+      } else if (window.location.pathname === '/messages/') {
+        const query = queryString.stringify({
+          ...queryString.parse(window.location.search),
+          page: state.message.currentPage,
+        });
+        history.push(`/messages/?${query}`);
+      }
     },
   },
-  effects: {},
 });
 
 history.location.state = {};
 async function followURI(location) {
-  const { store: { dispatch } } = await import('./');
+  const {
+    store: { dispatch },
+  } = await import('./');
   // 如果不是从 store 发出的 push 导致的路由变动
   if (location.state && location.state.isAction !== true) {
-    const { page } = queryString.parse(location.search);
+    const { page: pageString } = queryString.parse(location.search);
+    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 0 ? Number(pageString) : 0;
     console.log(location, page);
-    if (location.pathname === "/blocks/") {
+    if (location.pathname === '/blocks/') {
       dispatch.block.getBlocksList(page);
-    } else if (location.pathname === "/transactions/") {
+    } else if (location.pathname === '/transactions/') {
       dispatch.transaction.getTransactionsList(page);
-    } else if (location.pathname === "/accounts/") {
+    } else if (location.pathname === '/accounts/') {
       dispatch.account.getAccountsList(page);
-    } else if (location.pathname === "/messages/") {
+    } else if (location.pathname === '/messages/') {
       dispatch.message.getMessagesList(page);
     }
   }

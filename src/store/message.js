@@ -137,24 +137,27 @@ export default (initialState?: Object = {}) => ({
       const {
         store: { dispatch, getState },
       } = await import('./');
-      const { account } = await getState();
+      const { message } = await getState();
       dispatch.info.toggleLoading();
       dispatch.message.toggleLoading();
 
       try {
         if (!gotoPage) {
           this.clearState();
-          this.setPage(0);
+          this.setPage(1);
+        } else {
+          this.setPage(gotoPage);
         }
+        dispatch.history.updateURI();
 
         const { getPageSize } = await import('./utils');
         const pageSize = getPageSize();
-        const offset = gotoPage ? account.pagination.currentTotal : 0;
-        const limit = pageSize * account.pagination.pageCountToLoad + 1;
+        const offset = gotoPage ? message.pagination.currentTotal / (pageSize * message.pagination.pageCountToLoad) : 0;
+        const limit = pageSize * message.pagination.pageCountToLoad + 1;
 
         let list: MessageData[] = await get(`/actions?page=${offset}&size=${limit}`);
 
-        const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
+        const loadable = list.length === pageSize * message.pagination.pageCountToLoad + 1;
 
         if (loadable) {
           list = initial(list);

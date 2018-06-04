@@ -122,12 +122,17 @@ export default (initialState?: Object = {}) => ({
       try {
         if (!gotoPage) {
           this.clearState();
-          this.setPage(0);
+          this.setPage(1);
+        } else {
+          this.setPage(gotoPage);
         }
+        dispatch.history.updateURI();
 
         const { getPageSize } = await import('./utils');
         const pageSize = getPageSize();
-        const offset = gotoPage ? transaction.pagination.currentTotal : 0;
+        const offset = gotoPage
+          ? transaction.pagination.currentTotal / (pageSize * transaction.pagination.pageCountToLoad)
+          : 0;
         const limit = pageSize * transaction.pagination.pageCountToLoad + 1;
 
         let list: TransactionData[] = await get(`/transactions?page=${offset}&size=${limit}`);

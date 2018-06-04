@@ -23,6 +23,7 @@ type Store = {
 type Dispatch = {
   getMessagesList: (gotoPage?: number) => void,
   setPage: (newPage: number) => void,
+  updateURI: () => void,
 };
 
 class Messages extends Component<Props & Store & Dispatch, *> {
@@ -42,6 +43,7 @@ class Messages extends Component<Props & Store & Dispatch, *> {
             }}
             onChange={pagination => {
               this.props.setPage(pagination.current);
+              this.props.updateURI();
               if (
                 pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
                 this.props.pagination.loadable
@@ -108,7 +110,7 @@ const mapState = ({ message: { list, pagination, currentPage }, info: { loading 
   currentPage,
   loading,
 });
-const mapDispatch = ({ message: { getMessagesList, setPage } }): Dispatch => ({ getMessagesList, setPage });
+const mapDispatch = ({ message: { getMessagesList, setPage }, history: { updateURI } }): Dispatch => ({ getMessagesList, setPage, updateURI });
 export default translate()(
   connect(
     mapState,
