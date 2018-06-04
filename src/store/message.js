@@ -66,7 +66,7 @@ const defaultState = {
   list: [],
   data: emptyMessageData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
-  currentPage: 0,
+  currentPage: 1,
 };
 export default (initialState?: Object = {}) => ({
   state: {
