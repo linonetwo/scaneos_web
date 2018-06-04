@@ -140,22 +140,30 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   getAggregationList(data: { loading: boolean, data: AggregationData }) {
     return (
       <AggregationContainer justifyAround>
-        <AggregationItem column center>
-          <h4>{this.props.t('blocksNum')}</h4>
-          {data.data.blocksNum}
-        </AggregationItem>
-        <AggregationItem column center>
-          <h4>{this.props.t('transactionNum')}</h4>
-          {data.data.transactionNum}
-        </AggregationItem>
-        <AggregationItem column center>
-          <h4>{this.props.t('accountNum')}</h4>
-          {data.data.accountNum}
-        </AggregationItem>
-        <AggregationItem column center>
-          <h4>{this.props.t('messageNum')}</h4>
-          {data.data.messageNum}
-        </AggregationItem>
+        <Link to="/blocks/">
+          <AggregationItem column center>
+            <h4>{this.props.t('blocksNum')}</h4>
+            {data.data.blocksNum}
+          </AggregationItem>
+        </Link>
+        <Link to="/transactions/">
+          <AggregationItem column center>
+            <h4>{this.props.t('transactionNum')}</h4>
+            {data.data.transactionNum}
+          </AggregationItem>
+        </Link>
+        <Link to="/accounts/">
+          <AggregationItem column center>
+            <h4>{this.props.t('accountNum')}</h4>
+            {data.data.accountNum}
+          </AggregationItem>
+        </Link>
+        <Link to="/messages/">
+          <AggregationItem column center>
+            <h4>{this.props.t('messageNum')}</h4>
+            {data.data.messageNum}
+          </AggregationItem>
+        </Link>
       </AggregationContainer>
     );
   }
