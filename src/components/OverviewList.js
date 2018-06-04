@@ -47,7 +47,6 @@ const ListContainer = styled.div`
     width: 500px;
     margin: 50px 0 0;
   `};
-  height: 840px;
   ${is('small')`
     height: 440px;
   `};
@@ -60,6 +59,9 @@ const ListContainer = styled.div`
     overflow: hidden;
     padding: 10px;
   }
+  .ant-list-item-content {
+    margin-bottom: 0 !important;
+  }
 
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
@@ -70,9 +72,26 @@ const Title = styled(Flex)`
   font-size: 20px;
   padding: 0 10px;
 `;
-const BlockNumberContainer = styled(Flex)`
+const KeyInfoContainer = styled(Flex)`
   background-color: #443f54;
+  width: 150px;
+  ${is('larger')`
+    width: 230px;
+  `}
+  overflow: hidden;
+
+  height: 70px;
+  margin-right: 20px;
+  padding: 20px;
+
   color: white;
+  & a {
+    color: white;
+  }
+  & a:hover {
+    color: white;
+    opacity: 0.8;
+  }
 `;
 const ViewAll = styled(Flex)`
   border: 1px solid #555;
@@ -156,26 +175,22 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           itemLayout="vertical"
           dataSource={data.data}
           renderItem={(item: BlockData) => (
-            <List.Item
-              actions={[
+            <List.Item>
+              <Flex>
+                <KeyInfoContainer column justifyAround>
+                  <Link to={`/block/${item.blockNum}/`}>
+                    {this.props.t('blockNum')}: {item.blockNum}
+                  </Link>
+                  {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
+                </KeyInfoContainer>
                 <Link to={`/account/${item.producerAccountId}/`}>
                   {this.props.t('producerAccountId')}: {item.producerAccountId}
-                </Link>,
-                <Link to={`/block/${item.blockNum}/`}>
-                  {this.props.t('blockNum')}: {item.blockNum}
-                </Link>,
-              ]}
-            >
-              <div>
-              <BlockNumberContainer column>
-              {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
-              </BlockNumberContainer>
-                
+                </Link>
                 {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
                 {item.transactions.map(({ $id }) => (
                   <Link to={`/transaction/${$id}/`}>{truncate($id, { length: 4, omission: ' ' })}</Link>
                 ))} */}
-              </div>
+              </Flex>
             </List.Item>
           )}
         />
@@ -197,17 +212,18 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           itemLayout="vertical"
           dataSource={data.data}
           renderItem={(item: TransactionData) => (
-            <List.Item
-              actions={[
-                <Link to={`/transaction/${item.transactionId}/`}>
-                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 20, omission: '...' })}
-                </Link>,
+            <List.Item>
+              <Flex>
+                <KeyInfoContainer larger column justifyAround>
+                  <Link to={`/transaction/${item.transactionId}/`}>
+                    {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 20, omission: '...' })}
+                  </Link>
+                  {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
+                </KeyInfoContainer>
                 <Link to={`/block/${item.blockId}/`}>
                   {this.props.t('blockId')}: {truncate(item.blockId, { length: 20, omission: '...' })}
-                </Link>,
-              ]}
-            >
-              <div>{formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}</div>
+                </Link>
+              </Flex>
             </List.Item>
           )}
         />
