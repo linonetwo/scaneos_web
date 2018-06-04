@@ -3,7 +3,7 @@ import { take, flatten, compact, truncate } from 'lodash';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import { List } from 'antd';
+import { List, Icon } from 'antd';
 import is from 'styled-is';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -57,7 +57,7 @@ const ListContainer = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    padding: 10px;
+    padding: 10px 0;
   }
   .ant-list-item-content {
     margin-bottom: 0 !important;
@@ -65,12 +65,12 @@ const ListContainer = styled.div`
 
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
-  padding-top: 20px;
+  padding: 20px;
 `;
 const Title = styled(Flex)`
   width: 100%;
   font-size: 20px;
-  padding: 0 10px;
+  padding: 0;
 `;
 const KeyInfoContainer = styled(Flex)`
   background-color: #443f54;
@@ -164,7 +164,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer>
         <Title justifyBetween alignCenter>
-          {this.props.t('Blocks')}
+          <span><Icon type="appstore-o" /> {this.props.t('Blocks')}</span>
           <Link to="/blocks/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
@@ -201,7 +201,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer>
         <Title justifyBetween alignCenter>
-          {this.props.t('Transactions')}
+          <span><Icon type="right-square-o" /> {this.props.t('Transactions')}</span>
           <Link to="/transactions/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
@@ -216,12 +216,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
               <Flex>
                 <KeyInfoContainer larger column justifyAround>
                   <Link to={`/transaction/${item.transactionId}/`}>
-                    {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 20, omission: '...' })}
+                    {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 15, omission: '...' })}
                   </Link>
                   {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
                 </KeyInfoContainer>
                 <Link to={`/block/${item.blockId}/`}>
-                  {this.props.t('blockId')}: {truncate(item.blockId, { length: 20, omission: '...' })}
+                  {this.props.t('blockId')}: {truncate(item.blockId, { length: 14, omission: '...' })}
                 </Link>
               </Flex>
             </List.Item>
@@ -235,7 +235,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
-          {this.props.t('Accounts')}
+          <span><Icon type="solution" /> {this.props.t('Accounts')}</span>
           <Link to="/accounts/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
@@ -270,7 +270,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
-          {this.props.t('Messages')}
+          <span><Icon type="database" /> {this.props.t('Messages')}</span>
           <Link to="/messages/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
