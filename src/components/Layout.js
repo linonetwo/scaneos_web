@@ -344,7 +344,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
             </Link>
 
             <DesktopSearchBarContainer>
-              <SearchBar size="small" />
+              <SearchBar />
             </DesktopSearchBarContainer>
             <DropDownsContainer>
               <NavDropDowns justifyEnd>

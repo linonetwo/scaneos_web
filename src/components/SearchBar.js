@@ -5,6 +5,7 @@ import { Input } from 'antd';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import breakpoint from 'styled-components-breakpoint';
+import { translate } from 'react-i18next';
 
 const SearchContainer = styled.div`
   width: 200px;
@@ -25,8 +26,7 @@ type Store = {
   keyWord: string,
 };
 type Props = {
-  size: 'large' | 'small' | void,
-  button: boolean | void,
+  t: Function,
 };
 type Dispatch = {
   changeKeyWord: (keyWord: string) => void,
@@ -58,11 +58,12 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
     return (
       <SearchContainer active={this.state.keyWord}>
         <Input.Search
+          placeholder={this.props.t('cansearch')}
           value={this.state.keyWord}
           onChange={this.onSearchInputChange}
-          enterButton={this.props.button && 'Search'}
-          size={this.props.size}
+          enterButton
           onSearch={keyWord => {
+            if (!keyWord) return;
             this.props.changeKeyWord(keyWord);
             this.props.search();
           }}
@@ -79,7 +80,7 @@ const mapDispatch = ({ search: { changeKeyWord, search } }): Dispatch => ({
   changeKeyWord: debounce(changeKeyWord, 100),
   search: debounce(search, 100),
 });
-export default connect(
+export default translate()(connect(
   mapState,
   mapDispatch,
-)(SearchBar);
+)(SearchBar));
