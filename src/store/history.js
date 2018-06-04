@@ -78,8 +78,7 @@ async function followURI(location) {
   // 如果不是从 store 发出的 push 导致的路由变动
   if (location.state && location.state.isAction !== true) {
     const { page: pageString } = queryString.parse(location.search);
-    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 0 ? Number(pageString) : 0;
-    console.log(location, page);
+    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 1 ? Number(pageString) : 1;
     if (location.pathname === '/blocks/') {
       dispatch.block.getBlocksList(page);
     } else if (location.pathname === '/transactions/') {
