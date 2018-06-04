@@ -17,7 +17,7 @@
       "--disable-setuid-sandbox", "--no-sandbox"
     ],
     "concurrency": 1,
-    "include": ["/", "/blocks", "/transactions", "/accounts", "/messages", "/blockProducers"],
+    "include": ["/", "/blocks", "/transactions", "/accounts", "/messages", "/producers"],
     "crawl": false,
     "inlineCss": false,
     "puppeteerExecutablePath": "/usr/bin/chromium-browser"

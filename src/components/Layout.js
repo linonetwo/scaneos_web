@@ -310,9 +310,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
       </Menu.SubMenu>
       <Menu.Item>
         <NavDropDownsButtonLink
-          selected={this.props.navTab === 'blockProducers'}
-          onClick={() => this.props.changeNavTab('blockProducers')}
-          to="/blockProducers"
+          selected={this.props.navTab === 'producers'}
+          onClick={() => this.props.changeNavTab('producers')}
+          to="/producers"
         >
           {this.props.t('BlockProducers')}
         </NavDropDownsButtonLink>
@@ -388,12 +388,12 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 </Dropdown>
 
                 <NavDropDownsButtonLink
-                  selected={this.props.navTab === 'blockProducers'}
-                  onClick={() => this.props.changeNavTab('blockProducers')}
-                  to="/blockProducers"
+                  selected={this.props.navTab === 'producers'}
+                  onClick={() => this.props.changeNavTab('producers')}
+                  to="/producers"
                 >
                   {this.props.t('BlockProducers')}
-                  {this.getSelectedIndicator('blockProducers')}
+                  {this.getSelectedIndicator('producers')}
                 </NavDropDownsButtonLink>
 
                 <Dropdown overlay={this.localeMenu}>
