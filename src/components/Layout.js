@@ -207,7 +207,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
         ({ route, display }, index) =>
           route && display ? (
             <Menu.Item key={route} onClick={() => this.props.changeNavTab('blockChain')}>
-              <Link to={`/${route}`}>{this.props.t(display)}</Link>
+              <Link to={`/${route}/`}>{this.props.t(display)}</Link>
             </Menu.Item>
           ) : (
             <Menu.Divider key={index} />
@@ -221,7 +221,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
         ({ route, display }, index) =>
           route && display ? (
             <Menu.Item key={route} onClick={() => this.props.changeNavTab('tokens')}>
-              <Link to={`/${route}`}>{this.props.t(display)}</Link>
+              <Link to={`/${route}/`}>{this.props.t(display)}</Link>
             </Menu.Item>
           ) : (
             <Menu.Divider key={index} />
@@ -269,7 +269,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
           ({ route, display }, index) =>
             route && display ? (
               <Menu.Item key={route} onClick={() => this.props.changeNavTab('blockChain')}>
-                <Link to={`/${route}`}>{this.props.t(display)}</Link>
+                <Link to={`/${route}/`}>{this.props.t(display)}</Link>
               </Menu.Item>
             ) : (
               <Menu.Divider key={index} />
@@ -285,7 +285,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
           ({ route, display }, index) =>
             route && display ? (
               <Menu.Item key={route} onClick={() => this.props.changeNavTab('tokens')}>
-                <Link to={`/${route}`}>{this.props.t(display)}</Link>
+                <Link to={`/${route}/`}>{this.props.t(display)}</Link>
               </Menu.Item>
             ) : (
               <Menu.Divider key={index} />
@@ -296,7 +296,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
         <NavDropDownsButtonLink
           selected={this.props.navTab === 'resources'}
           onClick={() => this.props.changeNavTab('resources')}
-          to="/resources"
+          to="/resources/"
         >
           {this.props.t('Resources')}
         </NavDropDownsButtonLink>
@@ -312,7 +312,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
         <NavDropDownsButtonLink
           selected={this.props.navTab === 'producers'}
           onClick={() => this.props.changeNavTab('producers')}
-          to="/producers"
+          to="/producers/"
         >
           {this.props.t('BlockProducers')}
         </NavDropDownsButtonLink>
@@ -374,7 +374,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 <NavDropDownsButtonLink
                   selected={this.props.navTab === 'resources'}
                   onClick={() => this.props.changeNavTab('resources')}
-                  to="/resources"
+                  to="/resources/"
                 >
                   {this.props.t('Resources')}
                   {this.getSelectedIndicator('resources')}
@@ -390,7 +390,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 <NavDropDownsButtonLink
                   selected={this.props.navTab === 'producers'}
                   onClick={() => this.props.changeNavTab('producers')}
-                  to="/producers"
+                  to="/producers/"
                 >
                   {this.props.t('BlockProducers')}
                   {this.getSelectedIndicator('producers')}
@@ -510,7 +510,7 @@ export function getBreadcrumb(route: string, t: Function) {
           <Link to="/">{t('Home')}</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Link to={`/${route}s`}>{t(capitalize(`${route}s`))}</Link>
+          <Link to={`/${route}s/`}>{t(capitalize(`${route}s`))}</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>{t(capitalize(route))}</Breadcrumb.Item>
       </Breadcrumb>

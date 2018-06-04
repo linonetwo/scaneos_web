@@ -43,9 +43,9 @@ class Block extends Component<Props & Store & Dispatch, *> {
       case 'timestamp':
         return formatTimeStamp(value.sec, this.props.t('locale'));
       case 'blockNum':
-        return <Link to={`/block/${value}`}>{value}</Link>;
+        return <Link to={`/block/${value}/`}>{value}</Link>;
       case 'producerAccountId':
-        return <Link to={`/account/${value}`}>{value}</Link>;
+        return <Link to={`/account/${value}/`}>{value}</Link>;
       default: {
         if (typeof value === 'string' || typeof value === 'number') {
           return value;

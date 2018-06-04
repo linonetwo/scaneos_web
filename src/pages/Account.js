@@ -42,7 +42,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
       case 'updatedAt':
         return formatTimeStamp(value.sec, this.props.t('locale'));
       case 'name':
-        return <Link to={`/account/${value}`}>{value}</Link>;
+        return <Link to={`/account/${value}/`}>{value}</Link>;
       default: {
         if (typeof value === 'string' || typeof value === 'number') {
           return value;

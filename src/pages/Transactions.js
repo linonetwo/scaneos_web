@@ -55,7 +55,7 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('transactionId')}
               dataIndex="transactionId"
               key="transactionId"
-              render={transactionId => <Link to={`/transaction/${transactionId}`}>{transactionId}</Link>}
+              render={transactionId => <Link to={`/transaction/${transactionId}/`}>{transactionId}</Link>}
             />
             <Table.Column
               title={this.props.t('createdAt')}
@@ -67,13 +67,13 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('blockId')}
               dataIndex="blockId"
               key="blockId"
-              render={blockId => <Link to={`/block/${blockId}`}>{blockId}</Link>}
+              render={blockId => <Link to={`/block/${blockId}/`}>{blockId}</Link>}
             />
             {/* <Table.Column
               title={this.props.t('messages')}
               dataIndex="messages"
               key="messages"
-              render={messages => messages.map(({ $id }) => <Link to={`/message/${$id}`}>{$id}</Link>)}
+              render={messages => messages.map(({ $id }) => <Link to={`/message/${$id}/`}>{$id}</Link>)}
             /> */}
           </Table>
         </ListContainer>

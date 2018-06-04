@@ -146,7 +146,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
       <ListContainer>
         <Title justifyBetween alignCenter>
           {this.props.t('Blocks')}
-          <Link to="/blocks">
+          <Link to="/blocks/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
@@ -158,10 +158,10 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: BlockData) => (
             <List.Item
               actions={[
-                <Link to={`/account/${item.producerAccountId}`}>
+                <Link to={`/account/${item.producerAccountId}/`}>
                   {this.props.t('producerAccountId')}: {item.producerAccountId}
                 </Link>,
-                <Link to={`/block/${item.blockNum}`}>
+                <Link to={`/block/${item.blockNum}/`}>
                   {this.props.t('blockNum')}: {item.blockNum}
                 </Link>,
               ]}
@@ -173,7 +173,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                 
                 {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
                 {item.transactions.map(({ $id }) => (
-                  <Link to={`/transaction/${$id}`}>{truncate($id, { length: 4, omission: ' ' })}</Link>
+                  <Link to={`/transaction/${$id}/`}>{truncate($id, { length: 4, omission: ' ' })}</Link>
                 ))} */}
               </div>
             </List.Item>
@@ -187,7 +187,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
       <ListContainer>
         <Title justifyBetween alignCenter>
           {this.props.t('Transactions')}
-          <Link to="/transactions">
+          <Link to="/transactions/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
@@ -199,10 +199,10 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: TransactionData) => (
             <List.Item
               actions={[
-                <Link to={`/transaction/${item.transactionId}`}>
+                <Link to={`/transaction/${item.transactionId}/`}>
                   {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 20, omission: '...' })}
                 </Link>,
-                <Link to={`/block/${item.blockId}`}>
+                <Link to={`/block/${item.blockId}/`}>
                   {this.props.t('blockId')}: {truncate(item.blockId, { length: 20, omission: '...' })}
                 </Link>,
               ]}
@@ -220,7 +220,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
       <ListContainer small>
         <Title justifyBetween alignCenter>
           {this.props.t('Accounts')}
-          <Link to="/accounts">
+          <Link to="/accounts/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
@@ -232,7 +232,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: AccountData) => (
             <List.Item
               actions={[
-                <Link to={`/account/${item.name}`}>
+                <Link to={`/account/${item.name}/`}>
                   {this.props.t('name')}: {item.name}
                 </Link>,
               ]}
@@ -255,7 +255,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
       <ListContainer small>
         <Title justifyBetween alignCenter>
           {this.props.t('Messages')}
-          <Link to="/messages">
+          <Link to="/messages/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
@@ -267,21 +267,21 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: MessageData) => (
             <List.Item
               actions={compact([
-                <Link to={`/message/${item.transactionId}`}>
+                <Link to={`/message/${item.transactionId}/`}>
                   {this.props.t('Messages')}: {truncate(item.transactionId, { length: 7, omission: '...' })}
                 </Link>,
-                <Link to={`/transaction/${item.transactionId}`}>
+                <Link to={`/transaction/${item.transactionId}/`}>
                   {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 7, omission: '...' })}
                 </Link>,
                 ...flatten(
                   item.authorization.map(({ account }) => (
-                    <Link to={`/account/${account}`}>
+                    <Link to={`/account/${account}/`}>
                       {this.props.t('account')}: {truncate(account, { length: 7, omission: '...' })}
                     </Link>
                   )),
                 ),
                 item.handlerAccountName !== undefined && (
-                  <Link to={`/account/${String(item.handlerAccountName)}`}>
+                  <Link to={`/account/${String(item.handlerAccountName)}/`}>
                     {this.props.t('handlerAccountName')}: {item.handlerAccountName}
                   </Link>
                 ),

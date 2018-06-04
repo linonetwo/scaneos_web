@@ -41,14 +41,14 @@ class Message extends Component<Props & Store & Dispatch, *> {
       case 'createdAt':
         return formatTimeStamp(value.sec, this.props.t('locale'));
       case 'messageNum':
-        return <Link to={`/message/${value}`}>{value}</Link>;
+        return <Link to={`/message/${value}/`}>{value}</Link>;
       case 'handlerAccountName':
-        return <Link to={`/account/${value}`}>{value}</Link>;
+        return <Link to={`/account/${value}/`}>{value}</Link>;
       case 'transactionId':
-        return <Link to={`/transaction/${value}`}>{value}</Link>;
+        return <Link to={`/transaction/${value}/`}>{value}</Link>;
       case 'authorization':
         return value.map(({ account, permission }) => (
-          <Link to={`/account/${account}`}>
+          <Link to={`/account/${account}/`}>
             {account}({this.props.t('permission')}: {permission})
           </Link>
         ));

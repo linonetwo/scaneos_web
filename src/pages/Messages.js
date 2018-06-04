@@ -56,14 +56,14 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('messageId')}
               dataIndex="messageId"
               key="messageId"
-              render={messageId => <Link to={`/transaction/${messageId}`}>{messageId}</Link>}
+              render={messageId => <Link to={`/transaction/${messageId}/`}>{messageId}</Link>}
             />
             <Table.Column
               title={this.props.t('messages')}
               dataIndex="transactionId"
               key="transactionId"
               render={transactionId => (
-                <Link to={`/message/${transactionId}`}>{truncate(transactionId, { length: 10, omission: '...' })}</Link>
+                <Link to={`/message/${transactionId}/`}>{truncate(transactionId, { length: 10, omission: '...' })}</Link>
               )}
             />
             <Table.Column
@@ -71,7 +71,7 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               dataIndex="transactionId"
               key="transactionId"
               render={transactionId => (
-                <Link to={`/transaction/${transactionId}`}>
+                <Link to={`/transaction/${transactionId}/`}>
                   {truncate(transactionId, { length: 10, omission: '...' })}
                 </Link>
               )}
@@ -87,14 +87,14 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               dataIndex="authorization"
               key="authorization"
               render={authorization =>
-                flatten(authorization.map(({ account }) => <Link to={`/account/${account}`}>{account}</Link>))
+                flatten(authorization.map(({ account }) => <Link to={`/account/${account}/`}>{account}</Link>))
               }
             />
             <Table.Column
               title={this.props.t('handlerAccountName')}
               dataIndex="handlerAccountName"
               key="handlerAccountName"
-              render={handlerAccountName => <Link to={`/account/${handlerAccountName}`}>{handlerAccountName}</Link>}
+              render={handlerAccountName => <Link to={`/account/${handlerAccountName}/`}>{handlerAccountName}</Link>}
             />
             <Table.Column title={this.props.t('type')} dataIndex="type" key="type" />
           </Table>

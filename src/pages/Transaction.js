@@ -39,19 +39,19 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
       case 'Id':
         return value.$id;
       case 'messages':
-        return value.map(({ $id }) => <Link to={`/message/${$id}`}>{$id}</Link>);
+        return value.map(({ $id }) => <Link to={`/message/${$id}/`}>{$id}</Link>);
       case 'createdAt':
       case 'updatedAt':
       case 'expiration':
         return formatTimeStamp(value.sec, this.props.t('locale'));
       case 'name':
-        return <Link to={`/transaction/${value}`}>{value}</Link>;
+        return <Link to={`/transaction/${value}/`}>{value}</Link>;
       case 'transactionId':
-        return <Link to={`/transaction/${value}`}>{value}</Link>;
+        return <Link to={`/transaction/${value}/`}>{value}</Link>;
       case 'blockId':
-        return <Link to={`/block/${value}`}>{value}</Link>;
+        return <Link to={`/block/${value}/`}>{value}</Link>;
       case 'refBlockNum':
-        return <Link to={`/block/${value}`}>{value}</Link>;
+        return <Link to={`/block/${value}/`}>{value}</Link>;
       default: {
         if (typeof value === 'string' || typeof value === 'number') {
           return value;
