@@ -75,8 +75,10 @@ const Title = styled(Flex)`
 const KeyInfoContainer = styled(Flex)`
   background-color: #443f54;
   width: 150px;
+  min-width: 150px;
   ${is('larger')`
-    width: 230px;
+    width: 180px;
+    min-width: 180px;
   `}
   overflow: hidden;
 
@@ -224,12 +226,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
               <Flex>
                 <KeyInfoContainer larger column justifyAround>
                   <Link to={`/transaction/${item.transactionId}/`}>
-                    {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 15, omission: '...' })}
+                    {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}
                   </Link>
                   {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
                 </KeyInfoContainer>
                 <Link to={`/block/${item.blockId}/`}>
-                  {this.props.t('blockId')}: {truncate(item.blockId, { length: 14, omission: '...' })}
+                  {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
                 </Link>
               </Flex>
             </List.Item>

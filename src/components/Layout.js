@@ -441,9 +441,9 @@ const FooterContainer = styled.div`
   }
 `;
 const Introduction = styled(Flex)`
-  width: 300px;
   margin-bottom: 20px;
   ${breakpoint('desktop')`
+    width: 300px;
     margin-right: 20px;
   `};
 `;
