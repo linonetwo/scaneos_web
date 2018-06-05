@@ -7,14 +7,15 @@ const locales = { en, zh };
 export function formatTimeStamp(timeStamp, locale, { time = true, distance = true } = {}) {
   // polyfill ms
   const now = new Date(timeStamp * 1000);
-  return `${time ? `${format(now, 'YYYY-MM-DD HH:mm:ss ZZ')} ` : ''}${
+  return `${
     distance
       ? distanceInWordsToNow(now, {
           locale: locales[locale],
           addSuffix: true,
+          includeSeconds: true,
         })
       : ''
-  }`;
+  }${time ? ` (${format(now, 'YY-MM-DD HH:mm:ss')})` : ''}`;
 }
 
 // for table
