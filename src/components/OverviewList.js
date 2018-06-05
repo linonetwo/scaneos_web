@@ -19,6 +19,8 @@ import type { MessageData } from '../store/message';
 import type { AggregationData } from '../store/aggregation';
 import type { CurrentPriceData } from '../store/price';
 
+import PriceChart from './PriceChart';
+
 const Container = styled(Flex)`
   width: 1100px;
   padding-bottom: 50px;
@@ -141,6 +143,7 @@ type Store = {
   messageData: MessageData[],
   aggregationData: AggregationData,
   currentPriceData: CurrentPriceData,
+  priceChartData: number[][],
 };
 type Dispatch = {
   getBlocksList: (size?: number) => void,
@@ -175,7 +178,8 @@ class OverviewList extends Component<Props & Store & Dispatch> {
               <h4>
                 {this.props.t('price')}
                 <PriceChangeContainer up={priceUp} center>
-                  {priceUp ? '+' : ''}{data.currentPriceData.percentChange24h}%
+                  {priceUp ? '+' : ''}
+                  {data.currentPriceData.percentChange24h}%
                 </PriceChangeContainer>
               </h4>
               {numeral(data.currentPriceData.priceUsd).format('($ 0.00 a)')}
@@ -185,9 +189,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
         <Spin spinning={data.priceLoading}>
           <Link to="/price/">
             <AggregationItem column center>
-              <h4>
-                {this.props.t('marketCap')}
-              </h4>
+              <h4>{this.props.t('marketCap')}</h4>
               {numeral(data.currentPriceData.marketCapUsd).format('($ 0.00 a)')}
             </AggregationItem>
           </Link>
@@ -390,12 +392,15 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        {this.getAggregationList({
-          data: this.props.aggregationData,
-          loading: this.props.aggregationLoading,
-          priceLoading: this.props.priceLoading,
-          currentPriceData: this.props.currentPriceData,
-        })}
+        <Flex column>
+          {this.getAggregationList({
+            data: this.props.aggregationData,
+            loading: this.props.aggregationLoading,
+            priceLoading: this.props.priceLoading,
+            currentPriceData: this.props.currentPriceData,
+          })}
+          <PriceChart data={this.props.priceChartData} />
+        </Flex>
         {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 10),
@@ -428,6 +433,7 @@ const mapState = ({
   aggregationLoading,
   priceLoading,
   currentPriceData,
+  priceChartData,
 });
 const mapDispatch = ({
   block: { getBlocksList },
