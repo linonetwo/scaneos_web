@@ -33,19 +33,20 @@ RUN yarn add puppeteer@0.13.0
 COPY package.json /tmp/package.json
 COPY yarn.lock /tmp/yarn.lock
 # RUN sed -i '' 's/registry.npm.taobao.org/registry.npmjs.org/g' yarn.lock
-RUN cd /tmp && yarn
-RUN cp -a /tmp/node_modules /usr/src/app/
+RUN cd /tmp && yarn && cp -a /tmp/node_modules /usr/src/app/
 
-# simple HTTP server
-RUN yarn global add http-server
+# Install nginx
+RUN apk add --no-cache nginx && \
+    chown -R nginx:www-data /var/lib/nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # From here we load our application's code in, therefore the previous docker
 # "layer" that's been cached will be used if possible
 WORKDIR /usr/src/app
 COPY . /usr/src/app
-
 RUN yarn build
-# Expose port
-EXPOSE 5000
 
-CMD [ "http-server", "./build", "-g", "-p", "5000" ]
+# Expose port
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "pid /tmp/nginx.pid; daemon off;"]

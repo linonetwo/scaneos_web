@@ -9,7 +9,7 @@
     "postbuild": "gzip-all ./build/**/*.css && gzip-all ./build/**/*.js && gzip-all ./build/**/*.png && react-snap",
     "test": "yarn clear:babel-cache && react-app-rewired test --env=jsdom",
     "docker-build": "docker build . -t scaneos_web",
-    "docker-run": "docker run --rm --name scaneos_web -p 80:5000 scaneos_web",
+    "docker-run": "docker run --rm --name scaneos_web -p 80:80 -p 443:443 scaneos_web",
     "eject": "react-scripts eject"
   },
   "reactSnap": {
