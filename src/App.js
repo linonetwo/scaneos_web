@@ -23,6 +23,7 @@ import Header, { Footer } from './components/Layout';
 export default class App extends Component<{}> {
   componentDidMount() {
     store.dispatch.history.updateURI();
+    store.dispatch.history.updateNavTab();
   }
   render() {
     return (

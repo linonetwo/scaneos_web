@@ -25,7 +25,7 @@ export default (initialState: Object = {}) => ({
     },
   },
   effects: {
-    async updateURI() {
+    async updateNavTab() {
       // set nav tab heightlight
       const mainPath = window.location.pathname.split('/')?.[1];
       if (blockChainPath.includes(mainPath)) {
@@ -35,7 +35,8 @@ export default (initialState: Object = {}) => ({
       } else {
         this.changeNavTab(mainPath || 'home');
       }
-
+    },
+    async updateURI() {
       // set URI query string
       const {
         store: { getState },
@@ -91,7 +92,12 @@ async function followURI(location) {
     }
   }
 }
-history.listen(location => {
-  followURI(location);
+history.listen(async location => {
+  await followURI(location);
+
+  const {
+    store: { dispatch },
+  } = await import('./');
+  dispatch.history.updateNavTab();
 });
 followURI(history.location);
