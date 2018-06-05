@@ -9,9 +9,10 @@ import accountModel from './account';
 import messageModel from './message';
 import aggregationModel from './aggregation';
 import historyModel from './history';
+import priceModel from './price';
 
 const immer = immerPlugin();
-const configureStore = ({ search, info, block, history, transaction, account, message, aggregation } = {}) =>
+const configureStore = ({ search, info, block, history, transaction, account, message, aggregation, price } = {}) =>
   init({
     models: {
       search: searchModel(search),
@@ -22,6 +23,7 @@ const configureStore = ({ search, info, block, history, transaction, account, me
       message: messageModel(message),
       aggregation: aggregationModel(aggregation),
       history: historyModel(history),
+      price: priceModel(price),
     },
     plugins: [immer],
   });

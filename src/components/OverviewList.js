@@ -129,6 +129,7 @@ type Dispatch = {
   getAccountsList: (page?: number) => void,
   getMessagesList: (page?: number) => void,
   getAggregationData: () => void,
+  getPriceData: () => void,
 };
 class OverviewList extends Component<Props & Store & Dispatch> {
   componentDidMount() {
@@ -137,6 +138,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     this.props.getAccountsList();
     this.props.getMessagesList();
     this.props.getAggregationData();
+    this.props.getPriceData();
   }
 
   getAggregationList(data: { loading: boolean, data: AggregationData }) {
@@ -361,7 +363,8 @@ const mapDispatch = ({
   account: { getAccountsList },
   message: { getMessagesList },
   aggregation: { getAggregationData },
-}): Dispatch => ({ getBlocksList, getTransactionsList, getAccountsList, getMessagesList, getAggregationData });
+  price: { getPriceData },
+}): Dispatch => ({ getBlocksList, getTransactionsList, getAccountsList, getMessagesList, getAggregationData, getPriceData });
 export default translate()(
   connect(
     mapState,
