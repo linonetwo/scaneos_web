@@ -10,6 +10,7 @@ import AutoLinkText from 'react-autolink-text2';
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../API.config';
 import { ProducerListContainer } from '../components/Table';
+import { locationBelongsToArea } from '../store/utils';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -92,8 +93,12 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
   getPopUpInfo = info => (
     <Flex column>
       <div>{info.name}</div>
-      <div>{this.props.t('location')}: {info.location || ''}</div>
-      <div>{this.props.t('prerequisites')}: {info.prerequisites || ''}</div>
+      <div>
+        {this.props.t('location')}: {info.location || ''}
+      </div>
+      <div>
+        {this.props.t('prerequisites')}: {info.prerequisites || ''}
+      </div>
       {info.homepage && (
         <a href={info.homepage} target="_black" rel="noopener noreferrer">
           {info.homepage}
@@ -152,11 +157,48 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
                 </a>
               )}
             />
-            <Table.Column width={50} title={this.props.t('location')} dataIndex="location" />
+            <Table.Column
+              width={50}
+              title={this.props.t('location')}
+              dataIndex="location"
+              filters={[
+                {
+                  text: this.props.t('China'),
+                  value: 'China',
+                },
+                {
+                  text: this.props.t('Asia'),
+                  value: 'Asia',
+                },
+                {
+                  text: this.props.t('America'),
+                  value: 'America',
+                },
+                {
+                  text: this.props.t('Europe'),
+                  value: 'Europe',
+                },
+                {
+                  text: this.props.t('Oceania'),
+                  value: 'Oceania',
+                },
+                {
+                  text: this.props.t('Africa'),
+                  value: 'Africa',
+                },
+              ]}
+              onFilter={(area, record) =>
+                record.location.indexOf(area) !== -1 || locationBelongsToArea(record.location, area)
+              }
+            />
             <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
             <Table.Column
               width={200}
-              title={<div>{this.props.t('introduction')} <small>{this.props.t('bpcontactus')}</small></div>}
+              title={
+                <div>
+                  {this.props.t('introduction')} <small>{this.props.t('bpcontactus')}</small>
+                </div>
+              }
               dataIndex="introduction"
               key="introduction"
             />
