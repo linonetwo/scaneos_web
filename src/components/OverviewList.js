@@ -130,10 +130,10 @@ type Dispatch = {
 };
 class OverviewList extends Component<Props & Store & Dispatch> {
   componentDidMount() {
-    this.props.getBlocksList(10);
-    this.props.getTransactionsList(10);
-    this.props.getAccountsList(0);
-    this.props.getMessagesList(0);
+    this.props.getBlocksList();
+    this.props.getTransactionsList();
+    this.props.getAccountsList();
+    this.props.getMessagesList();
     this.props.getAggregationData();
   }
 

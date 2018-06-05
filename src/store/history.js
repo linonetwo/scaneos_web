@@ -78,7 +78,8 @@ async function followURI(location) {
   // 如果不是从 store 发出的 push 导致的路由变动
   if (location.state && location.state.isAction !== true) {
     const { page: pageString } = queryString.parse(location.search);
-    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 1 ? Number(pageString) : 1;
+    // 暂时不让用户通过 querystring 直接跳到很后面，以免加重后端负担，而且业务上一般也没需求
+    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 1 && Number(pageString) <= 10 ? Number(pageString) : 1;
     if (location.pathname === '/blocks/') {
       dispatch.block.getBlocksList(page);
     } else if (location.pathname === '/transactions/') {
