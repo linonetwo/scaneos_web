@@ -2,9 +2,25 @@
 import camelize from 'camelize';
 import {} from 'lodash';
 
+export type CurrentPriceData = {
+  name: string,
+  symbol: string,
+  rank: number,
+  priceUsd: number,
+  priceBtc: number,
+  '24hVolumeUsd': number,
+  marketCapUsd: number,
+  availableSupply: number,
+  totalSupply: number,
+  maxSupply: number,
+  percentChange1h: number,
+  percentChange24h: number,
+  percentChange7d: number,
+  lastUpdated: string,
+};
 export type Store = {
   loading: boolean,
-  currentPriceData: Object,
+  currentPriceData: CurrentPriceData,
   priceChartData: number[][],
 };
 
@@ -21,9 +37,9 @@ const defaultState = {
     availableSupply: -1,
     totalSupply: -1,
     maxSupply: -1,
-    percentChange1h: -1,
-    percentChange24h: -1,
-    percentChange7d: -1,
+    percentChange1h: 0,
+    percentChange24h: 0,
+    percentChange7d: 0,
     lastUpdated: '',
   },
   priceChartData: [],
@@ -38,7 +54,7 @@ export default (initialState?: Object = {}) => ({
       state.loading = !state.loading;
       return state;
     },
-    initCurrentPriceData(state: Store, data: Object) {
+    initCurrentPriceData(state: Store, data: CurrentPriceData) {
       state.currentPriceData = data;
       return state;
     },
@@ -56,9 +72,9 @@ export default (initialState?: Object = {}) => ({
       dispatch.price.toggleLoading();
 
       try {
-        // 放飞两个 Promise
-        this.getCurrentPriceData();
+        // 放飞等待较久的 Promise
         this.getPriceChartData();
+        await this.getCurrentPriceData();
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -71,7 +87,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
-        dispatch.message.toggleLoading();
+        dispatch.price.toggleLoading();
       }
     },
     async getCurrentPriceData() {

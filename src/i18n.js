@@ -18,7 +18,8 @@ export default i18n
         translations: {
           locale: 'en',
           Locale: 'Language',
-          webSiteIntroduction: 'Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts platform.',
+          webSiteIntroduction:
+            'Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts platform.',
           Id: 'ID',
           type: 'Type',
           timestamp: 'Timestamp',
@@ -68,7 +69,9 @@ export default i18n
           homepage: 'Home',
           contact: 'Contact',
           bpcontactus: 'If you are the owner of this BP, please contact scaneos.io@gmail.com to update the info here.',
-          cansearch: 'Search blockID, blockNum, account...'
+          cansearch: 'Search blockID, blockNum, account...',
+          price: 'Price',
+          marketCap: 'MarketCap',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -78,7 +81,8 @@ export default i18n
         translations: {
           locale: 'zh',
           Locale: '语言',
-          webSiteIntroduction: 'Scan EOS 是一个区块链浏览器，也是一个关于 EOS 的数据分析平台。我们所关注的 EOS 是一个先进的分布式智能合约平台。',
+          webSiteIntroduction:
+            'Scan EOS 是一个区块链浏览器，也是一个关于 EOS 的数据分析平台。我们所关注的 EOS 是一个先进的分布式智能合约平台。',
           Id: 'ID',
           type: '类型',
           timestamp: '时间戳',
@@ -148,7 +152,9 @@ export default i18n
           homepage: '主页',
           contact: '联系方式',
           bpcontactus: '如果您是该BP的所有者，请联系 scaneos.io@gmail.com 更新关于该BP的信息。',
-          cansearch: '搜索区块ID、区块高度、账户……'
+          cansearch: '搜索区块ID、区块高度、账户……',
+          price: '价格',
+          marketCap: '市值',
         },
         countdown: {
           Days: '天',

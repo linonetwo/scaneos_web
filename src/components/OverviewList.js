@@ -3,12 +3,13 @@ import { take, flatten, compact, truncate } from 'lodash';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import { List, Icon } from 'antd';
+import { List, Icon, Spin } from 'antd';
 import is from 'styled-is';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import breakpoint from 'styled-components-breakpoint';
+import numeral from 'numeral';
 
 import { formatTimeStamp } from '../store/utils';
 import type { BlockData } from '../store/block';
@@ -16,6 +17,7 @@ import type { TransactionData } from '../store/transaction';
 import type { AccountData } from '../store/account';
 import type { MessageData } from '../store/message';
 import type { AggregationData } from '../store/aggregation';
+import type { CurrentPriceData } from '../store/price';
 
 const Container = styled(Flex)`
   width: 1100px;
@@ -38,7 +40,23 @@ const AggregationItem = styled(Flex)`
   & h4 {
     color: rgba(68, 63, 84, 0.6);
     font-size: 14px;
+    display: inline-flex;
   }
+
+  width: 30vw;
+  margin: 5px 0;
+  ${breakpoint('desktop')`
+    width: unset;
+    margin: 0;
+  `};
+`;
+const PriceChangeContainer = styled(Flex)`
+  font-size: 12px;
+  color: #ff6347;
+  ${is('up')`
+    color: #9acd32;
+  `};
+  margin-left: 5px;
 `;
 const ListContainer = styled.div`
   width: 90vw;
@@ -79,8 +97,7 @@ const KeyInfoContainer = styled(Flex)`
   ${is('larger')`
     width: 180px;
     min-width: 180px;
-  `}
-  overflow: hidden;
+  `} overflow: hidden;
 
   height: 70px;
   margin-right: 20px;
@@ -117,11 +134,13 @@ type Store = {
   accountLoading: boolean,
   messageLoading: boolean,
   aggregationLoading: boolean,
+  priceLoading: boolean,
   blockData: BlockData[],
   transactionData: TransactionData[],
   accountData: AccountData[],
   messageData: MessageData[],
   aggregationData: AggregationData,
+  currentPriceData: CurrentPriceData,
 };
 type Dispatch = {
   getBlocksList: (size?: number) => void,
@@ -141,33 +160,70 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     this.props.getPriceData();
   }
 
-  getAggregationList(data: { loading: boolean, data: AggregationData }) {
+  getAggregationList(data: {
+    loading: boolean,
+    data: AggregationData,
+    priceLoading: boolean,
+    currentPriceData: CurrentPriceData,
+  }) {
+    const priceUp = data.currentPriceData.percentChange24h > 0;
     return (
-      <AggregationContainer justifyAround>
-        <Link to="/blocks/">
-          <AggregationItem column center>
-            <h4>{this.props.t('blocksNum')}</h4>
-            {data.data.blocksNum}
-          </AggregationItem>
-        </Link>
-        <Link to="/transactions/">
-          <AggregationItem column center>
-            <h4>{this.props.t('transactionNum')}</h4>
-            {data.data.transactionNum}
-          </AggregationItem>
-        </Link>
-        <Link to="/accounts/">
-          <AggregationItem column center>
-            <h4>{this.props.t('accountNum')}</h4>
-            {data.data.accountNum}
-          </AggregationItem>
-        </Link>
-        <Link to="/messages/">
-          <AggregationItem column center>
-            <h4>{this.props.t('messageNum')}</h4>
-            {data.data.messageNum}
-          </AggregationItem>
-        </Link>
+      <AggregationContainer justifyAround wrap="true">
+        <Spin spinning={data.priceLoading}>
+          <Link to="/price/">
+            <AggregationItem column center>
+              <h4>
+                {this.props.t('price')}
+                <PriceChangeContainer up={priceUp} center>
+                  {priceUp ? '+' : ''}{data.currentPriceData.percentChange24h}%
+                </PriceChangeContainer>
+              </h4>
+              {numeral(data.currentPriceData.priceUsd).format('($ 0.00 a)')}
+            </AggregationItem>
+          </Link>
+        </Spin>
+        <Spin spinning={data.priceLoading}>
+          <Link to="/price/">
+            <AggregationItem column center>
+              <h4>
+                {this.props.t('marketCap')}
+              </h4>
+              {numeral(data.currentPriceData.marketCapUsd).format('($ 0.00 a)')}
+            </AggregationItem>
+          </Link>
+        </Spin>
+        <Spin spinning={data.loading}>
+          <Link to="/blocks/">
+            <AggregationItem column center>
+              <h4>{this.props.t('blocksNum')}</h4>
+              {data.data.blocksNum}
+            </AggregationItem>
+          </Link>
+        </Spin>
+        <Spin spinning={data.loading}>
+          <Link to="/transactions/">
+            <AggregationItem column center>
+              <h4>{this.props.t('transactionNum')}</h4>
+              {data.data.transactionNum}
+            </AggregationItem>
+          </Link>
+        </Spin>
+        <Spin spinning={data.loading}>
+          <Link to="/accounts/">
+            <AggregationItem column center>
+              <h4>{this.props.t('accountNum')}</h4>
+              {data.data.accountNum}
+            </AggregationItem>
+          </Link>
+        </Spin>
+        <Spin spinning={data.loading}>
+          <Link to="/messages/">
+            <AggregationItem column center>
+              <h4>{this.props.t('messageNum')}</h4>
+              {data.data.messageNum}
+            </AggregationItem>
+          </Link>
+        </Spin>
       </AggregationContainer>
     );
   }
@@ -176,7 +232,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer>
         <Title justifyBetween alignCenter>
-          <span><Icon type="appstore-o" /> {this.props.t('Blocks')}</span>
+          <span>
+            <Icon type="appstore-o" /> {this.props.t('Blocks')}
+          </span>
           <Link to="/blocks/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
@@ -213,7 +271,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer>
         <Title justifyBetween alignCenter>
-          <span><Icon type="right-square-o" /> {this.props.t('Transactions')}</span>
+          <span>
+            <Icon type="right-square-o" /> {this.props.t('Transactions')}
+          </span>
           <Link to="/transactions/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
@@ -247,7 +307,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
-          <span><Icon type="solution" /> {this.props.t('Accounts')}</span>
+          <span>
+            <Icon type="solution" /> {this.props.t('Accounts')}
+          </span>
           <Link to="/accounts/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
@@ -282,7 +344,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
-          <span><Icon type="database" /> {this.props.t('Messages')}</span>
+          <span>
+            <Icon type="database" /> {this.props.t('Messages')}
+          </span>
           <Link to="/messages/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
@@ -326,7 +390,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        {this.getAggregationList({ data: this.props.aggregationData, loading: this.props.aggregationLoading })}
+        {this.getAggregationList({
+          data: this.props.aggregationData,
+          loading: this.props.aggregationLoading,
+          priceLoading: this.props.priceLoading,
+          currentPriceData: this.props.currentPriceData,
+        })}
         {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 10),
@@ -345,6 +414,7 @@ const mapState = ({
   account: { loading: accountLoading, list: accountData },
   message: { loading: messageLoading, list: messageData },
   aggregation: { loading: aggregationLoading, data: aggregationData },
+  price: { loading: priceLoading, currentPriceData, priceChartData },
 }): Store => ({
   blockData,
   transactionData,
@@ -356,6 +426,8 @@ const mapState = ({
   accountLoading,
   messageLoading,
   aggregationLoading,
+  priceLoading,
+  currentPriceData,
 });
 const mapDispatch = ({
   block: { getBlocksList },
@@ -364,7 +436,14 @@ const mapDispatch = ({
   message: { getMessagesList },
   aggregation: { getAggregationData },
   price: { getPriceData },
-}): Dispatch => ({ getBlocksList, getTransactionsList, getAccountsList, getMessagesList, getAggregationData, getPriceData });
+}): Dispatch => ({
+  getBlocksList,
+  getTransactionsList,
+  getAccountsList,
+  getMessagesList,
+  getAggregationData,
+  getPriceData,
+});
 export default translate()(
   connect(
     mapState,

@@ -14,10 +14,18 @@
   },
   "reactSnap": {
     "puppeteerArgs": [
-      "--disable-setuid-sandbox", "--no-sandbox"
+      "--disable-setuid-sandbox",
+      "--no-sandbox"
     ],
     "concurrency": 1,
-    "include": ["/", "/blocks", "/transactions", "/accounts", "/messages", "/producers"],
+    "include": [
+      "/",
+      "/blocks",
+      "/transactions",
+      "/accounts",
+      "/messages",
+      "/producers"
+    ],
     "crawl": false,
     "inlineCss": false,
     "puppeteerExecutablePath": "/usr/bin/chromium-browser"
@@ -36,6 +44,7 @@
     "i18next-browser-languagedetector": "^2.2.0",
     "lodash": "^4.17.10",
     "no-scroll": "^2.1.1",
+    "numeral": "^2.0.6",
     "preval.macro": "^1.0.2",
     "react": "^16.4.0",
     "react-autolink-text2": "^3.2.0",
