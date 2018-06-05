@@ -62,12 +62,12 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
               key="createdAt"
               render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
             />
-            {/* <Table.Column
+            <Table.Column
               title={this.props.t('transactions')}
               dataIndex="transactions"
               key="transactions"
-              render={transactions => transactions.map(({ $id }) => <Link to={`/transaction/${$id}/`}>{$id}</Link>)}
-            /> */}
+              render={transactions => transactions && transactions.map(({ $id }) => <Link to={`/transaction/${$id}/`}>{$id}</Link>)}
+            />
             <Table.Column
               title={this.props.t('producerAccountId')}
               dataIndex="producerAccountId"
