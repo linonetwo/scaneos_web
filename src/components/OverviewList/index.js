@@ -1,7 +1,7 @@
 // @flow
 import { take, flatten, compact, truncate } from 'lodash';
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { List, Icon, Spin } from 'antd';
 import is from 'styled-is';
@@ -52,23 +52,7 @@ const AggregationItem = styled(Flex)`
     margin: 0;
   `};
 `;
-
-const cardWidth = css`
-  width: 90vw;
-  margin: 30px auto 0;
-  ${breakpoint('desktop')`
-    width: 500px;
-    margin: 50px 0 0;
-  `};
-`;
-const PriceInfoContainer = styled(Flex)`
-  ${cardWidth};
-  height: 300px;
-
-  background-color: white;
-  border: 2px solid #443f54;
-`;
-const PriceChange = styled(Flex)`
+const PriceChangeContainer = styled(Flex)`
   font-size: 12px;
   color: #ff6347;
   ${is('up')`
@@ -76,20 +60,13 @@ const PriceChange = styled(Flex)`
   `};
   margin-left: 5px;
 `;
-
-const TransactionChartContainer = styled(Flex)`
-  ${cardWidth};
-  height: 300px;
-
-  padding: 10px;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
-  border-left: 2px solid #443f54;
-  border-right: 2px solid #443f54;
-`;
-
 const ListContainer = styled.div`
-  ${cardWidth};
+  width: 90vw;
+  margin: 30px auto 0;
+  ${breakpoint('desktop')`
+    width: 500px;
+    margin: 50px 0 0;
+  `};
   ${is('small')`
     height: 440px;
   `};
@@ -188,9 +165,37 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     this.props.getPriceData();
   }
 
-  getAggregationList(data: { loading: boolean, data: AggregationData }) {
+  getAggregationList(data: {
+    loading: boolean,
+    data: AggregationData,
+    priceLoading: boolean,
+    currentPriceData: CurrentPriceData,
+  }) {
+    const priceUp = data.currentPriceData.percentChange24h > 0;
     return (
       <AggregationContainer justifyAround wrap="true">
+        <Spin spinning={data.priceLoading}>
+          <Link to="/price/">
+            <AggregationItem column center>
+              <h4>
+                {this.props.t('price')}
+                <PriceChangeContainer up={priceUp} center>
+                  {priceUp ? '+' : ''}
+                  {data.currentPriceData.percentChange24h}%
+                </PriceChangeContainer>
+              </h4>
+              {numeral(data.currentPriceData.priceUsd).format('($ 0.00 a)')}
+            </AggregationItem>
+          </Link>
+        </Spin>
+        <Spin spinning={data.priceLoading}>
+          <Link to="/price/">
+            <AggregationItem column center>
+              <h4>{this.props.t('marketCap')}</h4>
+              {numeral(data.currentPriceData.marketCapUsd).format('($ 0.00 a)')}
+            </AggregationItem>
+          </Link>
+        </Spin>
         <Spin spinning={data.loading}>
           <Link to="/blocks/">
             <AggregationItem column center>
@@ -224,47 +229,6 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           </Link>
         </Spin>
       </AggregationContainer>
-    );
-  }
-
-  getPriceInfo(data: { priceLoading: boolean, currentPriceData: CurrentPriceData, priceChartData: number[][] }) {
-    const priceUp = data.currentPriceData.percentChange24h > 0;
-    return (
-      <PriceInfoContainer column>
-        <Flex>
-          <Spin spinning={data.priceLoading}>
-            <Link to="/price/">
-              <AggregationItem column center>
-                <h4>
-                  {this.props.t('price')}
-                  <PriceChange up={priceUp} center>
-                    {priceUp ? '+' : ''}
-                    {data.currentPriceData.percentChange24h}%
-                  </PriceChange>
-                </h4>
-                {numeral(data.currentPriceData.priceUsd).format('($ 0.00 a)')}
-              </AggregationItem>
-            </Link>
-          </Spin>
-          <Spin spinning={data.priceLoading}>
-            <Link to="/price/">
-              <AggregationItem column center>
-                <h4>{this.props.t('marketCap')}</h4>
-                {numeral(data.currentPriceData.marketCapUsd).format('($ 0.00 a)')}
-              </AggregationItem>
-            </Link>
-          </Spin>
-        </Flex>
-        <PriceChart data={data.priceChartData} />
-      </PriceInfoContainer>
-    );
-  }
-
-  getTransactionChart(data) {
-    return (
-      <TransactionChartContainer center>
-        <PriceChart data={data.priceChartData} />
-      </TransactionChartContainer>
     );
   }
 
@@ -430,16 +394,15 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        {this.getAggregationList({
-          data: this.props.aggregationData,
-          loading: this.props.aggregationLoading,
-        })}
-        {this.getPriceInfo({
-          priceLoading: this.props.priceLoading,
-          currentPriceData: this.props.currentPriceData,
-          priceChartData: this.props.priceChartData,
-        })}
-        {this.getTransactionChart({ priceChartData: this.props.priceChartData })}
+        <Flex column>
+          {this.getAggregationList({
+            data: this.props.aggregationData,
+            loading: this.props.aggregationLoading,
+            priceLoading: this.props.priceLoading,
+            currentPriceData: this.props.currentPriceData,
+          })}
+          <PriceChart data={this.props.priceChartData} />
+        </Flex>
         {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 10),

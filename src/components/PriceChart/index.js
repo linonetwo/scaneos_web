@@ -14,7 +14,6 @@ import 'echarts/lib/component/timeline';
 
 const PriceChartContainer = styled(Flex)`
   height: 200px;
-  width: 100%;
 `;
 
 const chartOption = {
