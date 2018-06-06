@@ -642,7 +642,7 @@ const blockProducersList = [
     contact: 'Telegram\r\nhttps://t.me/eoslaomao\r\nSteemit\r\nhttps://steemit.com/@eoslaomao',
   },
   {
-    location: 'Asutralia',
+    location: 'Australia',
     latitude: -25.274398,
     longitude: 133.775136,
     name: 'EOSphere',
