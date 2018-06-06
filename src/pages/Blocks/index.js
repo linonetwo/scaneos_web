@@ -32,6 +32,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
         <ListContainer column>
           <Table
+            scroll={{ x: 1000 }}
             size="middle"
             dataSource={this.props.list}
             pagination={{
