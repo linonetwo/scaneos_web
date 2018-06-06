@@ -85,6 +85,7 @@ export default (initialState?: Object = {}) => ({
       try {
         const data = await get(`/accounts?name=${accountName}`);
 
+        if (!data?.[0]) throw new Error('No data.');
         this.initAccountData(data[0]);
       } catch (error) {
         console.error(error);
