@@ -117,8 +117,8 @@ const Title = styled(Flex)`
 `;
 const KeyInfoContainer = styled(Flex)`
   background-color: #443f54;
-  width: 150px;
-  min-width: 150px;
+  width: 170px;
+  min-width: 170px;
   ${is('larger')`
     width: 180px;
     min-width: 180px;
@@ -136,6 +136,8 @@ const KeyInfoContainer = styled(Flex)`
     color: white;
     opacity: 0.8;
   }
+
+  white-space: pre-wrap;
 `;
 const ViewAll = styled(Flex)`
   border: 1px solid #555;
