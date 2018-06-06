@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
-import { getBreadcrumb } from '../components/Layout';
-import { formatTimeStamp } from '../store/utils';
-import type { MessageData } from '../store/message';
-import { LongListContainer } from '../components/Table';
+import { getBreadcrumb } from '../../components/Layout';
+import { formatTimeStamp } from '../../store/utils';
+import type { MessageData } from '../../store/message';
+import { LongListContainer } from '../../components/Table';
 
 type Props = {
   match: {

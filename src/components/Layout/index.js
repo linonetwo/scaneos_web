@@ -12,7 +12,7 @@ import { withRouter, Link } from 'react-router-dom';
 import breakpoint from 'styled-components-breakpoint';
 import noScroll from 'no-scroll';
 
-import SearchBar from './SearchBar';
+import SearchBar from '../SearchBar';
 
 const HeaderContainer = styled.div`
   height: 64px;

@@ -8,9 +8,9 @@ import { Table } from 'antd';
 import AutoLinkText from 'react-autolink-text2';
 
 import blockProducersList from './blockProducersList';
-import { MAPBOX_TOKEN } from '../API.config';
-import { ProducerListContainer } from '../components/Table';
-import { locationBelongsToArea } from '../store/utils';
+import { MAPBOX_TOKEN } from '../../API.config';
+import { ProducerListContainer } from '../../components/Table';
+import { locationBelongsToArea } from '../../store/utils';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);

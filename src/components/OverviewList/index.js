@@ -11,15 +11,15 @@ import { translate } from 'react-i18next';
 import breakpoint from 'styled-components-breakpoint';
 import numeral from 'numeral';
 
-import { formatTimeStamp } from '../store/utils';
-import type { BlockData } from '../store/block';
-import type { TransactionData } from '../store/transaction';
-import type { AccountData } from '../store/account';
-import type { MessageData } from '../store/message';
-import type { AggregationData } from '../store/aggregation';
-import type { CurrentPriceData } from '../store/price';
+import { formatTimeStamp } from '../../store/utils';
+import type { BlockData } from '../../store/block';
+import type { TransactionData } from '../../store/transaction';
+import type { AccountData } from '../../store/account';
+import type { MessageData } from '../../store/message';
+import type { AggregationData } from '../../store/aggregation';
+import type { CurrentPriceData } from '../../store/price';
 
-import PriceChart from './PriceChart';
+import PriceChart from '../PriceChart';
 
 const Container = styled(Flex)`
   width: 1100px;

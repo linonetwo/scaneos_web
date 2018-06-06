@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { getPageSize, formatTimeStamp } from '../store/utils';
-import type { BlockData, Pagination } from '../store/block';
-import { ListContainer } from '../components/Table';
+import { getPageSize, formatTimeStamp } from '../../store/utils';
+import type { BlockData, Pagination } from '../../store/block';
+import { ListContainer } from '../../components/Table';
 
 type Props = {
   t: Function,

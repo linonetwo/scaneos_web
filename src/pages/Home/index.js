@@ -5,7 +5,7 @@ import Flex from 'styled-flex-component';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import OverviewList from '../components/OverviewList';
+import OverviewList from '../../components/OverviewList';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
