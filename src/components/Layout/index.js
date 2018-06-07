@@ -137,7 +137,7 @@ const MobileSearchBarContainer = styled(Flex)`
   ${breakpoint('desktop')`
     display: none;
   `};
-  height: 50px;
+  height: 70px;
 `;
 
 type Props = {
@@ -468,6 +468,7 @@ const FriendLinks = styled(Flex)`
 `;
 const FriendLink = styled.a`
   color: white;
+  margin: 5px 0;
 `;
 const friendLinks = [
   { name: 'EOSStore', homepage: 'http://www.eos.store/' },
