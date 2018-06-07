@@ -176,6 +176,22 @@ class OverviewList extends Component<Props & Store & Dispatch> {
     const priceUp = data.currentPriceData.percentChange24h > 0;
     return (
       <AggregationContainer justifyAround wrap="true">
+        <Spin spinning={data.loading}>
+          <Link to="/blocks/">
+            <AggregationItem column center>
+              <h4>{this.props.t('blocksNum')}</h4>
+              {data.data.blocksNum}
+            </AggregationItem>
+          </Link>
+        </Spin>
+        <Spin spinning={data.loading}>
+          <Link to="/transactions/">
+            <AggregationItem column center>
+              <h4>{this.props.t('transactionNum')}</h4>
+              {data.data.transactionNum}
+            </AggregationItem>
+          </Link>
+        </Spin>
         <Spin spinning={data.priceLoading}>
           <Link to="/price/">
             <AggregationItem column center>
@@ -195,22 +211,6 @@ class OverviewList extends Component<Props & Store & Dispatch> {
             <AggregationItem column center>
               <h4>{this.props.t('marketCap')}</h4>
               {numeral(data.currentPriceData.marketCapUsd).format('($ 0.00 a)')}
-            </AggregationItem>
-          </Link>
-        </Spin>
-        <Spin spinning={data.loading}>
-          <Link to="/blocks/">
-            <AggregationItem column center>
-              <h4>{this.props.t('blocksNum')}</h4>
-              {data.data.blocksNum}
-            </AggregationItem>
-          </Link>
-        </Spin>
-        <Spin spinning={data.loading}>
-          <Link to="/transactions/">
-            <AggregationItem column center>
-              <h4>{this.props.t('transactionNum')}</h4>
-              {data.data.transactionNum}
             </AggregationItem>
           </Link>
         </Spin>
