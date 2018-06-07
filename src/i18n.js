@@ -80,7 +80,8 @@ export default i18n
           Africa: 'Africa',
           PriceHistory: 'Price History',
           MappingChecker: 'Verify EOS registration',
-          ethaddress: 'ETH address'
+          ethaddress: 'ETH address',
+          FriendLinks: 'Links',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -173,6 +174,7 @@ export default i18n
           PriceHistory: '价格走势',
           MappingChecker: '主网映射验证',
           ethaddress: '输入您的以太坊地址',
+          FriendLinks: '友情链接',
         },
         countdown: {
           Days: '天',

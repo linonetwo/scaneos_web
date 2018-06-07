@@ -440,14 +440,25 @@ const FooterContainer = styled.div`
     `};
   }
 `;
-const Introduction = styled(Flex)`
+const FooterItem = styled(Flex)`
   margin-bottom: 20px;
   ${breakpoint('desktop')`
-    width: 300px;
-    margin-right: 20px;
-  `};
+  width: 300px;
+  margin-right: 20px;
+`};
 `;
+const Introduction = styled(Flex)``;
 
+const FooterTitle = styled.h3`
+  color: white;
+  border-bottom: 1px dotted white;
+`;
+const TitleDecorator = styled(Flex)`
+  width: 100%;
+  border-bottom: 1px solid #3498db;
+  margin-bottom: -1px;
+  width: fit-content;
+`;
 const FriendLinks = styled(Flex)`
   height: unset;
   ${breakpoint('desktop')`
@@ -456,7 +467,6 @@ const FriendLinks = styled(Flex)`
   `};
 `;
 const FriendLink = styled.a`
-  margin: 0 10px;
   color: white;
 `;
 const friendLinks = [
@@ -479,14 +489,24 @@ const friendLinks = [
 export const Footer = translate()((props: { t: Function }) => (
   <FooterContainer>
     <Layout.Footer>
-      <Introduction>{props.t('webSiteIntroduction')}</Introduction>
-      <FriendLinks column wrap="true">
-        {friendLinks.map(({ name, homepage }) => (
-          <FriendLink key={name} href={homepage} target="_black" rel="noopener noreferrer">
-            {name}
-          </FriendLink>
-        ))}
-      </FriendLinks>
+      <FooterItem column>
+        <FooterTitle>
+          <TitleDecorator>{props.t('introduction')}</TitleDecorator>
+        </FooterTitle>
+        <Introduction>{props.t('webSiteIntroduction')}</Introduction>
+      </FooterItem>
+      <FooterItem column>
+        <FooterTitle>
+          <TitleDecorator>{props.t('FriendLinks')}</TitleDecorator>
+        </FooterTitle>
+        <FriendLinks column wrap="true">
+          {friendLinks.map(({ name, homepage }) => (
+            <FriendLink key={name} href={homepage} target="_black" rel="noopener noreferrer">
+              {name}
+            </FriendLink>
+          ))}
+        </FriendLinks>
+      </FooterItem>
     </Layout.Footer>
   </FooterContainer>
 ));
