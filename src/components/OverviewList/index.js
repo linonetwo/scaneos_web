@@ -58,6 +58,8 @@ const AggregationItem = styled(Flex)`
   `};
 
   white-space: nowrap;
+
+  color: #3498db;
 `;
 const PriceChangeContainer = styled(Flex)`
   font-size: 12px;
@@ -111,8 +113,7 @@ const KeyInfoContainer = styled(Flex)`
   & a {
     color: white;
   }
-  & a:hover {
-    color: white;
+  &:hover {
     opacity: 0.8;
   }
 
@@ -253,12 +254,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: BlockData) => (
             <List.Item>
               <Flex>
-                <KeyInfoContainer column justifyAround>
-                  <Link to={`/block/${item.blockNum}/`}>
-                    {this.props.t('blockNum')}: {item.blockNum}
-                  </Link>
-                  {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
-                </KeyInfoContainer>
+                <Link to={`/block/${item.blockNum}/`}>
+                  <KeyInfoContainer column justifyAround>
+                    <span>{this.props.t('blockNum')}: {item.blockNum}</span>
+                    {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
+                  </KeyInfoContainer>
+                </Link>
                 <Link to={`/account/${item.producerAccountId}/`}>
                   {this.props.t('producerAccountId')}: {item.producerAccountId}
                 </Link>
@@ -292,12 +293,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: TransactionData) => (
             <List.Item>
               <Flex>
-                <KeyInfoContainer larger column justifyAround>
-                  <Link to={`/transaction/${item.transactionId}/`}>
+                <Link to={`/transaction/${item.transactionId}/`}>
+                  <KeyInfoContainer larger column justifyAround>
                     {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}
-                  </Link>
-                  {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
-                </KeyInfoContainer>
+                    {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
+                  </KeyInfoContainer>
+                </Link>
                 <Link to={`/block/${item.blockId}/`}>
                   {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
                 </Link>
