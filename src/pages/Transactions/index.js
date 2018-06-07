@@ -69,7 +69,7 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('blockId')}
               dataIndex="blockId"
               key="blockId"
-              render={blockId => <Link to={`/block/${blockId}/`}>{blockId}</Link>}
+              render={blockId => <Link to={`/block/${blockId}/`}>{truncate(blockId, { length: 14, omission: '..' })}</Link>}
             />
             {/* <Table.Column
               title={this.props.t('messages')}
