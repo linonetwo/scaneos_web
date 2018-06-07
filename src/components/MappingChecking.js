@@ -1,4 +1,6 @@
+/* eslint-disable no-control-regex */
 // @flow
+import { find } from 'lodash';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -10,6 +12,7 @@ import web3 from 'web3';
 import { Link } from 'react-router-dom';
 
 import { Title as ATitle } from './OverviewList/styles';
+import { postEOS } from '../API.config';
 
 const Container = styled(Flex)`
   height: 250px;
@@ -27,12 +30,81 @@ const Container = styled(Flex)`
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
 `;
 const Title = styled(ATitle)``;
-const Result = styled.div`
+const InputGroup = styled(Flex)`
+  height: 80px;
+  width: 100%;
+`;
+const Result = styled(Flex)`
   width: 100%;
   overflow: hidden;
+  & span {
+    white-space: pre;
+    font-family: 'Courier New', Courier, monospace;
+  }
 `;
 
-async function checkEOSRegister(ethAddress: string) {
+type DelegatedBandwidth = {
+  from: string,
+  to: string,
+  netWeight: string,
+  cpuWeight: string,
+};
+type Keys = {
+  key: string,
+  weight: number,
+};
+type NetLimit = {
+  used: number,
+  available: number,
+  max: number,
+};
+type RequiredAuth = {
+  threshold: number,
+  keys: Keys[],
+  accounts: any[],
+  waits: any[],
+};
+type Permissions = {
+  permName: string,
+  parent: string,
+  requiredAuth: RequiredAuth,
+};
+type TotalResources = {
+  owner: string,
+  netWeight: string,
+  cpuWeight: string,
+  ramBytes: number,
+};
+type VoterInfo = {
+  owner: string,
+  proxy: string,
+  producers: any[],
+  staked: number,
+  lastVoteWeight: string,
+  proxiedVoteWeight: string,
+  isProxy: number,
+  deferredTrxId: number,
+  lastUnstakeTime: string,
+  unstaking: string,
+};
+type AddressData = {
+  accountName: string,
+  privileged: boolean,
+  lastCodeUpdate: string,
+  created: string,
+  ramQuota: number,
+  netWeight: number,
+  cpuWeight: number,
+  netLimit: NetLimit,
+  cpuLimit: NetLimit,
+  ramUsage: number,
+  permissions: Permissions[],
+  totalResources: TotalResources,
+  delegatedBandwidth: DelegatedBandwidth,
+  voterInfo: VoterInfo,
+};
+
+async function getEOSAddressByETHAddress(ethAddress: string) {
   const encoded: Buffer = abi.simpleEncode('keys(address):(string)', ethAddress);
   const rpcResult = await fetch('https://api.myetherapi.com/eth', {
     method: 'POST',
@@ -55,19 +127,31 @@ async function checkEOSRegister(ethAddress: string) {
     ]),
   }).then(res => res.json());
   if (rpcResult.length < 1 || !rpcResult[0].result) throw new Error('No Data.');
-  const EOSAddress = web3.utils.toAscii(rpcResult[0].result).replace(/[^0-9a-zA-Z]/g, '');
+  const EOSAddress = web3.utils.toAscii(rpcResult[0].result).replace(/[\u0000\u00005\s]/gu, '');
   return EOSAddress;
+}
+async function getEOSOwnerAddressByEOSAccount(account: string) {
+  const data: AddressData = await postEOS('/v1/chain/get_account', { account_name: account });
+  return find(data.permissions, { permName: 'owner' })?.requiredAuth?.keys?.[0]?.key;
 }
 
 class MappingChecking extends Component<{ t: Function }, *> {
   state = {
     ethAddress: '0x5af33b044fc0b24758552a2b3efb8b27bb06b038',
     eosAddress: '',
+    eosAccount: 'heydimrygyge',
+    accountOwnerAddress: '',
   };
 
-  onInputChange = (event: SyntheticInputEvent<*>) => {
-    const ethAddress = event.target.value;
-    this.setState({ ethAddress });
+  checkEOSAddressHasAccount = (ethAddress: string) => {
+    if (ethAddress) {
+      getEOSAddressByETHAddress(ethAddress).then(eosAddress => this.setState({ eosAddress }));
+    }
+    if (this.state.eosAccount) {
+      getEOSOwnerAddressByEOSAccount(this.state.eosAccount).then(accountOwnerAddress =>
+        this.setState({ accountOwnerAddress }),
+      );
+    }
   };
 
   render() {
@@ -78,25 +162,49 @@ class MappingChecking extends Component<{ t: Function }, *> {
             <Icon type="check-square-o" /> {this.props.t('MappingChecker')}
           </span>
         </Title>
-        <Input.Search
-          size="large"
-          placeholder={this.props.t('ethaddress')}
-          value={this.state.ethAddress}
-          onChange={this.onInputChange}
-          enterButton
-          onSearch={async ethAddress => {
-            if (!ethAddress) return;
-            const eosAddress = await checkEOSRegister(ethAddress);
-            this.setState({ eosAddress });
-          }}
-        />
-        <Result>
-          {this.state.eosAddress && `EOS ${this.props.t('address')}: `}
-          <Link to={`/address/${this.state.eosAddress}`}>{this.state.eosAddress}</Link>
+        <InputGroup column justifyBetween>
+          <Input
+            value={this.state.eosAccount}
+            placeholder={`EOS ${this.props.t('account')}`}
+            onChange={(event: SyntheticInputEvent<*>) => {
+              const eosAccount = event.target.value;
+              this.setState({ eosAccount });
+            }}
+          />
+          <Input.Search
+            size="large"
+            placeholder={this.props.t('ethaddress')}
+            value={this.state.ethAddress}
+            onChange={(event: SyntheticInputEvent<*>) => {
+              const ethAddress = event.target.value;
+              this.setState({ ethAddress });
+            }}
+            enterButton
+            onSearch={this.checkEOSAddressHasAccount}
+          />
+        </InputGroup>
+        <Result column>
+          <span>
+            {this.state.eosAddress && `${this.props.t('eosaddress')}: `}
+            <Link to={`/address/${this.state.eosAddress}`}>{this.state.eosAddress}</Link>
+          </span>
+          <span>
+            {this.state.accountOwnerAddress && `${this.props.t('owner')}: `}
+            <Link to={`/address/${this.state.accountOwnerAddress}`}>{this.state.accountOwnerAddress}</Link>
+          </span>
+          <span>
+            {this.state.accountOwnerAddress &&
+              this.state.accountOwnerAddress === this.state.eosAddress &&
+              `${this.props.t('mappingCheckingPassed')}: `}
+            {this.state.accountOwnerAddress &&
+              this.state.accountOwnerAddress === this.state.eosAddress && (
+                <Link to={`/account/${this.state.eosAccount}`}>{this.state.eosAccount}</Link>
+              )}
+          </span>
         </Result>
       </Container>
     );
   }
 }
 
-export default translate()(MappingChecking);
+export default translate(['translations', 'mappingChecking'])(MappingChecking);
