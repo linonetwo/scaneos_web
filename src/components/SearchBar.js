@@ -58,6 +58,7 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
     return (
       <SearchContainer active={this.state.keyWord}>
         <Input.Search
+          size="large"
           placeholder={this.props.t('cansearch')}
           value={this.state.keyWord}
           onChange={this.onSearchInputChange}
