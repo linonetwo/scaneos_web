@@ -36,7 +36,7 @@ export default (initialState: Object = {}) => ({
         this.changeNavTab(mainPath || 'home');
       }
     },
-    async updateURI() {
+    async updateURI(queryOverride?: Object) {
       // set URI query string
       const {
         store: { getState },
@@ -66,6 +66,12 @@ export default (initialState: Object = {}) => ({
           page: state.message.currentPage,
         });
         history.push(`/messages/?${query}`);
+      }  else if (window.location.pathname === '/producers/') {
+        const query = queryString.stringify({
+          ...queryString.parse(window.location.search),
+          ...queryOverride,
+        });
+        history.push(`/producers/?${query}`);
       }
     },
   },

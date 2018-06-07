@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { translate } from 'react-i18next';
+import { connect } from 'react-redux';
 import MapGL, { Marker, Popup, NavigationControl } from 'react-map-gl';
 import { Table } from 'antd';
 import AutoLinkText from 'react-autolink-text2';
+import queryString from 'query-string';
 
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../../API.config';
@@ -33,7 +35,9 @@ type Props = {
   t: Function,
 };
 type Store = {};
-type Dispatch = {};
+type Dispatch = {
+  updateURI: (queryOverride?: Object) => void,
+};
 
 class BlockProducers extends Component<Props & Store & Dispatch, *> {
   state = {
@@ -144,7 +148,15 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         </MapContainer>
 
         <ProducerListContainer>
-          <Table size="middle" dataSource={blockProducersList} pagination={{ pageSize: 10 }} scroll={{ x: 2000 }}>
+          <Table
+            size="middle"
+            dataSource={blockProducersList}
+            pagination={{ pageSize: 10, current: queryString.parse(window.location.search).page }}
+            scroll={{ x: 2000 }}
+            onChange={pagination => {
+              this.props.updateURI({ page: pagination.current });
+            }}
+          >
             <Table.Column fixed="left" width={120} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column
               width={100}
@@ -218,4 +230,10 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-export default translate()(BlockProducers);
+const mapDispatch = ({ history: { updateURI } }): Dispatch => ({ updateURI });
+export default translate()(
+  connect(
+    undefined,
+    mapDispatch,
+  )(BlockProducers),
+);
