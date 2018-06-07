@@ -42,7 +42,7 @@ const AggregationContainer = styled(Flex)`
 const AggregationItem = styled(Flex)`
   color: #333;
   opacity: 0.9;
-  font-size: 24px;
+  font-size: 32px;
   & h4 {
     color: #333;
     opacity: 0.6;

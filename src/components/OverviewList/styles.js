@@ -5,7 +5,7 @@ import breakpoint from 'styled-components-breakpoint';
 
 export const Title = styled(Flex)`
   width: 100%;
-  font-size: 20px;
+  font-size: 16px;
   padding: 0;
   color: #333;
 `;

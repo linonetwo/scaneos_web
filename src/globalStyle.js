@@ -9,6 +9,7 @@ injectGlobal`
   body {
     margin: 0;
     color: #1aa2db;
+    font-size: 14px;
   }
   * {
     outline: none;
