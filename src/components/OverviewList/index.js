@@ -20,6 +20,7 @@ import type { AggregationData } from '../../store/aggregation';
 import type { CurrentPriceData } from '../../store/price';
 
 import PriceChart from '../PriceChart';
+import MappingChecking from '../MappingChecking';
 
 const Container = styled(Flex)`
   width: 1100px;
@@ -394,15 +395,14 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        <Flex column>
-          {this.getAggregationList({
-            data: this.props.aggregationData,
-            loading: this.props.aggregationLoading,
-            priceLoading: this.props.priceLoading,
-            currentPriceData: this.props.currentPriceData,
-          })}
-          <PriceChart data={this.props.priceChartData} />
-        </Flex>
+        {this.getAggregationList({
+          data: this.props.aggregationData,
+          loading: this.props.aggregationLoading,
+          priceLoading: this.props.priceLoading,
+          currentPriceData: this.props.currentPriceData,
+        })}
+        <PriceChart data={this.props.priceChartData} />
+        <MappingChecking />
         {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 10),

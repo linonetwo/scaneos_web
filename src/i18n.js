@@ -79,6 +79,7 @@ export default i18n
           Oceania: 'Oceania',
           Africa: 'Africa',
           PriceHistory: 'Price History',
+          MappingChecker: 'Verify EOS registration',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -169,6 +170,7 @@ export default i18n
           Oceania: '大洋洲',
           Africa: '非洲',
           PriceHistory: '价格走势',
+          MappingChecker: '主网映射验证',
         },
         countdown: {
           Days: '天',
