@@ -151,7 +151,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
           <Table
             size="middle"
             dataSource={blockProducersList}
-            pagination={{ pageSize: 10, current: queryString.parse(window.location.search).page }}
+            pagination={{ pageSize: 10, current: Number(queryString.parse(window.location.search).page) }}
             scroll={{ x: 2000 }}
             onChange={pagination => {
               this.props.updateURI({ page: pagination.current });
