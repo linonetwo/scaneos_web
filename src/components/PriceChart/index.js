@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
-import { Spin } from 'antd';
+import { Icon } from 'antd';
 import { format } from 'date-fns';
 import numeral from 'numeral';
 import IEcharts from 'react-echarts-v3/src/lite.js';
@@ -16,6 +16,7 @@ import 'echarts/lib/component/timeline';
 
 const PriceChartContainer = styled(Flex)`
   height: 250px;
+  padding: 20px;
 
   width: 90vw;
   margin: 30px auto 0;
@@ -26,9 +27,19 @@ const PriceChartContainer = styled(Flex)`
 
   background-color: white;
 `;
-const Title = styled.h3``;
+const Title = styled(Flex)`
+  width: 100%;
+  font-size: 20px;
+  padding: 0;
+`;
 
 const chartOption = {
+  grid: {
+    x: 50, // 默认是80px
+    y: 40, // 默认是60px
+    x2: 20, // 默认80px
+    y2: 30, // 默认60px
+  },
   color: ['#1aa2db'],
   tooltip: {
     trigger: 'axis',
@@ -89,7 +100,11 @@ function PriceChart(props: { data: number[][], t: Function }) {
   ];
   return (
     <PriceChartContainer column center>
-      <Title>{props.t('PriceHistory')}</Title>
+      <Title justifyBetween alignCenter>
+        <span>
+          <Icon type="bar-chart" /> {props.t('PriceHistory')}
+        </span>
+      </Title>
       <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
     </PriceChartContainer>
   );

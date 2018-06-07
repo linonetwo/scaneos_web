@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
-import { Input } from 'antd';
+import { Input, Icon } from 'antd';
 
 const Container = styled(Flex)`
   height: 250px;
+  padding: 20px;
 
   width: 90vw;
   margin: 30px auto 0;
@@ -17,11 +18,13 @@ const Container = styled(Flex)`
   `};
 
   background-color: white;
-  padding: 0 20px;
 
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
 `;
-const Title = styled.h3`
+const Title = styled(Flex)`
+  width: 100%;
+  font-size: 20px;
+  padding: 0;
   margin-bottom: 50px;
 `;
 
@@ -38,7 +41,11 @@ class MappingChecking extends Component<{ t: Function }, *> {
   render() {
     return (
       <Container column alignCenter>
-        <Title>{this.props.t('MappingChecker')}</Title>
+        <Title justifyBetween alignCenter>
+          <span>
+            <Icon type="check-square-o" /> {this.props.t('MappingChecker')}
+          </span>
+        </Title>
         <Input.Search
           size="large"
           placeholder={this.props.t('ethaddress')}
