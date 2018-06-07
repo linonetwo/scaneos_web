@@ -26,7 +26,7 @@ export default i18n
           expiration: 'Expiration',
           handlerAccountName: 'Handler',
           account: 'Account',
-          producerAccountId: 'Producer Account',
+          producerAccountId: 'Producer',
           name: 'Name',
           messageId: 'MsgID',
           transactionId: 'TxnID',
