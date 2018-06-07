@@ -2,6 +2,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
+import breakpoint from 'styled-components-breakpoint';
+import { translate } from 'react-i18next';
 import { Spin } from 'antd';
 import { format } from 'date-fns';
 import numeral from 'numeral';
@@ -13,10 +15,21 @@ import 'echarts/lib/chart/line';
 import 'echarts/lib/component/timeline';
 
 const PriceChartContainer = styled(Flex)`
-  height: 200px;
+  height: 250px;
+
+  width: 90vw;
+  margin: 30px auto 0;
+  ${breakpoint('desktop')`
+    width: 500px;
+    margin: 30px 0 0;
+  `};
+
+  background-color: white;
 `;
+const Title = styled.h3``;
 
 const chartOption = {
+  color: ['#1aa2db'],
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -24,7 +37,7 @@ const chartOption = {
     },
   },
   legend: {
-    data: ['BTCPrice', 'USDPrice'],
+    data: ['USDPrice'],
     bottom: 10,
     left: 'center',
   },
@@ -32,7 +45,7 @@ const chartOption = {
     {
       type: 'value',
       name: 'USD',
-      position: 'right',
+      position: 'left',
       splitLine: {
         show: false,
       },
@@ -42,39 +55,16 @@ const chartOption = {
         formatter: value => numeral(value).format('0.0[0]'),
       },
     },
-    {
-      type: 'value',
-      name: 'BTC',
-      position: 'left',
-      splitLine: {
-        show: false,
-      },
-      min: 'dataMin',
-      max: 'dataMax',
-      axisLabel: {
-        formatter: value => numeral(value).format('0.000000'),
-      },
-    },
   ],
 };
 
-export default function PriceChart(props: { data: number[][] }) {
+function PriceChart(props: { data: number[][], t: Function }) {
   const { data } = props;
   const series = [
     {
       name: 'USD',
       data: data.map(([, usdPrice]) => usdPrice),
       type: 'line',
-      smooth: true,
-      showSymbol: false,
-      hoverAnimation: false,
-    },
-    {
-      name: 'BTC',
-      yAxisIndex: 1,
-      data: data.map(([btcPrice]) => btcPrice),
-      type: 'line',
-      smooth: true,
       showSymbol: false,
       hoverAnimation: false,
     },
@@ -90,11 +80,19 @@ export default function PriceChart(props: { data: number[][] }) {
       axisLabel: {
         formatter: value => format(value * 1000, 'MM-DD HH:mm:ss'),
       },
+      axisPointer: {
+        label: {
+          formatter: ({ value }) => format(value * 1000, 'MM-DD HH:mm:ss'),
+        },
+      },
     },
   ];
   return (
-    <PriceChartContainer>
+    <PriceChartContainer column center>
+      <Title>{props.t('PriceHistory')}</Title>
       <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
     </PriceChartContainer>
   );
 }
+
+export default translate()(PriceChart);

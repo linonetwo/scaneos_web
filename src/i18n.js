@@ -78,6 +78,7 @@ export default i18n
           Europe: 'Europe',
           Oceania: 'Oceania',
           Africa: 'Africa',
+          PriceHistory: 'Price History',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -167,6 +168,7 @@ export default i18n
           Europe: '欧洲',
           Oceania: '大洋洲',
           Africa: '非洲',
+          PriceHistory: '价格走势',
         },
         countdown: {
           Days: '天',
