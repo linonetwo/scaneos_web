@@ -14,7 +14,7 @@ export function formatTimeStamp(timeStamp, locale, { time = true, distance = tru
           locale: locales[locale],
           addSuffix: true,
           includeSeconds: true,
-        })
+        }).replace('less than', '>')
       : ''
   }${time ? ` (${format(now, 'YY-MM-DD HH:mm:ss')})` : ''}`;
 }
