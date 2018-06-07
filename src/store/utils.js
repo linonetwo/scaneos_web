@@ -5,7 +5,11 @@ import zh from 'date-fns/locale/zh_cn';
 
 const locales = { en, zh };
 
-export function formatTimeStamp(timeStamp, locale, { time = true, distance = true } = {}) {
+export function formatTimeStamp(
+  timeStamp: number,
+  locale: string,
+  { time = true, distance = true }: { time?: boolean, distance?: boolean } = {},
+) {
   // polyfill ms
   const now = new Date(timeStamp * 1000);
   return `${

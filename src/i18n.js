@@ -175,6 +175,7 @@ export default i18n
           MappingChecker: '主网映射验证',
           ethaddress: '输入您的以太坊地址',
           FriendLinks: '友情链接',
+          address: '地址',
         },
         countdown: {
           Days: '天',
