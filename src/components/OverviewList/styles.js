@@ -7,5 +7,5 @@ export const Title = styled(Flex)`
   width: 100%;
   font-size: 20px;
   padding: 0;
-  color: #443f54;
+  color: #333;
 `;

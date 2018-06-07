@@ -40,10 +40,12 @@ const AggregationContainer = styled(Flex)`
   box-shadow: 0px 0px 10px 0 rgba(7, 17, 27, 0.05);
 `;
 const AggregationItem = styled(Flex)`
-  color: rgba(68, 63, 84, 0.9);
+  color: #333;
+  opacity: 0.9;
   font-size: 24px;
   & h4 {
-    color: rgba(68, 63, 84, 0.6);
+    color: #333;
+    opacity: 0.6;
     font-size: 14px;
     display: inline-flex;
   }
@@ -93,7 +95,7 @@ const ListContainer = styled.div`
   padding: 20px;
 `;
 const KeyInfoContainer = styled(Flex)`
-  background-color: #443f54;
+  background-color: gray;
   width: 170px;
   min-width: 170px;
   ${is('larger')`
@@ -117,14 +119,14 @@ const KeyInfoContainer = styled(Flex)`
   white-space: pre-wrap;
 `;
 const ViewAll = styled(Flex)`
-  border: 1px solid #443f54;
+  border: 1px solid gray;
   padding: 5px 13px;
   font-size: 14px;
 
   cursor: pointer;
-  color: #443f54;
+  color: gray;
   &:hover {
-    background-color: #443f54;
+    background-color: gray;
     color: white;
   }
 `;

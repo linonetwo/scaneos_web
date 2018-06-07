@@ -99,9 +99,11 @@ const NavDropDownsButton = styled.a`
     display: block;
   }
 
-  color: rgba(68, 63, 84, 0.7);
+  color: #333;
+  opacity: 0.7;
   &:hover {
-    color: rgba(68, 63, 84, 0.8);
+    color: #333;
+    opacity: 0.8;
   }
   ${is('selected')`
     color: #1aa2db;
@@ -433,7 +435,7 @@ export default withRouter(
 
 const FooterContainer = styled.div`
   .ant-layout-footer {
-    background-color: #443f54;
+    background-color: #333;
     color: white;
     ${breakpoint('desktop')`
       display: flex;

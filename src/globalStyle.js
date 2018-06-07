@@ -57,6 +57,6 @@ injectGlobal`
     background-color: white;
   }
   .ant-table-tbody > tr:hover > td {
-    background-color: rgba(68, 63, 84, 0.1) !important;
+    background-color: rgba(51, 51, 51, 0.1) !important;
   }
 `;
