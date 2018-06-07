@@ -33,7 +33,7 @@ RUN yarn add puppeteer@0.13.0
 COPY package.json /tmp/package.json
 COPY yarn.lock /tmp/yarn.lock
 # Use America source since we are ouside GFW
-RUN sed -i 's/registry.npm.taobao.org/registry.npmjs.org/g' /tmp/yarn.lock
+# RUN sed -i 's/registry.npm.taobao.org/registry.npmjs.org/g' /tmp/yarn.lock
 RUN cd /tmp && yarn && cp -a /tmp/node_modules /usr/src/app/
 
 # Install nginx
