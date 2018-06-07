@@ -6,6 +6,8 @@ import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
 import { Input, Icon } from 'antd';
 
+import { Title as ATitle } from './OverviewList/styles';
+
 const Container = styled(Flex)`
   height: 250px;
   padding: 20px;
@@ -21,10 +23,7 @@ const Container = styled(Flex)`
 
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
 `;
-const Title = styled(Flex)`
-  width: 100%;
-  font-size: 20px;
-  padding: 0;
+const Title = styled(ATitle)`
   margin-bottom: 50px;
 `;
 

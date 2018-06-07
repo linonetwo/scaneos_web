@@ -14,6 +14,8 @@ import 'echarts/lib/component/legend';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/timeline';
 
+import { Title } from '../OverviewList/styles';
+
 const PriceChartContainer = styled(Flex)`
   height: 250px;
   padding: 20px;
@@ -26,11 +28,6 @@ const PriceChartContainer = styled(Flex)`
   `};
 
   background-color: white;
-`;
-const Title = styled(Flex)`
-  width: 100%;
-  font-size: 20px;
-  padding: 0;
 `;
 
 const chartOption = {
