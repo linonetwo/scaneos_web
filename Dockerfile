@@ -1,5 +1,5 @@
 # Dockerfile.alpine
-FROM mhart/alpine-node:latest
+FROM mhart/alpine-node:10.4.0
 
 # Setup yarn
 # RUN yarn config set registry https://registry.npm.taobao.org
