@@ -41,7 +41,7 @@ class MappingChecking extends Component<{ t: Function }, *> {
         <Title>{this.props.t('MappingChecker')}</Title>
         <Input.Search
           size="large"
-          placeholder={this.props.t('cansearch')}
+          placeholder={this.props.t('ethaddress')}
           value={this.state.keyWord}
           onChange={this.onInputChange}
           enterButton
