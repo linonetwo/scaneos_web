@@ -13,7 +13,7 @@ module.exports = function override(config, env) {
   config = injectBabelPlugin(['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }], config);
   config = injectBabelPlugin(['import', { libraryName: 'react-echarts-v3', libraryDirectory: 'src' }, 'import-react-echarts-v3'], config);
   config = rewireLess.withLoaderOptions({
-    modifyVars: { '@primary-color': '#443f54' },
+    modifyVars: { '@primary-color': '#1aa2db' },
   })(config, env);
 
   if (env === 'production') {

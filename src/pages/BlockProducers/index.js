@@ -79,7 +79,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
         viewBox="0 0 24 24"
         style={{
           cursor: 'pointer',
-          fill: '#443f54',
+          fill: '#1aa2db',
           stroke: '#fff',
           transform: `translate(${-this.iconSize / 2}px,${-this.iconSize}px)`,
         }}

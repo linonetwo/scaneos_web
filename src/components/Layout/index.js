@@ -104,9 +104,9 @@ const NavDropDownsButton = styled.a`
     color: rgba(68, 63, 84, 0.8);
   }
   ${is('selected')`
-    color: rgb(68, 63, 84);
+    color: #1aa2db;
     &:hover {
-      color: rgb(68, 63, 84);
+      color: #1aa2db;
     }
   `};
 `;

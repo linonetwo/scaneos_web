@@ -8,7 +8,7 @@ injectGlobal`
 
   body {
     margin: 0;
-    color: #443f54;
+    color: #1aa2db;
   }
   * {
     outline: none;

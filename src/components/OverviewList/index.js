@@ -19,6 +19,8 @@ import type { MessageData } from '../../store/message';
 import type { AggregationData } from '../../store/aggregation';
 import type { CurrentPriceData } from '../../store/price';
 
+import { Title } from './styles';
+
 import PriceChart from '../PriceChart';
 import MappingChecking from '../MappingChecking';
 
@@ -88,11 +90,6 @@ const ListContainer = styled.div`
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
   padding: 20px;
 `;
-const Title = styled(Flex)`
-  width: 100%;
-  font-size: 20px;
-  padding: 0;
-`;
 const KeyInfoContainer = styled(Flex)`
   background-color: #443f54;
   width: 170px;
@@ -118,14 +115,14 @@ const KeyInfoContainer = styled(Flex)`
   white-space: pre-wrap;
 `;
 const ViewAll = styled(Flex)`
-  border: 1px solid #555;
+  border: 1px solid #443f54;
   padding: 5px 13px;
   font-size: 14px;
 
   cursor: pointer;
   color: #443f54;
   &:hover {
-    background-color: #555;
+    background-color: #443f54;
     color: white;
   }
 `;
