@@ -137,9 +137,9 @@ async function getEOSOwnerAddressByEOSAccount(account: string) {
 
 class MappingChecking extends Component<{ t: Function }, *> {
   state = {
-    ethAddress: '0x5af33b044fc0b24758552a2b3efb8b27bb06b038',
+    ethAddress: '',
     eosAddress: '',
-    eosAccount: 'heydimrygyge',
+    eosAccount: '',
     accountOwnerAddress: '',
   };
 
