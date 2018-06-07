@@ -54,6 +54,8 @@ const AggregationItem = styled(Flex)`
     width: unset;
     margin: 0;
   `};
+
+  white-space: nowrap;
 `;
 const PriceChangeContainer = styled(Flex)`
   font-size: 12px;

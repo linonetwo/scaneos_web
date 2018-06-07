@@ -24,7 +24,7 @@ const Container = styled(Flex)`
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
 `;
 const Title = styled(ATitle)`
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 `;
 
 class MappingChecking extends Component<{ t: Function }, *> {
