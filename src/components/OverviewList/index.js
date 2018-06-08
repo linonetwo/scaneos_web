@@ -295,8 +295,8 @@ class OverviewList extends Component<Props & Store & Dispatch> {
               <Flex>
                 <Link to={`/transaction/${item.transactionId}/`}>
                   <KeyInfoContainer larger column justifyAround>
-                    {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}
-                    {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
+                    <span>{this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}</span>
+                    <span>{formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}</span>
                   </KeyInfoContainer>
                 </Link>
                 <Link to={`/block/${item.blockId}/`}>
