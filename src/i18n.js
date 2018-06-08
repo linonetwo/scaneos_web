@@ -9,7 +9,7 @@ export default i18n
   .use(LanguageDetector)
   .use(reactI18nextModule)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: 'zh-CN',
     ns: ['translations', 'mappingChecking'],
     defaultNS: 'translations',
     debug: false,
