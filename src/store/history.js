@@ -1,5 +1,5 @@
 // @flow
-import { map } from 'lodash';
+import { map, trimEnd } from 'lodash';
 import createHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 
@@ -47,31 +47,31 @@ export default (initialState: Object = {}) => ({
           ...queryString.parse(window.location.search),
           page: state.block.currentPage,
         });
-        history.push(`/blocks/?${query}`);
+        history.push(`/blocks/?${query}`, { isAction: true });
       } else if (window.location.pathname === '/transactions/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
           page: state.transaction.currentPage,
         });
-        history.push(`/transactions/?${query}`);
+        history.push(`/transactions/?${query}`, { isAction: true });
       } else if (window.location.pathname === '/accounts/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
           page: state.account.currentPage,
         });
-        history.push(`/accounts/?${query}`);
+        history.push(`/accounts/?${query}`, { isAction: true });
       } else if (window.location.pathname === '/messages/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
           page: state.message.currentPage,
         });
-        history.push(`/messages/?${query}`);
-      }  else if (window.location.pathname === '/producers/') {
+        history.push(`/messages/?${query}`, { isAction: true });
+      } else if (window.location.pathname === '/producers/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
           ...queryOverride,
         });
-        history.push(`/producers/?${query}`);
+        history.push(`/producers/?${query}`, { isAction: true });
       }
     },
   },
@@ -82,19 +82,22 @@ async function followURI(location) {
   const {
     store: { dispatch },
   } = await import('./');
-  // 如果不是从 store 发出的 push 导致的路由变动
-  if (location.state && location.state.isAction !== true) {
+  // 如果不是从 store 发出的 push 导致的路由变动，或者相应的 store 里没有数据
+  if (location?.state?.isAction !== true) {
     const { page: pageString } = queryString.parse(location.search);
     // 暂时不让用户通过 querystring 直接跳到很后面，以免加重后端负担，而且业务上一般也没需求
-    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 1 && Number(pageString) <= 10 ? Number(pageString) : 1;
+    const page =
+      Number.isInteger(Number(pageString)) && Number(pageString) >= 1 && Number(pageString) <= 10
+        ? Number(pageString)
+        : 1;
     if (location.pathname === '/blocks/') {
-      dispatch.block.getBlocksList(page);
+      await dispatch.block.getBlocksList(page);
     } else if (location.pathname === '/transactions/') {
-      dispatch.transaction.getTransactionsList(page);
+      await dispatch.transaction.getTransactionsList(page);
     } else if (location.pathname === '/accounts/') {
-      dispatch.account.getAccountsList(page);
+      await dispatch.account.getAccountsList(page);
     } else if (location.pathname === '/messages/') {
-      dispatch.message.getMessagesList(page);
+      await dispatch.message.getMessagesList(page);
     }
   }
 }
