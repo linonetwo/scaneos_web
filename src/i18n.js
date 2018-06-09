@@ -124,7 +124,7 @@ export default i18n
           Token: '通证',
           TokenTransfers: '通证转移',
           Resources: '资源',
-          Misc: '工具',
+          Misc: '其他',
           underDev: '开发中……',
           Transactions: '交易列表',
           transactions: '交易',
@@ -184,6 +184,8 @@ export default i18n
           Overview: '概览',
           Raw: '原始信息',
           Activities: '近期动态',
+          About: '关于我们',
+          'more...': '查看更多',
         },
         countdown: {
           Days: '天',

@@ -1,12 +1,13 @@
 // @flow
-import { map, trimEnd } from 'lodash';
+import { map } from 'lodash';
 import createHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 
-import { blockChainPaths, blockChainDetailPaths, tokenPaths, tokenDetailPaths } from '../components/Layout';
+import { blockChainPaths, blockChainDetailPaths, tokenPaths, tokenDetailPaths, miscPaths } from '../components/Layout';
 
 const blockChainPath = map([...blockChainPaths, ...blockChainDetailPaths], 'route');
 const tokenPath = map([...tokenPaths, ...tokenDetailPaths], 'route');
+const miscPath = map(miscPaths, 'route');
 
 export const history = createHistory();
 
@@ -32,6 +33,8 @@ export default (initialState: Object = {}) => ({
         this.changeNavTab('blockChain');
       } else if (tokenPath.includes(mainPath)) {
         this.changeNavTab('tokens');
+      } else if (miscPath.includes(mainPath)) {
+        this.changeNavTab('misc');
       } else {
         this.changeNavTab(mainPath || 'home');
       }

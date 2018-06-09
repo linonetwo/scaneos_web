@@ -194,6 +194,7 @@ export const tokenDetailPaths: RouteData[] = [
   { route: 'token', display: 'Token' },
   { route: 'tokenTransfer', display: 'TokenTransfer' },
 ];
+export const miscPaths: RouteData[] = [{ route: 'about', display: 'About' }];
 class Header extends Component<Props & Store & Dispatch, *> {
   state = {
     sideMenuOpened: false,
@@ -233,9 +234,16 @@ class Header extends Component<Props & Store & Dispatch, *> {
   );
   miscMenu = (
     <Menu>
-      <Menu.Item key="0" disabled>
-        <span>{this.props.t('underDev')}</span>
-      </Menu.Item>
+      {miscPaths.map(
+        ({ route, display }, index) =>
+          route && display ? (
+            <Menu.Item key={route} onClick={() => this.props.changeNavTab('misc')}>
+              <Link to={`/${route}/`}>{this.props.t(display)}</Link>
+            </Menu.Item>
+          ) : (
+            <Menu.Divider key={index} />
+          ),
+      )}
     </Menu>
   );
   localeMenu = (
@@ -306,9 +314,16 @@ class Header extends Component<Props & Store & Dispatch, *> {
       <Menu.SubMenu
         title={<NavDropDownsButton selected={this.props.navTab === 'misc'}>{this.props.t('Misc')}</NavDropDownsButton>}
       >
-        <Menu.Item key="0" disabled>
-          <span>{this.props.t('underDev')}</span>
-        </Menu.Item>
+        {miscPaths.map(
+          ({ route, display }, index) =>
+            route && display ? (
+              <Menu.Item key={route} onClick={() => this.props.changeNavTab('misc')}>
+                <Link to={`/${route}/`}>{this.props.t(display)}</Link>
+              </Menu.Item>
+            ) : (
+              <Menu.Divider key={index} />
+            ),
+        )}
       </Menu.SubMenu>
       <Menu.Item>
         <NavDropDownsButtonLink
@@ -497,6 +512,7 @@ export const Footer = translate()((props: { t: Function }) => (
           <TitleDecorator>{props.t('introduction')}</TitleDecorator>
         </FooterTitle>
         <Introduction>{props.t('webSiteIntroduction')}</Introduction>
+        <Link to="/about/">{props.t('more...')}</Link>
       </FooterItem>
       <FooterItem column>
         <FooterTitle>
