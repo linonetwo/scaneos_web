@@ -183,6 +183,7 @@ export default i18n
           mappingCheckingPassed: 'EOS 映射校验通过',
           Overview: '概览',
           Raw: '原始信息',
+          Activities: '近期动态',
         },
         countdown: {
           Days: '天',

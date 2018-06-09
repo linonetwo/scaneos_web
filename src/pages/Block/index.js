@@ -1,7 +1,7 @@
 // @flow
 import { toPairs } from 'lodash';
 import React, { Component, Fragment } from 'react';
-import { Spin, Table, Tabs } from 'antd';
+import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
@@ -65,9 +65,25 @@ class Block extends Component<Props & Store & Dispatch, *> {
         {getBreadcrumb('block', this.props.t)}
         <Spin tip="Connecting" spinning={this.props.loading} size="large">
           <DetailTabsContainer>
-            <Tabs defaultActiveKey="1">
-              <Tabs.TabPane tab={this.props.t('Transactions')} key="1" />
-              <Tabs.TabPane tab={this.props.t('Overview')} key="2">
+            <Tabs defaultActiveKey="2">
+              <Tabs.TabPane
+                tab={
+                  <span>
+                    <Icon type="sync" />
+                    {this.props.t('Transactions')}
+                  </span>
+                }
+                key="1"
+              />
+              <Tabs.TabPane
+                tab={
+                  <span>
+                    <Icon type="database" />
+                    {this.props.t('Overview')}
+                  </span>
+                }
+                key="2"
+              >
                 <LongListContainer column>
                   <Table
                     scroll={{ x: 800 }}
@@ -85,7 +101,15 @@ class Block extends Component<Props & Store & Dispatch, *> {
                   </Table>
                 </LongListContainer>
               </Tabs.TabPane>
-              <Tabs.TabPane tab={this.props.t('Raw')} key="3">
+              <Tabs.TabPane
+                tab={
+                  <span>
+                    <Icon type="file-text" />
+                    {this.props.t('Raw')}
+                  </span>
+                }
+                key="3"
+              >
                 <pre>
                   <code>{JSON.stringify(this.props.data, null, '  ')}</code>
                 </pre>
