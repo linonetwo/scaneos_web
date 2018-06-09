@@ -261,7 +261,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                     {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
                   </KeyInfoContainer>
                 </Link>
-                <Link to={`/account/${item.producerAccountId}/`}>
+                <Link style={{ 'white-space': 'pre-wrap'}} to={`/account/${item.producerAccountId}/`}>
                   {this.props.t('producerAccountId')}: {item.producerAccountId}
                 </Link>
                 {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
