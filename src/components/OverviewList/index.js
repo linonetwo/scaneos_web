@@ -97,17 +97,32 @@ const ListContainer = styled.div`
   padding: 20px;
   padding-bottom: 5px;
 `;
+const KeyInfoItemContainer = styled(Flex)`
+  flex-direction: column;
+  ${breakpoint('desktop')`
+    flex-direction: row;
+  `};
+`;
 const KeyInfoContainer = styled(Flex)`
   background-color: gray;
-  width: 170px;
-  min-width: 170px;
-  ${is('larger')`
-    width: 180px;
-    min-width: 180px;
-  `} overflow: hidden;
+  width: 100%;
+  ${breakpoint('desktop')`
+    width: 170px;
+    min-width: 170px;
+    ${is('larger')`
+      width: 180px;
+      min-width: 180px;
+    `};
+  `};
+
+  overflow: hidden;
 
   height: 70px;
-  margin-right: 20px;
+  margin: 10px 0;
+  ${breakpoint('desktop')`
+    margin-bottom: 0px;
+    margin-right: 20px;
+  `};
   padding: 20px;
 
   color: white;
@@ -254,21 +269,23 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           dataSource={data.data}
           renderItem={(item: BlockData) => (
             <List.Item>
-              <Flex>
+              <KeyInfoItemContainer>
                 <Link to={`/block/${item.blockNum}/`}>
                   <KeyInfoContainer column justifyAround>
-                    <span>{this.props.t('blockNum')}: {item.blockNum}</span>
+                    <span>
+                      {this.props.t('blockNum')}: {item.blockNum}
+                    </span>
                     {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
                   </KeyInfoContainer>
                 </Link>
-                <Link style={{ 'white-space': 'pre-wrap'}} to={`/account/${item.producerAccountId}/`}>
+                <Link to={`/account/${item.producerAccountId}/`}>
                   {this.props.t('producerAccountId')}: {item.producerAccountId}
                 </Link>
                 {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
                 {item.transactions.map(({ $id }) => (
                   <Link to={`/transaction/${$id}/`}>{truncate($id, { length: 4, omission: ' ' })}</Link>
                 ))} */}
-              </Flex>
+              </KeyInfoItemContainer>
             </List.Item>
           )}
         />
@@ -293,17 +310,19 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           dataSource={data.data}
           renderItem={(item: TransactionData) => (
             <List.Item>
-              <Flex>
+              <KeyInfoItemContainer>
                 <Link to={`/transaction/${item.transactionId}/`}>
                   <KeyInfoContainer larger column justifyAround>
-                    <span>{this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}</span>
+                    <span>
+                      {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}
+                    </span>
                     <span>{formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}</span>
                   </KeyInfoContainer>
                 </Link>
                 <Link to={`/block/${item.blockId}/`}>
                   {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
                 </Link>
-              </Flex>
+              </KeyInfoItemContainer>
             </List.Item>
           )}
         />
