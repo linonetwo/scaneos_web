@@ -1,7 +1,7 @@
 // @flow
 import { toPairs } from 'lodash';
 import React, { Component, Fragment } from 'react';
-import { Spin, Table } from 'antd';
+import { Spin, Table, Tabs } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
@@ -9,7 +9,7 @@ import { translate } from 'react-i18next';
 import { getBreadcrumb } from '../../components/Layout';
 import { formatTimeStamp } from '../../store/utils';
 import type { BlockData } from '../../store/block';
-import { LongListContainer } from '../../components/Table';
+import { LongListContainer, DetailTabsContainer } from '../../components/Table';
 
 type Props = {
   match: {
@@ -64,21 +64,34 @@ class Block extends Component<Props & Store & Dispatch, *> {
       <Fragment>
         {getBreadcrumb('block', this.props.t)}
         <Spin tip="Connecting" spinning={this.props.loading} size="large">
-          <LongListContainer column>
-            <Table
-              size="middle"
-              pagination={false}
-              dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
-            >
-              <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-              <Table.Column
-                title={this.props.t('value')}
-                dataIndex="value"
-                key="value"
-                render={(value, { field }) => this.getValueRendering(field, value)}
-              />
-            </Table>
-          </LongListContainer>
+          <DetailTabsContainer>
+            <Tabs defaultActiveKey="1">
+              <Tabs.TabPane tab={this.props.t('Transactions')} key="1" />
+              <Tabs.TabPane tab={this.props.t('Overview')} key="2">
+                <LongListContainer column>
+                  <Table
+                    scroll={{ x: 800 }}
+                    size="middle"
+                    pagination={false}
+                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
+                  >
+                    <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
+                    <Table.Column
+                      title={this.props.t('value')}
+                      dataIndex="value"
+                      key="value"
+                      render={(value, { field }) => this.getValueRendering(field, value)}
+                    />
+                  </Table>
+                </LongListContainer>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={this.props.t('Raw')} key="3">
+                <pre>
+                  <code>{JSON.stringify(this.props.data, null, '  ')}</code>
+                </pre>
+              </Tabs.TabPane>
+            </Tabs>
+          </DetailTabsContainer>
         </Spin>
       </Fragment>
     );

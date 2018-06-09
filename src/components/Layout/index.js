@@ -519,7 +519,10 @@ const BreadCrumbContainer = styled.nav`
   width: 100%;
   background-color: white;
 
-  padding: 0 40px;
+  padding: 0 20px;
+  ${breakpoint('desktop')`
+    padding: 0 40px;
+  `};
   display: flex;
   align-items: center;
 `;

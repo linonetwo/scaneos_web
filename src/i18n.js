@@ -181,6 +181,8 @@ export default i18n
           eosaddress: '映射到地址',
           owner: '拥有者地址',
           mappingCheckingPassed: 'EOS 映射校验通过',
+          Overview: '概览',
+          Raw: '原始信息',
         },
         countdown: {
           Days: '天',

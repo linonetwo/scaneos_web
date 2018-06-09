@@ -37,6 +37,19 @@ export const LongListContainer = styled.div`
     margin-bottom: 50px;
   }
 `;
+export const DetailTabsContainer = styled.div`
+  .ant-table {
+    padding: 0;
+  }
+  .ant-tabs {
+    margin: 0 20px;
+  }
+  ${breakpoint('desktop')`
+    .ant-tabs {
+      margin: 0 40px;
+    }
+  `};
+`;
 export const ProducerListContainer = styled.div`
   ${adjustAntdTable};
   .ant-table {
