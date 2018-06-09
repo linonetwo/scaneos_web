@@ -188,6 +188,7 @@ export default (initialState?: Object = {}) => ({
       }
     },
     async getAccountsList(gotoPage?: number) {
+      return;
       const {
         store: { dispatch, getState },
       } = await import('./');
