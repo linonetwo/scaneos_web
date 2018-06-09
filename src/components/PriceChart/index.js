@@ -28,6 +28,10 @@ const PriceChartContainer = styled(Flex)`
   `};
 
   background-color: white;
+
+  & .react-echarts {
+    overflow: hidden;
+  }
 `;
 
 const chartOption = {
