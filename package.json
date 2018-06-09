@@ -21,11 +21,12 @@
     "concurrency": 1,
     "include": [
       "/",
-      "/blocks",
-      "/transactions",
-      "/accounts",
-      "/messages",
-      "/producers"
+      "/about/",
+      "/blocks/",
+      "/transactions/",
+      "/accounts/",
+      "/messages/",
+      "/producers/"
     ],
     "crawl": false,
     "inlineCss": false,
