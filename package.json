@@ -1,6 +1,7 @@
 {
   "name": "scaneos_web",
   "version": "0.1.0",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "clear:babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
