@@ -411,8 +411,8 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           data: take(this.props.transactionData, 6),
           loading: this.props.transactionLoading,
         })}
-        {this.getAccountList({ data: take(this.props.accountData, 4), loading: this.props.accountLoading })}
         {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
+        {this.getAccountList({ data: take(this.props.accountData, 4), loading: this.props.accountLoading })}
       </Container>
     );
   }
