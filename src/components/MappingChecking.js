@@ -34,6 +34,7 @@ const Title = styled(ATitle)``;
 const InputGroup = styled(Flex)`
   height: 80px;
   width: 100%;
+  margin: auto;
 `;
 const Result = styled(Flex)`
   width: 100%;

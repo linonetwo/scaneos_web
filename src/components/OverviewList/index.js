@@ -50,8 +50,8 @@ const AggregationItem = styled(Flex)`
     display: inline-flex;
   }
 
-  width: 30vw;
-  margin: 5px 0;
+  width: calc((90vw - 20px * 2) / 2);
+  margin: 5px auto;
   ${breakpoint('desktop')`
     width: unset;
     margin: 0;
@@ -177,7 +177,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   }) {
     const priceUp = data.currentPriceData.percentChange24h > 0;
     return (
-      <AggregationContainer justifyAround wrap="true">
+      <AggregationContainer wrap="true">
         <Spin spinning={data.loading}>
           <Link to="/blocks/">
             <AggregationItem column center>

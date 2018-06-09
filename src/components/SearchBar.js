@@ -11,7 +11,7 @@ const SearchContainer = styled.div`
   width: 200px;
   transition: width 0.3s;
 
-  margin: 0;
+  margin: auto;
   width: 90vw;
   ${breakpoint('desktop')`
     margin: 0 9px;
