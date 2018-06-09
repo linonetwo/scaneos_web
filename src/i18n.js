@@ -86,6 +86,7 @@ export default i18n
           FriendLinks: 'Links',
           mappingCheckingPassed: 'EOS registration verification passed',
           thisSite: 'About This Site',
+          webSiteTitle: 'Scan EOS | A Globally Professional EOS BlockChain Browser',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -188,6 +189,7 @@ export default i18n
           About: '关于我们',
           'more...': '查看更多',
           thisSite: '关于本站',
+          webSiteTitle: 'Scan EOS | 全球专业的EOS区块链浏览器',
         },
         countdown: {
           Days: '天',

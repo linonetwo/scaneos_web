@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
 import { I18nextProvider } from 'react-i18next';
+import { translate } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 import { store, history } from './store';
 import i18n from './i18n';
@@ -21,6 +23,15 @@ import UnderDevelopment from './pages/UnderDevelopment';
 import About from './pages/About';
 import Header, { Footer } from './components/Layout';
 
+function Title(props: { t: Function }) {
+  return (
+    <Helmet>
+      <title>{props.t('webSiteTitle')}</title>
+    </Helmet>
+  );
+}
+const DynamicTitle = translate()(Title);
+
 export default class App extends Component<{}> {
   componentDidMount() {
     store.dispatch.history.updateURI();
@@ -32,6 +43,7 @@ export default class App extends Component<{}> {
         <Provider store={store}>
           <Router history={history}>
             <Layout>
+              <DynamicTitle />
               <Header />
               <Switch>
                 <Route exact path="/blocks" component={Blocks} />
