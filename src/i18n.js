@@ -85,6 +85,7 @@ export default i18n
           owner: 'owners Address',
           FriendLinks: 'Links',
           mappingCheckingPassed: 'EOS registration verification passed',
+          thisSite: 'About This Site',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -186,6 +187,7 @@ export default i18n
           Activities: '近期动态',
           About: '关于我们',
           'more...': '查看更多',
+          thisSite: '关于本站',
         },
         countdown: {
           Days: '天',
