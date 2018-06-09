@@ -30,9 +30,15 @@ const Container = styled(Flex)`
 `;
 const AggregationContainer = styled(Flex)`
   width: 90vw;
+  & .ant-spin-nested-loading {
+    width: calc((90vw - 20px * 2) / 6);
+  }
   margin: 30px auto 0;
   ${breakpoint('desktop')`
     width: 1050px;
+    & .ant-spin-nested-loading {
+      width: calc((1050px - 20px * 2) / 6);
+    }
     margin: 50px 0 0;
   `};
   padding: 20px;
@@ -120,7 +126,7 @@ const KeyInfoContainer = styled(Flex)`
   height: 70px;
   margin: 10px 0;
   ${breakpoint('desktop')`
-    margin-bottom: 0px;
+    margin: 0;
     margin-right: 20px;
   `};
   padding: 20px;
