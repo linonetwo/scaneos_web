@@ -12,6 +12,7 @@ import i18n from './i18n';
 
 import Header, { Footer } from './components/Layout';
 import Loading from './components/Loading';
+import ScrollToTop from './components/ScrollToTop';
 
 const Block = loadable(() => import('./pages/Block'), {
   LoadingComponent: Loading,
@@ -69,25 +70,27 @@ export default class App extends Component<{}> {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router history={history}>
-            <Layout>
-              <DynamicTitle />
-              <Header />
-              <Switch>
-                <Route exact path="/blocks" component={Blocks} />
-                <Route exact path="/block/:blockNum" component={Block} />
-                <Route exact path="/transaction/:transactionId" component={Transaction} />
-                <Route exact path="/transactions" component={Transactions} />
-                <Route exact path="/account/:accountId" component={Account} />
-                <Route exact path="/accounts" component={Accounts} />
-                <Route exact path="/message/:transactionId" component={Message} />
-                <Route exact path="/messages" component={Messages} />
-                <Route exact path="/producers" component={BlockProducers} />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/" component={Home} />
-                <Route component={UnderDevelopment} />
-              </Switch>
-              <Footer />
-            </Layout>
+            <ScrollToTop>
+              <Layout>
+                <DynamicTitle />
+                <Header />
+                <Switch>
+                  <Route exact path="/blocks" component={Blocks} />
+                  <Route exact path="/block/:blockNum" component={Block} />
+                  <Route exact path="/transaction/:transactionId" component={Transaction} />
+                  <Route exact path="/transactions" component={Transactions} />
+                  <Route exact path="/account/:accountId" component={Account} />
+                  <Route exact path="/accounts" component={Accounts} />
+                  <Route exact path="/message/:transactionId" component={Message} />
+                  <Route exact path="/messages" component={Messages} />
+                  <Route exact path="/producers" component={BlockProducers} />
+                  <Route exact path="/about" component={About} />
+                  <Route exact path="/" component={Home} />
+                  <Route component={UnderDevelopment} />
+                </Switch>
+                <Footer />
+              </Layout>
+            </ScrollToTop>
           </Router>
         </Provider>
       </I18nextProvider>
