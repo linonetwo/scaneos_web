@@ -31,7 +31,7 @@ const Container = styled(Flex)`
 const AggregationContainer = styled(Flex)`
   width: 90vw;
   & .ant-spin-nested-loading {
-    width: calc((90vw - 20px * 2) / 6);
+    width: calc((90vw - 20px * 2) / 2);
   }
   margin: 30px auto 0;
   ${breakpoint('desktop')`
