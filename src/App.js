@@ -3,25 +3,28 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
-import { I18nextProvider } from 'react-i18next';
-import { translate } from 'react-i18next';
+import { I18nextProvider, translate } from 'react-i18next';
 import { Helmet } from 'react-helmet';
+import loadable, { getState } from 'loadable-components'
 
 import { store, history } from './store';
 import i18n from './i18n';
-import Block from './pages/Block';
-import Blocks from './pages/Blocks';
-import Transaction from './pages/Transaction';
-import Transactions from './pages/Transactions';
-import Account from './pages/Account';
-import Accounts from './pages/Accounts';
-import Message from './pages/Message';
-import Messages from './pages/Messages';
-import Home from './pages/Home';
-import BlockProducers from './pages/BlockProducers';
-import UnderDevelopment from './pages/UnderDevelopment';
-import About from './pages/About';
+
 import Header, { Footer } from './components/Layout';
+
+const Block = loadable(() => import('./pages/Block'));
+const Blocks = loadable(() => import('./pages/Blocks'));
+const Transaction = loadable(() => import('./pages/Transaction'));
+const Transactions = loadable(() => import('./pages/Transactions'));
+const Account = loadable(() => import('./pages/Account'));
+const Accounts = loadable(() => import('./pages/Accounts'));
+const Message = loadable(() => import('./pages/Message'));
+const Messages = loadable(() => import('./pages/Messages'));
+const Home = loadable(() => import('./pages/Home'));
+const BlockProducers = loadable(() => import('./pages/BlockProducers'));
+const UnderDevelopment = loadable(() => import('./pages/UnderDevelopment'));
+const About = loadable(() => import('./pages/About'));
+window.snapSaveState = () => getState();
 
 function Title(props: { t: Function }) {
   return (
