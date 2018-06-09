@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 import { Title as ATitle } from './OverviewList/styles';
 import { postEOS } from '../API.config';
+import type { AccountData } from '../store/account';
 
 const Container = styled(Flex)`
   height: 250px;
@@ -43,67 +44,6 @@ const Result = styled(Flex)`
   }
 `;
 
-type DelegatedBandwidth = {
-  from: string,
-  to: string,
-  netWeight: string,
-  cpuWeight: string,
-};
-type Keys = {
-  key: string,
-  weight: number,
-};
-type NetLimit = {
-  used: number,
-  available: number,
-  max: number,
-};
-type RequiredAuth = {
-  threshold: number,
-  keys: Keys[],
-  accounts: any[],
-  waits: any[],
-};
-type Permissions = {
-  permName: string,
-  parent: string,
-  requiredAuth: RequiredAuth,
-};
-type TotalResources = {
-  owner: string,
-  netWeight: string,
-  cpuWeight: string,
-  ramBytes: number,
-};
-type VoterInfo = {
-  owner: string,
-  proxy: string,
-  producers: any[],
-  staked: number,
-  lastVoteWeight: string,
-  proxiedVoteWeight: string,
-  isProxy: number,
-  deferredTrxId: number,
-  lastUnstakeTime: string,
-  unstaking: string,
-};
-type AddressData = {
-  accountName: string,
-  privileged: boolean,
-  lastCodeUpdate: string,
-  created: string,
-  ramQuota: number,
-  netWeight: number,
-  cpuWeight: number,
-  netLimit: NetLimit,
-  cpuLimit: NetLimit,
-  ramUsage: number,
-  permissions: Permissions[],
-  totalResources: TotalResources,
-  delegatedBandwidth: DelegatedBandwidth,
-  voterInfo: VoterInfo,
-};
-
 async function getEOSAddressByETHAddress(ethAddress: string) {
   const encoded: Buffer = abi.simpleEncode('keys(address):(string)', ethAddress);
   const rpcResult = await fetch('https://api.myetherapi.com/eth', {
@@ -131,7 +71,7 @@ async function getEOSAddressByETHAddress(ethAddress: string) {
   return EOSAddress;
 }
 async function getEOSOwnerAddressByEOSAccount(account: string) {
-  const data: AddressData = await postEOS('/v1/chain/get_account', { account_name: account });
+  const data: AccountData = await postEOS('/v1/chain/get_account', { account_name: account });
   return find(data.permissions, { permName: 'owner' })?.requiredAuth?.keys?.[0]?.key;
 }
 

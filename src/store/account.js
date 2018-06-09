@@ -1,16 +1,77 @@
 // @flow
 import { initial } from 'lodash';
 import type { Timestamp, Id, Pagination } from './block';
-import get from '../API.config';
+import get, { postEOS } from '../API.config';
 
+// export type AccountData = {
+//   Id: Id,
+//   name: string,
+//   eosBalance: string,
+//   stakedBalance: string,
+//   unstakingBalance: string,
+//   createdAt: Timestamp,
+//   updatedAt: Timestamp,
+// };
+
+type DelegatedBandwidth = {
+  from: string,
+  to: string,
+  netWeight: string,
+  cpuWeight: string,
+};
+type Keys = {
+  key: string,
+  weight: number,
+};
+type NetLimit = {
+  used: number,
+  available: number,
+  max: number,
+};
+type RequiredAuth = {
+  threshold: number,
+  keys: Keys[],
+  accounts: any[],
+  waits: any[],
+};
+type Permissions = {
+  permName: string,
+  parent: string,
+  requiredAuth: RequiredAuth,
+};
+type TotalResources = {
+  owner: string,
+  netWeight: string,
+  cpuWeight: string,
+  ramBytes: number,
+};
+type VoterInfo = {
+  owner: string,
+  proxy: string,
+  producers: any[],
+  staked: number,
+  lastVoteWeight: string,
+  proxiedVoteWeight: string,
+  isProxy: number,
+  deferredTrxId: number,
+  lastUnstakeTime: string,
+  unstaking: string,
+};
 export type AccountData = {
-  Id: Id,
-  name: string,
-  eosBalance: string,
-  stakedBalance: string,
-  unstakingBalance: string,
-  createdAt: Timestamp,
-  updatedAt: Timestamp,
+  accountName: string,
+  privileged: boolean,
+  lastCodeUpdate: string,
+  created: string,
+  ramQuota: number,
+  netWeight: number,
+  cpuWeight: number,
+  netLimit: NetLimit,
+  cpuLimit: NetLimit,
+  ramUsage: number,
+  permissions: Permissions[],
+  totalResources: TotalResources,
+  delegatedBandwidth: DelegatedBandwidth,
+  voterInfo: VoterInfo,
 };
 
 export type Store = {
@@ -22,13 +83,36 @@ export type Store = {
 };
 
 export const emptyAccountData = {
-  Id: { $id: '' },
-  name: '',
-  eosBalance: '',
-  stakedBalance: '',
-  unstakingBalance: '',
-  createdAt: { sec: 0, usec: 0 },
-  updatedAt: { sec: 0, usec: 0 },
+  accountName: '',
+  privileged: false,
+  lastCodeUpdate: '1970-01-01T00:00:00.000',
+  created: '2018-06-04T00:40:15.500',
+  ramQuota: -1,
+  netWeight: -1,
+  cpuWeight: -1,
+  netLimit: { used: -1, available: -1, max: -1 },
+  cpuLimit: { used: -1, available: -1, max: -1 },
+  ramUsage: -1,
+  permissions: [],
+  totalResources: { owner: '', netWeight: '-1 EOS', cpuWeight: '-1 EOS', ramBytes: -1 },
+  delegatedBandwidth: {
+    from: '',
+    to: '',
+    netWeight: '-1 EOS',
+    cpuWeight: '-1 EOS',
+  },
+  voterInfo: {
+    owner: '',
+    proxy: '',
+    producers: [],
+    staked: -1,
+    lastVoteWeight: '0.0',
+    proxiedVoteWeight: '0.0',
+    isProxy: 0,
+    deferredTrxId: 0,
+    lastUnstakeTime: '1970-01-01T00:00:00',
+    unstaking: '0.0000 EOS',
+  },
 };
 const defaultState = {
   loading: false,
@@ -83,10 +167,11 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const data = await get(`/accounts?name=${accountName}`);
+        // const data = await get(`/accounts?name=${accountName}`);
+        const data = await postEOS('/v1/chain/get_account', { account_name: accountName });
 
-        if (!data?.[0]) throw new Error('No data.');
-        this.initAccountData(data[0]);
+        if (!data) throw new Error('No data.');
+        this.initAccountData(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
