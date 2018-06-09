@@ -8,4 +8,8 @@ export const Title = styled(Flex)`
   font-size: 16px;
   padding: 0;
   color: #333;
+
+  & a {
+    margin-left: auto;
+  }
 `;

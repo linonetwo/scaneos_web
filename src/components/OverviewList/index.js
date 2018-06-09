@@ -139,7 +139,6 @@ const ViewAll = styled(Flex)`
   border: 1px solid gray;
   padding: 5px 13px;
   font-size: 14px;
-  margin-left: auto;
 
   cursor: pointer;
   color: gray;
