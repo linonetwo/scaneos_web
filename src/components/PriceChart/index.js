@@ -7,12 +7,10 @@ import { translate } from 'react-i18next';
 import { Icon } from 'antd';
 import { format } from 'date-fns';
 import numeral from 'numeral';
-import IEcharts from 'react-echarts-v3/src/lite.js';
+import IEcharts from 'react-echarts-v3/src/lite';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/legend';
 import 'echarts/lib/chart/line';
-import 'echarts/lib/component/timeline';
 
 import { Title } from '../OverviewList/styles';
 
