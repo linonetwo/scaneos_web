@@ -9,7 +9,7 @@ export default i18n
   .use(LanguageDetector)
   .use(reactI18nextModule)
   .init({
-    fallbackLng: 'zh-CN',
+    fallbackLng: 'en',
     ns: ['translations', 'mappingChecking'],
     defaultNS: 'translations',
     debug: false,
@@ -120,7 +120,7 @@ export default i18n
           logoIcon: logoIconZh,
           Home: '首页',
           Block: '区块',
-          BlockChain: '区块',
+          BlockChain: '区块链',
           Tokens: '通证',
           Token: '通证',
           TokenTransfers: '通证转移',

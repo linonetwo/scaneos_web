@@ -15,7 +15,8 @@
   "reactSnap": {
     "puppeteerArgs": [
       "--disable-setuid-sandbox",
-      "--no-sandbox"
+      "--no-sandbox",
+      "--lang=zh-CN"
     ],
     "concurrency": 1,
     "include": [
