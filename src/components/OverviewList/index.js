@@ -95,6 +95,7 @@ const ListContainer = styled.div`
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
   padding: 20px;
+  padding-bottom: 5px;
 `;
 const KeyInfoContainer = styled(Flex)`
   background-color: gray;
@@ -405,13 +406,13 @@ class OverviewList extends Component<Props & Store & Dispatch> {
         })}
         <PriceChart data={this.props.priceChartData} />
         <MappingChecking />
-        {this.getBlockList({ data: take(this.props.blockData, 10), loading: this.props.blockLoading })}
+        {this.getBlockList({ data: take(this.props.blockData, 6), loading: this.props.blockLoading })}
         {this.getTransactionList({
-          data: take(this.props.transactionData, 10),
+          data: take(this.props.transactionData, 6),
           loading: this.props.transactionLoading,
         })}
         {this.getAccountList({ data: take(this.props.accountData, 4), loading: this.props.accountLoading })}
-        {this.getMessageList({ data: take(this.props.messageData, 5), loading: this.props.messageLoading })}
+        {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
       </Container>
     );
   }
