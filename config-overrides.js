@@ -7,6 +7,7 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 module.exports = function override(config, env) {
+  config = injectBabelPlugin('loadable-components/babel', config);
   config = injectBabelPlugin('transform-decorators-legacy', config);
   config = injectBabelPlugin('@babel/plugin-proposal-do-expressions', config);
   config = injectBabelPlugin('@babel/plugin-proposal-optional-chaining', config);

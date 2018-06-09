@@ -5,26 +5,50 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
 import { I18nextProvider, translate } from 'react-i18next';
 import { Helmet } from 'react-helmet';
-import loadable, { getState } from 'loadable-components'
+import loadable from 'loadable-components';
 
 import { store, history } from './store';
 import i18n from './i18n';
 
 import Header, { Footer } from './components/Layout';
+import Loading from './components/Loading';
 
-const Block = loadable(() => import('./pages/Block'));
-const Blocks = loadable(() => import('./pages/Blocks'));
-const Transaction = loadable(() => import('./pages/Transaction'));
-const Transactions = loadable(() => import('./pages/Transactions'));
-const Account = loadable(() => import('./pages/Account'));
-const Accounts = loadable(() => import('./pages/Accounts'));
-const Message = loadable(() => import('./pages/Message'));
-const Messages = loadable(() => import('./pages/Messages'));
-const Home = loadable(() => import('./pages/Home'));
-const BlockProducers = loadable(() => import('./pages/BlockProducers'));
-const UnderDevelopment = loadable(() => import('./pages/UnderDevelopment'));
-const About = loadable(() => import('./pages/About'));
-window.snapSaveState = () => getState();
+const Block = loadable(() => import('./pages/Block'), {
+  LoadingComponent: Loading,
+});
+const Blocks = loadable(() => import('./pages/Blocks'), {
+  LoadingComponent: Loading,
+});
+const Transaction = loadable(() => import('./pages/Transaction'), {
+  LoadingComponent: Loading,
+});
+const Transactions = loadable(() => import('./pages/Transactions'), {
+  LoadingComponent: Loading,
+});
+const Account = loadable(() => import('./pages/Account'), {
+  LoadingComponent: Loading,
+});
+const Accounts = loadable(() => import('./pages/Accounts'), {
+  LoadingComponent: Loading,
+});
+const Message = loadable(() => import('./pages/Message'), {
+  LoadingComponent: Loading,
+});
+const Messages = loadable(() => import('./pages/Messages'), {
+  LoadingComponent: Loading,
+});
+const Home = loadable(() => import('./pages/Home'), {
+  LoadingComponent: Loading,
+});
+const BlockProducers = loadable(() => import('./pages/BlockProducers'), {
+  LoadingComponent: Loading,
+});
+const UnderDevelopment = loadable(() => import('./pages/UnderDevelopment'), {
+  LoadingComponent: Loading,
+});
+const About = loadable(() => import('./pages/About'), {
+  LoadingComponent: Loading,
+});
 
 function Title(props: { t: Function }) {
   return (

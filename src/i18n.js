@@ -190,6 +190,7 @@ export default i18n
           'more...': '查看更多',
           thisSite: '关于本站',
           webSiteTitle: 'Scan EOS | 全球专业的EOS区块链浏览器',
+          LoadingModule: '模块加载中',
         },
         countdown: {
           Days: '天',
