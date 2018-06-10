@@ -30,8 +30,8 @@ type Dispatch = {
 class Transaction extends Component<Props & Store & Dispatch, *> {
   state = {};
   componentDidMount() {
-    const currentTransactionName = String(this.props.match.params.transactionId);
-    this.props.getTransactionData(currentTransactionName);
+    const currentTransactionId = String(this.props.match.params.transactionId);
+    this.props.getTransactionData(currentTransactionId);
   }
 
   getValueRendering(field: string, value: any) {

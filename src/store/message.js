@@ -117,7 +117,7 @@ export default (initialState?: Object = {}) => ({
         const data = await get(`/actions?transaction_id=${transactionId}`);
 
         if (data.length === 0) throw new Error('No data.');
-        this.initMessageData(data[0]);
+        this.initMessageData(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

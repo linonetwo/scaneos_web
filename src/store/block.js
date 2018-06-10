@@ -127,7 +127,7 @@ export default (initialState?: Object = {}) => ({
 
         const data = await get(`/blocks?block_num=${blockNum}`);
 
-        this.initBlockData(data[0]);
+        this.initBlockData(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

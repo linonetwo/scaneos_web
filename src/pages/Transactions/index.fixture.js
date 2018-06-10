@@ -15,7 +15,7 @@ export default [
     fetch: [
       {
         matcher: () => `${API}/transactions?page=0&size=${getPageSize() * defaultState.pagination.pageCountToLoad + 1}`,
-        response: listData1,
+        response: JSON.stringify(listData1),
       },
     ],
     reduxState: {

@@ -115,7 +115,7 @@ export default (initialState?: Object = {}) => ({
       try {
         const data = await get(`/transactions?transaction_id=${transactionId}`);
 
-        this.initTransactionData(data[0]);
+        this.initTransactionData(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
