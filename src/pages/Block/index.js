@@ -5,6 +5,7 @@ import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import queryString from 'query-string';
 
 import { getBreadcrumb } from '../../components/Layout';
 import type { BlockData } from '../../store/block';
@@ -54,12 +55,17 @@ class Block extends Component<Props & Store & Dispatch, State> {
   }
 
   render() {
+    const { tab } = queryString.parse(this.props.location.search);
     return (
       <Fragment>
         {getBreadcrumb('block', this.props.t)}
         <Spin tip="Connecting" spinning={this.props.loading} size="large">
           <DetailTabsContainer>
-            <Tabs defaultActiveKey="2">
+            <Tabs
+              defaultActiveKey="data"
+              activeKey={tab}
+              onChange={activeKey => this.props.history.push(`${this.props.location.pathname}?tab=${activeKey}`)}
+            >
               <Tabs.TabPane
                 tab={
                   <span>
@@ -67,7 +73,7 @@ class Block extends Component<Props & Store & Dispatch, State> {
                     {this.props.t('Transactions')}
                   </span>
                 }
-                key="1"
+                key="transactions"
               >
                 {this.props.transactions.length > 0 ? (
                   this.props.transactions.map(data => (
@@ -105,7 +111,7 @@ class Block extends Component<Props & Store & Dispatch, State> {
                     {this.props.t('Overview')}
                   </span>
                 }
-                key="2"
+                key="data"
               >
                 <LongListContainer column>
                   <Table
@@ -132,7 +138,7 @@ class Block extends Component<Props & Store & Dispatch, State> {
                     {this.props.t('Raw')}
                   </span>
                 }
-                key="3"
+                key="raw"
               >
                 <pre>
                   <code>{JSON.stringify(this.props.data, null, '  ')}</code>

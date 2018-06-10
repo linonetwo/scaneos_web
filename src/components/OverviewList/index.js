@@ -305,10 +305,6 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                 <Link to={`/account/${item.producerAccountId}/`}>
                   {this.props.t('producerAccountId')}: {item.producerAccountId}
                 </Link>
-                {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
-                {item.transactions.map(({ id }) => (
-                  <Link to={`/transaction/${id}/`}>{truncate(id, { length: 4, omission: ' ' })}</Link>
-                ))} */}
               </KeyInfoItemContainer>
             </List.Item>
           )}
@@ -343,7 +339,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                     <span>{formatTimeStamp(item.createdAt, this.props.t('locale'), { time: false })}</span>
                   </KeyInfoContainer>
                 </Link>
-                <Link to={`/block/${item.blockId}/`}>
+                <Link to={`/block/${item.blockId}/?tab=transactions`}>
                   {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
                 </Link>
               </KeyInfoItemContainer>
