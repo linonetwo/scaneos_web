@@ -86,7 +86,7 @@ const ListContainer = styled.div`
     margin: 50px 0 0;
   `};
   ${is('small')`
-    height: 650px;
+    height: 820px;
   `};
   .ant-list {
     margin: 0;
@@ -162,6 +162,10 @@ const MessagePreview = styled.div`
   }
   margin-top: 5px;
   margin-bottom: 5px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 type Props = {
@@ -404,28 +408,33 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           itemLayout="vertical"
           dataSource={data.data}
           renderItem={(item: MessageData) => (
-            <List.Item
-            >
-            <MessagePreview><Link to={`/message/${item.transactionId}/`}>
-                  {this.props.t('Messages')}: {truncate(item.transactionId, { length: 15, omission: '...' })}
-                </Link>,
+            <List.Item>
+              <MessagePreview>
+                <Link to={`/message/${item.transactionId}/`}>
+                  {this.props.t('Messages')}: {item.transactionId}
+                </Link>
+              </MessagePreview>
+              <MessagePreview>
                 <Link to={`/transaction/${item.transactionId}/`}>
-                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 15, omission: '...' })}
-                </Link></MessagePreview>
-            <MessagePreview>{compact([
-                ...flatten(
-                  item.authorization.map(({ actor, permission }) => (
-                    <Link to={`/account/${actor}/`}>
-                      {actor}: ({permission})
+                  {this.props.t('transactionId')}: {item.transactionId}
+                </Link>
+              </MessagePreview>
+              <MessagePreview>
+                {compact([
+                  ...flatten(
+                    item.authorization.map(({ actor, permission }) => (
+                      <Link to={`/account/${actor}/`}>
+                        {actor}: ({permission})
+                      </Link>
+                    )),
+                  ),
+                  item.handlerAccountName !== undefined && (
+                    <Link to={`/account/${String(item.handlerAccountName)}/`}>
+                      {this.props.t('handlerAccountName')}: {item.handlerAccountName}
                     </Link>
-                  )),
-                ),
-                item.handlerAccountName !== undefined && (
-                  <Link to={`/account/${String(item.handlerAccountName)}/`}>
-                    {this.props.t('handlerAccountName')}: {item.handlerAccountName}
-                  </Link>
-                ),
-              ])}</MessagePreview>
+                  ),
+                ])}
+              </MessagePreview>
               <MessagePreview>{formatTimeStamp(item.createdAt, this.props.t('locale'))}</MessagePreview>
             </List.Item>
           )}
