@@ -1,21 +1,40 @@
 // @flow
 import { initial } from 'lodash';
 import get from '../API.config';
-import type { Timestamp, Id, Pagination } from './block';
+import type { Pagination } from './block';
 
 export type TransactionData = {
-  Id: Id,
+  id: string,
   transactionId: string,
   sequenceNum: number,
   blockId: string,
   refBlockNum: number,
-  refBlockPrefix: string | number,
-  scope?: string[],
-  readScope?: any[],
-  expiration: Timestamp,
-  signatures?: string[],
-  messages?: Id[],
-  createdAt: Timestamp,
+  refBlockPrefix: number,
+  status: string,
+  expiration: string,
+  pending: boolean,
+  createdAt: string,
+  type: string,
+  updatedAt: string | null,
+  links: any[],
+};
+export type ListResponse = {
+  links: {
+    rel: string,
+    href: string,
+    hreflang: string | null,
+    media: string | null,
+    title: string | null,
+    type: string | null,
+    deprecation: string | null,
+  }[],
+  content: TransactionData[],
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number,
+  },
 };
 
 export type Store = {
@@ -27,20 +46,21 @@ export type Store = {
 };
 
 export const emptyTransactionData = {
-  Id: { $id: '' },
+  id: '',
   transactionId: '',
-  sequenceNum: 0,
+  sequenceNum: -1,
   blockId: '',
-  refBlockNum: 0,
-  refBlockPrefix: '',
-  scope: ['eos'],
-  readScope: [],
-  expiration: { sec: 0, usec: 0 },
-  signatures: [''],
-  messages: [{ $id: '' }],
-  createdAt: { sec: 0, usec: 0 },
+  refBlockNum: -1,
+  refBlockPrefix: -1,
+  status: 'executed',
+  expiration: '2018-03-01T12:00:01.000+0000',
+  pending: false,
+  createdAt: '2018-06-02T10:17:49.501+0000',
+  type: 'implicit',
+  updatedAt: '2018-06-02T10:17:50.006+0000',
+  links: [],
 };
-const defaultState = {
+export const defaultState = {
   loading: false,
   list: [],
   data: emptyTransactionData,
@@ -135,19 +155,20 @@ export default (initialState?: Object = {}) => ({
           : 0;
         const limit = pageSize * transaction.pagination.pageCountToLoad + 1;
 
-        let list: TransactionData[] = await get(`/transactions?page=${offset}&size=${limit}`);
+        const data: ListResponse = await get(`/transactions?page=${offset}&size=${limit}`);
+        let { content } = data;
 
-        const loadable = list.length === pageSize * transaction.pagination.pageCountToLoad + 1;
+        const loadable = content.length === pageSize * transaction.pagination.pageCountToLoad + 1;
 
         if (loadable) {
-          list = initial(list);
+          content = initial(content);
         }
         if (gotoPage) {
-          this.appendTransactionsList(list);
+          this.appendTransactionsList(content);
         } else {
-          this.initTransactionsList(list);
+          this.initTransactionsList(content);
         }
-        this.increaseOffset(list.length, loadable);
+        this.increaseOffset(content.length, loadable);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

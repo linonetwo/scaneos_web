@@ -3,24 +3,36 @@ import { initial } from 'lodash';
 
 import get from '../API.config';
 
-export type Id = {
-  $id: string,
-};
-export type Timestamp = {
-  sec: number,
-  usec: number,
-};
-
 export type BlockData = {
-  Id: Id,
+  id: string,
   blockNum: number,
   blockId: string,
   prevBlockId: string,
-  timestamp: Timestamp,
+  timestamp: string,
   transactionMerkleRoot: string,
   producerAccountId: string,
+  pending: boolean,
   transactions?: any[],
-  createdAt: Timestamp,
+  createdAt: string,
+  updatedAt: string | null,
+};
+export type ListResponse = {
+  links: {
+    rel: string,
+    href: string,
+    hreflang: string | null,
+    media: string | null,
+    title: string | null,
+    type: string | null,
+    deprecation: string | null,
+  }[],
+  content: BlockData[],
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number,
+  },
 };
 
 export type Pagination = { currentTotal: number, loadable: boolean, pageCountToLoad: number };
@@ -33,17 +45,19 @@ export type Store = {
 };
 
 export const emptyBlockData = {
-  Id: { $id: '' },
-  blockNum: 0,
+  id: '',
+  blockNum: -1,
   blockId: '',
   prevBlockId: '',
-  timestamp: { sec: 0, usec: 0 },
+  timestamp: '2018-06-02T10:17:49.000+0000',
   transactionMerkleRoot: '',
   producerAccountId: '',
-  transactions: [{ $id: '' }],
-  createdAt: { sec: 0, usec: 0 },
+  pending: false,
+  createdAt: '2018-06-02T10:17:49.501+0000',
+  updatedAt: '2018-06-02T10:17:50.006+0000',
+  links: [],
 };
-const defaultState = {
+export const defaultState = {
   loading: false,
   list: [],
   data: emptyBlockData,
@@ -151,19 +165,20 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? block.pagination.currentTotal / (pageSize * block.pagination.pageCountToLoad) : 0;
         const limit = pageSize * block.pagination.pageCountToLoad + 1;
 
-        let list: BlockData[] = await get(`/blocks?page=${offset}&size=${limit}`);
+        const data: ListResponse = await get(`/blocks?page=${offset}&size=${limit}`);
+        let { content } = data;
 
-        const loadable = list.length === pageSize * block.pagination.pageCountToLoad + 1;
+        const loadable = content.length === pageSize * block.pagination.pageCountToLoad + 1;
 
         if (loadable) {
-          list = initial(list);
+          content = initial(content);
         }
         if (gotoPage) {
-          this.appendBlocksList(list);
+          this.appendBlocksList(content);
         } else {
-          this.initBlocksList(list);
+          this.initBlocksList(content);
         }
-        this.increaseOffset(list.length, loadable);
+        this.increaseOffset(content.length, loadable);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

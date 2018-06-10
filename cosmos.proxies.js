@@ -9,4 +9,4 @@ const ReduxProxy = createReduxProxy({
   createStore: initialState => configureStore(initialState),
 });
 
-export default [ReduxProxy, createRouterProxy()];
+export default [ReduxProxy, createRouterProxy(), createFetchProxy()];

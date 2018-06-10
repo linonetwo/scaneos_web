@@ -1,7 +1,7 @@
 // @flow
 import { initial } from 'lodash';
 import get from '../API.config';
-import type { Timestamp, Id, Pagination } from './block';
+import type { Pagination } from './block';
 
 type Authorization = {
   account?: string,
@@ -33,14 +33,14 @@ type Data = {
   memo?: string,
 };
 export type MessageData = {
-  Id: Id,
+  id: string,
   actionId: number,
   transactionId: string,
   authorization: Authorization[],
   handlerAccountName?: string,
   type?: string,
   data?: Data,
-  createdAt: Timestamp,
+  createdAt: string,
 };
 
 export type Store = {
@@ -52,14 +52,14 @@ export type Store = {
 };
 
 export const emptyMessageData = {
-  Id: { $id: '' },
+  id: '',
   actionId: 0,
   transactionId: '',
   authorization: [{ account: '', permission: 'active' }],
   handlerAccountName: 'eos',
   type: '',
   data: {},
-  createdAt: { sec: 0, usec: 0 },
+  createdAt: '',
 };
 const defaultState = {
   loading: false,

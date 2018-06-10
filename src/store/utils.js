@@ -6,12 +6,17 @@ import zh from 'date-fns/locale/zh_cn';
 const locales = { en, zh };
 
 export function formatTimeStamp(
-  timeStamp: number,
+  timeStamp: number | string,
   locale: string,
   { time = true, distance = true }: { time?: boolean, distance?: boolean } = {},
 ) {
   // polyfill ms
-  const now = new Date(timeStamp * 1000);
+  let now;
+  if (typeof timeStamp === 'string') {
+    now = new Date(timeStamp);
+  } else {
+    now = new Date(timeStamp * 1000);
+  }
   return `${
     distance
       ? distanceInWordsToNow(now, {

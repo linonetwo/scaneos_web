@@ -3,16 +3,6 @@ import { initial } from 'lodash';
 import type { Pagination } from './block';
 import get, { postEOS } from '../API.config';
 
-// export type AccountData = {
-//   Id: Id,
-//   name: string,
-//   eosBalance: string,
-//   stakedBalance: string,
-//   unstakingBalance: string,
-//   createdAt: Timestamp,
-//   updatedAt: Timestamp,
-// };
-
 type DelegatedBandwidth = {
   from: string,
   to: string,
