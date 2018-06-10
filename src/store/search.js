@@ -26,14 +26,19 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async searchKeyWord(keyWord: string) {
+    async searchKeyWord(param: { keyWord: string, type: string }) {
+      const { keyWord, type } = param;
       const {
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
       dispatch.message.toggleLoading();
       try {
-        const data = await get(`/search?query=${keyWord}`);
+        if (type === 'account') {
+          const data = await get(`/search?type=${type}&name=${keyWord}`);
+          return data;
+        }
+        const data = await get(`/search?type=${type}&id=${keyWord}`);
         return data;
       } catch (error) {
         console.error(error);
@@ -52,19 +57,30 @@ export default (initialState?: Object = {}) => ({
     },
     async search() {
       const {
-        store: { getState },
+        store: { getState, dispatch },
       } = await import('./');
+      const { history } = await import('./history');
       const {
         search: { keyWord },
       } = await getState();
 
-      const data = await this.searchKeyWord(keyWord);
-      const { history } = await import('./history');
+      if (keyWord.length === 64) {
+        // 长度为 64 的一般是 blockId
+        const data = await this.searchKeyWord({ keyWord, type: 'block' });
 
-      if (data.blockId === keyWord && typeof data.blockNum === 'number') {
-        return history.push(`/block/${data.blockNum}`);
+        if (
+          data?.content?.length === 1 &&
+          data.content[0].blockId === keyWord &&
+          typeof data.content[0].blockNum === 'number'
+        ) {
+          dispatch.block.getBlockData(data.content[0].blockNum);
+          return history.push(`/block/${data.content[0].blockNum}`);
+        }
+      } else {
+        // 其他目前默认是账户名
+        // const data = await this.searchKeyWord(keyWord, 'account');
+        return history.push(`/account/${keyWord}`);
       }
-      return history.push(`/account/${keyWord}`);
     },
   },
 });

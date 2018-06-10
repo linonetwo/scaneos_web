@@ -78,7 +78,7 @@ const mapState = ({ search: { keyWord } }): Store => ({
   keyWord,
 });
 const mapDispatch = ({ search: { changeKeyWord, search } }): Dispatch => ({
-  changeKeyWord: debounce(changeKeyWord, 100),
+  changeKeyWord,
   search: debounce(search, 100),
 });
 export default translate()(connect(
