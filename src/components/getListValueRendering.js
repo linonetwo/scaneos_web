@@ -31,7 +31,7 @@ export default function getListValueRendering(field: string, value: any, t: Func
     case 'authorization':
       return value.map(({ actor, permission }) => (
         <Link to={`/account/${actor}/`}>
-          {actor}({t('permission')}: {permission})
+          {actor} ({t('permission')}: {permission})
         </Link>
       ));
     case 'handlerAccountName':

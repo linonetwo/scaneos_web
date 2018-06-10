@@ -65,17 +65,11 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('actionId')}
               dataIndex="actionId"
               key="actionId"
-            />
-            <Table.Column
-              title={this.props.t('messages')}
-              render={transactionId => (
-                <Link to={`/message/${transactionId}/`}>
-                  {truncate(transactionId, { length: 10, omission: '...' })}
-                </Link>
-              )}
+              render={(actionId, { transactionId }) => <Link to={`/message/${transactionId}/`}>{actionId}</Link>}
             />
             <Table.Column
               title={this.props.t('transactionId')}
+              dataIndex="transactionId"
               render={transactionId => (
                 <Link to={`/transaction/${transactionId}/`}>
                   {truncate(transactionId, { length: 10, omission: '...' })}
@@ -93,7 +87,13 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               dataIndex="authorization"
               key="authorization"
               render={authorization =>
-                flatten(authorization.map(({ account }) => <Link to={`/account/${account}/`}>{account}</Link>))
+                flatten(
+                  authorization.map(({ actor, permission }) => (
+                    <Link to={`/account/${actor}/`}>
+                      {actor} ({this.props.t('permission')}: {permission})
+                    </Link>
+                  )),
+                )
               }
             />
             <Table.Column
@@ -102,7 +102,7 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               key="handlerAccountName"
               render={handlerAccountName => <Link to={`/account/${handlerAccountName}/`}>{handlerAccountName}</Link>}
             />
-            <Table.Column title={this.props.t('type')} dataIndex="type" key="type" />
+            <Table.Column title={this.props.t('type')} dataIndex="name" key="name" />
           </Table>
         </ListContainer>
       </Spin>
