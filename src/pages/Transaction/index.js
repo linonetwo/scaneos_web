@@ -9,6 +9,7 @@ import { translate } from 'react-i18next';
 import { getBreadcrumb } from '../../components/Layout';
 import { formatTimeStamp } from '../../store/utils';
 import type { TransactionData } from '../../store/transaction';
+import type { MessageData } from '../../store/message';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
 
 type Props = {
@@ -21,10 +22,12 @@ type Props = {
 };
 type Store = {
   data: TransactionData,
+  messages: MessageData[],
   loading: boolean,
 };
 type Dispatch = {
-  getTransactionData: (transactionName: string) => void,
+  getTransactionData: (transactionId: string) => void,
+  getMessageData: (transactionId: string) => void,
 };
 
 class Transaction extends Component<Props & Store & Dispatch, *> {
@@ -32,6 +35,7 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
   componentDidMount() {
     const currentTransactionId = String(this.props.match.params.transactionId);
     this.props.getTransactionData(currentTransactionId);
+    this.props.getMessageData(currentTransactionId);
   }
 
   getValueRendering(field: string, value: any) {
@@ -76,12 +80,28 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
                 tab={
                   <span>
                     <Icon type="solution" />
-                    {this.props.t('Accounts')}
+                    {this.props.t('Messages')}
                   </span>
                 }
                 key="1"
               >
-                Accounts
+                {this.props.messages.map(data => (
+                  <LongListContainer column>
+                    <Table
+                      size="middle"
+                      pagination={false}
+                      dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                    >
+                      <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
+                      <Table.Column
+                        title={this.props.t('value')}
+                        dataIndex="value"
+                        key="value"
+                        render={(value, { field }) => this.getValueRendering(field, value)}
+                      />
+                    </Table>
+                  </LongListContainer>
+                ))}
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
@@ -129,8 +149,15 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ transaction: { data }, info: { loading } }): Store => ({ data, loading });
-const mapDispatch = ({ transaction: { getTransactionData } }): Dispatch => ({ getTransactionData });
+const mapState = ({ transaction: { data }, message: { listByTransaction }, info: { loading } }): Store => ({
+  data,
+  messages: listByTransaction,
+  loading,
+});
+const mapDispatch = ({ transaction: { getTransactionData }, message: { getMessageData } }): Dispatch => ({
+  getTransactionData,
+  getMessageData,
+});
 export default withRouter(
   translate()(
     connect(
