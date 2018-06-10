@@ -67,3 +67,8 @@ export const ProducerListContainer = styled.div`
     color: #999;
   }
 `;
+
+export const NoData = styled.div`
+  text-align: center;
+  padding: 50px;
+`;

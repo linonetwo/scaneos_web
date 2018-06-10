@@ -3,14 +3,13 @@ import { toPairs } from 'lodash';
 import React, { Component, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { formatTimeStamp } from '../../store/utils';
 import type { TransactionData } from '../../store/transaction';
 import type { MessageData } from '../../store/message';
-import { LongListContainer, DetailTabsContainer } from '../../components/Table';
+import { LongListContainer, DetailTabsContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
@@ -55,23 +54,32 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
                 }
                 key="1"
               >
-                {this.props.messages.map(data => (
-                  <LongListContainer column>
-                    <Table
-                      size="middle"
-                      pagination={false}
-                      dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
-                    >
-                      <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                      <Table.Column
-                        title={this.props.t('value')}
-                        dataIndex="value"
-                        key="value"
-                        render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
-                      />
-                    </Table>
-                  </LongListContainer>
-                ))}
+                {this.props.messages.length > 0 ? (
+                  this.props.messages.map(data => (
+                    <LongListContainer column>
+                      <Table
+                        size="middle"
+                        pagination={false}
+                        dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                      >
+                        <Table.Column
+                          title={this.props.t('field')}
+                          dataIndex="field"
+                          key="field"
+                          render={this.props.t}
+                        />
+                        <Table.Column
+                          title={this.props.t('value')}
+                          dataIndex="value"
+                          key="value"
+                          render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
+                        />
+                      </Table>
+                    </LongListContainer>
+                  ))
+                ) : (
+                  <NoData>No Actions.</NoData>
+                )}
               </Tabs.TabPane>
 
               <Tabs.TabPane

@@ -1,6 +1,5 @@
 // @flow
 import { toPairs } from 'lodash';
-import styled from 'styled-components';
 import React, { Component, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
@@ -10,13 +9,8 @@ import { translate } from 'react-i18next';
 import { getBreadcrumb } from '../../components/Layout';
 import type { BlockData } from '../../store/block';
 import type { TransactionData } from '../../store/transaction';
-import { LongListContainer, DetailTabsContainer } from '../../components/Table';
+import { LongListContainer, DetailTabsContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
-
-const NoTransactions = styled.div`
-  text-align: center;
-  padding: 50px;
-`;
 
 type Props = {
   match: {
@@ -100,7 +94,7 @@ class Block extends Component<Props & Store & Dispatch, State> {
                     </LongListContainer>
                   ))
                 ) : (
-                  <NoTransactions>No Transactions.</NoTransactions>
+                  <NoData>No Transactions.</NoData>
                 )}
               </Tabs.TabPane>
 
