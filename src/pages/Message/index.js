@@ -20,7 +20,7 @@ type Props = {
   t: Function,
 };
 type Store = {
-  data: MessageData,
+  listByTransaction: MessageData[],
   loading: boolean,
 };
 type Dispatch = {
@@ -81,21 +81,23 @@ class Message extends Component<Props & Store & Dispatch, *> {
                 }
                 key="2"
               >
-                <LongListContainer column>
-                  <Table
-                    size="middle"
-                    pagination={false}
-                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field }))}
-                  >
-                    <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                    <Table.Column
-                      title={this.props.t('value')}
-                      dataIndex="value"
-                      key="value"
-                      render={(value, { field }) => this.getValueRendering(field, value)}
-                    />
-                  </Table>
-                </LongListContainer>
+                {this.props.listByTransaction.map(data => (
+                  <LongListContainer column>
+                    <Table
+                      size="middle"
+                      pagination={false}
+                      dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                    >
+                      <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
+                      <Table.Column
+                        title={this.props.t('value')}
+                        dataIndex="value"
+                        key="value"
+                        render={(value, { field }) => this.getValueRendering(field, value)}
+                      />
+                    </Table>
+                  </LongListContainer>
+                ))}
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
@@ -107,7 +109,7 @@ class Message extends Component<Props & Store & Dispatch, *> {
                 key="3"
               >
                 <pre>
-                  <code>{JSON.stringify(this.props.data, null, '  ')}</code>
+                  <code>{JSON.stringify(this.props.listByTransaction, null, '  ')}</code>
                 </pre>
               </Tabs.TabPane>
             </Tabs>
@@ -118,7 +120,7 @@ class Message extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ message: { data }, info: { loading } }): Store => ({ data, loading });
+const mapState = ({ message: { listByTransaction }, info: { loading } }): Store => ({ listByTransaction, loading });
 const mapDispatch = ({ message: { getMessageData } }): Dispatch => ({ getMessageData });
 export default withRouter(
   translate()(

@@ -32,7 +32,6 @@ export type MessageData = {
   name: string,
   data: Data,
   createdAt: string,
-  links: any[],
 };
 export type ListResponse = {
   content: MessageData[],
@@ -46,8 +45,8 @@ export type ListResponse = {
 
 export type Store = {
   loading: boolean,
-  data: MessageData,
-  list: MessageData[],
+  listByTime: MessageData[],
+  listByTransaction: MessageData[],
   pagination: Pagination,
   currentPage: number,
 };
@@ -76,8 +75,8 @@ export const emptyMessageData = {
 };
 export const defaultState = {
   loading: false,
-  list: [],
-  data: emptyMessageData,
+  listByTime: [],
+  listByTransaction: [],
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 1,
 };
@@ -91,16 +90,16 @@ export default (initialState?: Object = {}) => ({
       state.loading = !state.loading;
       return state;
     },
-    initMessagesList(state: Store, list: MessageData[]) {
-      state.list = list;
+    initMessagesList(state: Store, listByTime: MessageData[]) {
+      state.listByTime = listByTime;
       return state;
     },
-    appendMessagesList(state: Store, list: MessageData[]) {
-      state.list = [...state.list, ...list];
+    appendMessagesList(state: Store, listByTime: MessageData[]) {
+      state.listByTime = [...state.listByTime, ...listByTime];
       return state;
     },
-    initMessageData(state: Store, data: MessageData) {
-      state.data = data;
+    initMessageData(state: Store, listByTransaction: MessageData[]) {
+      state.listByTransaction = listByTransaction;
       return state;
     },
     setPage(state: Store, newPage: number) {
@@ -127,10 +126,10 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const data = await get(`/actions?transaction_id=${transactionId}`);
+        const listByTransaction: ListResponse = await get(`/actions?transaction_id=${transactionId}`);
 
-        if (data.length === 0) throw new Error('No data.');
-        this.initMessageData(data);
+        if (listByTransaction.content.length === 0) throw new Error('No data.');
+        this.initMessageData(listByTransaction.content);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

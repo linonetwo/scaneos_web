@@ -13,7 +13,7 @@ export default [
     fetch: [
       {
         matcher: () => `${API}/messages?transaction_id=${messageDataByTransactionId.content[0].transactionId}`,
-        response: JSON.stringify([messageDataByTransactionId]),
+        response: JSON.stringify(messageDataByTransactionId),
       },
     ],
     reduxState: {

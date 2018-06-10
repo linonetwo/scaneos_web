@@ -15,7 +15,7 @@ type Props = {
   t: Function,
 };
 type Store = {
-  list: MessageData[],
+  listByTime: MessageData[],
   pagination: Pagination,
   currentPage: number,
   loading: boolean,
@@ -31,7 +31,7 @@ class Messages extends Component<Props & Store & Dispatch, *> {
 
   componentDidMount() {
     // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
-    if (!this.props.loading && this.props.list.length === 0) {
+    if (!this.props.loading && this.props.listByTime.length === 0) {
       this.props.getMessagesList();
     }
   }
@@ -43,7 +43,7 @@ class Messages extends Component<Props & Store & Dispatch, *> {
           <Table
             scroll={{ x: 1000 }}
             size="middle"
-            dataSource={this.props.list}
+            dataSource={this.props.listByTime}
             rowKey="id"
             pagination={{
               pageSize: getPageSize(),
@@ -110,8 +110,8 @@ class Messages extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ message: { list, pagination, currentPage }, info: { loading } }): Store => ({
-  list,
+const mapState = ({ message: { listByTime, pagination, currentPage }, info: { loading } }): Store => ({
+  listByTime,
   pagination,
   currentPage,
   loading,
