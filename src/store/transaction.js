@@ -32,6 +32,7 @@ export type Store = {
   loading: boolean,
   data: TransactionData,
   list: TransactionData[],
+  listByBlock: TransactionData[],
   pagination: Pagination,
   currentPage: number,
 };
@@ -54,6 +55,7 @@ export const emptyTransactionData = {
 export const defaultState = {
   loading: false,
   list: [],
+  listByBlock: [],
   data: emptyTransactionData,
   pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
   currentPage: 1,
@@ -70,6 +72,10 @@ export default (initialState?: Object = {}) => ({
     },
     initTransactionsList(state: Store, list: TransactionData[]) {
       state.list = list;
+      return state;
+    },
+    initTransactionsListByBlock(state: Store, listByBlock: TransactionData[]) {
+      state.listByBlock = listByBlock;
       return state;
     },
     appendTransactionsList(state: Store, list: TransactionData[]) {
@@ -160,6 +166,31 @@ export default (initialState?: Object = {}) => ({
           this.initTransactionsList(content);
         }
         this.increaseOffset(content.length, loadable);
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+        dispatch.transaction.toggleLoading();
+      }
+    },
+    async getTransactionsListInBlock(blockId: string) {
+      const {
+        store: { dispatch },
+      } = await import('./');
+      dispatch.info.toggleLoading();
+      dispatch.transaction.toggleLoading();
+
+      try {
+        const data: TransactionData[] = await get(`/transactions?block_id=${blockId}`);
+        this.initTransactionsListByBlock(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

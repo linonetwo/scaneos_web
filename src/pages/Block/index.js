@@ -9,6 +9,7 @@ import { translate } from 'react-i18next';
 import { getBreadcrumb } from '../../components/Layout';
 import { formatTimeStamp } from '../../store/utils';
 import type { BlockData } from '../../store/block';
+import type { TransactionData } from '../../store/transaction';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
 
 type Props = {
@@ -21,17 +22,35 @@ type Props = {
 };
 type Store = {
   data: BlockData,
+  transactions: TransactionData[],
   loading: boolean,
 };
 type Dispatch = {
   getBlockData: (blockNumOrID: number | string) => void,
+  getTransactionsListInBlock: (blockID: string) => void,
 };
+type State = {
+  blockId: string,
+}
 
-class Block extends Component<Props & Store & Dispatch, *> {
-  state = {};
-  componentDidMount() {
+class Block extends Component<Props & Store & Dispatch, State> {
+  state = {
+    blockId: '',
+  };
+
+  static getDerivedStateFromProps(nextProps: Store) {
+    if (nextProps.data.id) {
+      return { blockId: nextProps.data.id };
+    }
+    return null;
+  }
+
+  async componentDidMount() {
     const currentBlockNumberOrID = this.props.match.params.blockNum;
-    this.props.getBlockData(currentBlockNumberOrID);
+    await this.props.getBlockData(currentBlockNumberOrID);
+    if (this.state.blockId) {
+      this.props.getTransactionsListInBlock(this.state.blockId);
+    }
   }
 
   getValueRendering(field: string, value: any) {
@@ -74,7 +93,26 @@ class Block extends Component<Props & Store & Dispatch, *> {
                   </span>
                 }
                 key="1"
-              />
+              >
+                {this.props.transactions.map(data => (
+                  <LongListContainer column>
+                    <Table
+                      scroll={{ x: 800 }}
+                      size="middle"
+                      pagination={false}
+                      dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                    >
+                      <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
+                      <Table.Column
+                        title={this.props.t('value')}
+                        dataIndex="value"
+                        key="value"
+                        render={(value, { field }) => this.getValueRendering(field, value)}
+                      />
+                    </Table>
+                  </LongListContainer>
+                ))}
+              </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
                   <span>
@@ -122,8 +160,15 @@ class Block extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ block: { data }, info: { loading } }): Store => ({ data, loading });
-const mapDispatch = ({ block: { getBlockData } }): Dispatch => ({ getBlockData });
+const mapState = ({ block: { data }, transaction: { listByBlock }, info: { loading } }): Store => ({
+  data,
+  transactions: listByBlock,
+  loading,
+});
+const mapDispatch = ({ block: { getBlockData }, transaction: { getTransactionsListInBlock } }): Dispatch => ({
+  getBlockData,
+  getTransactionsListInBlock,
+});
 export default withRouter(
   translate()(
     connect(
