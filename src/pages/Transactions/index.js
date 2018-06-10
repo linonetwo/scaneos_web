@@ -44,8 +44,7 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
             rowKey="id"
             pagination={{
               pageSize: getPageSize(),
-              total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
-              current: this.props.currentPage,
+              ...this.props.pagination,
             }}
             onChange={pagination => {
               this.props.getTransactionsList(pagination.current);
