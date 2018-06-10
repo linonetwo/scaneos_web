@@ -38,7 +38,7 @@ export type ListResponse = {
   page: {
     size: number,
     totalElements: number,
-    totalPages: number,
+    totalElements: number,
     number: number,
   },
 };
@@ -48,7 +48,6 @@ export type Store = {
   listByTime: MessageData[],
   listByTransaction: MessageData[],
   pagination: Pagination,
-  currentPage: number,
 };
 
 export const emptyMessageData = {
@@ -77,8 +76,7 @@ export const defaultState = {
   loading: false,
   listByTime: [],
   listByTransaction: [],
-  pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
-  currentPage: 1,
+  pagination: { current: 0, total: 1 },
 };
 export default (initialState?: Object = {}) => ({
   state: {
@@ -94,25 +92,12 @@ export default (initialState?: Object = {}) => ({
       state.listByTime = listByTime;
       return state;
     },
-    appendMessagesList(state: Store, listByTime: MessageData[]) {
-      state.listByTime = [...state.listByTime, ...listByTime];
-      return state;
-    },
     initMessageData(state: Store, listByTransaction: MessageData[]) {
       state.listByTransaction = listByTransaction;
       return state;
     },
-    setPage(state: Store, newPage: number) {
-      state.currentPage = newPage;
-      return state;
-    },
-    clearState(state: Store) {
-      state = defaultState;
-      return state;
-    },
-    increaseOffset(state: Store, newOffset: number, loadable: boolean) {
-      state.pagination.currentTotal += newOffset;
-      state.pagination.loadable = loadable;
+    setPage(state: Store, payload: { current: number, total: number }) {
+      state.pagination = payload;
       return state;
     },
   },
@@ -147,40 +132,22 @@ export default (initialState?: Object = {}) => ({
     },
     async getMessagesList(gotoPage?: number) {
       const {
-        store: { dispatch, getState },
+        store: { dispatch },
       } = await import('./');
-      const { message } = await getState();
       dispatch.info.toggleLoading();
       dispatch.message.toggleLoading();
 
       try {
-        if (!gotoPage) {
-          this.clearState();
-          this.setPage(1);
-        } else {
-          this.setPage(gotoPage);
-        }
-        dispatch.history.updateURI();
-
+        const dataPage = gotoPage ? gotoPage - 1 : 0;
         const { getPageSize } = await import('./utils');
-        const pageSize = getPageSize();
-        const offset = gotoPage ? message.pagination.currentTotal / (pageSize * message.pagination.pageCountToLoad) : 0;
-        const limit = pageSize * message.pagination.pageCountToLoad + 1;
-
-        const data: ListResponse = await get(`/actions?page=${offset}&size=${limit}`);
-        let { content } = data;
-
-        const loadable = content.length === pageSize * message.pagination.pageCountToLoad + 1;
-
-        if (loadable) {
-          content = initial(content);
-        }
-        if (gotoPage) {
-          this.appendMessagesList(content);
-        } else {
-          this.initMessagesList(content);
-        }
-        this.increaseOffset(content.length, loadable);
+        const data: ListResponse = await get(`/actions?page=${dataPage}&size=${getPageSize()}`);
+        const {
+          content,
+          page: { totalElements },
+        } = data;
+        this.initMessagesList(content);
+        this.setPage({ current: gotoPage || 0, total: totalElements });
+        dispatch.history.updateURI();
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

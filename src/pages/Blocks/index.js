@@ -15,13 +15,10 @@ type Props = {
 type Store = {
   list: BlockData[],
   pagination: Pagination,
-  currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
   getBlocksList: (gotoPage?: number) => void,
-  setPage: (newPage: number) => void,
-  updateURI: () => void,
 };
 
 class Blocks extends Component<Props & Store & Dispatch, *> {
@@ -45,18 +42,10 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
             rowKey="id"
             pagination={{
               pageSize: getPageSize(),
-              total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
-              current: this.props.currentPage,
+              ...this.props.pagination,
             }}
             onChange={pagination => {
-              this.props.setPage(pagination.current);
-              this.props.updateURI();
-              if (
-                pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
-                this.props.pagination.loadable
-              ) {
-                this.props.getBlocksList(pagination.current);
-              }
+              this.props.getBlocksList(pagination.current);
             }}
           >
             <Table.Column
@@ -92,16 +81,13 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ block: { list, pagination, currentPage }, info: { loading } }): Store => ({
+const mapState = ({ block: { list, pagination }, info: { loading } }): Store => ({
   list,
   pagination,
-  currentPage,
   loading,
 });
-const mapDispatch = ({ block: { getBlocksList, setPage }, history: { updateURI } }): Dispatch => ({
+const mapDispatch = ({ block: { getBlocksList } }): Dispatch => ({
   getBlocksList,
-  setPage,
-  updateURI,
 });
 export default translate()(
   connect(

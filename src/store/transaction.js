@@ -22,7 +22,7 @@ export type ListResponse = {
   page: {
     size: number,
     totalElements: number,
-    totalPages: number,
+    totalElements: number,
     number: number,
   },
 };
@@ -33,7 +33,6 @@ export type Store = {
   list: TransactionData[],
   listByBlock: TransactionData[],
   pagination: Pagination,
-  currentPage: number,
 };
 
 export const emptyTransactionData = {
@@ -56,8 +55,7 @@ export const defaultState = {
   list: [],
   listByBlock: [],
   data: emptyTransactionData,
-  pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
-  currentPage: 1,
+  pagination: { current: 0, total: 1 },
 };
 export default (initialState?: Object = {}) => ({
   state: {
@@ -77,25 +75,12 @@ export default (initialState?: Object = {}) => ({
       state.listByBlock = listByBlock;
       return state;
     },
-    appendTransactionsList(state: Store, list: TransactionData[]) {
-      state.list = [...state.list, ...list];
-      return state;
-    },
     initTransactionData(state: Store, data: TransactionData) {
       state.data = data;
       return state;
     },
-    setPage(state: Store, newPage: number) {
-      state.currentPage = newPage;
-      return state;
-    },
-    clearState(state: Store) {
-      state = defaultState;
-      return state;
-    },
-    increaseOffset(state: Store, newOffset: number, loadable: boolean) {
-      state.pagination.currentTotal += newOffset;
-      state.pagination.loadable = loadable;
+    setPage(state: Store, payload: { current: number, total: number }) {
+      state.pagination = payload;
       return state;
     },
   },
@@ -129,42 +114,22 @@ export default (initialState?: Object = {}) => ({
     },
     async getTransactionsList(gotoPage?: number) {
       const {
-        store: { dispatch, getState },
+        store: { dispatch },
       } = await import('./');
-      const { transaction } = await getState();
       dispatch.info.toggleLoading();
       dispatch.transaction.toggleLoading();
 
       try {
-        if (!gotoPage) {
-          this.clearState();
-          this.setPage(1);
-        } else {
-          this.setPage(gotoPage);
-        }
-        dispatch.history.updateURI();
-
+        const dataPage = gotoPage ? gotoPage - 1 : 0;
         const { getPageSize } = await import('./utils');
-        const pageSize = getPageSize();
-        const offset = gotoPage
-          ? transaction.pagination.currentTotal / (pageSize * transaction.pagination.pageCountToLoad)
-          : 0;
-        const limit = pageSize * transaction.pagination.pageCountToLoad + 1;
-
-        const data: ListResponse = await get(`/transactions?page=${offset}&size=${limit}`);
-        let { content } = data;
-
-        const loadable = content.length === pageSize * transaction.pagination.pageCountToLoad + 1;
-
-        if (loadable) {
-          content = initial(content);
-        }
-        if (gotoPage) {
-          this.appendTransactionsList(content);
-        } else {
-          this.initTransactionsList(content);
-        }
-        this.increaseOffset(content.length, loadable);
+        const data: ListResponse = await get(`/transactions?page=${dataPage}&size=${getPageSize()}`);
+        const {
+          content,
+          page: { totalElements },
+        } = data;
+        this.initTransactionsList(content);
+        this.setPage({ current: gotoPage || 0, total: totalElements });
+        dispatch.history.updateURI();
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

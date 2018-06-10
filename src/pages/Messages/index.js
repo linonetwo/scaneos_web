@@ -17,13 +17,10 @@ type Props = {
 type Store = {
   listByTime: MessageData[],
   pagination: Pagination,
-  currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
   getMessagesList: (gotoPage?: number) => void,
-  setPage: (newPage: number) => void,
-  updateURI: () => void,
 };
 
 class Messages extends Component<Props & Store & Dispatch, *> {
@@ -47,18 +44,10 @@ class Messages extends Component<Props & Store & Dispatch, *> {
             rowKey="id"
             pagination={{
               pageSize: getPageSize(),
-              total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
-              current: this.props.currentPage,
+              ...this.props.pagination,
             }}
             onChange={pagination => {
-              this.props.setPage(pagination.current);
-              this.props.updateURI();
-              if (
-                pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
-                this.props.pagination.loadable
-              ) {
-                this.props.getMessagesList(pagination.current);
-              }
+              this.props.getMessagesList(pagination.current);
             }}
           >
             <Table.Column
@@ -110,16 +99,13 @@ class Messages extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ message: { listByTime, pagination, currentPage }, info: { loading } }): Store => ({
+const mapState = ({ message: { listByTime, pagination }, info: { loading } }): Store => ({
   listByTime,
   pagination,
-  currentPage,
   loading,
 });
-const mapDispatch = ({ message: { getMessagesList, setPage }, history: { updateURI } }): Dispatch => ({
+const mapDispatch = ({ message: { getMessagesList } }): Dispatch => ({
   getMessagesList,
-  setPage,
-  updateURI,
 });
 export default translate()(
   connect(

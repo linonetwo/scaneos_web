@@ -22,10 +22,6 @@ const adjustAntdTable = css`
   .ant-table-pagination.ant-pagination {
     float: unset;
   }
-
-  li.ant-pagination-jump-next + li.ant-pagination-item {
-    display: none;
-  }
 `;
 export const ListContainer = styled.div`
   ${adjustAntdTable};

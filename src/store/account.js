@@ -69,7 +69,6 @@ export type Store = {
   data: AccountData,
   list: AccountData[],
   pagination: Pagination,
-  currentPage: number,
 };
 
 export const emptyAccountData = {
@@ -108,8 +107,7 @@ export const defaultState = {
   loading: false,
   list: [],
   data: emptyAccountData,
-  pagination: { currentTotal: 0, loadable: false, pageCountToLoad: 10 },
-  currentPage: 1,
+  pagination: { current: 0, total: 1 },
 };
 export default (initialState?: Object = {}) => ({
   state: {
@@ -125,25 +123,12 @@ export default (initialState?: Object = {}) => ({
       state.list = list;
       return state;
     },
-    appendAccountsList(state: Store, list: AccountData[]) {
-      state.list = [...state.list, ...list];
-      return state;
-    },
     initAccountData(state: Store, data: AccountData) {
       state.data = data;
       return state;
     },
-    setPage(state: Store, newPage: number) {
-      state.currentPage = newPage;
-      return state;
-    },
-    clearState(state: Store) {
-      state = defaultState;
-      return state;
-    },
-    increaseOffset(state: Store, newOffset: number, loadable: boolean) {
-      state.pagination.currentTotal += newOffset;
-      state.pagination.loadable = loadable;
+    setPage(state: Store, payload: { current: number, total: number }) {
+      state.pagination = payload;
       return state;
     },
   },
@@ -187,32 +172,16 @@ export default (initialState?: Object = {}) => ({
       dispatch.info.toggleLoading();
 
       try {
-        if (!gotoPage) {
-          this.clearState();
-          this.setPage(1);
-        } else {
-          this.setPage(gotoPage);
-        }
-        dispatch.history.updateURI();
-
+        const dataPage = gotoPage ? gotoPage - 1 : 0;
         const { getPageSize } = await import('./utils');
-        const pageSize = getPageSize();
-        const offset = gotoPage ? account.pagination.currentTotal / (pageSize * account.pagination.pageCountToLoad) : 0;
-        const limit = pageSize * account.pagination.pageCountToLoad + 1;
-
-        let list: AccountData[] = await get(`/accounts?page=${offset}&size=${limit}`);
-
-        const loadable = list.length === pageSize * account.pagination.pageCountToLoad + 1;
-
-        if (loadable) {
-          list = initial(list);
-        }
-        if (gotoPage) {
-          this.appendAccountsList(list);
-        } else {
-          this.initAccountsList(list);
-        }
-        this.increaseOffset(list.length, loadable);
+        const data: ListResponse = await get(`/accounts?page=${dataPage}&size=${getPageSize()}`);
+        const {
+          content,
+          page: { totalElements },
+        } = data;
+        this.initAccountsList(content);
+        this.setPage({ current: gotoPage || 0, total: totalElements });
+        dispatch.history.updateURI();
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

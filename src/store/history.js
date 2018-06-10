@@ -48,25 +48,25 @@ export default (initialState: Object = {}) => ({
       if (window.location.pathname === '/blocks/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
-          page: state.block.currentPage,
+          page: state.block.pagination.current,
         });
         history.push(`/blocks/?${query}`, { isAction: true });
       } else if (window.location.pathname === '/transactions/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
-          page: state.transaction.currentPage,
+          page: state.transaction.pagination.current,
         });
         history.push(`/transactions/?${query}`, { isAction: true });
       } else if (window.location.pathname === '/accounts/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
-          page: state.account.currentPage,
+          page: state.account.pagination.current,
         });
         history.push(`/accounts/?${query}`, { isAction: true });
       } else if (window.location.pathname === '/messages/') {
         const query = queryString.stringify({
           ...queryString.parse(window.location.search),
-          page: state.message.currentPage,
+          page: state.message.pagination.current,
         });
         history.push(`/messages/?${query}`, { isAction: true });
       } else if (window.location.pathname === '/producers/') {

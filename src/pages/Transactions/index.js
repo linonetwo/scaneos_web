@@ -17,13 +17,10 @@ type Props = {
 type Store = {
   list: TransactionData[],
   pagination: Pagination,
-  currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
   getTransactionsList: (gotoPage?: number) => void,
-  setPage: (newPage: number) => void,
-  updateURI: () => void,
 };
 
 class Transactions extends Component<Props & Store & Dispatch, *> {
@@ -51,14 +48,7 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               current: this.props.currentPage,
             }}
             onChange={pagination => {
-              this.props.setPage(pagination.current);
-              this.props.updateURI();
-              if (
-                pagination.current > Math.ceil(this.props.pagination.currentTotal / getPageSize()) - 4 &&
-                this.props.pagination.loadable
-              ) {
-                this.props.getTransactionsList(pagination.current);
-              }
+              this.props.getTransactionsList(pagination.current);
             }}
           >
             <Table.Column
@@ -98,16 +88,13 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ transaction: { list, pagination, currentPage }, info: { loading } }): Store => ({
+const mapState = ({ transaction: { list, pagination }, info: { loading } }): Store => ({
   list,
   pagination,
-  currentPage,
   loading,
 });
-const mapDispatch = ({ transaction: { getTransactionsList, setPage }, history: { updateURI } }): Dispatch => ({
+const mapDispatch = ({ transaction: { getTransactionsList } }): Dispatch => ({
   getTransactionsList,
-  setPage,
-  updateURI,
 });
 export default translate()(
   connect(
