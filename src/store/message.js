@@ -4,43 +4,44 @@ import get from '../API.config';
 import type { Pagination } from './block';
 
 type Authorization = {
-  account?: string,
   permission: string,
+  actor: string,
 };
-type Accounts = {
-  permission: Authorization,
-  weight: number,
+
+type Header = {
+  previous?: string | null,
+  timestamp?: number | null,
+  transactionMroot?: string | null,
+  actionMroot?: string | null,
+  blockMroot?: string | null,
+  producer?: string | null,
+  scheduleVersion?: number | null,
+  newProducers?: string | null,
 };
-type Keys = {
-  key: string,
-  weight: number,
-};
-type Owner = {
-  threshold: number,
-  keys: Keys[],
-  accounts: Accounts[],
-};
+
 type Data = {
-  creator?: string,
-  name?: string,
-  owner?: Owner,
-  active?: Owner,
-  recovery?: Owner,
-  deposit?: string,
-  from?: string,
-  to?: string,
-  amount?: number,
-  memo?: string,
+  header: Header,
 };
+
 export type MessageData = {
   id: string,
   actionId: number,
   transactionId: string,
   authorization: Authorization[],
-  handlerAccountName?: string,
-  type?: string,
-  data?: Data,
+  handlerAccountName: string,
+  name: string,
+  data: Data,
   createdAt: string,
+  links: any[],
+};
+export type ListResponse = {
+  content: MessageData[],
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number,
+  },
 };
 
 export type Store = {
@@ -53,15 +54,27 @@ export type Store = {
 
 export const emptyMessageData = {
   id: '',
-  actionId: 0,
+  actionId: -1,
   transactionId: '',
-  authorization: [{ account: '', permission: 'active' }],
-  handlerAccountName: 'eos',
-  type: '',
-  data: {},
-  createdAt: '',
+  authorization: [{ permission: 'active', actor: '' }],
+  handlerAccountName: '',
+  name: '',
+  data: {
+    header: {
+      previous: '0000000000000000000000000000000000000000000000000000000000000000',
+      timestamp: -1,
+      transaction_mroot: '0000000000000000000000000000000000000000000000000000000000000000',
+      action_mroot: '0000000000000000000000000000000000000000000000000000000000000000',
+      block_mroot: '0000000000000000000000000000000000000000000000000000000000000000',
+      producer: '',
+      schedule_version: -1,
+      new_producers: null,
+    },
+  },
+  createdAt: '2018-06-02T10:17:49.501+0000',
+  links: [],
 };
-const defaultState = {
+export const defaultState = {
   loading: false,
   list: [],
   data: emptyMessageData,
@@ -155,19 +168,20 @@ export default (initialState?: Object = {}) => ({
         const offset = gotoPage ? message.pagination.currentTotal / (pageSize * message.pagination.pageCountToLoad) : 0;
         const limit = pageSize * message.pagination.pageCountToLoad + 1;
 
-        let list: MessageData[] = await get(`/actions?page=${offset}&size=${limit}`);
+        const data: ListResponse = await get(`/actions?page=${offset}&size=${limit}`);
+        let { content } = data;
 
-        const loadable = list.length === pageSize * message.pagination.pageCountToLoad + 1;
+        const loadable = content.length === pageSize * message.pagination.pageCountToLoad + 1;
 
         if (loadable) {
-          list = initial(list);
+          content = initial(content);
         }
         if (gotoPage) {
-          this.appendMessagesList(list);
+          this.appendMessagesList(content);
         } else {
-          this.initMessagesList(list);
+          this.initMessagesList(content);
         }
-        this.increaseOffset(list.length, loadable);
+        this.increaseOffset(content.length, loadable);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

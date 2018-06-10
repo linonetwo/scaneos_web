@@ -104,7 +104,7 @@ export const emptyAccountData = {
     unstaking: '0.0000 EOS',
   },
 };
-const defaultState = {
+export const defaultState = {
   loading: false,
   list: [],
   data: emptyAccountData,

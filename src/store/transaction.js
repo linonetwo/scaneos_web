@@ -19,15 +19,6 @@ export type TransactionData = {
   links: any[],
 };
 export type ListResponse = {
-  links: {
-    rel: string,
-    href: string,
-    hreflang: string | null,
-    media: string | null,
-    title: string | null,
-    type: string | null,
-    deprecation: string | null,
-  }[],
   content: TransactionData[],
   page: {
     size: number,

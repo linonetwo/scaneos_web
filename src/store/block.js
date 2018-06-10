@@ -17,15 +17,6 @@ export type BlockData = {
   updatedAt: string | null,
 };
 export type ListResponse = {
-  links: {
-    rel: string,
-    href: string,
-    hreflang: string | null,
-    media: string | null,
-    title: string | null,
-    type: string | null,
-    deprecation: string | null,
-  }[],
   content: BlockData[],
   page: {
     size: number,

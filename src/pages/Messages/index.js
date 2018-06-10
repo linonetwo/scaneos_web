@@ -29,6 +29,13 @@ type Dispatch = {
 class Messages extends Component<Props & Store & Dispatch, *> {
   state = {};
 
+  componentDidMount() {
+    // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
+    if (!this.props.loading && this.props.list.length === 0) {
+      this.props.getMessagesList();
+    }
+  }
+
   render() {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
@@ -55,15 +62,12 @@ class Messages extends Component<Props & Store & Dispatch, *> {
             }}
           >
             <Table.Column
-              title={this.props.t('messageId')}
-              dataIndex="messageId"
-              key="messageId"
-              render={messageId => <Link to={`/transaction/${messageId}/`}>{messageId}</Link>}
+              title={this.props.t('actionId')}
+              dataIndex="actionId"
+              key="actionId"
             />
             <Table.Column
               title={this.props.t('messages')}
-              dataIndex="transactionId"
-              key="transactionId"
               render={transactionId => (
                 <Link to={`/message/${transactionId}/`}>
                   {truncate(transactionId, { length: 10, omission: '...' })}
@@ -72,8 +76,6 @@ class Messages extends Component<Props & Store & Dispatch, *> {
             />
             <Table.Column
               title={this.props.t('transactionId')}
-              dataIndex="transactionId"
-              key="transactionId"
               render={transactionId => (
                 <Link to={`/transaction/${transactionId}/`}>
                   {truncate(transactionId, { length: 10, omission: '...' })}
@@ -84,7 +86,7 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
+              render={timeStamp => formatTimeStamp(timeStamp, this.props.t('locale'))}
             />
             <Table.Column
               title={this.props.t('authorization')}

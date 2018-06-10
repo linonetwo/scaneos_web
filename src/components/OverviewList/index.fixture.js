@@ -32,7 +32,7 @@ export default [
         matcher: () => `${API}/transactions?page=0&size=${getDefaultPageSize()}`,
         response: () =>
           import('../../store/transaction.data')
-            .then(({ listData1 }) => listData1)
+            .then(({ listDataByTime }) => listDataByTime)
             .then(res => JSON.stringify(res)),
       },
       {
