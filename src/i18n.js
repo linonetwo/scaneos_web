@@ -147,6 +147,7 @@ export default i18n
           messages: '消息',
           Charts: '图表',
           BlockProducers: '超级节点',
+          BlockProducer: '超级节点',
           eosBalance: 'EOS 余额',
           stakedBalance: '锁定的余额',
           unstakingBalance: '未锁定的余额',

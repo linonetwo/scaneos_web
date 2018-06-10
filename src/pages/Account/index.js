@@ -1,5 +1,5 @@
 // @flow
-import { toPairs } from 'lodash';
+import { toPairs, find, size } from 'lodash';
 import React, { Component, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
@@ -28,10 +28,17 @@ type Dispatch = {
 };
 
 class Account extends Component<Props & Store & Dispatch, *> {
-  state = {};
-  componentDidMount() {
+  state = {
+    producerInfo: null,
+  };
+  async componentDidMount() {
     const currentAccountName = String(this.props.match.params.accountId);
-    this.props.getAccountData(currentAccountName);
+    await this.props.getAccountData(currentAccountName);
+    const { default: blockProducersList } = await import('../BlockProducers/blockProducersList');
+    const producerInfo = find(blockProducersList, { account: this.props.data.accountName });
+    if (size(producerInfo) > 0) {
+      this.setState({ producerInfo });
+    }
   }
 
   render() {
@@ -41,17 +48,33 @@ class Account extends Component<Props & Store & Dispatch, *> {
         <Spin tip="Connecting" spinning={this.props.loading} size="large">
           <DetailTabsContainer>
             <Tabs defaultActiveKey="2">
-              {/* <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="solution" />
-                    {this.props.t('Activities')}
-                  </span>
-                }
-                key="1"
-              >
-                Activities
-              </Tabs.TabPane> */}
+              {this.state.producerInfo && (
+                <Tabs.TabPane
+                  tab={
+                    <span>
+                      <Icon type="solution" />
+                      {this.props.t('BlockProducer')}
+                    </span>
+                  }
+                  key="1"
+                >
+                  <LongListContainer column>
+                    <Table
+                      scroll={{ x: 1000 }}
+                      size="middle"
+                      pagination={false}
+                      dataSource={toPairs(this.state.producerInfo).map(([field, value]) => ({
+                        field,
+                        value,
+                        key: field,
+                      }))}
+                    >
+                      <Table.Column width={200} dataIndex="field" key="field" render={this.props.t} />
+                      <Table.Column dataIndex="value" key="value" />
+                    </Table>
+                  </LongListContainer>
+                </Tabs.TabPane>
+              )}
 
               <Tabs.TabPane
                 tab={
