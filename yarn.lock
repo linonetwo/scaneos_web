@@ -9142,10 +9142,6 @@ react-cosmos@^4.4.0:
     webpack-hot-middleware "^2.22.2"
     yargs "^11.0.0"
 
-react-countdown-now@^1.3.0:
-  version "1.3.0"
-  resolved "http://registry.npm.taobao.org/react-countdown-now/download/react-countdown-now-1.3.0.tgz#13c262a530614c69e68a0d277bd33b45d925cd56"
-
 react-datasheet@^1.3.7:
   version "1.3.7"
   resolved "http://registry.npm.taobao.org/react-datasheet/download/react-datasheet-1.3.7.tgz#b49b1c42595b2fc4b61f221ae00efab86e65d6ab"
@@ -10596,10 +10592,6 @@ style-loader@0.19.1:
 styled-components-breakpoint@^2.0.2:
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/styled-components-breakpoint/download/styled-components-breakpoint-2.0.2.tgz#c55dbab794e9ff3a4f813349e2b35727a9364b09"
-
-styled-components-mixins@^0.0.5:
-  version "0.0.5"
-  resolved "http://registry.npm.taobao.org/styled-components-mixins/download/styled-components-mixins-0.0.5.tgz#d4bee344c8ddb67038309eef7de77daf642a5ca2"
 
 styled-components@3.3.2:
   version "3.3.2"
