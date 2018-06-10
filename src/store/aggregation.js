@@ -40,6 +40,7 @@ export default (initialState?: Object = {}) => ({
   },
   effects: {
     async getAggregationData() {
+      return;
       const {
         store: { dispatch },
       } = await import('./');
