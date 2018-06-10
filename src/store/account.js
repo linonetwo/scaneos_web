@@ -59,9 +59,9 @@ export type AccountData = {
   cpuLimit: NetLimit,
   ramUsage: number,
   permissions: Permissions[],
-  totalResources: TotalResources | null,
-  delegatedBandwidth: DelegatedBandwidth | null,
-  voterInfo: VoterInfo | null,
+  totalResources?: TotalResources | null,
+  delegatedBandwidth?: DelegatedBandwidth | null,
+  voterInfo?: VoterInfo | null,
 };
 
 export type Store = {
