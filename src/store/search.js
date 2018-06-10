@@ -65,15 +65,19 @@ export default (initialState?: Object = {}) => ({
       } = await getState();
 
       if (keyWord.length === 64) {
-        // 长度为 64 的一般是 blockId
-        const data = await this.searchKeyWord({ keyWord, type: 'block' }).then(res =>
-          dispatch.block.getFirstBlockIdFromBlockListResponse(res),
-        );
-
-        if (data && data.blockId === keyWord && typeof data.blockNum === 'number') {
-          dispatch.block.getBlockData(data.blockNum);
-          return history.push(`/block/${data.blockNum}`);
+        // 长度为 64 的一般是 blockId，如果它以 0000 开头的话
+        if (/^0000/.test(keyWord)) {
+          const data = await this.searchKeyWord({ keyWord, type: 'block' }).then(res =>
+            dispatch.block.getFirstBlockIdFromBlockListResponse(res),
+          );
+          if (data && data.blockId === keyWord && typeof data.blockNum === 'number') {
+            dispatch.block.getBlockData(data.blockNum);
+            return history.push(`/block/${data.blockNum}`);
+          }
+        } else {
+          return history.push(`/transaction/${keyWord}`);
         }
+
       } else {
         // 其他目前默认是账户名
         // const data = await this.searchKeyWord(keyWord, 'account');
