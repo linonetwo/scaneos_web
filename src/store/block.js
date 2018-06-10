@@ -92,6 +92,12 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
+    getFirstBlockIdFromBlockListResponse(data: ListResponse) {
+      if (data?.content?.length === 1 && typeof data.content[0].blockNum === 'number') {
+        return { blockNum: data.content[0].blockNum, blockId: data.content[0].blockId };
+      }
+      return null;
+    },
     async getBlockData(blockNumOrID: number | string) {
       const {
         store: { dispatch },
@@ -107,7 +113,9 @@ export default (initialState?: Object = {}) => ({
         } else if (Number.isFinite(Number(blockNumOrID))) {
           blockNum = Number(blockNumOrID);
         } else {
-          const data = await dispatch.search.searchKeyWord(blockNumOrID);
+          const data = await dispatch.search
+            .searchKeyWord({ keyWord: blockNumOrID, type: 'block' })
+            .then(res => this.getFirstBlockIdFromBlockListResponse(res));
           if (data.blockId === blockNumOrID && typeof data.blockNum === 'number') {
             ({ blockNum } = data);
           }

@@ -66,15 +66,13 @@ export default (initialState?: Object = {}) => ({
 
       if (keyWord.length === 64) {
         // 长度为 64 的一般是 blockId
-        const data = await this.searchKeyWord({ keyWord, type: 'block' });
+        const data = await this.searchKeyWord({ keyWord, type: 'block' }).then(res =>
+          dispatch.block.getFirstBlockIdFromBlockListResponse(res),
+        );
 
-        if (
-          data?.content?.length === 1 &&
-          data.content[0].blockId === keyWord &&
-          typeof data.content[0].blockNum === 'number'
-        ) {
-          dispatch.block.getBlockData(data.content[0].blockNum);
-          return history.push(`/block/${data.content[0].blockNum}`);
+        if (data.blockId === keyWord && typeof data.blockNum === 'number') {
+          dispatch.block.getBlockData(data.blockNum);
+          return history.push(`/block/${data.blockNum}`);
         }
       } else {
         // 其他目前默认是账户名
