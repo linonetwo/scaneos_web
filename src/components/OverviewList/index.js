@@ -48,7 +48,7 @@ const AggregationContainer = styled(Flex)`
 const AggregationItem = styled(Flex)`
   color: #333;
   opacity: 0.9;
-  font-size: 32px;
+  font-size: 27px;
   & h4 {
     color: #333;
     opacity: 0.6;
@@ -65,7 +65,10 @@ const AggregationItem = styled(Flex)`
 
   white-space: nowrap;
 
-  color: #3498db;
+  font-family: Courier;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 const PriceChangeContainer = styled(Flex)`
   font-size: 12px;
@@ -225,7 +228,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                   {data.currentPriceData.percentChange24h}%
                 </PriceChangeContainer>
               </h4>
-              {numeral(data.currentPriceData.priceUsd).format('($ 0.00 a)')}
+              {numeral(data.currentPriceData.priceUsd).format('($0.00 a)').replace('b', 'B')}
             </AggregationItem>
           </Link>
         </Spin>
@@ -233,7 +236,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           <Link to="/price/">
             <AggregationItem column center>
               <h4>{this.props.t('marketCap')}</h4>
-              {numeral(data.currentPriceData.marketCapUsd).format('($ 0.00 a)')}
+              {numeral(data.currentPriceData.marketCapUsd).format('($0.00 a)').replace('b', 'B')}
             </AggregationItem>
           </Link>
         </Spin>
