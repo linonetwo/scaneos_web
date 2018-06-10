@@ -36,7 +36,7 @@ class Message extends Component<Props & Store & Dispatch, *> {
 
   getValueRendering(field: string, value: any) {
     switch (field) {
-      case 'Id':
+      case 'id':
         return value.id;
       case 'createdAt':
         return formatTimeStamp(value, this.props.t('locale'));
@@ -85,7 +85,7 @@ class Message extends Component<Props & Store & Dispatch, *> {
                   <Table
                     size="middle"
                     pagination={false}
-                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
+                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field }))}
                   >
                     <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
                     <Table.Column

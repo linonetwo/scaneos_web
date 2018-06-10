@@ -36,7 +36,7 @@ class Block extends Component<Props & Store & Dispatch, *> {
 
   getValueRendering(field: string, value: any) {
     switch (field) {
-      case 'Id':
+      case 'id':
         return value.id;
       case 'createdAt':
       case 'updatedAt':
@@ -89,7 +89,7 @@ class Block extends Component<Props & Store & Dispatch, *> {
                     scroll={{ x: 800 }}
                     size="middle"
                     pagination={false}
-                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value }))}
+                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field }))}
                   >
                     <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
                     <Table.Column
