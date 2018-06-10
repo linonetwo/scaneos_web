@@ -1,5 +1,6 @@
 // @flow
 import { toPairs } from 'lodash';
+import styled from 'styled-components';
 import React, { Component, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
@@ -11,6 +12,11 @@ import { formatTimeStamp } from '../../store/utils';
 import type { BlockData } from '../../store/block';
 import type { TransactionData } from '../../store/transaction';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
+
+const NoTransactions = styled.div`
+  text-align: center;
+  padding: 50px;
+`;
 
 type Props = {
   match: {
@@ -31,7 +37,7 @@ type Dispatch = {
 };
 type State = {
   blockId: string,
-}
+};
 
 class Block extends Component<Props & Store & Dispatch, State> {
   state = {
@@ -94,24 +100,31 @@ class Block extends Component<Props & Store & Dispatch, State> {
                 }
                 key="1"
               >
-                {this.props.transactions.map(data => (
-                  <LongListContainer column>
-                    <Table
-                      scroll={{ x: 800 }}
-                      size="middle"
-                      pagination={false}
-                      dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
-                    >
-                      <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                      <Table.Column
-                        title={this.props.t('value')}
-                        dataIndex="value"
-                        key="value"
-                        render={(value, { field }) => this.getValueRendering(field, value)}
-                      />
-                    </Table>
-                  </LongListContainer>
-                ))}
+                {this.props.transactions.length > 0
+                  ? this.props.transactions.map(data => (
+                      <LongListContainer column>
+                        <Table
+                          scroll={{ x: 800 }}
+                          size="middle"
+                          pagination={false}
+                          dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                        >
+                          <Table.Column
+                            title={this.props.t('field')}
+                            dataIndex="field"
+                            key="field"
+                            render={this.props.t}
+                          />
+                          <Table.Column
+                            title={this.props.t('value')}
+                            dataIndex="value"
+                            key="value"
+                            render={(value, { field }) => this.getValueRendering(field, value)}
+                          />
+                        </Table>
+                      </LongListContainer>
+                    ))
+                  : <NoTransactions>No Transactions.</NoTransactions>}
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
