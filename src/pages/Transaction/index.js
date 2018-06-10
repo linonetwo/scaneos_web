@@ -43,7 +43,7 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
       case 'createdAt':
       case 'updatedAt':
       case 'expiration':
-        return formatTimeStamp(value.sec, this.props.t('locale'));
+        return formatTimeStamp(value, this.props.t('locale'));
       case 'name':
         return <Link to={`/transaction/${value}/`}>{value}</Link>;
       case 'transactionId':

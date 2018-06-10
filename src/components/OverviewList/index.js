@@ -281,7 +281,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                     <span>
                       {this.props.t('blockNum')}: {item.blockNum}
                     </span>
-                    {formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}{' '}
+                    {formatTimeStamp(item.createdAt, this.props.t('locale'), { time: false })}{' '}
                   </KeyInfoContainer>
                 </Link>
                 <Link to={`/account/${item.producerAccountId}/`}>
@@ -322,7 +322,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                     <span>
                       {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}
                     </span>
-                    <span>{formatTimeStamp(item.createdAt.sec, this.props.t('locale'), { time: false })}</span>
+                    <span>{formatTimeStamp(item.createdAt, this.props.t('locale'), { time: false })}</span>
                   </KeyInfoContainer>
                 </Link>
                 <Link to={`/block/${item.blockId}/`}>
@@ -361,10 +361,10 @@ class OverviewList extends Component<Props & Store & Dispatch> {
               ]}
             >
               <div>
-                {this.props.t('createdAt')}: {formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}
+                {this.props.t('createdAt')}: {formatTimeStamp(item.createdAt, this.props.t('locale'))}
               </div>
               <div>
-                {this.props.t('updatedAt')}: {formatTimeStamp(item.updatedAt.sec, this.props.t('locale'))}
+                {this.props.t('updatedAt')}: {formatTimeStamp(item.updatedAt, this.props.t('locale'))}
               </div>
             </List.Item>
           )}
@@ -412,7 +412,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                 ),
               ])}
             >
-              <div>{formatTimeStamp(item.createdAt.sec, this.props.t('locale'))}</div>
+              <div>{formatTimeStamp(item.createdAt, this.props.t('locale'))}</div>
             </List.Item>
           )}
         />

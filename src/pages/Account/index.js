@@ -40,7 +40,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
         return value.$id;
       case 'createdAt':
       case 'updatedAt':
-        return formatTimeStamp(value.sec, this.props.t('locale'));
+        return formatTimeStamp(value, this.props.t('locale'));
       case 'name':
         return <Link to={`/account/${value}/`}>{value}</Link>;
       default: {

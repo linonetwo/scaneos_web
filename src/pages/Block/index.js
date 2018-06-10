@@ -41,7 +41,7 @@ class Block extends Component<Props & Store & Dispatch, *> {
       case 'createdAt':
       case 'updatedAt':
       case 'timestamp':
-        return formatTimeStamp(value.sec, this.props.t('locale'));
+        return formatTimeStamp(value, this.props.t('locale'));
       case 'blockNum':
         return <Link to={`/block/${value}/`}>{value}</Link>;
       case 'producerAccountId':

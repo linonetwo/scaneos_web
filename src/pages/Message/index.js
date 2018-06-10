@@ -39,7 +39,7 @@ class Message extends Component<Props & Store & Dispatch, *> {
       case 'Id':
         return value.$id;
       case 'createdAt':
-        return formatTimeStamp(value.sec, this.props.t('locale'));
+        return formatTimeStamp(value, this.props.t('locale'));
       case 'messageNum':
         return <Link to={`/message/${value}/`}>{value}</Link>;
       case 'handlerAccountName':
