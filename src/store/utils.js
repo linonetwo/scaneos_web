@@ -6,7 +6,7 @@ import zh from 'date-fns/locale/zh_cn';
 const locales = { en, zh };
 
 export function formatTimeStamp(
-  timeStamp: number | string,
+  timeStamp?: number | string | null,
   locale: string,
   { time = true, distance = true }: { time?: boolean, distance?: boolean } = {},
 ) {
@@ -14,8 +14,10 @@ export function formatTimeStamp(
   let now;
   if (typeof timeStamp === 'string') {
     now = new Date(timeStamp);
-  } else {
+  } else if (typeof timeStamp === 'number') {
     now = new Date(timeStamp * 1000);
+  } else {
+    return '-';
   }
   return `${
     distance

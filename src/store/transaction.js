@@ -16,7 +16,6 @@ export type TransactionData = {
   createdAt: string,
   type: string,
   updatedAt: string | null,
-  links: any[],
 };
 export type ListResponse = {
   content: TransactionData[],

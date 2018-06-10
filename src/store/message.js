@@ -126,10 +126,10 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const listByTransaction: ListResponse = await get(`/actions?transaction_id=${transactionId}`);
+        const listByTransaction: MessageData[] = await get(`/actions?transaction_id=${transactionId}`);
 
-        if (listByTransaction.content.length === 0) throw new Error('No data.');
-        this.initMessageData(listByTransaction.content);
+        if (listByTransaction.length === 0) throw new Error('No data.');
+        this.initMessageData(listByTransaction);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
