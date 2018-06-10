@@ -46,7 +46,7 @@ class Block extends Component<Props & Store & Dispatch, State> {
 
   static getDerivedStateFromProps(nextProps: Store) {
     if (nextProps.data.id) {
-      return { blockId: nextProps.data.id };
+      return { blockId: nextProps.data.blockId };
     }
     return null;
   }
