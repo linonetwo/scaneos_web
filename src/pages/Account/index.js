@@ -41,7 +41,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
         <Spin tip="Connecting" spinning={this.props.loading} size="large">
           <DetailTabsContainer>
             <Tabs defaultActiveKey="2">
-              <Tabs.TabPane
+              {/* <Tabs.TabPane
                 tab={
                   <span>
                     <Icon type="solution" />
@@ -51,7 +51,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
                 key="1"
               >
                 Activities
-              </Tabs.TabPane>
+              </Tabs.TabPane> */}
 
               <Tabs.TabPane
                 tab={

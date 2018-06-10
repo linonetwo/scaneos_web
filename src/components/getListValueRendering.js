@@ -29,9 +29,9 @@ export default function getListValueRendering(field: string, value: any, t: Func
       return <Link to={`/message/${value}/`}>{value}</Link>;
 
     case 'authorization':
-      return value.map(({ account, permission }) => (
-        <Link to={`/account/${account}/`}>
-          {account}({this.props.t('permission')}: {permission})
+      return value.map(({ actor, permission }) => (
+        <Link to={`/account/${actor}/`}>
+          {actor}({t('permission')}: {permission})
         </Link>
       ));
     case 'handlerAccountName':
