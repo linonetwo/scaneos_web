@@ -70,7 +70,7 @@ export default (initialState?: Object = {}) => ({
           dispatch.block.getFirstBlockIdFromBlockListResponse(res),
         );
 
-        if (data.blockId === keyWord && typeof data.blockNum === 'number') {
+        if (data && data.blockId === keyWord && typeof data.blockNum === 'number') {
           dispatch.block.getBlockData(data.blockNum);
           return history.push(`/block/${data.blockNum}`);
         }

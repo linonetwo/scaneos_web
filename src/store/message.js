@@ -20,7 +20,7 @@ type Header = {
 };
 
 type Data = {
-  header: Header,
+  header?: Header,
 };
 
 export type MessageData = {

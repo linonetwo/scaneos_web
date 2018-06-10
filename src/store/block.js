@@ -92,7 +92,7 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    getFirstBlockIdFromBlockListResponse(data: ListResponse) {
+    getFirstBlockIdFromBlockListResponse(data: Object) {
       if (data?.content?.length === 1 && typeof data.content[0].blockNum === 'number') {
         return { blockNum: data.content[0].blockNum, blockId: data.content[0].blockId };
       }

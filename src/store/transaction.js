@@ -14,8 +14,8 @@ export type TransactionData = {
   expiration: string,
   pending: boolean,
   createdAt: string,
-  type: string,
-  updatedAt: string | null,
+  type?: string | null,
+  updatedAt?: string | null,
 };
 export type ListResponse = {
   content: TransactionData[],
