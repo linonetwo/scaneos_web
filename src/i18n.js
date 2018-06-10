@@ -19,7 +19,7 @@ export default i18n
           locale: 'en',
           Locale: 'Language',
           webSiteIntroduction:
-            'Scan EOS is a Block Explorer and Analytics Platform for EOS, an advanced decentralized smart contracts platform.',
+            'ScanEOS is the world\'s first professional blockchain explorer and data analysis platform that focuses on EOS ecosystem. We firmly believe that EOS technology will change the world. Bearing that in mind, we are striving to contribute to the growth of EOS ecosystem.',
           Id: 'ID',
           type: 'Type',
           timestamp: 'Timestamp',
