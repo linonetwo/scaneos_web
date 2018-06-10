@@ -36,6 +36,7 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
             scroll={{ x: 1000 }}
             size="middle"
             dataSource={this.props.list}
+            rowKey="id"
             pagination={{
               pageSize: getPageSize(),
               total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
@@ -85,7 +86,11 @@ const mapState = ({ account: { list, pagination, currentPage }, info: { loading 
   currentPage,
   loading,
 });
-const mapDispatch = ({ account: { getAccountsList, setPage }, history: { updateURI } }): Dispatch => ({ getAccountsList, setPage, updateURI });
+const mapDispatch = ({ account: { getAccountsList, setPage }, history: { updateURI } }): Dispatch => ({
+  getAccountsList,
+  setPage,
+  updateURI,
+});
 export default translate()(
   connect(
     mapState,

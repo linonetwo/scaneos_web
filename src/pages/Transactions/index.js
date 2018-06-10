@@ -44,6 +44,7 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
             scroll={{ x: 1000 }}
             size="middle"
             dataSource={this.props.list}
+            rowKey="id"
             pagination={{
               pageSize: getPageSize(),
               total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
@@ -64,7 +65,11 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('transactionId')}
               dataIndex="transactionId"
               key="transactionId"
-              render={transactionId => <Link to={`/transaction/${transactionId}/`}>{truncate(transactionId, { length: 14, omission: '..' })}</Link>}
+              render={transactionId => (
+                <Link to={`/transaction/${transactionId}/`}>
+                  {truncate(transactionId, { length: 14, omission: '..' })}
+                </Link>
+              )}
             />
             <Table.Column
               title={this.props.t('createdAt')}
@@ -76,7 +81,9 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               title={this.props.t('blockId')}
               dataIndex="blockId"
               key="blockId"
-              render={blockId => <Link to={`/block/${blockId}/`}>{truncate(blockId, { length: 14, omission: '..' })}</Link>}
+              render={blockId => (
+                <Link to={`/block/${blockId}/`}>{truncate(blockId, { length: 14, omission: '..' })}</Link>
+              )}
             />
             {/* <Table.Column
               title={this.props.t('messages')}
@@ -97,7 +104,11 @@ const mapState = ({ transaction: { list, pagination, currentPage }, info: { load
   currentPage,
   loading,
 });
-const mapDispatch = ({ transaction: { getTransactionsList, setPage }, history: { updateURI } }): Dispatch => ({ getTransactionsList, setPage, updateURI });
+const mapDispatch = ({ transaction: { getTransactionsList, setPage }, history: { updateURI } }): Dispatch => ({
+  getTransactionsList,
+  setPage,
+  updateURI,
+});
 export default translate()(
   connect(
     mapState,

@@ -42,6 +42,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
             scroll={{ x: 1000 }}
             size="middle"
             dataSource={this.props.list}
+            rowKey="id"
             pagination={{
               pageSize: getPageSize(),
               total: this.props.pagination.currentTotal + (this.props.pagination.loadable ? 1 : 0),
