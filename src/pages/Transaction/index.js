@@ -11,6 +11,7 @@ import { formatTimeStamp } from '../../store/utils';
 import type { TransactionData } from '../../store/transaction';
 import type { MessageData } from '../../store/message';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
+import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
   match: {
@@ -36,37 +37,6 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
     const currentTransactionId = String(this.props.match.params.transactionId);
     this.props.getTransactionData(currentTransactionId);
     this.props.getMessageData(currentTransactionId);
-  }
-
-  getValueRendering(field: string, value: any) {
-    switch (field) {
-      case 'id':
-        return value.id;
-      case 'messages':
-        return value.map(({ id }) => <Link to={`/message/${id}/`}>{id}</Link>);
-      case 'createdAt':
-      case 'updatedAt':
-      case 'expiration':
-        return formatTimeStamp(value, this.props.t('locale'));
-      case 'name':
-        return <Link to={`/transaction/${value}/`}>{value}</Link>;
-      case 'transactionId':
-        return <Link to={`/transaction/${value}/`}>{value}</Link>;
-      case 'blockId':
-        return <Link to={`/block/${value}/`}>{value}</Link>;
-      case 'refBlockNum':
-        return <Link to={`/block/${value}/`}>{value}</Link>;
-      default: {
-        if (typeof value === 'string' || typeof value === 'number') {
-          return value;
-        }
-        return (
-          <pre>
-            <code>{JSON.stringify(value, null, '  ')}</code>
-          </pre>
-        );
-      }
-    }
   }
 
   render() {
@@ -97,12 +67,13 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
                         title={this.props.t('value')}
                         dataIndex="value"
                         key="value"
-                        render={(value, { field }) => this.getValueRendering(field, value)}
+                        render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
                       />
                     </Table>
                   </LongListContainer>
                 ))}
               </Tabs.TabPane>
+
               <Tabs.TabPane
                 tab={
                   <span>
@@ -123,11 +94,12 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
                       title={this.props.t('value')}
                       dataIndex="value"
                       key="value"
-                      render={(value, { field }) => this.getValueRendering(field, value)}
+                      render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
                     />
                   </Table>
                 </LongListContainer>
               </Tabs.TabPane>
+
               <Tabs.TabPane
                 tab={
                   <span>

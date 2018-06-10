@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import React, { Component, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { formatTimeStamp } from '../../store/utils';
 import type { BlockData } from '../../store/block';
 import type { TransactionData } from '../../store/transaction';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
+import getListValueRendering from '../../components/getListValueRendering';
 
 const NoTransactions = styled.div`
   text-align: center;
@@ -59,31 +59,6 @@ class Block extends Component<Props & Store & Dispatch, State> {
     }
   }
 
-  getValueRendering(field: string, value: any) {
-    switch (field) {
-      case 'id':
-        return value.id;
-      case 'createdAt':
-      case 'updatedAt':
-      case 'timestamp':
-        return formatTimeStamp(value, this.props.t('locale'));
-      case 'blockNum':
-        return <Link to={`/block/${value}/`}>{value}</Link>;
-      case 'producerAccountId':
-        return <Link to={`/account/${value}/`}>{value}</Link>;
-      default: {
-        if (typeof value === 'string' || typeof value === 'number') {
-          return value;
-        }
-        return (
-          <pre>
-            <code>{JSON.stringify(value, null, '  ')}</code>
-          </pre>
-        );
-      }
-    }
-  }
-
   render() {
     return (
       <Fragment>
@@ -100,32 +75,35 @@ class Block extends Component<Props & Store & Dispatch, State> {
                 }
                 key="1"
               >
-                {this.props.transactions.length > 0
-                  ? this.props.transactions.map(data => (
-                      <LongListContainer column>
-                        <Table
-                          scroll={{ x: 800 }}
-                          size="middle"
-                          pagination={false}
-                          dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
-                        >
-                          <Table.Column
-                            title={this.props.t('field')}
-                            dataIndex="field"
-                            key="field"
-                            render={this.props.t}
-                          />
-                          <Table.Column
-                            title={this.props.t('value')}
-                            dataIndex="value"
-                            key="value"
-                            render={(value, { field }) => this.getValueRendering(field, value)}
-                          />
-                        </Table>
-                      </LongListContainer>
-                    ))
-                  : <NoTransactions>No Transactions.</NoTransactions>}
+                {this.props.transactions.length > 0 ? (
+                  this.props.transactions.map(data => (
+                    <LongListContainer column>
+                      <Table
+                        scroll={{ x: 800 }}
+                        size="middle"
+                        pagination={false}
+                        dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                      >
+                        <Table.Column
+                          title={this.props.t('field')}
+                          dataIndex="field"
+                          key="field"
+                          render={this.props.t}
+                        />
+                        <Table.Column
+                          title={this.props.t('value')}
+                          dataIndex="value"
+                          key="value"
+                          render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
+                        />
+                      </Table>
+                    </LongListContainer>
+                  ))
+                ) : (
+                  <NoTransactions>No Transactions.</NoTransactions>
+                )}
               </Tabs.TabPane>
+
               <Tabs.TabPane
                 tab={
                   <span>
@@ -147,11 +125,12 @@ class Block extends Component<Props & Store & Dispatch, State> {
                       title={this.props.t('value')}
                       dataIndex="value"
                       key="value"
-                      render={(value, { field }) => this.getValueRendering(field, value)}
+                      render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
                     />
                   </Table>
                 </LongListContainer>
               </Tabs.TabPane>
+
               <Tabs.TabPane
                 tab={
                   <span>

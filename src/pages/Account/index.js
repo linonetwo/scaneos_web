@@ -3,13 +3,13 @@ import { toPairs } from 'lodash';
 import React, { Component, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { formatTimeStamp } from '../../store/utils';
 import type { AccountData } from '../../store/account';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
+import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
   match: {
@@ -34,28 +34,6 @@ class Account extends Component<Props & Store & Dispatch, *> {
     this.props.getAccountData(currentAccountName);
   }
 
-  getValueRendering(field: string, value: any) {
-    switch (field) {
-      case 'id':
-        return value.id;
-      case 'createdAt':
-      case 'updatedAt':
-        return formatTimeStamp(value, this.props.t('locale'));
-      case 'name':
-        return <Link to={`/account/${value}/`}>{value}</Link>;
-      default: {
-        if (typeof value === 'string' || typeof value === 'number') {
-          return value;
-        }
-        return (
-          <pre>
-            <code>{JSON.stringify(value, null, '  ')}</code>
-          </pre>
-        );
-      }
-    }
-  }
-
   render() {
     return (
       <Fragment>
@@ -74,6 +52,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
               >
                 Activities
               </Tabs.TabPane>
+
               <Tabs.TabPane
                 tab={
                   <span>
@@ -94,11 +73,12 @@ class Account extends Component<Props & Store & Dispatch, *> {
                       title={this.props.t('value')}
                       dataIndex="value"
                       key="value"
-                      render={(value, { field }) => this.getValueRendering(field, value)}
+                      render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
                     />
                   </Table>
                 </LongListContainer>
               </Tabs.TabPane>
+
               <Tabs.TabPane
                 tab={
                   <span>
