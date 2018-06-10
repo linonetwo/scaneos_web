@@ -339,9 +339,13 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                     <span>{formatTimeStamp(item.createdAt, this.props.t('locale'), { time: false })}</span>
                   </KeyInfoContainer>
                 </Link>
-                <Link to={`/block/${item.blockId}/?tab=transactions`}>
-                  {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
-                </Link>
+                <div>
+                  <div><Link to={`/block/${item.blockId}/?tab=transactions`}>
+                    {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
+                  </Link></div>
+                  <div>{this.props.t('status')}: {item.status}</div>
+                  <div>{this.props.t('pending')}: {String(item.pending)}</div>
+                </div>
               </KeyInfoItemContainer>
             </List.Item>
           )}
