@@ -56,6 +56,7 @@ const blockProducersList = [
     introduction:
       '我们是BP候选人EOS Asia，拥有世界级技术团队和经验丰富的区块链Dapp开发人员。作为亚洲最具国际和技术性的Block Producer候选人，我们汇集了来自中国，韩国，日本，香港，东南亚等地的EOS超级粉丝。\r\n\r\nEOS亚洲团队，核心价值观，当前进展，未来发展以及对社区的贡献。我们也将分享我们对EOS生态系统未来的理解和信念。\r\n\r\nEOS Asia的亮点：\r\n\r\n世界级的技术团队（Y Combinator，阿里云MVP，在各种技术会议上演讲）、大部分国际团队（中国，欧洲，美国和韩国）、致力于创建主流EOS DApps。',
     contact: 'Twitter\r\nhttps://twitter.com/eosasia_one\r\nSteemit\r\nhttps://steemit.com/@eos-asia',
+    account: 'eosasia11111',
   },
   {
     location: 'China',
@@ -110,6 +111,7 @@ const blockProducersList = [
       'EOS加拿大总部设在加拿大蒙特利尔，由知名加拿大金融企业支持。我们相信EOS.IO将资助系统，因此我们致力于为生态系统的发展做出贡献。\r\n\r\n\r\n我们一直积极参与运行和测试社区测试网络，创建BIOS BOOT序列，以及构建生态系统蓬勃发展所需的各种社区工具。我们的目标是成为公司，企业家和开发人员的中心，他们希望在EOS.IO之上构建基础架构和去中心化应用程序。由于我们深厚的技术背景和连接，我们希望利用我们的网络帮助为EOS.IO网络构建增值产品。',
     contact:
       'Twitter\r\nhttps://twitter.com/eos_canada\r\nTelegram\r\nhttps://t.me/eoscanada\r\nSteemit\r\nhttps://steemit.com/@eos-canada\r\nReddit\r\nhttps://www.reddit.com/user/EOSCanada/',
+    account: 'eoscanadacom',
   },
   {
     location: 'Beijing ',
@@ -184,6 +186,7 @@ const blockProducersList = [
       "MEET.ONE 是新加坡 EOS 全球节点竞选团队，致力于构建 EOS 生态入口。\r\n团队具有坚实的技术实力，核心成员均来自顶级互联网公司，拥有亿级用户开发和运营经验。MEET.ONE 积极为生态做贡献。\r\n2月，开发了首个微信小程序-EOS小助手，帮助用户学习映射并验证结果，保障资产安全，目前已有数十万用户。\r\n3月，参与组建了 Scholar Testnet，并首先完成 BIOS BOOT 测试。\r\n4月，为全球用户开发了Chrome 插件 EOS KIT，集合了 EOS 全球资讯精选、Twitter 账户速览、Dapp 列表和 BP 列表等功能。\r\n5月，APP 客户端已在内测，可进行 EOS 资产管理、节点投票、Dapp 入口和资讯速览等功能。\r\n未来，将发起 MEET.ONE 侧链，提供 EOS 开发环境孵化 Dapp。\r\nMEET.ONE 社区秉持共建、贡献、平等的价值观，目前已覆盖数十万用户。\r\n\r\nMEET.ONE is a Singapore EOS block producer candidate and is dedicated to building the EOS ecological portal.\r\nOur team has solid technical strength. The core members are all from top Internet companies and have billions of users of development and operational experience. MEET.ONE actively contributes to EOS ecology.\r\nIn February, the first WeChat mini program 'EOS TOOLS', was developed to help users complete the mapping, verification results and ensure asset security. The current total user's number of mini-program has reached hundreds of thousands;\r\nIn March, we participated in the formation of the Scholar Testnet and completed the BIOS BOOT first.\r\nIn April, Chrome plug-in 'EOS KIT' was developed for users around the world and features such as EOS Global News Highlights, Twitter Account Flip, Dapp and BP List.\r\nIn May, the MEET.ONE's app has been tested internally and can perform functions such as EOS asset management, node voting, Dapp entry, and news.\r\nIn the future, MEET.ONE side chain will be launched as Dapp incubator to provide the EOS development environment.\r\nThe MEET.ONE community upholds the values of co-construction, contribution, and equality, and currently cover several hundred thousands of users.",
     contact:
       'Twitter\r\nhttps://twitter.com/MeetDotOne\r\nTelegram\r\nhttps://t.me/MeetOneEnglish\r\n微信公众号\r\nEOSMeetOne\r\nSteemit\r\nhttps://steemit.com/@meetone',
+    account: 'eosiomeetone',
   },
   {
     location: 'Singapore',
@@ -344,6 +347,7 @@ const blockProducersList = [
       'EOS Tribe是一个专注于区块链基础设施和软件的杰出超级节点候选人。总部位于怀俄明州，在德克萨斯州达拉斯和犹他州盐湖城设有卫星办公室。\r\n\r\n我们的使命是为启动的EOS网络提供全球性的企业级基础设施，并且建立在共同的基础上，与我们在地球上的时间有目标的目标。\r\n\r\n我们深信分权制度的力量及其创造积极的社会和经济变革的潜力。我们是EOS节点竞选团队，希望赋予生态系统中为特定目标工作的使命Dapp和项目。',
     contact:
       'Twitter\r\nhttps://twitter.com/eostribe\r\nFacebook\r\nhttps://www.facebook.com/groups/eostribe\r\nTelegram\r\nhttps://t.me/EOSTribe\r\nMedium\r\nhttps://medium.com/eostribe\r\nSteemit\r\nhttps://steemit.com/@eostribe',
+    account: 'eostribeprod',
   },
   {
     location: 'Southern California',
@@ -359,6 +363,7 @@ const blockProducersList = [
       'EOSoCal成立于2017年11月的团体，在南加州运营。主要支持和促进EOS.IO软件和社区的成功发布和可行性。\r\n我们的目标是为世界这个地区的EOS.IO分散式生态系统的整体成功做出贡献，帮助大众保护生命，自由和财产，建设一个更美好的世界。\r\n通过以下方式实现我们的目标：\r\n我们是超级节点竞选团队，为EOS区块链贡献可靠和可扩展的区块生产，并为社区贡献回报。现在正在做符合EOS项目的分配开发资源，包括支持，资金，设计和编程。EOS.IO的理念创造更美好的世界。\r\n通过提供的教育内容和计划的研讨会帮助教育社区，从初学者到高级用户使用EOS.IO开源软件。\r\n通过传播、支持社区和分发内容，帮助他人发现和采用EOS.IO平台。去中心化应用程序的开发者即将发布项目。我们希望能够改变十亿人的生活，正如布罗克皮尔斯所描述的那样，通过向EOS持有者提供“空投” token。独特价值主张：\r\n我们的设施开放，用于审计和实地考察。因为是一家自筹资金的机构，不需要向投资者汇报奖励。为援助权力下放提供独立贡献，目标是通过块生产者奖励和问责制来充分透明。\r\n\r\nEOSoCal is a group founded in Nov 2017 with a mission of supporting and promoting the successful launch and viability of the EOS.IO software and community, operating out of Southern California. \r\nOur goal is to contribute to the overall success of the EOS.IO decentralized ecosystem from this area of the world, helping masses preserve life, liberty and property for a better world.\r\nWe are a team experienced in node operations and software development with an existing facility in operation. \r\nWe plan to contribute back a percentage of our rewards towards funding educational workshops, tools, development and incubation of dApps and more.',
     contact:
       'Twitter\r\nhttps://twitter.com/eos_la\r\nTelegram\r\nhttps://t.me/eossocal\r\nSteemit\r\nhttps://steemit.com/@eos-socal',
+    account: 'eossocalprod',
   },
   {
     location: 'Detroit, MI',
@@ -426,6 +431,7 @@ const blockProducersList = [
     introduction: '激活EOS生态系统',
     contact:
       'Twitter\r\nhttps://twitter.com/@eosys_io\r\nTelegram\r\nhttps://t.me/eosysiokor（KOR）\r\nMedium\r\nhttps://medium.com/@eosys\r\nSteemit\r\nhttps://steemit.com/@eosys',
+    account: 'eosyskoreabp',
   },
   {
     location: 'Hong Kong ',
@@ -456,6 +462,7 @@ const blockProducersList = [
       'Tokenika是位于华沙的东欧区块链公司，专门从事区块链和分布式账本技术的智囊团。我们的成员来自IT、编码、人工智能、法律和监管环境领域所组成，致力于为最有前途的区块链相关技术打下基础。\r\n\r\n自2012年以来，我们的团队成员一直参与区块链和DLT技术，自推出Bit Shares的第一代BitShares X以来，我们一直坚定支持Dan Larimer（EOS的创建者）项目。\r\n\r\n目前，Tokenika成功部署EOS.io生态系统，这是区块链领域最耀眼的新星之一。作为节点竞选团队，我们非常清楚这项任务的规模和复杂性。\r\n\r\n我们的主要优势：\r\n我们的基础设施由GTG设立并进行了精心调整，而GTG是Steem表现最好的见证节点之一，所以Tokenika的服务器基础设施非常强大。\r\n我们使用Tier-3 +数据中心，具有故障恢复保护功能的行业级和能保证99.9％的正常运行时间。并在ROGUE的见证下，为EOS社区测试网制作块。\r\n\r\n我们领导一个积极的EOS社区，并在Steem平台上进行热烈的跟踪，在那里我们就有关EOS.io的技术和实践主题进行教育和提供建议。\r\n\r\n我们还在为EOS生态系统开发几种解决方案，例如EOSFACTORY、EOSPROJECTS，现有EOS工具和扩展的列表以及EOS块浏览器。\r\n\r\n就Dapp而言，我们正在构建一个EOS的数字身份识别系统叫SYGNET。此外，为了促进EOS的大规模采用，还与另一位MMO游戏开发人员进行对话，还不时向波兰政府的数字化部门提供有关区块链相关事宜的建议，并及早洞察波兰和欧盟的区块链监管环境。',
     contact:
       'GitHub\r\nhttps://github.com/tokenika\r\nTwitter\r\nhttps://twitter.com/tokenika_io\r\nFacebook\r\nhttps://www.facebook.com/groups/tokenika/\r\nSteemit\r\nhttps://steemit.com/@tokenika',
+    account: 'tokenika4eos',
   },
   {
     location: 'Amsterdam, The Netherlans',
@@ -485,6 +492,7 @@ const blockProducersList = [
       'EOS WTZ于2017年11月成立。致力建立最有温度的区块链知识传播平台，通过普及区块链基础知识、输出原创内容、打造圈内互动社区、孵化区块链项目等形式，打造国内最有影响力、服务千万人的区块链社群。',
     contact:
       'Twitter\r\nhttps://twitter.com/eos_wtz\r\nFacebook\r\nhttps://www.facebook.com/eos.wtz.1\r\n微信公众号\r\nEOS WTZ\r\nReddit\r\nhttps://www.reddit.com/user/EOSWTZ',
+    account: 'eoswtzeoswtz',
   },
   {
     location: 'EU',
@@ -585,6 +593,7 @@ const blockProducersList = [
       'CryptoLions当它们结合在一个良好平衡的个体中时，会产生其他品质，如节制，适度，谨慎，纯洁和自我控制。\r\n?尊重：EOS社区及其构成。\r\n?能力：满足EOS区块生产者的技术、组织和法律要求。\r\n?诚信：对他人和我们自己诚实，做我们说我们会做的事。',
     contact:
       'GitHub\r\nhttps://github.com/CryptoLions\r\nTelegram\r\nhttps://t.me/block_producer_candidate\r\nSteemit\r\nhttps://steemit.com/@cryptolions',
+    account: 'cryptolions1',
   },
   {
     location: 'Uncertain',
@@ -626,6 +635,7 @@ const blockProducersList = [
     introduction:
       '自2014年8月上线以来，AntPool已经通过用户友好的界面，安全稳定的性能，高效和贴心的服务获得了大量用户的支持和信任。目前，在比特币，Litecoin和Dash等大型hashrates中，AntPool进行hashrates维护和社区建设。',
     contact: 'Telegram\r\nhttp://t.me/AntPoolEOSUS\r\nSteemit\r\nhttps://steemit.com/@antpool',
+    account: 'eosantpoolbp',
   },
   {
     location: 'Tokyo, Japan',
@@ -654,6 +664,7 @@ const blockProducersList = [
     introduction:
       '专业诚信、透明度、承诺、合作和独立性，EOSphere拥有EOS所期望的所有特征。\r\n我们相信久经考验的经验，将激发对EOS利益相关方、Dapp开发商和EOS区块链业务的信心，为EOS.IO区块链的社区启动和持续运营以及治理提供支持，同时支持我们地区成为EOS社区的全球成员。虽然基于澳大利亚，我们的目标是服务于整个EOSphere！',
     contact: 'Twitter\r\nhttps://twitter.com/eosphere_io\r\nSteemit\r\nhttps://steemit.com/@eosphere',
+    account: 'eosphereiobp',
   },
   {
     location: 'USA',
@@ -684,6 +695,7 @@ const blockProducersList = [
       'eosDAC是一个通过区域链上的智能合约编码，分权自治的社区。通过EOS软件，使社区成为合作社的一种革命性方式成为可能。DAC由它的token持有者和董事会成员控制，他们投票运行它的运营。\r\nEOSD.IO的愿景是区块生产者，应该开放给每个人贡献和受益。为了实现这一愿景，eosDAC将成为一个不断发展的去中心化自治社区（DAC），致力于成为为全球EOS社区提供服务的领先EOS.IO Block Producer。\r\n在此过程中，eosDAC将创建所需的工具和智能合约。它将与EOS社区分享这些信息，以帮助其他DAC在EOS.IO区块链上蓬勃发展。\r\neosDAC将于2018年6月初在EOS区块链上作为DAC推出，直到eosDAC由其发射团队运行为止。发射团队的成员在过去6个月中，深入参与了EOS社区并在EOS社区测试网上开发了多个模块。目前，eosDAC token存在于 ETH 区块链中，一旦它运行，这些token就会转移到EOS区块链上。',
     contact:
       'Twitter\r\nhttps://twitter.com/eosdac\r\nFacebook\r\nhttps://www.facebook.com/eosdac/\r\nTelegram\r\nhttps://t.me/eosdacio\r\nSteemit\r\nhttps://steemit.com/@eosdac',
+    account: 'eosdacserver',
   },
   {
     location: 'Mexico',
@@ -768,6 +780,7 @@ const blockProducersList = [
       'EOSMetal建立在尽可能去中心化和独立的前提下，同时仍然提供强大的基础设施。我们通过“裸机”物理服务器设计来实现这一目标，并通过将我们的基础设施定位于多个地缘、政治边界，而进一步分散。\r\n\r\n我们完全自给自足，永远不会从Dapp，销售token或交换中获得任何收入。绝不会通过股息或任何其他会损害我们作为无偏见块的制作者的方法购买选票。\r\n\r\n我们都是EOS投资者，其次是区块生产者，我们尊重这个角色的需求，因为它直接影响我们作为EOS项目的投资者和支持者。',
     contact:
       'Twitter\r\nhttps://twitter.com/EOSMetal\r\nTelegram\r\nhttps://t.me/EOSMetal\r\nSteemit\r\nhttps://steemit.com/eos/@eosmetal/introducing',
+    account: 'eosmetaliobp',
   },
   {
     location: 'China',
@@ -814,6 +827,7 @@ const blockProducersList = [
       'EOS Dublin是位于爱尔兰都柏林的超级节点候选人。\r\n我们徽标上的四个绿点代表了我们的核心价值观：独立，诚信，诚信和教育。我们相信EOS.IO代表了一个向更好的数字世界迈进的全球范式转变。\r\nEOS.IO不仅仅是一项技术进步，而是关于我们融合技术，社区和个人承诺时变得可能的事情。\r\n对我们来说，EOS块的生产者就像在美国宇航局扫地的看门人一样。我们在改变世界的风险中扮演一小部分角色。作为区块生产者，我们正在设计未来的基础。我们迫不及待想要了解基金会完成后的未来。',
     contact:
       'Twitter\r\nhttps://twitter.com/@eosdublin\r\nTelegram\r\nhttps://t.me/eosdb\r\nMedium\r\nhttps://medium/@eosdublin\r\nSteemit\r\nhttps://steemit.com/@eosdublin',
+    account: 'eosdublinwow',
   },
   {
     location: 'Singapore',
@@ -939,6 +953,7 @@ const blockProducersList = [
     server:
       '截至2018年6月3日的技术规格和资源总支出估算\r\n* AWS EC2 m4.4xlarge \r\n* 64GB RAM \r\n* 512GB SSD \r\n缩放计划：\r\n逐渐移动到裸机服务器。\r\n使用2-4 TB RAM和100G带宽支持升级至两台服务器。\r\n一个用于生产PB，一个用于备份。\r\n团队介绍\r\nJEDA是EOS开发者协会，支持日本EOS生态系统的开发。在EOS上建立一个生态系统，提出线上和线下活动，收集EOS开发者并开发有吸引力的DAPP，并开发基于EOS的多种服务。\r\n\r\n在EOS上建立一个生态系统，提出线上和线下活动，收集EOS开发者并开发有吸引力的DAPP，并开发基于EOS的多种服务。',
     introduction: 'Twitter\r\nhttps://twitter.com/eosjapan_jeda\r\nTelegram\r\nhttp://t.me/eosjapan',
+    account: 'jedaaaaaaaaa',
   },
   {
     location: 'Singapore',
@@ -1056,6 +1071,7 @@ const blockProducersList = [
       '大家好，我们是位于美国犹他州盐湖城的盐区块生产者SaltBlock，我们对即将到来的EOS的推出感到非常兴奋，我们想介绍自己并告诉你我们应该如何计划被选为超级节点。\r\n\r\n我们相信EOS将会把区块链和去中心化技术带入主流，不仅因为EOSIO软件是由Block.One创建的，而且还因为我们很幸运能成为其中一部分的令人惊叹的社区。\r\n\r\n我们的使命是将我们的知识和技能转化为积极和可靠的平台，同时通过深思熟虑的行动帮助EOS社区实现伟大的事业。',
     contact:
       'Twitter\r\nhttps://twitter.com/saltblockBP\r\nTelegram\r\nhttps://t.me/EOSPros\r\nSteemit\r\nhttps://steemit.com/@saltblock',
+    account: 'saltblockeos',
   },
   {
     location: 'Asia, Europe and North America',
@@ -1068,6 +1084,7 @@ const blockProducersList = [
     server:
       '区块链和块生产\r\n在BlockPro.One，我们通过构建区块链的到来感到非常兴奋，并且正在构建新的未来。让全世界成为更安全的玩家。\r\n\r\nDApps和智能合约\r\n我们构建智能应用程序，照顾未来的需求新一代并支持去中心化自治组织，它们构建了社区需要的东西。\r\n\r\n运营管理\r\n高度冗余的处理器架构，存储阵列和高速/高带宽连接，并具有防篡改保护构成我们数据中心架构的核心。',
     introduction: 'Steemit\r\nhttps://steemit.com/@blockpro',
+    account: 'blockpro1eos',
   },
   {
     location: 'Wenzhou, China',
@@ -1083,6 +1100,7 @@ const blockProducersList = [
       'EOS温州是一个成立于2017年10月份的社区，我们是最早接触区块链技术及EOS.IO技术团队和爱好者，目前拥有核心团队10人，运营团队15人。\r\n\r\n我们的愿景\r\n\r\n温州人具有艰苦奋斗的创业精神，闯荡天下、四海为家的开拓精神，善于创新的创造精神。当前约有300万温州商人分布在全世界，我们将支持和促进EOS.IO分布式生态系统软件成功，同时依托及沟通全世界温商，利用我们在温商当中的极大影响力优势，将金融,跨境汇款,借贷,债券,轻工业,制造业,物流,电商,物联网等产业,进行区块链升级，以利用区块链为实体经济服务为宗旨，建设一个更美好的区块链3.0的未来。\r\n\r\n社区的优势\r\n\r\n1.EOS温州拥有多名多年经验的网络安全,系统安全，网络结构专家，系统运维,区块链开发工程师，在区块链领域，开发过相关应用的底层架构设计、技术整合以及系统优化等研发方面的工作，具有丰富丰富的经验。\r\n\r\n2.为EOS区块链贡献可靠和可扩展的高配置服务器,双机热备，自动预警，全天候值守等设施，确保最高性能以及最安全的络条件，最稳定的运营维护，以及灾备方案。\r\n\r\n3.可迅速整合社区，联合账户产品、区块链咨询平台、DAPP开发团队等服务完善EOS社区，并向业内外推广EOS社区，扩大社区影响力，让更多人了解区块链及EOS.IO项目的现状以及发展方向。\r\n\r\n4.重视诚信、开明、透明化和多元化，我们定期公布运营情况及相关技术报告，组织开放日活动，并努力与EOS其他超级节点、现有/未来的加密货币投资者，DAPP开发商以及对EOS感兴趣的组织/公司积极沟通。',
     contact:
       'Twitter\r\nhttps://twitter.com/eoswenzhou\r\nTelegram\r\nhttps://t.me/EOSwenzhouofficial\r\n微信公众号\r\nEOSWENZHOU\r\nSteemit\r\nhttps://steemit.com/@eos.wenzhou',
+    account: 'eoswenzhoubp',
   },
   {
     location: 'USA',
@@ -1112,6 +1130,7 @@ const blockProducersList = [
       'SuperONE项目发起人（社区ID：crazybit）是区块链领域的高级参与者，侧重于区块链领域的管理流程和审美流程，重点关注区块链评估和bistShares社区，并对石墨烯的内核进行了深入研究，作为社区领先的开发团队，SuperONE（superone.io）账户的开发旨在满足商业应用的实用性和便利性需求，为用户提供更安全，更多透明，分散的上链式交易和数字资产管理平台。',
     contact:
       'GitHub\r\nhttps://github.com/superoneio\r\nTwitter\r\nhttps://twitter.com/superoneio\r\nFacebook\r\nhttps://www.facebook.com/superoneio\r\nMedium\r\nhttps://medium.com/@superoneio\r\nSteemit\r\nhttps://steemit.com/@superoneio',
+    account: 'superoneiobp',
   },
   {
     location: 'the Netherlands',
@@ -1141,6 +1160,7 @@ const blockProducersList = [
     introduction: 'EOS Amsterdam我们位于阿姆斯特丹，一个拥有受过良好教育，拥有自由和国际化的人口的繁荣城市。',
     contact:
       'Twitter\r\nhttps://twitter.com/eosamsterdam\r\nTelegram\r\nhttps://t.me/eosamsterdam\r\nSteemit\r\nhttps://steemit.com/@eosamsterdam',
+    account: 'eosamsterdam',
   },
   {
     location: 'the Netherlands',
