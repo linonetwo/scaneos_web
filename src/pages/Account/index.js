@@ -64,6 +64,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
               >
                 <LongListContainer column>
                   <Table
+                    scroll={{ x: 1000 }}
                     size="middle"
                     pagination={false}
                     dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field }))}

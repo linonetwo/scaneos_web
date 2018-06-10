@@ -86,6 +86,7 @@ class Block extends Component<Props & Store & Dispatch, State> {
                       >
                         <Table.Column
                           title={this.props.t('field')}
+                          width={70}
                           dataIndex="field"
                           key="field"
                           render={this.props.t}

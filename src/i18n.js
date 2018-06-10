@@ -193,6 +193,7 @@ export default i18n
           LoadingModule: '模块加载中',
           status: '状态',
           pending: '等待',
+          voterInfo: '投票质押信息',
         },
         countdown: {
           Days: '天',
