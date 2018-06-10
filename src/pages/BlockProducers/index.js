@@ -8,6 +8,7 @@ import MapGL, { Marker, Popup, NavigationControl } from 'react-map-gl';
 import { Table } from 'antd';
 import AutoLinkText from 'react-autolink-text2';
 import queryString from 'query-string';
+import { Link } from 'react-router-dom';
 
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../../API.config';
@@ -152,12 +153,12 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
             size="middle"
             dataSource={blockProducersList}
             pagination={{ pageSize: 10, current: Number(queryString.parse(window.location.search).page) }}
-            scroll={{ x: 2000 }}
+            scroll={{ x: 2500 }}
             onChange={pagination => {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column fixed="left" width={120} title={this.props.t('name')} dataIndex="name" key="name" />
+            <Table.Column fixed="left" width={180} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column
               width={100}
               title={this.props.t('homepage')}
@@ -168,6 +169,13 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
                   {url}
                 </a>
               )}
+            />
+            <Table.Column
+              width={100}
+              title={this.props.t('account')}
+              dataIndex="account"
+              key="account"
+              render={account => <Link to={`/account/${account}`}>{account}</Link>}
             />
             <Table.Column
               width={50}
