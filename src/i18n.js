@@ -200,6 +200,8 @@ export default i18n
           isProxy: '是否为代理',
           deferredTrxId: '延后的交易 ID',
           lastUnstakeTime: '最近的解除质押时间',
+          staked: '已质押的余额',
+          producers: '已投票的超级节点',
           unstaking: '未质押的余额',
           selfDelegatedBandwidth: '自我代理的带宽',
           ramBytes: '内存大小(Byte)',

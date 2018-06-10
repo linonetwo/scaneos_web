@@ -55,6 +55,7 @@ function Title(props: { t: Function }) {
   return (
     <Helmet>
       <title>{props.t('webSiteTitle')}</title>
+      <meta name="description" content={props.t('webSiteIntroduction')} />
     </Helmet>
   );
 }
