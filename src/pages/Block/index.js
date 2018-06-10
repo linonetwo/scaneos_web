@@ -55,7 +55,7 @@ class Block extends Component<Props & Store & Dispatch, State> {
   }
 
   render() {
-    const { tab } = queryString.parse(this.props.location.search);
+    const { tab = 'data' } = queryString.parse(this.props.location.search);
     return (
       <Fragment>
         {getBreadcrumb('block', this.props.t)}
