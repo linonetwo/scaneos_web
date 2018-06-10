@@ -447,7 +447,7 @@ const mapState = ({
   block: { loading: blockLoading, list: blockData },
   transaction: { loading: transactionLoading, list: transactionData },
   account: { loading: accountLoading, list: accountData },
-  message: { loading: messageLoading, list: messageData },
+  message: { loading: messageLoading, listByTime: messageData },
   aggregation: { loading: aggregationLoading, data: aggregationData },
   price: { loading: priceLoading, currentPriceData, priceChartData },
 }): Store => ({
