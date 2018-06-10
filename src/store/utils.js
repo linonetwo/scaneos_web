@@ -13,7 +13,7 @@ export function formatTimeStamp(
   // polyfill ms
   let now;
   if (typeof timeStamp === 'string') {
-    now = new Date(timeStamp);
+    now = timeStamp;
   } else if (typeof timeStamp === 'number') {
     now = new Date(timeStamp * 1000);
   } else {
