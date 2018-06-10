@@ -299,7 +299,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                     <span>
                       {this.props.t('blockNum')}: {item.blockNum}
                     </span>
-                    {formatTimeStamp(item.createdAt, this.props.t('locale'), { time: false })}{' '}
+                    {formatTimeStamp(item.timestamp, this.props.t('locale'), { time: false })}{' '}
                   </KeyInfoContainer>
                 </Link>
                 <Link to={`/account/${item.producerAccountId}/`}>
