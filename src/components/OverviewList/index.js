@@ -86,7 +86,7 @@ const ListContainer = styled.div`
     margin: 50px 0 0;
   `};
   ${is('small')`
-    height: 440px;
+    height: 650px;
   `};
   .ant-list {
     margin: 0;
@@ -155,6 +155,13 @@ const ViewAll = styled(Flex)`
     background-color: gray;
     color: white;
   }
+`;
+const MessagePreview = styled.div`
+  & a + a {
+    margin-left: 10px;
+  }
+  margin-top: 5px;
+  margin-bottom: 5px;
 `;
 
 type Props = {
@@ -228,7 +235,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                   {data.currentPriceData.percentChange24h}%
                 </PriceChangeContainer>
               </h4>
-              {numeral(data.currentPriceData.priceUsd).format('($0.00 a)').replace('b', 'B')}
+              {numeral(data.currentPriceData.priceUsd)
+                .format('($0.00 a)')
+                .replace('b', 'B')}
             </AggregationItem>
           </Link>
         </Spin>
@@ -236,7 +245,9 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           <Link to="/price/">
             <AggregationItem column center>
               <h4>{this.props.t('marketCap')}</h4>
-              {numeral(data.currentPriceData.marketCapUsd).format('($0.00 a)').replace('b', 'B')}
+              {numeral(data.currentPriceData.marketCapUsd)
+                .format('($0.00 a)')
+                .replace('b', 'B')}
             </AggregationItem>
           </Link>
         </Spin>
@@ -394,17 +405,18 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           dataSource={data.data}
           renderItem={(item: MessageData) => (
             <List.Item
-              actions={compact([
-                <Link to={`/message/${item.transactionId}/`}>
-                  {this.props.t('Messages')}: {truncate(item.transactionId, { length: 7, omission: '...' })}
+            >
+            <MessagePreview><Link to={`/message/${item.transactionId}/`}>
+                  {this.props.t('Messages')}: {truncate(item.transactionId, { length: 15, omission: '...' })}
                 </Link>,
                 <Link to={`/transaction/${item.transactionId}/`}>
-                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 7, omission: '...' })}
-                </Link>,
+                  {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 15, omission: '...' })}
+                </Link></MessagePreview>
+            <MessagePreview>{compact([
                 ...flatten(
-                  item.authorization.map(({ account }) => (
-                    <Link to={`/account/${account}/`}>
-                      {this.props.t('account')}: {truncate(account, { length: 7, omission: '...' })}
+                  item.authorization.map(({ actor, permission }) => (
+                    <Link to={`/account/${actor}/`}>
+                      {actor}: ({permission})
                     </Link>
                   )),
                 ),
@@ -413,9 +425,8 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                     {this.props.t('handlerAccountName')}: {item.handlerAccountName}
                   </Link>
                 ),
-              ])}
-            >
-              <div>{formatTimeStamp(item.createdAt, this.props.t('locale'))}</div>
+              ])}</MessagePreview>
+              <MessagePreview>{formatTimeStamp(item.createdAt, this.props.t('locale'))}</MessagePreview>
             </List.Item>
           )}
         />
@@ -426,12 +437,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        {this.getAggregationList({
+        {/* {this.getAggregationList({
           data: this.props.aggregationData,
           loading: this.props.aggregationLoading,
           priceLoading: this.props.priceLoading,
           currentPriceData: this.props.currentPriceData,
-        })}
+        })} */}
         <PriceChart data={this.props.priceChartData} />
         <MappingChecking />
         {this.getBlockList({ data: take(this.props.blockData, 6), loading: this.props.blockLoading })}
