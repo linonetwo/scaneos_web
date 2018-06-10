@@ -1,4 +1,5 @@
 // @flow
+import { toPairs } from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -36,6 +37,29 @@ export default function getListValueRendering(field: string, value: any, t: Func
       ));
     case 'handlerAccountName':
       return <Link to={`/account/${value}/`}>{value}</Link>;
+    
+    case 'voterInfo':
+    case 'selfDelegatedBandwidth':
+    case 'totalResources':
+      return <div>{toPairs(value).map(([subField, subValue]) => (<div>{getListValueRendering(subField, subValue, t)}</div>))}</div>
+    case 'owner':
+    case 'proxy':
+    case 'lastVoteWeight':
+    case 'proxiedVoteWeight':
+    case 'isProxy':
+    case 'deferredTrxId':
+    case 'lastUnstakeTime':
+    case 'unstaking':
+    case 'from':
+    case 'to':
+    case 'netWeight':
+    case 'cpuWeight':
+    case 'ramBytes':
+      return <span>{t(field)}: {value}</span>
+    case 'producers':
+      return <span>{t(field)}: {value.join(', ')}</span>
+    case 'staked':
+      return <span>{t(field)}: {(value / 10000).toFixed(4)} EOS</span>
 
     case 'transactionId':
       return <Link to={`/transaction/${value}/`}>{value}</Link>;
