@@ -288,8 +288,8 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                   {this.props.t('producerAccountId')}: {item.producerAccountId}
                 </Link>
                 {/* {item.transactions.length > 0 && `${this.props.t('Transactions')}: `}
-                {item.transactions.map(({ $id }) => (
-                  <Link to={`/transaction/${$id}/`}>{truncate($id, { length: 4, omission: ' ' })}</Link>
+                {item.transactions.map(({ id }) => (
+                  <Link to={`/transaction/${id}/`}>{truncate(id, { length: 4, omission: ' ' })}</Link>
                 ))} */}
               </KeyInfoItemContainer>
             </List.Item>

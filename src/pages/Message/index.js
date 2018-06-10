@@ -37,7 +37,7 @@ class Message extends Component<Props & Store & Dispatch, *> {
   getValueRendering(field: string, value: any) {
     switch (field) {
       case 'Id':
-        return value.$id;
+        return value.id;
       case 'createdAt':
         return formatTimeStamp(value, this.props.t('locale'));
       case 'messageNum':

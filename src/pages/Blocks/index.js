@@ -75,7 +75,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
               dataIndex="transactions"
               key="transactions"
               render={transactions =>
-                transactions && transactions.map(({ $id }) => <Link to={`/transaction/${$id}/`}>{$id}</Link>)
+                transactions && transactions.map(({ id }) => <Link to={`/transaction/${id}/`}>{id}</Link>)
               }
             /> */}
             <Table.Column

@@ -37,9 +37,9 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
   getValueRendering(field: string, value: any) {
     switch (field) {
       case 'Id':
-        return value.$id;
+        return value.id;
       case 'messages':
-        return value.map(({ $id }) => <Link to={`/message/${$id}/`}>{$id}</Link>);
+        return value.map(({ id }) => <Link to={`/message/${id}/`}>{id}</Link>);
       case 'createdAt':
       case 'updatedAt':
       case 'expiration':

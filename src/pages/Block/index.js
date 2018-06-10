@@ -37,7 +37,7 @@ class Block extends Component<Props & Store & Dispatch, *> {
   getValueRendering(field: string, value: any) {
     switch (field) {
       case 'Id':
-        return value.$id;
+        return value.id;
       case 'createdAt':
       case 'updatedAt':
       case 'timestamp':

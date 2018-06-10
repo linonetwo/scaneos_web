@@ -37,7 +37,7 @@ class Account extends Component<Props & Store & Dispatch, *> {
   getValueRendering(field: string, value: any) {
     switch (field) {
       case 'Id':
-        return value.$id;
+        return value.id;
       case 'createdAt':
       case 'updatedAt':
         return formatTimeStamp(value, this.props.t('locale'));
