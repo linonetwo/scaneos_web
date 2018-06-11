@@ -37,7 +37,7 @@ const AggregationContainer = styled(Flex)`
   ${breakpoint('desktop')`
     width: 1050px;
     & .ant-spin-nested-loading {
-      width: calc((1050px - 20px * 2) / 6);
+      width: calc((1050px - 20px * 2) / 5);
     }
     margin: 50px 0 0;
   `};
@@ -217,7 +217,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           <Link to="/blocks/">
             <AggregationItem column center>
               <h4>{this.props.t('blocksNum')}</h4>
-              {data.data.blocksNum}
+              {data.data.blockNumber}
             </AggregationItem>
           </Link>
         </Spin>
@@ -225,7 +225,7 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           <Link to="/transactions/">
             <AggregationItem column center>
               <h4>{this.props.t('transactionNum')}</h4>
-              {data.data.transactionNum}
+              {data.data.transactionNumber}
             </AggregationItem>
           </Link>
         </Spin>
@@ -255,19 +255,19 @@ class OverviewList extends Component<Props & Store & Dispatch> {
             </AggregationItem>
           </Link>
         </Spin>
-        <Spin spinning={data.loading}>
+        {/* <Spin spinning={data.loading}>
           <Link to="/accounts/">
             <AggregationItem column center>
               <h4>{this.props.t('accountNum')}</h4>
-              {data.data.accountNum}
+              {data.data.accountNumber}
             </AggregationItem>
           </Link>
-        </Spin>
+        </Spin> */}
         <Spin spinning={data.loading}>
           <Link to="/messages/">
             <AggregationItem column center>
               <h4>{this.props.t('messageNum')}</h4>
-              {data.data.messageNum}
+              {data.data.actionNumber}
             </AggregationItem>
           </Link>
         </Spin>
@@ -340,11 +340,17 @@ class OverviewList extends Component<Props & Store & Dispatch> {
                   </KeyInfoContainer>
                 </Link>
                 <div>
-                  <div><Link to={`/block/${item.blockId}/?tab=transactions`}>
-                    {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
-                  </Link></div>
-                  <div>{this.props.t('status')}: {item.status}</div>
-                  <div>{this.props.t('pending')}: {String(item.pending)}</div>
+                  <div>
+                    <Link to={`/block/${item.blockId}/?tab=transactions`}>
+                      {this.props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
+                    </Link>
+                  </div>
+                  <div>
+                    {this.props.t('status')}: {item.status}
+                  </div>
+                  <div>
+                    {this.props.t('pending')}: {String(item.pending)}
+                  </div>
                 </div>
               </KeyInfoItemContainer>
             </List.Item>
@@ -446,12 +452,12 @@ class OverviewList extends Component<Props & Store & Dispatch> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        {/* {this.getAggregationList({
+        {this.getAggregationList({
           data: this.props.aggregationData,
           loading: this.props.aggregationLoading,
           priceLoading: this.props.priceLoading,
           currentPriceData: this.props.currentPriceData,
-        })} */}
+        })}
         <PriceChart data={this.props.priceChartData} />
         <MappingChecking />
         {this.getBlockList({ data: take(this.props.blockData, 6), loading: this.props.blockLoading })}
