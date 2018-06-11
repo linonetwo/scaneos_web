@@ -1,7 +1,7 @@
 // @flow
 import camelize from 'camelize';
 
-export const API = 'http://scaneos1.io/api';
+export const API = 'http://scaneos.io:3128';
 export const EOS_API = 'http://138.68.31.191:8888';
 export default (path: string) =>
   fetch(`${API}${path}`)
