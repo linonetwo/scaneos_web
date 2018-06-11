@@ -1,3 +1,4 @@
+// @flow
 // Express requirements
 import bodyParser from 'body-parser';
 import compression from 'compression';

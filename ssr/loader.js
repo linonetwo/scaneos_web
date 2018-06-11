@@ -1,3 +1,4 @@
+// @flow
 // Express requirements
 import path from 'path';
 import fs from 'fs';
@@ -12,7 +13,7 @@ import { Frontload, frontloadServerRender } from 'react-frontload';
 import Loadable from 'react-loadable';
 
 // Our store, entrypoint, and manifest
-import createStore from '../src/store';
+import createStore from '../src/store/configureStore';
 import App from '../src/App';
 import manifest from '../build/asset-manifest.json';
 
