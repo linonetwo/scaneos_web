@@ -2,6 +2,7 @@
 // Express requirements
 import path from 'path';
 import fs from 'fs';
+import type { $Request, $Response } from 'express';
 
 // React requirements
 import React from 'react';
@@ -18,7 +19,7 @@ import App from '../src/App';
 import manifest from '../build/asset-manifest.json';
 
 // LOADER
-export default (req, res) => {
+export default (req: $Request, res: $Response) => {
   /*
     A simple helper function to prepare the HTML markup. This loads:
       - Page title
