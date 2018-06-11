@@ -48,7 +48,6 @@ injectGlobal`
 
   * {
     -ms-overflow-style: none;  /* IE 10+ */
-    overflow: -moz-scrollbars-none;  /* Firefox */
   }
   *::-webkit-scrollbar { 
       display: none;  /* Safari and Chrome */
