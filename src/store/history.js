@@ -1,15 +1,16 @@
 // @flow
 import { map } from 'lodash';
-import createHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 
 import { blockChainPaths, blockChainDetailPaths, tokenPaths, tokenDetailPaths, miscPaths } from '../components/Layout';
 
+// 不同导航 Tab 的路径名
 const blockChainPath = map([...blockChainPaths, ...blockChainDetailPaths], 'route');
 const tokenPath = map([...tokenPaths, ...tokenDetailPaths], 'route');
 const miscPath = map(miscPaths, 'route');
 
-export const history = createHistory();
+// 用于判断当前是否在 SSR
+export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
 type Store = {
   navTab: string,
@@ -43,6 +44,7 @@ export default (initialState: Object = {}) => ({
       // set URI query string
       const {
         store: { getState },
+        history,
       } = await import('./');
       const state = getState();
       if (window.location.pathname === '/blocks/') {
@@ -80,8 +82,7 @@ export default (initialState: Object = {}) => ({
   },
 });
 
-history.location.state = {};
-async function followURI(location) {
+export async function followURI(location) {
   const {
     store: { dispatch },
   } = await import('./');
@@ -104,12 +105,3 @@ async function followURI(location) {
     }
   }
 }
-history.listen(async location => {
-  await followURI(location);
-
-  const {
-    store: { dispatch },
-  } = await import('./');
-  dispatch.history.updateNavTab();
-});
-followURI(history.location);
