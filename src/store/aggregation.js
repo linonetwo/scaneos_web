@@ -2,10 +2,10 @@
 import get from '../API.config';
 
 export type AggregationData = {
-  blocksNum: number,
-  transactionNum: number,
-  accountNum: number,
-  messageNum: number,
+  blockNumber: number,
+  transactionNumber: number,
+  accountNumber: number,
+  actionNumber: number,
 };
 
 export type Store = {
@@ -14,10 +14,10 @@ export type Store = {
 };
 
 export const emptyAggregationData: AggregationData = {
-  blocksNum: 0,
-  transactionNum: 0,
-  accountNum: 0,
-  messageNum: 0,
+  blockNumber: 0,
+  transactionNumber: 0,
+  accountNumber: 0,
+  actionNumber: 0,
 };
 const defaultState = {
   loading: false,
@@ -40,7 +40,6 @@ export default (initialState?: Object = {}) => ({
   },
   effects: {
     async getAggregationData() {
-      return;
       const {
         store: { dispatch },
       } = await import('./');
@@ -49,9 +48,9 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const [blocksNum, transactionNum, accountNum, messageNum] = await get('/stats');
+        const { blockNumber, transactionNumber, accountNumber = 0, actionNumber } = await get('/stats');
 
-        this.initAggregationData({ blocksNum, transactionNum, accountNum, messageNum });
+        this.initAggregationData({ blockNumber, transactionNumber, accountNumber, actionNumber });
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
