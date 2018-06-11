@@ -7,16 +7,19 @@ import type { $Request, $Response } from 'express';
 // React requirements
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import Helmet from 'react-helmet';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import { Frontload, frontloadServerRender } from 'react-frontload';
 import Loadable from 'react-loadable';
+import { I18nextProvider } from 'react-i18next';
 
 // Our store, entrypoint, and manifest
 import createStore from '../src/store/configureStore';
 import App from '../src/App';
 import manifest from '../build/asset-manifest.json';
+import i18n from '../src/i18n';
 
 // LOADER
 export default (req: $Request, res: $Response) => {
@@ -27,10 +30,11 @@ export default (req: $Request, res: $Response) => {
       - Preloaded state (for Redux) depending on the current route
       - Code-split script tags depending on the current route
   */
-  const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
+  const injectHTML = (data, { html, title, meta, style, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`);
     data = data.replace(/<title>.*?<\/title>/g, title);
     data = data.replace('</head>', `${meta}</head>`);
+    data = data.replace('</head>', `${style}</head>`);
     data = data.replace(
       '<div id="root"></div>',
       `<div id="root">${body}</div><script>window.__PRELOADED_STATE__ = ${state}</script>`,
@@ -68,19 +72,26 @@ export default (req: $Request, res: $Response) => {
         data for that page. We take all that information and compute the appropriate state to send to the user. This is
         then loaded into the correct components and sent as a Promise to be handled below.
       */
-    frontloadServerRender(() =>
-      renderToString(
+    frontloadServerRender(() => {
+      const sheet = new ServerStyleSheet();
+      const body = renderToString(
         <Loadable.Capture report={m => modules.push(m)}>
-          <Provider store={store}>
-            <StaticRouter location={req.url} context={context}>
-              <Frontload isServer>
-                <App />
-              </Frontload>
-            </StaticRouter>
-          </Provider>
+          <I18nextProvider i18n={i18n}>
+            <Provider store={store}>
+              <StaticRouter location={req.url} context={context}>
+                <Frontload isServer>
+                  <StyleSheetManager sheet={sheet.instance}>
+                    <App />
+                  </StyleSheetManager>
+                </Frontload>
+              </StaticRouter>
+            </Provider>
+          </I18nextProvider>
         </Loadable.Capture>,
-      ),
-    ).then(routeMarkup => {
+      );
+      const style = sheet.getStyleTags();
+      return { body, style };
+    }).then(({ body, style }) => {
       if (context.url) {
         // If context has a url property, then we need to handle a redirection in Redux Router
         res.writeHead(302, {
@@ -114,7 +125,8 @@ export default (req: $Request, res: $Response) => {
           html: helmet.htmlAttributes.toString(),
           title: helmet.title.toString(),
           meta: helmet.meta.toString(),
-          body: routeMarkup,
+          body,
+          style,
           scripts: extraChunks,
           state: JSON.stringify(store.getState()).replace(/</g, '\\u003c'),
         });
