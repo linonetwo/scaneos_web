@@ -462,7 +462,7 @@
     "@babel/helper-plugin-utils" "7.0.0-beta.42"
     "@babel/plugin-syntax-class-properties" "7.0.0-beta.42"
 
-"@babel/plugin-proposal-do-expressions@^7.0.0-beta.46":
+"@babel/plugin-proposal-do-expressions@^7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "http://registry.npm.taobao.org/@babel/plugin-proposal-do-expressions/download/@babel/plugin-proposal-do-expressions-7.0.0-beta.49.tgz#24cc13df5d499cf2ca34ac48d443b553a660e178"
   dependencies:
@@ -497,7 +497,7 @@
     "@babel/helper-plugin-utils" "7.0.0-beta.49"
     "@babel/plugin-syntax-optional-catch-binding" "7.0.0-beta.49"
 
-"@babel/plugin-proposal-optional-chaining@^7.0.0-beta.47":
+"@babel/plugin-proposal-optional-chaining@^7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "http://registry.npm.taobao.org/@babel/plugin-proposal-optional-chaining/download/@babel/plugin-proposal-optional-chaining-7.0.0-beta.49.tgz#d6e1757fdd439a62b84faf2a851e822a18e2b42c"
   dependencies:
@@ -553,6 +553,12 @@
   resolved "http://registry.npm.taobao.org/@babel/plugin-syntax-dynamic-import/download/@babel/plugin-syntax-dynamic-import-7.0.0-beta.42.tgz#90257d90098e2c9c2f49054269039eccd8bddd34"
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.42"
+
+"@babel/plugin-syntax-dynamic-import@^7.0.0-beta.42", "@babel/plugin-syntax-dynamic-import@^7.0.0-beta.49":
+  version "7.0.0-beta.49"
+  resolved "http://registry.npm.taobao.org/@babel/plugin-syntax-dynamic-import/download/@babel/plugin-syntax-dynamic-import-7.0.0-beta.49.tgz#f0af7ac6b53676a496093d4a6e2a2ec655c07b78"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.49"
 
 "@babel/plugin-syntax-flow@7.0.0-beta.42":
   version "7.0.0-beta.42"
@@ -900,7 +906,7 @@
     "@babel/helper-annotate-as-pure" "7.0.0-beta.42"
     "@babel/helper-plugin-utils" "7.0.0-beta.42"
 
-"@babel/plugin-transform-react-constant-elements@^7.0.0-beta.39", "@babel/plugin-transform-react-constant-elements@^7.0.0-beta.46":
+"@babel/plugin-transform-react-constant-elements@^7.0.0-beta.39", "@babel/plugin-transform-react-constant-elements@^7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "http://registry.npm.taobao.org/@babel/plugin-transform-react-constant-elements/download/@babel/plugin-transform-react-constant-elements-7.0.0-beta.49.tgz#79fbfa9f5ce669a83e2f00d9d46d0639e72b3ad1"
   dependencies:
@@ -919,7 +925,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.49"
 
-"@babel/plugin-transform-react-inline-elements@^7.0.0-beta.46":
+"@babel/plugin-transform-react-inline-elements@^7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "http://registry.npm.taobao.org/@babel/plugin-transform-react-inline-elements/download/@babel/plugin-transform-react-inline-elements-7.0.0-beta.49.tgz#a450808cd2c17448646c1d13f3d776630b89a535"
   dependencies:
@@ -1113,7 +1119,7 @@
     invariant "^2.2.2"
     semver "^5.3.0"
 
-"@babel/preset-env@^7.0.0-beta.39":
+"@babel/preset-env@^7.0.0-beta.39", "@babel/preset-env@^7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "http://registry.npm.taobao.org/@babel/preset-env/download/@babel/preset-env-7.0.0-beta.49.tgz#4a8a8b92139f51fa2f90fbf6f1fad7597532aebc"
   dependencies:
@@ -1184,6 +1190,18 @@
     "@babel/plugin-transform-react-jsx" "7.0.0-beta.49"
     "@babel/plugin-transform-react-jsx-self" "7.0.0-beta.49"
     "@babel/plugin-transform-react-jsx-source" "7.0.0-beta.49"
+
+"@babel/register@^7.0.0-beta.49":
+  version "7.0.0-beta.49"
+  resolved "http://registry.npm.taobao.org/@babel/register/download/@babel/register-7.0.0-beta.49.tgz#57e823a5062e3ddd25548398e9f5077c17991f08"
+  dependencies:
+    core-js "^2.5.6"
+    find-cache-dir "^1.0.0"
+    home-or-tmp "^3.0.0"
+    lodash "^4.17.5"
+    mkdirp "^0.5.1"
+    pirates "^3.0.1"
+    source-map-support "^0.4.2"
 
 "@babel/runtime@7.0.0-beta.42":
   version "7.0.0-beta.42"
@@ -1911,6 +1929,12 @@ babel-plugin-closure-elimination@^1.3.0:
   version "1.3.0"
   resolved "http://registry.npm.taobao.org/babel-plugin-closure-elimination/download/babel-plugin-closure-elimination-1.3.0.tgz#3217fbf6d416dfdf14ff41a8a34e4d0a6bfc22b2"
 
+babel-plugin-dynamic-import-node-babel-7@^2.0.7:
+  version "2.0.7"
+  resolved "http://registry.npm.taobao.org/babel-plugin-dynamic-import-node-babel-7/download/babel-plugin-dynamic-import-node-babel-7-2.0.7.tgz#e778a8edb17488b472aa058ec451f1e75da4c0ec"
+  dependencies:
+    "@babel/plugin-syntax-dynamic-import" "^7.0.0-beta.42"
+
 babel-plugin-flow-runtime@^0.17.0:
   version "0.17.0"
   resolved "http://registry.npm.taobao.org/babel-plugin-flow-runtime/download/babel-plugin-flow-runtime-0.17.0.tgz#51d7b2e6a526edc48fad8d8eed45bf7cc32ffc08"
@@ -1969,10 +1993,6 @@ babel-plugin-preval@^1.6.2:
 babel-plugin-syntax-decorators@^6.1.18:
   version "6.13.0"
   resolved "http://registry.npm.taobao.org/babel-plugin-syntax-decorators/download/babel-plugin-syntax-decorators-6.13.0.tgz#312563b4dbde3cc806cee3e416cceeaddd11ac0b"
-
-babel-plugin-syntax-dynamic-import@^6.18.0:
-  version "6.18.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-syntax-dynamic-import/download/babel-plugin-syntax-dynamic-import-6.18.0.tgz#8d6a26229c83745a9982a441051572caa179b1da"
 
 babel-plugin-syntax-object-rest-spread@^6.13.0:
   version "6.13.0"
@@ -3049,7 +3069,7 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.0.0, core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3:
+core-js@^2.0.0, core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3, core-js@^2.5.6:
   version "2.5.7"
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
@@ -5473,6 +5493,10 @@ home-or-tmp@^2.0.0:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.1"
 
+home-or-tmp@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/home-or-tmp/download/home-or-tmp-3.0.0.tgz#57a8fe24cf33cdd524860a15821ddc25c86671fb"
+
 homedir-polyfill@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/homedir-polyfill/download/homedir-polyfill-1.0.1.tgz#4c2bbc8a758998feebf5ed68580f76d46768b4bc"
@@ -6812,13 +6836,6 @@ load-json-file@^2.0.0:
     pify "^2.0.0"
     strip-bom "^3.0.0"
 
-loadable-components@^2.2.2:
-  version "2.2.2"
-  resolved "http://registry.npm.taobao.org/loadable-components/download/loadable-components-2.2.2.tgz#0362f5d6d0607f5d9bcc7932c7cdba6f256cbd46"
-  dependencies:
-    babel-plugin-syntax-dynamic-import "^6.18.0"
-    hoist-non-react-statics "^2.5.0"
-
 loader-fs-cache@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/loader-fs-cache/download/loader-fs-cache-1.0.1.tgz#56e0bf08bd9708b26a765b68509840c8dec9fdbc"
@@ -7522,6 +7539,10 @@ node-libs-browser@^2.0.0:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
+node-modules-regexp@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/node-modules-regexp/download/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
+
 node-notifier@^5.2.1:
   version "5.2.1"
   resolved "http://registry.npm.taobao.org/node-notifier/download/node-notifier-5.2.1.tgz#fa313dd08f5517db0e2502e5758d664ac69f9dea"
@@ -8086,6 +8107,12 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "http://registry.npm.taobao.org/pinkie/download/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
+pirates@^3.0.1:
+  version "3.0.2"
+  resolved "http://registry.npm.taobao.org/pirates/download/pirates-3.0.2.tgz#7e6f85413fd9161ab4e12b539b06010d85954bb9"
+  dependencies:
+    node-modules-regexp "^1.0.0"
+
 pkg-dir@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/pkg-dir/download/pkg-dir-1.0.0.tgz#7a4b508a8d5bb2d629d447056ff4e9c9314cf3d4"
@@ -8487,7 +8514,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@15.x, "prop-types@^0.14.9 || ^15.3.0 || ^16.0.0", prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1:
+prop-types@15.x, "prop-types@^0.14.9 || ^15.3.0 || ^16.0.0", prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.1"
   resolved "http://registry.npm.taobao.org/prop-types/download/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -9221,6 +9248,12 @@ react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
+react-frontload@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/react-frontload/download/react-frontload-1.0.1.tgz#9e3e4bacbc63ca41e84f699214a651861dab3176"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-helmet@^5.2.0:
   version "5.2.0"
   resolved "http://registry.npm.taobao.org/react-helmet/download/react-helmet-5.2.0.tgz#a81811df21313a6d55c5f058c4aeba5d6f3d97a7"
@@ -9254,6 +9287,12 @@ react-lazy-load@^3.0.12:
 react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "http://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+
+react-loadable@^5.4.0:
+  version "5.4.0"
+  resolved "http://registry.npm.taobao.org/react-loadable/download/react-loadable-5.4.0.tgz#3b6b7d51121a7868fd155be848a36e02084742c9"
+  dependencies:
+    prop-types "^15.5.0"
 
 react-map-gl@^3.2.8:
   version "3.2.8"
@@ -10270,7 +10309,7 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.4.15:
+source-map-support@^0.4.15, source-map-support@^0.4.2:
   version "0.4.18"
   resolved "http://registry.npm.taobao.org/source-map-support/download/source-map-support-0.4.18.tgz#0286a6de8be42641338594e97ccea75f0a2c585f"
   dependencies:

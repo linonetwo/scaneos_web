@@ -59,7 +59,7 @@ export default (initialState?: Object = {}) => ({
       const {
         store: { getState, dispatch },
       } = await import('./');
-      const { history } = await import('./history');
+      const { history } = await import('./');
       const {
         search: { keyWord },
       } = await getState();

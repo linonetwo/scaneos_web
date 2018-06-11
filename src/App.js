@@ -1,54 +1,63 @@
 // @flow
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
-import { I18nextProvider, translate } from 'react-i18next';
+import { translate } from 'react-i18next';
 import { Helmet } from 'react-helmet';
-import loadable from 'loadable-components';
+import Loadable from 'react-loadable';
 
-import { store, history } from './store';
-import i18n from './i18n';
+import { store } from './store';
 
 import Header, { Footer } from './components/Layout';
 import Loading from './components/Loading';
-import ScrollToTop from './components/ScrollToTop';
 
-const Block = loadable(() => import('./pages/Block'), {
-  LoadingComponent: Loading,
+const Block = Loadable({
+  loader: () => import('./pages/Block'),
+  loading: Loading,
 });
-const Blocks = loadable(() => import('./pages/Blocks'), {
-  LoadingComponent: Loading,
+const Blocks = Loadable({
+  loader: () => import('./pages/Blocks'),
+  loading: Loading,
 });
-const Transaction = loadable(() => import('./pages/Transaction'), {
-  LoadingComponent: Loading,
+const Transaction = Loadable({
+  loader: () => import('./pages/Transaction'),
+  loading: Loading,
 });
-const Transactions = loadable(() => import('./pages/Transactions'), {
-  LoadingComponent: Loading,
+const Transactions = Loadable({
+  loader: () => import('./pages/Transactions'),
+  loading: Loading,
 });
-const Account = loadable(() => import('./pages/Account'), {
-  LoadingComponent: Loading,
+const Account = Loadable({
+  loader: () => import('./pages/Account'),
+  loading: Loading,
 });
-const Accounts = loadable(() => import('./pages/Accounts'), {
-  LoadingComponent: Loading,
+const Accounts = Loadable({
+  loader: () => import('./pages/Accounts'),
+  loading: Loading,
 });
-const Message = loadable(() => import('./pages/Message'), {
-  LoadingComponent: Loading,
+const Message = Loadable({
+  loader: () => import('./pages/Message'),
+  loading: Loading,
 });
-const Messages = loadable(() => import('./pages/Messages'), {
-  LoadingComponent: Loading,
+const Messages = Loadable({
+  loader: () => import('./pages/Messages'),
+  loading: Loading,
 });
-const Home = loadable(() => import('./pages/Home'), {
-  LoadingComponent: Loading,
+const Home = Loadable({
+  loader: () => import('./pages/Home'),
+  loading: Loading,
 });
-const BlockProducers = loadable(() => import('./pages/BlockProducers'), {
-  LoadingComponent: Loading,
+const BlockProducers = Loadable({
+  loader: () => import('./pages/BlockProducers'),
+  loading: Loading,
 });
-const UnderDevelopment = loadable(() => import('./pages/UnderDevelopment'), {
-  LoadingComponent: Loading,
+const UnderDevelopment = Loadable({
+  loader: () => import('./pages/UnderDevelopment'),
+  loading: Loading,
 });
-const About = loadable(() => import('./pages/About'), {
-  LoadingComponent: Loading,
+const About = Loadable({
+  loader: () => import('./pages/About'),
+  loading: Loading,
 });
 
 function Title(props: { t: Function }) {
@@ -68,33 +77,25 @@ export default class App extends Component<{}> {
   }
   render() {
     return (
-      <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <Router history={history}>
-            <ScrollToTop>
-              <Layout>
-                <DynamicTitle />
-                <Header />
-                <Switch>
-                  <Route exact path="/blocks" component={Blocks} />
-                  <Route exact path="/block/:blockNum" component={Block} />
-                  <Route exact path="/transaction/:transactionId" component={Transaction} />
-                  <Route exact path="/transactions" component={Transactions} />
-                  <Route exact path="/account/:accountId" component={Account} />
-                  <Route exact path="/accounts" component={Accounts} />
-                  <Route exact path="/message/:transactionId" component={Message} />
-                  <Route exact path="/messages" component={Messages} />
-                  <Route exact path="/producers" component={BlockProducers} />
-                  <Route exact path="/about" component={About} />
-                  <Route exact path="/" component={Home} />
-                  <Route component={UnderDevelopment} />
-                </Switch>
-                <Footer />
-              </Layout>
-            </ScrollToTop>
-          </Router>
-        </Provider>
-      </I18nextProvider>
+      <Layout>
+        <DynamicTitle />
+        <Header />
+        <Switch>
+          <Route exact path="/blocks" component={Blocks} />
+          <Route exact path="/block/:blockNum" component={Block} />
+          <Route exact path="/transaction/:transactionId" component={Transaction} />
+          <Route exact path="/transactions" component={Transactions} />
+          <Route exact path="/account/:accountId" component={Account} />
+          <Route exact path="/accounts" component={Accounts} />
+          <Route exact path="/message/:transactionId" component={Message} />
+          <Route exact path="/messages" component={Messages} />
+          <Route exact path="/producers" component={BlockProducers} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/" component={Home} />
+          <Route component={UnderDevelopment} />
+        </Switch>
+        <Footer />
+      </Layout>
     );
   }
 }
