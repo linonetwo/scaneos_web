@@ -1,11 +1,12 @@
 // @flow
 import { Component } from 'react';
 import { withRouter } from 'react-router';
+import { scrollTop } from '../store/utils'
 
 class ScrollToTop extends Component<*> {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
+      scrollTop();
     }
   }
 

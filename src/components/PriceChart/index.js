@@ -97,6 +97,9 @@ function PriceChart(props: { data: number[][], t: Function }) {
       },
     },
   ];
+  if (typeof window === 'undefined') {
+    global.window = {};
+  }
   return (
     <PriceChartContainer column center>
       <Title justifyBetween alignCenter>

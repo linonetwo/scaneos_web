@@ -19,7 +19,7 @@
   "env": {
     "es6": true,
     "node": true,
-    "browser": true,
+    "browser": false,
     "jest/globals": true
   },
   "rules": {
@@ -46,6 +46,7 @@
     "react/no-multi-comp": "off",
     "no-param-reassign": "off",
     "no-restricted-syntax": "off",
+    "no-undef": ["error", { "typeof": false }],
     "max-len": "off",
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
@@ -57,9 +58,5 @@
         "aspects": ["noHref", "invalidHref", "preferButton"]
       }
     ]
-  },
-  "globals": {
-    "window": true,
-    "document": true
   }
 }

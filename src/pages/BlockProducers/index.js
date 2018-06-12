@@ -9,6 +9,7 @@ import { Table } from 'antd';
 import AutoLinkText from 'react-autolink-text2';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../../API.config';
@@ -34,6 +35,7 @@ type Props = {
   width?: number,
   height?: number,
   t: Function,
+  location: Location,
 };
 type Store = {};
 type Dispatch = {
@@ -54,21 +56,27 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
     popupInfo: null,
   };
 
+  /* eslint-disable no-undef */
   componentDidMount() {
-    window.addEventListener('resize', this.onResize);
+    if (typeof window !== 'undefined') window.addEventListener('resize', this.onResize);
     this.onResize();
   }
-
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
+    if (typeof window !== 'undefined') window.removeEventListener('resize', this.onResize);
   }
-
   onResize = () => {
+    let width = 0;
+    let height = 0;
+    if (typeof window !== 'undefined') {
+      width = window.innerWidth * 0.9;
+      height = window.innerHeight * 0.9 - 100;
+    }
+    /* eslint-disable no-undef */
     this.setState({
       viewport: {
         ...this.state.viewport,
-        width: window.innerWidth * 0.9,
-        height: window.innerHeight * 0.9 - 100,
+        width,
+        height,
       },
     });
   };
@@ -152,7 +160,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
           <Table
             size="middle"
             dataSource={blockProducersList}
-            pagination={{ pageSize: 10, current: Number(queryString.parse(window.location.search).page) }}
+            pagination={{ pageSize: 10, current: Number(queryString.parse(this.props.location.search).page) }}
             scroll={{ x: 2500 }}
             onChange={pagination => {
               this.props.updateURI({ page: pagination.current });
@@ -239,9 +247,11 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
 }
 
 const mapDispatch = ({ history: { updateURI } }): Dispatch => ({ updateURI });
-export default translate()(
-  connect(
-    undefined,
-    mapDispatch,
-  )(BlockProducers),
+export default withRouter(
+  translate()(
+    connect(
+      undefined,
+      mapDispatch,
+    )(BlockProducers),
+  ),
 );

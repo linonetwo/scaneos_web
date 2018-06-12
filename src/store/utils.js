@@ -1,9 +1,26 @@
+/* global window, document */
 // @flow
 import { format, distanceInWordsToNow } from 'date-fns';
 import en from 'date-fns/locale/en';
 import zh from 'date-fns/locale/zh_cn';
 
 const locales = { en, zh };
+
+/** 用于判断当前是否在 SSR */
+export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
+export function getInitialStateFromServer() {
+  // Do we have preloaded state available? Great, save it.
+  const initialStateFromServer = !isServer ? window.__PRELOADED_STATE__ : {};
+  // Delete it once we have it stored in a variable
+  if (!isServer) {
+    delete window.__PRELOADED_STATE__;
+  }
+  return initialStateFromServer;
+}
+
+export function scrollTop() {
+  if (typeof window !== 'undefined') window.scrollTo(0, 0);
+}
 
 export function formatTimeStamp(
   timeStamp?: number | string | null,
@@ -36,17 +53,17 @@ const rowHeight = 46;
 export const titleHeight = rowHeight;
 const paginationHeight = 64;
 export const getDisplayAreaHeight = () => {
-  if (typeof document !== 'undefined') {
+  if (!isServer) {
     if (document.documentElement) {
       return document.documentElement.clientHeight;
     }
-  } else if (typeof window !== 'undefined') {
     return window.innerHeight;
   }
   return 600;
 };
 export const getTableHeight = () => getDisplayAreaHeight() - navHeight - paginationHeight;
-export const getPageSize = () => Math.floor(getTableHeight() / rowHeight) - 1;
+/** 根据屏幕高度和每行高度等信息，建议适合加载几条数据，最少 6 条，以便首页有数据 */
+export const getPageSize = () => Math.max(Math.floor(getTableHeight() / rowHeight) - 1, 6);
 
 export function locationBelongsToArea(location: string, area: string) {
   if (area === 'Asia') {

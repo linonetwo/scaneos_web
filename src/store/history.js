@@ -9,9 +9,6 @@ const blockChainPath = map([...blockChainPaths, ...blockChainDetailPaths], 'rout
 const tokenPath = map([...tokenPaths, ...tokenDetailPaths], 'route');
 const miscPath = map(miscPaths, 'route');
 
-// 用于判断当前是否在 SSR
-export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
-
 type Store = {
   navTab: string,
 };
@@ -27,9 +24,10 @@ export default (initialState: Object = {}) => ({
     },
   },
   effects: {
+    /** set nav tab heightlight */
     async updateNavTab() {
-      // set nav tab heightlight
-      const mainPath = window.location.pathname.split('/')?.[1];
+      const { history } = await import('./');
+      const mainPath = history.location.pathname.split('/')?.[1];
       if (blockChainPath.includes(mainPath)) {
         this.changeNavTab('blockChain');
       } else if (tokenPath.includes(mainPath)) {
@@ -40,40 +38,40 @@ export default (initialState: Object = {}) => ({
         this.changeNavTab(mainPath || 'home');
       }
     },
+    /** set URI query string */
     async updateURI(queryOverride?: Object) {
-      // set URI query string
       const {
         store: { getState },
         history,
       } = await import('./');
       const state = getState();
-      if (window.location.pathname === '/blocks/') {
+      if (history.location.pathname === '/blocks/') {
         const query = queryString.stringify({
-          ...queryString.parse(window.location.search),
+          ...queryString.parse(history.location.search),
           page: state.block.pagination.current,
         });
         history.push(`/blocks/?${query}`, { isAction: true });
-      } else if (window.location.pathname === '/transactions/') {
+      } else if (history.location.pathname === '/transactions/') {
         const query = queryString.stringify({
-          ...queryString.parse(window.location.search),
+          ...queryString.parse(history.location.search),
           page: state.transaction.pagination.current,
         });
         history.push(`/transactions/?${query}`, { isAction: true });
-      } else if (window.location.pathname === '/accounts/') {
+      } else if (history.location.pathname === '/accounts/') {
         const query = queryString.stringify({
-          ...queryString.parse(window.location.search),
+          ...queryString.parse(history.location.search),
           page: state.account.pagination.current,
         });
         history.push(`/accounts/?${query}`, { isAction: true });
-      } else if (window.location.pathname === '/messages/') {
+      } else if (history.location.pathname === '/messages/') {
         const query = queryString.stringify({
-          ...queryString.parse(window.location.search),
+          ...queryString.parse(history.location.search),
           page: state.message.pagination.current,
         });
         history.push(`/messages/?${query}`, { isAction: true });
-      } else if (window.location.pathname === '/producers/') {
+      } else if (history.location.pathname === '/producers/') {
         const query = queryString.stringify({
-          ...queryString.parse(window.location.search),
+          ...queryString.parse(history.location.search),
           ...queryOverride,
         });
         history.push(`/producers/?${query}`, { isAction: true });
@@ -82,7 +80,7 @@ export default (initialState: Object = {}) => ({
   },
 });
 
-export async function followURI(location: { pathname: string, search?: string, state: Object }) {
+export async function followURI(location: { pathname: string, search?: string, state: any }) {
   const {
     store: { dispatch },
   } = await import('./');
