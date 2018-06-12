@@ -518,7 +518,6 @@ export default translate()(
     mapDispatch,
   )(
     frontloadConnect(frontload, {
-      onMount: true,
       onUpdate: false,
     })(OverviewList),
   ),

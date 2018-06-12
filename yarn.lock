@@ -1346,9 +1346,9 @@
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/@mapbox/whoots-js/download/@mapbox/whoots-js-3.0.0.tgz#c1de4293081424da3ac30c23afa850af1019bb54"
 
-"@rematch/core@^1.0.0-alpha.5":
-  version "1.0.0-alpha.7"
-  resolved "http://registry.npm.taobao.org/@rematch/core/download/@rematch/core-1.0.0-alpha.7.tgz#81a7988062a776ef48a4bc3a16353e6e0b8f62f0"
+"@rematch/core@^1.0.0-alpha.9":
+  version "1.0.0-alpha.9"
+  resolved "http://registry.npm.taobao.org/@rematch/core/download/@rematch/core-1.0.0-alpha.9.tgz#428974bd41a8361e714e9e0a58d4f83e157bfc6f"
   dependencies:
     redux "4.0.0"
 
@@ -3155,6 +3155,13 @@ create-react-class@15.x, create-react-class@^15.5.2, create-react-class@^15.5.3,
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
+
+cross-fetch@^2.2.1:
+  version "2.2.1"
+  resolved "http://registry.npm.taobao.org/cross-fetch/download/cross-fetch-2.2.1.tgz#96c859104d75defc967fb5db62474e75426b02b0"
+  dependencies:
+    node-fetch "2.1.2"
+    whatwg-fetch "2.0.4"
 
 cross-spawn@5.1.0, cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
@@ -7495,6 +7502,10 @@ no-case@^2.2.0:
 no-scroll@^2.1.1:
   version "2.1.1"
   resolved "http://registry.npm.taobao.org/no-scroll/download/no-scroll-2.1.1.tgz#f37e08cb159b75a5bdbfc0a87cd9223e120e6e27"
+
+node-fetch@2.1.2:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/node-fetch/download/node-fetch-2.1.2.tgz#ab884e8e7e57e38a944753cec706f788d1768bb5"
 
 node-fetch@^1.0.1, node-fetch@^1.3.3:
   version "1.7.3"
@@ -11865,7 +11876,7 @@ whatwg-fetch@2.0.3:
   version "2.0.3"
   resolved "http://registry.npm.taobao.org/whatwg-fetch/download/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
 
-whatwg-fetch@>=0.10.0:
+whatwg-fetch@2.0.4, whatwg-fetch@>=0.10.0:
   version "2.0.4"
   resolved "http://registry.npm.taobao.org/whatwg-fetch/download/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
 

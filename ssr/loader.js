@@ -14,6 +14,7 @@ import { StaticRouter } from 'react-router';
 import { Frontload, frontloadServerRender } from 'react-frontload';
 import Loadable from 'react-loadable';
 import { I18nextProvider } from 'react-i18next';
+import 'cross-fetch/polyfill';
 
 // Our store, entrypoint, and manifest
 import createStore from '../src/store/configureStore';
@@ -78,13 +79,13 @@ export default (req: $Request, res: $Response) => {
         <Loadable.Capture report={m => modules.push(m)}>
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
-              <StaticRouter location={req.url} context={context}>
-                <Frontload isServer>
-                  <StyleSheetManager sheet={sheet.instance}>
+              <StyleSheetManager sheet={sheet.instance}>
+                <StaticRouter location={req.url} context={context}>
+                  <Frontload isServer>
                     <App />
-                  </StyleSheetManager>
-                </Frontload>
-              </StaticRouter>
+                  </Frontload>
+                </StaticRouter>
+              </StyleSheetManager>
             </Provider>
           </I18nextProvider>
         </Loadable.Capture>,

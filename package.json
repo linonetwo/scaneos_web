@@ -34,10 +34,11 @@
     "puppeteerExecutablePath": "/usr/bin/chromium-browser"
   },
   "dependencies": {
-    "@rematch/core": "^1.0.0-alpha.5",
+    "@rematch/core": "^1.0.0-alpha.9",
     "@rematch/immer": "^1.0.2",
     "antd": "^3.6.1",
     "camelize": "^1.0.0",
+    "cross-fetch": "^2.2.1",
     "date-fns": "^1.29.0",
     "echarts": "^4.1.0",
     "ethereumjs-abi": "^0.6.5",

@@ -13,24 +13,34 @@ import historyModel, { isServer } from './history';
 import priceModel from './price';
 
 const immer = immerPlugin();
-const configureStore = ({
-  searchInitialState,
-  infoInitialState,
-  blockInitialState,
-  historyInitialState,
-  url = '/',
-  transactionInitialState,
-  accountInitialState,
-  messageInitialState,
-  aggregationInitialState,
-  priceInitialState,
-} = {}) => {
+const configureStore = (initialState = {}) => {
+  // Do we have preloaded state available? Great, save it.
+  const initialStateFromServer = !isServer ? window.__PRELOADED_STATE__ : {};
+  // Delete it once we have it stored in a variable
+  if (!isServer) {
+    delete window.__PRELOADED_STATE__;
+  }
+
+  const {
+    searchInitialState,
+    infoInitialState,
+    blockInitialState,
+    historyInitialState,
+    url = '/',
+    transactionInitialState,
+    accountInitialState,
+    messageInitialState,
+    aggregationInitialState,
+    priceInitialState,
+  } = { initialState, ...initialStateFromServer };
+
   const history = isServer
     ? createMemoryHistory({
         initialEntries: [url],
       })
     : createBrowserHistory();
   history.location.state = {};
+
   return {
     store: init({
       models: {
