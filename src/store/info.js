@@ -1,6 +1,7 @@
 // @flow
 import { notification } from 'antd';
 import i18n from '../i18n';
+import { isServer } from './utils';
 
 type Store = { loading: boolean };
 export default (initialState: Object = {}) => ({
@@ -13,7 +14,7 @@ export default (initialState: Object = {}) => ({
   },
   effects: {
     displayNotification(message: string) {
-      notification.open({ message });
+      if (!isServer) notification.open({ message });
     },
     changeLanguage(newLanguage: string) {
       i18n.changeLanguage(newLanguage);
