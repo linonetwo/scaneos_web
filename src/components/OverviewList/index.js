@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import breakpoint from 'styled-components-breakpoint';
 import numeral from 'numeral';
+import { frontloadConnect } from 'react-frontload';
 
 import { formatTimeStamp } from '../../store/utils';
 import type { BlockData } from '../../store/block';
@@ -195,15 +196,6 @@ type Dispatch = {
   getPriceData: () => void,
 };
 class OverviewList extends Component<Props & Store & Dispatch> {
-  componentDidMount() {
-    this.props.getBlocksList();
-    this.props.getTransactionsList();
-    this.props.getAccountsList();
-    this.props.getMessagesList();
-    this.props.getAggregationData();
-    this.props.getPriceData();
-  }
-
   getAggregationList(data: {
     loading: boolean,
     data: AggregationData,
@@ -509,9 +501,25 @@ const mapDispatch = ({
   getAggregationData,
   getPriceData,
 });
+
+const frontload = async (props: Dispatch) =>
+  Promise.all([
+    props.getBlocksList(),
+    props.getTransactionsList(),
+    // props.getAccountsList(),
+    props.getMessagesList(),
+    props.getAggregationData(),
+    props.getPriceData(),
+  ]);
+
 export default translate()(
   connect(
     mapState,
     mapDispatch,
-  )(OverviewList),
+  )(
+    frontloadConnect(frontload, {
+      onMount: true,
+      onUpdate: false,
+    })(OverviewList),
+  ),
 );
