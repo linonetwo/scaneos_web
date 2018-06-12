@@ -214,7 +214,6 @@ export default i18n
           netWeight: '带宽权重',
           cpuWeight: 'CPU权重',
           totalResources: '拥有的资源总量',
-          accountName: '账户名',
         },
         countdown: {
           Days: '天',

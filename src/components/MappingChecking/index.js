@@ -54,4 +54,4 @@ function MappingChecking(props: { t: Function }) {
   );
 }
 
-export default translate(['translations', 'mappingChecking'])(MappingChecking);
+export default translate()(MappingChecking);
