@@ -1,5 +1,4 @@
 // @flow
-import { initial } from 'lodash';
 import get from '../API.config';
 import type { Pagination } from './block';
 

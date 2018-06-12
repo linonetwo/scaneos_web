@@ -371,16 +371,13 @@ class OverviewList extends Component<Props & Store & Dispatch> {
           renderItem={(item: AccountData) => (
             <List.Item
               actions={[
-                <Link to={`/account/${item.name}/`}>
-                  {this.props.t('name')}: {item.name}
+                <Link to={`/account/${item.accountName}/`}>
+                  {this.props.t('accountName')}: {item.accountName}
                 </Link>,
               ]}
             >
               <div>
-                {this.props.t('createdAt')}: {formatTimeStamp(item.createdAt, this.props.t('locale'))}
-              </div>
-              <div>
-                {this.props.t('updatedAt')}: {formatTimeStamp(item.updatedAt, this.props.t('locale'))}
+                {this.props.t('createdAt')}: {formatTimeStamp(item.created, this.props.t('locale'))}
               </div>
             </List.Item>
           )}
