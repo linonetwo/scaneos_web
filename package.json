@@ -10,28 +10,8 @@
     "serve": "NODE_ENV=production node ./ssr/index.js",
     "test": "yarn clear:babel-cache && react-app-rewired test --env=jsdom",
     "docker-build": "docker build . -t scaneos_web",
-    "docker-run": "docker run --rm --name scaneos_web -p 80:80 -p 443:443 scaneos_web",
+    "docker-run": "docker run --rm --name scaneos_web -p 3000:3000 scaneos_web",
     "eject": "react-scripts eject"
-  },
-  "reactSnap": {
-    "puppeteerArgs": [
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-      "--lang=zh-CN"
-    ],
-    "concurrency": 1,
-    "include": [
-      "/",
-      "/about/",
-      "/blocks/",
-      "/transactions/",
-      "/accounts/",
-      "/messages/",
-      "/producers/"
-    ],
-    "crawl": false,
-    "inlineCss": true,
-    "puppeteerExecutablePath": "/usr/bin/chromium-browser"
   },
   "dependencies": {
     "@rematch/core": "^1.0.0-alpha.9",
