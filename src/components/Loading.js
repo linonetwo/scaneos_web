@@ -13,7 +13,7 @@ const Container = styled.div`
 
 function Loading(props: { t: Function }) {
   return (
-    <Container center>
+    <Container center column>
       <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
       <p>{props.t('LoadingModule')}</p>
     </Container>
