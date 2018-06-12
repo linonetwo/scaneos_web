@@ -27,7 +27,7 @@ register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
 // Set up babel to do its thing... env for the latest toys, react-app for CRA
 // Notice three plugins: the first two allow us to use import rather than require, the third is for code splitting
 require('@babel/register')({
-  ignore: [/\/build\//, /\/node_modules(?![\\/]react-echarts-v3[\\/]src[\\/])/],
+  ignore: [/\/build\//, /\/node_modules(?![\\/](react-echarts-v3|antd|rc-.+)[\\/])/],
   presets: ['@babel/env', 'react-app'],
   plugins: [
     'transform-decorators-legacy',
@@ -39,8 +39,7 @@ require('@babel/register')({
     'closure-elimination',
     '@babel/plugin-transform-react-inline-elements',
     '@babel/plugin-transform-react-constant-elements',
-    // ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
-    // ['import', { libraryName: 'react-echarts-v3', libraryDirectory: 'src' }, 'import-react-echarts-v3'],
+    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
   ],
 });
 
