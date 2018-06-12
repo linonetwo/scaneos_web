@@ -3,12 +3,12 @@ import BrowserLanguageDetector from 'i18next-browser-languagedetector';
 import { LanguageDetector } from 'i18next-express-middleware';
 import { reactI18nextModule } from 'react-i18next';
 
+import { isServer } from './store/utils';
 import logoIconEn from './logoIcon-en.png';
 import logoIconZh from './logoIcon-zh.png';
 
 export default i18n
-  .use(LanguageDetector)
-  .use(BrowserLanguageDetector)
+  .use(isServer ? LanguageDetector : BrowserLanguageDetector)
   .use(reactI18nextModule)
   .init({
     preload: ['en', 'zh-CN'],
