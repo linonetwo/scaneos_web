@@ -90,7 +90,7 @@ export default i18n
           FriendLinks: 'Links',
           mappingCheckingPassed: 'EOS registration verification passed',
           thisSite: 'About This Site',
-          webSiteTitle: 'Scan EOS | A Globally Professional EOS BlockChain Browser',
+          webSiteTitle: 'EOS BlockChain Browser | A Globally Professional EOS data viewing and analysing platform - Scan EOS',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -195,7 +195,7 @@ export default i18n
           About: '关于我们',
           'more...': '查看更多',
           thisSite: '关于本站',
-          webSiteTitle: 'Scan EOS | 全球专业的EOS区块链浏览器',
+          webSiteTitle: 'EOS 区块链浏览器 | 全球专业的EOS数据查看分析平台 - Scan EOS',
           LoadingModule: '模块加载中',
           status: '状态',
           pending: '等待',
