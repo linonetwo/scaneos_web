@@ -8,7 +8,7 @@ import { translate } from 'react-i18next';
 import { Icon, Spin } from 'antd';
 import Loadable from 'react-loadable';
 
-import { Title as ATitle } from '../OverviewList/styles';
+import { Title as ATitle } from '../../pages/Home/styles';
 import { isServer } from '../../store/utils';
 
 const Container = styled(Flex)`

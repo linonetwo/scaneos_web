@@ -2,9 +2,10 @@
 import React from 'react';
 import { Spin, Icon } from 'antd';
 import styled from 'styled-components';
+import Flex from 'styled-flex-component';
 import { translate } from 'react-i18next';
 
-const Container = styled.div`
+const Container = styled(Flex)`
   width: 100vw;
   height: calc(100vh - 64px);
   text-align: center;
