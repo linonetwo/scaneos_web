@@ -1,5 +1,5 @@
 // @flow
-import { initial } from 'lodash';
+import { find, size } from 'lodash';
 import type { Pagination } from './block';
 import get, { postEOS } from '../API.config';
 
@@ -67,6 +67,7 @@ export type AccountData = {
 export type Store = {
   loading: boolean,
   data: AccountData,
+  producerInfo: Object | null,
   list: AccountData[],
   pagination: Pagination,
 };
@@ -107,6 +108,7 @@ export const defaultState = {
   loading: false,
   list: [],
   data: emptyAccountData,
+  producerInfo: null,
   pagination: { current: 0, total: 1 },
 };
 export default (initialState?: Object = {}) => ({
@@ -121,6 +123,10 @@ export default (initialState?: Object = {}) => ({
     },
     initAccountsList(state: Store, list: AccountData[]) {
       state.list = list;
+      return state;
+    },
+    initProducerInfo(state: Store, producerInfo: Object | null) {
+      state.producerInfo = producerInfo;
       return state;
     },
     initAccountData(state: Store, data: AccountData) {
@@ -147,6 +153,13 @@ export default (initialState?: Object = {}) => ({
 
         if (!data) throw new Error('No data.');
         this.initAccountData(data);
+        const { default: blockProducersList } = await import('../pages/BlockProducers/blockProducersList');
+        const producerInfo = find(blockProducersList, { account: data.accountName });
+        if (size(producerInfo) > 0) {
+          this.initProducerInfo(producerInfo);
+        } else {
+          this.initProducerInfo(null);
+        }
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

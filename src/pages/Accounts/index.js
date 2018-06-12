@@ -4,6 +4,7 @@ import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { frontloadConnect } from 'react-frontload';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
 import type { AccountData } from '../../store/account';
@@ -16,7 +17,6 @@ type Props = {
 type Store = {
   list: AccountData[],
   pagination: Pagination,
-  currentPage: number,
   loading: boolean,
 };
 type Dispatch = {
@@ -79,9 +79,21 @@ const mapState = ({ account: { list, pagination, currentPage }, info: { loading 
 const mapDispatch = ({ account: { getAccountsList } }): Dispatch => ({
   getAccountsList,
 });
+const frontload = async (props: Store & Dispatch) => {
+  // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
+  if (!props.loading && props.list.length === 0) {
+    return props.getAccountsList();
+  }
+  return Promise.resolve();
+};
+
 export default translate()(
   connect(
     mapState,
     mapDispatch,
-  )(Accounts),
+  )(
+    frontloadConnect(frontload, {
+      onUpdate: false,
+    })(Accounts),
+  ),
 );

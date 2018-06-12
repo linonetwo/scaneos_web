@@ -5,6 +5,7 @@ import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import { frontloadConnect } from 'react-frontload';
 
 import { getBreadcrumb } from '../../components/Layout';
 import type { MessageData } from '../../store/message';
@@ -12,11 +13,6 @@ import { LongListContainer, DetailTabsContainer } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
-  match: {
-    params: {
-      transactionId: string,
-    },
-  },
   t: Function,
 };
 type Store = {
@@ -27,12 +23,8 @@ type Dispatch = {
   getMessageData: (transactionID: string) => void,
 };
 
-class Message extends Component<Props & Store & Dispatch, *> {
+class Message extends Component<Props & Store, *> {
   state = {};
-  componentDidMount() {
-    const currentTransactionID = String(this.props.match.params.transactionId);
-    this.props.getMessageData(currentTransactionID);
-  }
 
   render() {
     return (
@@ -92,11 +84,28 @@ class Message extends Component<Props & Store & Dispatch, *> {
 
 const mapState = ({ message: { listByTransaction }, info: { loading } }): Store => ({ listByTransaction, loading });
 const mapDispatch = ({ message: { getMessageData } }): Dispatch => ({ getMessageData });
+
+type LoaderProps = Dispatch & {
+  match: {
+    params: {
+      transactionId: string,
+    },
+  },
+};
+const frontload = async (props: LoaderProps) => {
+  const currentTransactionID = String(props.match.params.transactionId);
+  return props.getMessageData(currentTransactionID);
+};
+
 export default withRouter(
   translate()(
     connect(
       mapState,
       mapDispatch,
-    )(Message),
+    )(
+      frontloadConnect(frontload, {
+        onUpdate: false,
+      })(Message),
+    ),
   ),
 );

@@ -112,6 +112,7 @@ export default (initialState?: Object = {}) => ({
         const data = await get(`/blocks?block_num=${blockNum}`);
 
         this.initBlockData(data);
+        dispatch.transaction.getTransactionsListInBlock(data.blockId);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

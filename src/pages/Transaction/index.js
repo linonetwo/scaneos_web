@@ -5,6 +5,7 @@ import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import { frontloadConnect } from 'react-frontload';
 
 import { getBreadcrumb } from '../../components/Layout';
 import type { TransactionData } from '../../store/transaction';
@@ -13,47 +14,39 @@ import { LongListContainer, DetailTabsContainer, NoData } from '../../components
 import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
-  match: {
-    params: {
-      transactionId: string,
-    },
-  },
   t: Function,
 };
 type Store = {
   data: TransactionData,
   messages: MessageData[],
-  loading: boolean,
+  transactionLoading: boolean,
+  messageLoading: boolean,
 };
 type Dispatch = {
   getTransactionData: (transactionId: string) => void,
   getMessageData: (transactionId: string) => void,
 };
 
-class Transaction extends Component<Props & Store & Dispatch, *> {
+class Transaction extends Component<Props & Store, *> {
   state = {};
-  componentDidMount() {
-    const currentTransactionId = String(this.props.match.params.transactionId);
-    this.props.getTransactionData(currentTransactionId);
-    this.props.getMessageData(currentTransactionId);
-  }
 
   render() {
     return (
       <Fragment>
         {getBreadcrumb('transaction', this.props.t)}
-        <Spin tip="Connecting" spinning={this.props.loading} size="large">
-          <DetailTabsContainer>
-            <Tabs defaultActiveKey="2">
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="solution" />
-                    {this.props.t('Messages')}
-                  </span>
-                }
-                key="1"
-              >
+
+        <DetailTabsContainer>
+          <Tabs defaultActiveKey="2">
+            <Tabs.TabPane
+              tab={
+                <span>
+                  <Icon type="solution" />
+                  {this.props.t('Messages')}
+                </span>
+              }
+              key="1"
+            >
+              <Spin tip="Connecting" spinning={this.props.transactionLoading || this.props.messageLoading} size="large">
                 {this.props.messages.length > 0 ? (
                   this.props.messages.map(data => (
                     <LongListContainer column>
@@ -80,17 +73,19 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
                 ) : (
                   <NoData>No Actions.</NoData>
                 )}
-              </Tabs.TabPane>
+              </Spin>
+            </Tabs.TabPane>
 
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="database" />
-                    {this.props.t('Overview')}
-                  </span>
-                }
-                key="2"
-              >
+            <Tabs.TabPane
+              tab={
+                <span>
+                  <Icon type="database" />
+                  {this.props.t('Overview')}
+                </span>
+              }
+              key="2"
+            >
+              <Spin tip="Connecting" spinning={this.props.transactionLoading} size="large">
                 <LongListContainer column>
                   <Table
                     size="middle"
@@ -106,43 +101,66 @@ class Transaction extends Component<Props & Store & Dispatch, *> {
                     />
                   </Table>
                 </LongListContainer>
-              </Tabs.TabPane>
+              </Spin>
+            </Tabs.TabPane>
 
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="file-text" />
-                    {this.props.t('Raw')}
-                  </span>
-                }
-                key="3"
-              >
+            <Tabs.TabPane
+              tab={
+                <span>
+                  <Icon type="file-text" />
+                  {this.props.t('Raw')}
+                </span>
+              }
+              key="3"
+            >
+              <Spin tip="Connecting" spinning={this.props.transactionLoading} size="large">
                 <pre>
                   <code>{JSON.stringify(this.props.data, null, '  ')}</code>
                 </pre>
-              </Tabs.TabPane>
-            </Tabs>
-          </DetailTabsContainer>
-        </Spin>
+              </Spin>
+            </Tabs.TabPane>
+          </Tabs>
+        </DetailTabsContainer>
       </Fragment>
     );
   }
 }
 
-const mapState = ({ transaction: { data }, message: { listByTransaction }, info: { loading } }): Store => ({
+const mapState = ({
+  transaction: { loading: transactionLoading, data },
+  message: { loading: messageLoading, listByTransaction },
+}): Store => ({
   data,
   messages: listByTransaction,
-  loading,
+  transactionLoading,
+  messageLoading,
 });
 const mapDispatch = ({ transaction: { getTransactionData }, message: { getMessageData } }): Dispatch => ({
   getTransactionData,
   getMessageData,
 });
+
+type LoaderProps = Dispatch & {
+  match: {
+    params: {
+      transactionId: string,
+    },
+  },
+};
+const frontload = async (props: LoaderProps) => {
+  const currentTransactionId = String(props.match.params.transactionId);
+  return Promise.all([props.getTransactionData(currentTransactionId), props.getMessageData(currentTransactionId)]);
+};
+
 export default withRouter(
   translate()(
     connect(
       mapState,
       mapDispatch,
-    )(Transaction),
+    )(
+      frontloadConnect(frontload, {
+        onUpdate: false,
+      })(Transaction),
+    ),
   ),
 );

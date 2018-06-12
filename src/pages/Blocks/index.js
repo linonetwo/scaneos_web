@@ -4,6 +4,7 @@ import { Spin, Table } from 'antd';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { frontloadConnect } from 'react-frontload';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
 import type { BlockData, Pagination } from '../../store/block';
@@ -23,13 +24,6 @@ type Dispatch = {
 
 class Blocks extends Component<Props & Store & Dispatch, *> {
   state = {};
-
-  componentDidMount() {
-    // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
-    if (!this.props.loading && this.props.list.length === 0) {
-      this.props.getBlocksList();
-    }
-  }
 
   render() {
     return (
@@ -89,9 +83,21 @@ const mapState = ({ block: { list, pagination }, info: { loading } }): Store => 
 const mapDispatch = ({ block: { getBlocksList } }): Dispatch => ({
   getBlocksList,
 });
+const frontload = async (props: Store & Dispatch) => {
+  // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
+  if (!props.loading && props.list.length === 0) {
+    return props.getBlocksList();
+  }
+  return Promise.resolve();
+};
+
 export default translate()(
   connect(
     mapState,
     mapDispatch,
-  )(Blocks),
+  )(
+    frontloadConnect(frontload, {
+      onUpdate: false,
+    })(Blocks),
+  ),
 );

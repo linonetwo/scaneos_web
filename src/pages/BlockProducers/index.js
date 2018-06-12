@@ -8,8 +8,7 @@ import MapGL, { Marker, Popup, NavigationControl } from 'react-map-gl';
 import { Table } from 'antd';
 import AutoLinkText from 'react-autolink-text2';
 import queryString from 'query-string';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import blockProducersList from './blockProducersList';
 import { MAPBOX_TOKEN } from '../../API.config';
