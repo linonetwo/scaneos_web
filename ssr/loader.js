@@ -20,7 +20,6 @@ import 'cross-fetch/polyfill';
 import createStore from '../src/store/configureStore';
 import App from '../src/App';
 import manifest from '../build/asset-manifest.json';
-import i18n from '../src/i18n';
 
 // LOADER
 export default (req: $Request, res: $Response) => {
@@ -77,7 +76,7 @@ export default (req: $Request, res: $Response) => {
       const sheet = new ServerStyleSheet();
       const body = renderToString(
         <Loadable.Capture report={m => modules.push(m)}>
-          <I18nextProvider i18n={i18n}>
+          <I18nextProvider i18n={req.i18n}>
             <Provider store={store}>
               <StyleSheetManager sheet={sheet.instance}>
                 <StaticRouter location={req.url} context={context}>
