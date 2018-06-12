@@ -34,11 +34,16 @@ export default (req: $Request, res: $Response) => {
     data = data.replace('<html>', `<html ${html}>`);
     data = data.replace(/<title>.*?<\/title>/g, title);
     data = data.replace('</head>', `${meta}</head>`);
-    data = data.replace('</head>', `${style}</head>`);
+    data = data.replace(
+      '</head>',
+      `<link rel="stylesheet" href="https://cdn.bootcss.com/antd/3.6.1/antd.css" />
+        ${style}
+      </head>
+    `,
+    );
     data = data.replace(
       '<div id="root"></div>',
       `<div id="root">${body}</div>
-      <link rel="stylesheet" href="https://cdn.bootcss.com/antd/3.6.1/antd.css" />
       <script>window.__PRELOADED_STATE__ = ${state}</script>`,
     );
     data = data.replace('</body>', `${scripts.join('')}</body>`);
