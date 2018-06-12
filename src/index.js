@@ -13,7 +13,6 @@ import i18n from './i18n';
 import AppRoutes from './App';
 
 import registerServiceWorker from './registerServiceWorker';
-import './globalStyle';
 
 const Application = (
   <I18nextProvider i18n={i18n}>

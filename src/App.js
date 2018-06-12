@@ -11,6 +11,7 @@ import { store } from './store';
 import Header, { Footer } from './components/Layout';
 import Loading from './components/Loading';
 import ScrollToTop from './components/ScrollToTop';
+import GlobalStyles from './GlobalStyles'
 
 const Block = Loadable({
   loader: () => import('./pages/Block'),
@@ -80,6 +81,7 @@ export default class App extends Component<{}> {
     return (
       <ScrollToTop>
         <Layout>
+          <GlobalStyles />
           <DynamicTitle />
           <Header />
           <Switch>
