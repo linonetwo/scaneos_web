@@ -22,6 +22,9 @@
     "browser": false,
     "jest/globals": true
   },
+  "globals": {
+    "fetch": true
+  },
   "rules": {
     "comma-dangle": 1,
     "arrow-parens": ["off"],
