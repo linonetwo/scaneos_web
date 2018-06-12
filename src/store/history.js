@@ -82,7 +82,7 @@ export default (initialState: Object = {}) => ({
   },
 });
 
-export async function followURI(location: { pathname: string, search?: string, state?: { isAction?: boolean } }) {
+export async function followURI(location: { pathname: string, search?: string, state: Object }) {
   const {
     store: { dispatch },
   } = await import('./');
