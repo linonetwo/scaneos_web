@@ -45,7 +45,7 @@ app.use(loader);
 
 // We tell React Loadable to load all required assets and start listening - ROCK AND ROLL!
 Loadable.preloadAll().then(() => {
-  app.listen(PORT, console.log(`App listening on port ${PORT}!`));
+  app.listen(PORT, console.log(`App listening on port ${PORT}!\nhttp://localhost:3000/`));
 });
 
 // Handle the bugs somehow
