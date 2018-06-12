@@ -1,36 +1,18 @@
 /* eslint-disable no-control-regex */
 // @flow
 import { find } from 'lodash';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
-import { Input, Icon } from 'antd';
+import { Input } from 'antd';
 import abi from 'ethereumjs-abi';
 import web3 from 'web3';
 import { Link } from 'react-router-dom';
 
-import { Title as ATitle } from './OverviewList/styles';
-import { postEOS } from '../API.config';
-import type { AccountData } from '../store/account';
+import { postEOS } from '../../API.config';
+import type { AccountData } from '../../store/account';
 
-const Container = styled(Flex)`
-  height: 250px;
-  padding: 20px;
-
-  width: 90vw;
-  margin: 30px auto 0;
-  ${breakpoint('desktop')`
-    width: 500px;
-    margin: 30px 0 0;
-  `};
-
-  background-color: white;
-
-  box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
-`;
-const Title = styled(ATitle)``;
 const InputGroup = styled(Flex)`
   height: 80px;
   width: 100%;
@@ -76,7 +58,7 @@ async function getEOSOwnerAddressByEOSAccount(account: string) {
   return find(data.permissions, { permName: 'owner' })?.requiredAuth?.keys?.[0]?.key;
 }
 
-class MappingChecking extends Component<{ t: Function }, *> {
+class ABIQueryInputs extends Component<{ t: Function }, *> {
   state = {
     ethAddress: '',
     eosAddress: '',
@@ -97,12 +79,7 @@ class MappingChecking extends Component<{ t: Function }, *> {
 
   render() {
     return (
-      <Container column alignCenter justifyBetween>
-        <Title justifyBetween alignCenter>
-          <span>
-            <Icon type="check-square-o" /> {this.props.t('MappingChecker')}
-          </span>
-        </Title>
+      <Fragment>
         <InputGroup column justifyBetween>
           <Input
             value={this.state.eosAccount}
@@ -143,9 +120,9 @@ class MappingChecking extends Component<{ t: Function }, *> {
               )}
           </span>
         </Result>
-      </Container>
+      </Fragment>
     );
   }
 }
 
-export default translate(['translations', 'mappingChecking'])(MappingChecking);
+export default translate(['translations', 'mappingChecking'])(ABIQueryInputs);
