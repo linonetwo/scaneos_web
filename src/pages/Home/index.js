@@ -27,8 +27,10 @@ import MappingChecking from '../../components/MappingChecking';
 
 const Container = styled(Flex)`
   width: 1100px;
+  min-height: calc(100vh - 64px);
   padding-bottom: 50px;
   margin: auto;
+  text-align: center;
 `;
 const AggregationContainer = styled(Flex)`
   width: 90vw;
