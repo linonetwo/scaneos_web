@@ -34,6 +34,12 @@ require('@babel/register')({
     '@babel/plugin-syntax-dynamic-import',
     'dynamic-import-node-babel-7',
     'react-loadable/babel',
+    [
+      'babel-plugin-styled-components',
+      {
+        ssr: true,
+      },
+    ],
     '@babel/plugin-proposal-do-expressions',
     '@babel/plugin-proposal-optional-chaining',
     'closure-elimination',
