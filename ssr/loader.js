@@ -83,17 +83,17 @@ export default (req: $Request, res: $Response) => {
       const sheet = new ServerStyleSheet();
       const body = renderToString(
         <Loadable.Capture report={m => modules.push(m)}>
-          <I18nextProvider i18n={req.i18n}>
-            <Provider store={store}>
-              <StyleSheetManager sheet={sheet.instance}>
+          <StyleSheetManager sheet={sheet.instance}>
+            <I18nextProvider i18n={req.i18n}>
+              <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
                   <Frontload isServer>
                     <App />
                   </Frontload>
                 </StaticRouter>
-              </StyleSheetManager>
-            </Provider>
-          </I18nextProvider>
+              </Provider>
+            </I18nextProvider>
+          </StyleSheetManager>
         </Loadable.Capture>,
       );
       const style = sheet.getStyleTags();
