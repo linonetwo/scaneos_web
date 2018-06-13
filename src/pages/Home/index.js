@@ -446,6 +446,7 @@ class Home extends Component<Props & Store> {
   }
 
   render() {
+    console.log(this.props.aggregationData?.blockNumber)
     return (
       <Container alignCenter justifyAround wrap="true">
         {this.getAggregationList({
@@ -512,8 +513,8 @@ const frontload = async (props: Dispatch & Store) =>
     props.transactionData.length === 0 && props.getTransactionsList(),
     // props.getAccountsList(),
     props.messageData.length === 0 && props.getMessagesList(),
-    props.aggregationData?.blockNumber && props.getAggregationData(),
-    props.priceChartData.length > 0 && props.getPriceData(),
+    props.aggregationData?.blockNumber || props.getAggregationData(),
+    props.priceChartData.length === 0 && props.getPriceData(),
   ]);
 
 export default translate()(
