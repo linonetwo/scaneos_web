@@ -18,16 +18,16 @@ const configureStore = (initialState = {}) => {
   const initialStateFromServer = getInitialStateFromServer();
 
   const {
-    searchInitialState,
-    infoInitialState,
-    blockInitialState,
-    historyInitialState,
+    search: searchInitialState,
+    info: infoInitialState,
+    block: blockInitialState,
+    transaction: transactionInitialState,
+    account: accountInitialState,
     url = '/',
-    transactionInitialState,
-    accountInitialState,
-    messageInitialState,
-    aggregationInitialState,
-    priceInitialState,
+    message: messageInitialState,
+    aggregation: aggregationInitialState,
+    history: historyInitialState,
+    price: priceInitialState,
   } = { initialState, ...initialStateFromServer };
 
   const history = isServer

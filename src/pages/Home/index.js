@@ -506,14 +506,14 @@ const mapDispatch = ({
   getPriceData,
 });
 
-const frontload = async (props: Dispatch) =>
+const frontload = async (props: Dispatch & Store) =>
   Promise.all([
-    props.getBlocksList(),
-    props.getTransactionsList(),
+    props.blockData.length === 0 && props.getBlocksList(),
+    props.transactionData.length === 0 && props.getTransactionsList(),
     // props.getAccountsList(),
-    props.getMessagesList(),
-    props.getAggregationData(),
-    props.getPriceData(),
+    props.messageData.length === 0 && props.getMessagesList(),
+    props.aggregationData?.blockNumber && props.getAggregationData(),
+    props.priceChartData.length > 0 && props.getPriceData(),
   ]);
 
 export default translate()(
