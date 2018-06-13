@@ -12,6 +12,7 @@ import Header, { Footer } from './components/Layout';
 import Loading from './components/Loading';
 import ScrollToTop from './components/ScrollToTop';
 import './GlobalStyles';
+import Home from './pages/Home';
 
 const Block = Loadable({
   loader: () => import('./pages/Block'),
@@ -43,10 +44,6 @@ const Message = Loadable({
 });
 const Messages = Loadable({
   loader: () => import('./pages/Messages'),
-  loading: Loading,
-});
-const Home = Loadable({
-  loader: () => import('./pages/Home'),
   loading: Loading,
 });
 const BlockProducers = Loadable({
