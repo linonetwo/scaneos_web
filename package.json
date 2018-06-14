@@ -14,10 +14,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.51",
     "@rematch/core": "^1.0.0-alpha.9",
     "@rematch/immer": "^1.0.2",
     "antd": "^3.6.2",
     "camelize": "^1.0.0",
+    "core-js": "^2.5.7",
     "cross-fetch": "^2.2.1",
     "date-fns": "^1.29.0",
     "echarts": "^4.1.0",
@@ -33,6 +35,7 @@
     "morgan": "^1.9.0",
     "no-scroll": "^2.1.1",
     "numeral": "^2.0.6",
+    "object-assign": "^4.1.1",
     "object-fit-images": "^3.2.3",
     "preval.macro": "^1.0.2",
     "react": "^16.4.0",

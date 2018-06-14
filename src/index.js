@@ -13,6 +13,7 @@ import i18n from './i18n';
 import AppRoutes from './App';
 
 import { unregister } from './registerServiceWorker';
+import './polyfills';
 
 const Application = (
   <I18nextProvider i18n={i18n}>
