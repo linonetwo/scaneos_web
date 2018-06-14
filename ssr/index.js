@@ -46,6 +46,7 @@ require('@babel/register')({
     '@babel/plugin-transform-react-inline-elements',
     '@babel/plugin-transform-react-constant-elements',
     ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
+    'lodash',
   ],
 });
 
