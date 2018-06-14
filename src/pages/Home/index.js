@@ -461,11 +461,11 @@ class Home extends Component<Props & Store> {
           data: take(this.props.transactionData, 6),
           loading: this.props.transactionLoading,
         })}
-        {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
         {this.getAccountList({
           data: take(this.props.producerAccountList.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes)), 10),
           loading: this.props.accountLoading,
         })}
+        {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
       </Container>
     );
   }

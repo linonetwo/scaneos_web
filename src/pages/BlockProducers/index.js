@@ -34,7 +34,7 @@ type Props = {
   width?: number,
   height?: number,
   t: Function,
-  location: Location,
+  location: Object,
 };
 type Store = {};
 type Dispatch = {
