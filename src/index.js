@@ -12,7 +12,7 @@ import i18n from './i18n';
 
 import AppRoutes from './App';
 
-// import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 const Application = (
   <I18nextProvider i18n={i18n}>
@@ -34,4 +34,4 @@ if (root.hasChildNodes()) {
 } else {
   render(Application, root);
 }
-// registerServiceWorker();
+unregister();
