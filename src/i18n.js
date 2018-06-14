@@ -106,7 +106,7 @@ export default i18n
           locale: 'zh',
           Locale: '语言',
           webSiteIntroduction:
-            'ScanEOS 是全球首个专注于 EOS 生态的专业区块链浏览器和数据分析平台。我们坚信 EOS 将会改变这个世界。我们希望能为 EOS 生态的壮大贡献自己的一份力量。',
+            'ScanEOS 是全球首个专注于 EOS 生态的专业区块链浏览器和数据分析平台。我们坚信 EOS 将会改变这个世界。ScanEOS 希望能为 EOS 生态的壮大贡献自己的一份力量。',
           Id: 'ID',
           type: '类型',
           timestamp: '时间戳',
