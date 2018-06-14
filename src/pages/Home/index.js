@@ -23,7 +23,7 @@ import type { CurrentPriceData } from '../../store/price';
 import { Title } from './styles';
 
 import PriceChart from '../../components/PriceChart';
-import MappingChecking from '../../components/MappingChecking';
+import VotingProgress from '../../components/VotingProgress';
 
 const Container = styled(Flex)`
 
@@ -193,6 +193,7 @@ type Store = {
   aggregationData: AggregationData,
   currentPriceData: CurrentPriceData,
   priceChartData: number[][],
+  totalActivatedStake: number,
 };
 type Dispatch = {
   getBlocksList: (size?: number) => void,
@@ -201,6 +202,7 @@ type Dispatch = {
   getMessagesList: (page?: number) => void,
   getAggregationData: () => void,
   getPriceData: () => void,
+  getVoting: () => void,
 };
 class Home extends Component<Props & Store> {
   getAggregationList(data: {
@@ -446,7 +448,6 @@ class Home extends Component<Props & Store> {
   }
 
   render() {
-    console.log(this.props.aggregationData?.blockNumber)
     return (
       <Container alignCenter justifyAround wrap="true">
         {this.getAggregationList({
@@ -456,7 +457,7 @@ class Home extends Component<Props & Store> {
           currentPriceData: this.props.currentPriceData,
         })}
         <PriceChart data={this.props.priceChartData} />
-        <MappingChecking />
+        <VotingProgress totalActivatedStake={this.props.totalActivatedStake} />
         {this.getBlockList({ data: take(this.props.blockData, 6), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 6),
@@ -474,7 +475,7 @@ const mapState = ({
   transaction: { loading: transactionLoading, list: transactionData },
   account: { loading: accountLoading, list: accountData },
   message: { loading: messageLoading, listByTime: messageData },
-  aggregation: { loading: aggregationLoading, data: aggregationData },
+  aggregation: { loading: aggregationLoading, data: aggregationData, totalActivatedStake },
   price: { loading: priceLoading, currentPriceData, priceChartData },
 }): Store => ({
   blockData,
@@ -490,13 +491,14 @@ const mapState = ({
   priceLoading,
   currentPriceData,
   priceChartData,
+  totalActivatedStake,
 });
 const mapDispatch = ({
   block: { getBlocksList },
   transaction: { getTransactionsList },
   account: { getAccountsList },
   message: { getMessagesList },
-  aggregation: { getAggregationData },
+  aggregation: { getAggregationData, getVoting },
   price: { getPriceData },
 }): Dispatch => ({
   getBlocksList,
@@ -505,6 +507,7 @@ const mapDispatch = ({
   getMessagesList,
   getAggregationData,
   getPriceData,
+  getVoting,
 });
 
 const frontload = async (props: Dispatch & Store) =>
@@ -515,6 +518,7 @@ const frontload = async (props: Dispatch & Store) =>
     props.messageData.length === 0 && props.getMessagesList(),
     props.aggregationData?.blockNumber || props.getAggregationData(),
     props.priceChartData.length === 0 && props.getPriceData(),
+    props.getVoting(),
   ]);
 
 export default translate()(

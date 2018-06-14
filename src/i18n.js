@@ -91,6 +91,10 @@ export default i18n
           mappingCheckingPassed: 'EOS registration verification passed',
           thisSite: 'About This Site',
           webSiteTitle: 'EOS BlockChain Browser | A Globally Professional EOS data viewing and analysing platform - Scan EOS',
+          VotingProgress: 'EOS Voting Progress',
+          EOSVotes: 'EOS Votes',
+          MinimumVotesRequired: 'Minimum Votes Required',
+          TotalEOSSupply: 'Total EOS Supply',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -214,6 +218,10 @@ export default i18n
           netWeight: '带宽权重',
           cpuWeight: 'CPU权重',
           totalResources: '拥有的资源总量',
+          VotingProgress: 'EOS投票进度',
+          EOSVotes: 'EOS投票量',
+          MinimumVotesRequired: '主网启动所需最小投票量',
+          TotalEOSSupply: '全网EOS总量',
         },
         countdown: {
           Days: '天',
