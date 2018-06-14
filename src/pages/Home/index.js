@@ -448,13 +448,13 @@ class Home extends Component<Props & Store> {
   render() {
     return (
       <Container alignCenter justifyAround wrap="true">
-        <VotingProgress totalActivatedStake={this.props.totalActivatedStake} />
         {this.getAggregationList({
           data: this.props.aggregationData,
           loading: this.props.aggregationLoading,
           priceLoading: this.props.priceLoading,
           currentPriceData: this.props.currentPriceData,
         })}
+        <VotingProgress totalActivatedStake={this.props.totalActivatedStake} />
         <PriceChart data={this.props.priceChartData} />
         {this.getBlockList({ data: take(this.props.blockData, 6), loading: this.props.blockLoading })}
         {this.getTransactionList({
