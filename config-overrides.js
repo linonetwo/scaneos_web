@@ -1,5 +1,6 @@
 const { injectBabelPlugin } = require('react-app-rewired');
 const rewireLess = require('react-app-rewire-less');
+const StatsWebpackPlugin = require('stats-webpack-plugin');
 const path = require('path');
 const fs = require('fs');
 
@@ -44,8 +45,10 @@ module.exports = function override(config, env) {
     },
   };
 
-  config.module.rules[1].oneOf[2].include.push(path.join(resolveApp('node_modules'), 'react-echarts-v3/src'))
+  config.module.rules[1].oneOf[2].include.push(path.join(resolveApp('node_modules'), 'react-echarts-v3/src'));
   config.module.rules[1].oneOf[2].exclude = /node_modules(?![\\/]react-echarts-v3[\\/]src[\\/])/;
+
+  config.plugins.push(new StatsWebpackPlugin('stats.json', { chunkModules: true }));
 
   return config;
 };

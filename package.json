@@ -90,7 +90,8 @@
     "react-cosmos-fetch-proxy": "^4.4.0",
     "react-cosmos-redux-proxy": "^4.4.0",
     "react-cosmos-router-proxy": "^4.4.0",
-    "react-snap": "^1.13.0"
+    "react-snap": "^1.13.0",
+    "stats-webpack-plugin": "^0.6.2"
   },
   "browserslist": {
     "development": [
