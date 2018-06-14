@@ -5,7 +5,7 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is from 'styled-is';
-import { Layout, Menu, Dropdown, Icon, Breadcrumb } from 'antd';
+import { Layout, Menu, Dropdown, Icon, Breadcrumb, Modal } from 'antd';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { withRouter, Link } from 'react-router-dom';
@@ -13,6 +13,9 @@ import breakpoint from 'styled-components-breakpoint';
 import noScroll from 'no-scroll';
 
 import SearchBar from '../SearchBar';
+import 微信公众号 from './微信公众号.jpg';
+import 运营个人微信号 from './运营个人微信号.jpg';
+import 知识星球 from './知识星球.png';
 
 const HeaderContainer = styled.div`
   height: 64px;
@@ -469,6 +472,21 @@ const FooterItem = styled(Flex)`
 `};
 `;
 const Introduction = styled(Flex)``;
+const ContactLinks = styled(Flex)`
+  & div {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    & span {
+      color: #3498db;
+    }
+  }
+`;
+const ContactImage = styled.img`
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  font-family: 'object-fit: contain; object-position: center;';
+`;
 
 const FooterTitle = styled.h3`
   color: white;
@@ -508,31 +526,119 @@ const friendLinks = [
   { name: 'EOSeoul', homepage: 'http://eoseoul.io/' },
   { name: 'EOS TEA', homepage: 'https://node.eosfans.io/' },
 ];
-export const Footer = translate()((props: { t: Function }) => (
-  <FooterContainer>
-    <Layout.Footer>
-      <FooterItem column>
-        <FooterTitle>
-          <TitleDecorator>{props.t('introduction')}</TitleDecorator>
-        </FooterTitle>
-        <Introduction>{props.t('webSiteIntroduction')}</Introduction>
-        <Link to="/about/">{props.t('moreAboutScanEOS')}</Link>
-      </FooterItem>
-      <FooterItem column>
-        <FooterTitle>
-          <TitleDecorator>{props.t('FriendLinks')}</TitleDecorator>
-        </FooterTitle>
-        <FriendLinks column wrap="true">
-          {friendLinks.map(({ name, homepage }) => (
-            <FriendLink key={name} href={homepage} target="_black" rel="noopener noreferrer">
-              {name}
-            </FriendLink>
-          ))}
-        </FriendLinks>
-      </FooterItem>
-    </Layout.Footer>
-  </FooterContainer>
-));
+@translate()
+export class Footer extends Component<{ t: Function }, *> {
+  state = {
+    knowledgePlanetModelOpen: false,
+    weixinModelOpen: false,
+  };
+  render() {
+    return (
+      <FooterContainer>
+        <Modal
+          title="知识星球"
+          visible={this.state.knowledgePlanetModelOpen}
+          onOk={() => this.setState({ knowledgePlanetModelOpen: false })}
+          onCancel={() => this.setState({ knowledgePlanetModelOpen: false })}
+        >
+          <ContactImage src={知识星球} alt="scanEOS社区的知识星球" />
+        </Modal>
+        <Modal
+          title="微信"
+          visible={this.state.weixinModelOpen}
+          onOk={() => this.setState({ weixinModelOpen: false })}
+          onCancel={() => this.setState({ weixinModelOpen: false })}
+        >
+          <h4>微信公众号</h4>
+          <ContactImage src={微信公众号} alt="scaneos社区的微信公众号" />
+          <h4>运营个人微信号</h4>
+          <ContactImage src={运营个人微信号} alt="scaneos社区的运营个人微信号" />
+        </Modal>
+        <Layout.Footer>
+          <FooterItem column>
+            <FooterTitle>
+              <TitleDecorator>{this.props.t('introduction')}</TitleDecorator>
+            </FooterTitle>
+            <Introduction>{this.props.t('webSiteIntroduction')}</Introduction>
+            <Link to="/about/">{this.props.t('moreAboutScanEOS')}</Link>
+          </FooterItem>
+          <FooterItem column>
+            <FooterTitle>
+              <TitleDecorator>{this.props.t('contact')}</TitleDecorator>
+            </FooterTitle>
+            {this.props.t('locale') === 'zh' ? (
+              <ContactLinks column>
+                <div>
+                  知识星球:{' '}
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => this.setState({ knowledgePlanetModelOpen: true })}
+                    onKeyDown={() => this.setState({ knowledgePlanetModelOpen: true })}
+                  >
+                    scanEOS社区
+                  </span>
+                </div>
+                <div>
+                  微信公众号:{' '}
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => this.setState({ weixinModelOpen: true })}
+                    onKeyDown={() => this.setState({ weixinModelOpen: true })}
+                  >
+                    scaneos社区
+                  </span>
+                </div>
+                <div>
+                  知乎:{' '}
+                  <a href="https://www.zhihu.com/people/scaneos/activities" target="_black" rel="noopener noreferrer">
+                    scanEOS
+                  </a>
+                </div>
+                <div>百家号: scanEOS社区</div>
+              </ContactLinks>
+            ) : (
+              <ContactLinks column>
+                <div>
+                  Telegram:{' '}
+                  <a href="https://t.me/scaneos" target="_black" rel="noopener noreferrer">
+                    scanEOS
+                  </a>
+                </div>
+                <div>
+                  Twitter:{' '}
+                  <a href="https://twitter.com/scan_eos" target="_black" rel="noopener noreferrer">
+                    scanEOS
+                  </a>
+                </div>
+                <div>
+                  Facebook:{' '}
+                  <a href="https://www.facebook.com/eos.scan.397" target="_black" rel="noopener noreferrer">
+                    ScanEos
+                  </a>
+                </div>
+                <div>Steemit: scanEOS</div>
+              </ContactLinks>
+            )}
+          </FooterItem>
+          <FooterItem column>
+            <FooterTitle>
+              <TitleDecorator>{this.props.t('FriendLinks')}</TitleDecorator>
+            </FooterTitle>
+            <FriendLinks column wrap="true">
+              {friendLinks.map(({ name, homepage }) => (
+                <FriendLink key={name} href={homepage} target="_black" rel="noopener noreferrer">
+                  {name}
+                </FriendLink>
+              ))}
+            </FriendLinks>
+          </FooterItem>
+        </Layout.Footer>
+      </FooterContainer>
+    );
+  }
+}
 
 const BreadCrumbContainer = styled.nav`
   height: 48px;

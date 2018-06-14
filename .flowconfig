@@ -8,5 +8,6 @@
 
 [options]
 esproposal.optional_chaining=ignore
+esproposal.decorators=ignore
 
 [strict]

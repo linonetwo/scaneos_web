@@ -84,7 +84,7 @@ const PriceChangeContainer = styled(Flex)`
   font-size: 12px;
   color: #ff6347;
   ${is('up')`
-    color: #9acd32;
+    color: #658f10;
   `};
   margin-left: 5px;
 `;
