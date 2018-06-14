@@ -516,7 +516,7 @@ export const Footer = translate()((props: { t: Function }) => (
           <TitleDecorator>{props.t('introduction')}</TitleDecorator>
         </FooterTitle>
         <Introduction>{props.t('webSiteIntroduction')}</Introduction>
-        <Link to="/about/">{props.t('more...')}</Link>
+        <Link to="/about/">{props.t('moreAboutScanEOS')}</Link>
       </FooterItem>
       <FooterItem column>
         <FooterTitle>
