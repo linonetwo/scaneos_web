@@ -101,8 +101,8 @@ function PriceChart(props: { data: number[][], t: Function }) {
     global.window = {};
   }
   return (
-    <PriceChartContainer column center>
-      <Title justifyBetween alignCenter>
+    <PriceChartContainer column justifyBetween>
+      <Title center>
         <span>
           <Icon type="bar-chart" /> {props.t('PriceHistory')}
         </span>

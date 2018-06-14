@@ -31,17 +31,18 @@ const Container = styled(Flex)`
     background-color: #b4cfdb;
   }
 
+  text-align: center;
   h3 {
+    margin-top: 25px;
     font-size: 14px;
-    margin-bottom: -10px;
   }
 `;
 const Title = styled(ATitle)``;
 const Content = styled.div`
   text-align: center;
-  padding: 10px 0;
+  padding-top: 10px;
   ${breakpoint('desktop')`
-    padding: 30px;
+    padding-top: 20px;
   `};
   & > div + div {
     margin-top: 5px;
@@ -53,7 +54,7 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
   const votingPercentage = ((Number(props.totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
   return (
     <Container column justifyBetween>
-      <Title justifyBetween alignCenter>
+      <Title center>
         <span>
           <Icon type="check-square-o" /> {props.t('VotingProgress')}
         </span>
