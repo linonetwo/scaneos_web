@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, BackTop } from 'antd';
 import { translate } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import Loadable from 'react-loadable';
@@ -79,6 +79,7 @@ export default class App extends Component<{}> {
       <ScrollToTop>
         <Layout>
           <DynamicTitle />
+          <BackTop />
           <Header />
           <Switch>
             <Route exact path="/blocks" component={Blocks} />
