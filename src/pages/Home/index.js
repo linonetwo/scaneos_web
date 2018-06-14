@@ -90,10 +90,10 @@ const PriceChangeContainer = styled(Flex)`
 `;
 const ListContainer = styled.div`
   width: 90vw;
-  margin: 30px auto 0;
+  margin: 15px auto 0;
   ${breakpoint('desktop')`
     width: 500px;
-    margin: 50px 0 0;
+    margin: 30px 0 0;
   `};
   ${is('small')`
     height: 820px;
@@ -363,12 +363,12 @@ class Home extends Component<Props & Store> {
     );
   }
 
-  getAccountList(data: { loading: boolean, data: BPAccount[] }) {
+  getBPList(data: { loading: boolean, data: BPAccount[] }) {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
           <span>
-            <Icon type="solution" /> {this.props.t('Accounts')}
+            <Icon type="solution" /> {this.props.t('BlockProducers')}
           </span>
           <Link to="/producers/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
@@ -382,12 +382,18 @@ class Home extends Component<Props & Store> {
           renderItem={(item: BPAccount) => (
             <List.Item>
               <MessagePreview>
+                <Link to={`/account/${item.owner}/`}>
+                  {item.owner}
+                </Link>
+              </MessagePreview>
+              <MessagePreview>
                 {this.props.t('EOSVotes')}: {Number(item.totalVotes).toFixed(2)} EOS
               </MessagePreview>
               <MessagePreview>
-                <Link to={`/account/${item.owner}/`}>
-                  {this.props.t('accountName')}: {item.owner}
-                </Link>
+                {this.props.t('homepage')}:{' '}
+                <a href={item.url} target="_black" rel="noopener noreferrer">
+                  {item.url}
+                </a>
               </MessagePreview>
             </List.Item>
           )}
@@ -459,13 +465,13 @@ class Home extends Component<Props & Store> {
         })}
         <VotingProgress totalActivatedStake={this.props.totalActivatedStake} />
         <PriceChart data={this.props.priceChartData} />
-        {this.getBlockList({ data: take(this.props.blockData, 6), loading: this.props.blockLoading })}
+        {this.getBlockList({ data: take(this.props.blockData, 5), loading: this.props.blockLoading })}
         {this.getTransactionList({
-          data: take(this.props.transactionData, 6),
+          data: take(this.props.transactionData, 5),
           loading: this.props.transactionLoading,
         })}
-        {this.getAccountList({
-          data: take(this.props.producerAccountList.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes)), 10),
+        {this.getBPList({
+          data: take(this.props.producerAccountList.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes)), 7),
           loading: this.props.accountLoading,
         })}
         {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
