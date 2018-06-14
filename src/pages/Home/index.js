@@ -524,7 +524,7 @@ const frontload = (props: Dispatch & Store) =>
   Promise.all([
     props.blockData.length === 0 && props.getBlocksList(),
     props.transactionData.length === 0 && props.getTransactionsList(),
-    props.getBPAccountsList(),
+    props.producerAccountList.length === 0 && props.getBPAccountsList(),
     props.messageData.length === 0 && props.getMessagesList(),
     props.aggregationData?.blockNumber || props.getAggregationData(),
     props.priceChartData.length === 0 && props.getPriceData(),
