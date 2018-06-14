@@ -19,7 +19,7 @@ const PriceChartContainer = styled(Flex)`
   padding: 20px;
 
   width: 90vw;
-  margin: 30px auto 0;
+  margin: 20px auto 0;
   ${breakpoint('desktop')`
     width: 500px;
     margin: 30px 0 0;

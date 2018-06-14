@@ -40,22 +40,24 @@ const AggregationContainer = styled(Flex)`
   & .ant-spin-nested-loading {
     width: calc((90vw - 20px * 2) / 2);
   }
-  margin: 15px auto 0;
+  margin: 10px auto 0;
+  padding: 5px 10px;
   ${breakpoint('desktop')`
     width: 1050px;
     & .ant-spin-nested-loading {
       width: calc((1050px - 20px * 2) / 5);
     }
-    margin: 30px 0 0;
+    margin: 20px 0 0;
+    padding: 10px;
   `};
-  padding: 10px;
+  padding: 5px 10px;
   background-color: white;
   box-shadow: 0px 0px 10px 0 rgba(7, 17, 27, 0.05);
 `;
 const AggregationItem = styled(Flex)`
   color: #333;
   opacity: 0.9;
-  font-size: 27px;
+  font-size: 18px;
   & h4 {
     color: #333;
     opacity: 0.6;
@@ -68,6 +70,7 @@ const AggregationItem = styled(Flex)`
   ${breakpoint('desktop')`
     width: unset;
     margin: 0;
+    font-size: 27px;
   `};
 
   white-space: nowrap;
