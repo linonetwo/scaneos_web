@@ -165,7 +165,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column fixed="left" width={100} title={this.props.t('name')} dataIndex="name" key="name" />
+            <Table.Column fixed="left" width={90} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column
               width={60}
               title={this.props.t('homepage')}
