@@ -510,7 +510,7 @@ const mapDispatch = ({
   getVoting,
 });
 
-const frontload = async (props: Dispatch & Store) =>
+const frontload = (props: Dispatch & Store) =>
   Promise.all([
     props.blockData.length === 0 && props.getBlocksList(),
     props.transactionData.length === 0 && props.getTransactionsList(),
@@ -528,6 +528,7 @@ export default translate()(
   )(
     frontloadConnect(frontload, {
       onUpdate: false,
+      onMount: true,
     })(Home),
   ),
 );
