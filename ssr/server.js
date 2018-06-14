@@ -6,7 +6,7 @@ import express from 'express';
 import morgan from 'morgan';
 import i18nextExpressMiddleware from 'i18next-express-middleware';
 import path from 'path';
-// import forceDomain from 'forcedomain';
+import forceDomain from 'forcedomain';
 import Loadable from 'react-loadable';
 
 import i18n from '../src/i18n';
@@ -17,22 +17,21 @@ import loader from './loader';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// NOTE: UNCOMMENT THIS IF YOU WANT THIS FUNCTIONALITY
 /*
   Forcing www and https redirects in production, totally optional.
-  http://mydomain.com
-  http://www.mydomain.com
-  https://mydomain.com
-  Resolve to: https://www.mydomain.com
+  http://scaneos.io
+  http://www.scaneos.io
+  https://scaneos.io
+  Resolve to: https://scaneos.io
 */
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(
-//     forceDomain({
-//       hostname: 'www.mydomain.com',
-//       protocol: 'https'
-//     })
-//   );
-// }
+if (process.env.NODE_ENV === 'production') {
+  app.use(
+    forceDomain({
+      hostname: 'scaneos.io',
+      protocol: 'https',
+    }),
+  );
+}
 
 // Compress, parse, log, and the i18n
 app.use(compression());

@@ -24,6 +24,7 @@
     "ethereumjs-abi": "^0.6.5",
     "flow-bin": "^0.74.0",
     "flow-runtime": "^0.17.0",
+    "forcedomain": "^1.0.0",
     "i18next": "^11.3.2",
     "i18next-browser-languagedetector": "^2.2.0",
     "i18next-express-middleware": "^1.1.1",
