@@ -23,6 +23,12 @@ const Container = styled(Flex)`
   background-color: white;
 
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
+
+  .ant-progress-show-info .ant-progress-outer {
+    padding-right: calc(2em + 68px);
+    margin-right: calc(-2em - 68px);
+    margin-left: -30px;
+  }
 `;
 const Title = styled(ATitle)``;
 const Content = styled.div`
@@ -53,7 +59,7 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
       </Content>
       <Tooltip title={`${props.t('EOSVotes')}: ${votingPercentage}% ${props.t('MinimumVotesRequired')}: 15%`}>
         <Progress
-          format={() => `${votingPercentage.toFixed(2)}%`}
+          format={() => `${votingPercentage.toFixed(2)}%/15%`}
           status="active"
           percent={100}
           successPercent={votingPercentage / 0.15}
