@@ -63,11 +63,31 @@ export type AccountData = {
   delegatedBandwidth?: DelegatedBandwidth | null,
   voterInfo?: VoterInfo | null,
 };
+export type ListResponse = {
+  content: AccountData[],
+  page: {
+    size: number,
+    totalElements: number,
+    totalElements: number,
+    number: number,
+  },
+};
+export type BPAccount = {
+  owner: string,
+  totalVotes: string,
+  producerKey: string,
+  isActive: number,
+  url: string,
+  unpaidBlocks: number,
+  lastClaimTime: number,
+  location: number,
+};
 
 export type Store = {
   loading: boolean,
   data: AccountData,
   producerInfo: Object | null,
+  producerAccountList: BPAccount[],
   list: AccountData[],
   pagination: Pagination,
 };
@@ -109,6 +129,7 @@ export const defaultState = {
   list: [],
   data: emptyAccountData,
   producerInfo: null,
+  producerAccountList: [],
   pagination: { current: 0, total: 1 },
 };
 export default (initialState?: Object = {}) => ({
@@ -127,6 +148,10 @@ export default (initialState?: Object = {}) => ({
     },
     initProducerInfo(state: Store, producerInfo: Object | null) {
       state.producerInfo = producerInfo;
+      return state;
+    },
+    initProducerList(state: Store, producerAccountList: BPAccount[]) {
+      state.producerAccountList = producerAccountList;
       return state;
     },
     initAccountData(state: Store, data: AccountData) {
@@ -175,12 +200,43 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.toggleLoading();
       }
     },
-    async getAccountsList(gotoPage?: number) {
-      return;
+    async getBPAccountsList() {
       const {
-        store: { dispatch, getState },
+        store: { dispatch },
       } = await import('./');
-      const { account } = await getState();
+      dispatch.account.toggleLoading();
+      dispatch.info.toggleLoading();
+      try {
+        const bpList: {
+          rows: BPAccount[],
+          more: boolean,
+        } = await postEOS('/v1/chain/get_table_rows', {
+          json: true,
+          code: 'eosio',
+          scope: 'eosio',
+          table: 'producers',
+          limit: 100000,
+        });
+        this.initProducerList(bpList.rows);
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+        dispatch.account.toggleLoading();
+      }
+    },
+    async getAccountsList(gotoPage?: number) {
+      const {
+        store: { dispatch },
+      } = await import('./');
       dispatch.account.toggleLoading();
       dispatch.info.toggleLoading();
 

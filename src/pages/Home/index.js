@@ -15,7 +15,7 @@ import { frontloadConnect } from 'react-frontload';
 import { formatTimeStamp } from '../../store/utils';
 import type { BlockData } from '../../store/block';
 import type { TransactionData } from '../../store/transaction';
-import type { AccountData } from '../../store/account';
+import type { BPAccount } from '../../store/account';
 import type { MessageData } from '../../store/message';
 import type { AggregationData } from '../../store/aggregation';
 import type { CurrentPriceData } from '../../store/price';
@@ -26,7 +26,6 @@ import PriceChart from '../../components/PriceChart';
 import VotingProgress from '../../components/VotingProgress';
 
 const Container = styled(Flex)`
-
   min-height: calc(100vh - 64px);
   padding-bottom: 50px;
   margin: auto;
@@ -188,7 +187,7 @@ type Store = {
   priceLoading: boolean,
   blockData: BlockData[],
   transactionData: TransactionData[],
-  accountData: AccountData[],
+  producerAccountList: BPAccount[],
   messageData: MessageData[],
   aggregationData: AggregationData,
   currentPriceData: CurrentPriceData,
@@ -198,7 +197,7 @@ type Store = {
 type Dispatch = {
   getBlocksList: (size?: number) => void,
   getTransactionsList: (size?: number) => void,
-  getAccountsList: (page?: number) => void,
+  getBPAccountsList: (page?: number) => void,
   getMessagesList: (page?: number) => void,
   getAggregationData: () => void,
   getPriceData: () => void,
@@ -361,14 +360,14 @@ class Home extends Component<Props & Store> {
     );
   }
 
-  getAccountList(data: { loading: boolean, data: AccountData[] }) {
+  getAccountList(data: { loading: boolean, data: BPAccount[] }) {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
           <span>
             <Icon type="solution" /> {this.props.t('Accounts')}
           </span>
-          <Link to="/accounts/">
+          <Link to="/producers/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
@@ -377,17 +376,16 @@ class Home extends Component<Props & Store> {
           loading={data.loading}
           itemLayout="vertical"
           dataSource={data.data}
-          renderItem={(item: AccountData) => (
-            <List.Item
-              actions={[
-                <Link to={`/account/${item.accountName}/`}>
-                  {this.props.t('accountName')}: {item.accountName}
-                </Link>,
-              ]}
-            >
-              <div>
-                {this.props.t('createdAt')}: {formatTimeStamp(item.created, this.props.t('locale'))}
-              </div>
+          renderItem={(item: BPAccount) => (
+            <List.Item>
+              <MessagePreview>
+                {this.props.t('EOSVotes')}: {Number(item.totalVotes).toFixed(2)} EOS
+              </MessagePreview>
+              <MessagePreview>
+                <Link to={`/account/${item.owner}/`}>
+                  {this.props.t('accountName')}: {item.owner}
+                </Link>
+              </MessagePreview>
             </List.Item>
           )}
         />
@@ -464,7 +462,10 @@ class Home extends Component<Props & Store> {
           loading: this.props.transactionLoading,
         })}
         {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
-        {this.getAccountList({ data: take(this.props.accountData, 4), loading: this.props.accountLoading })}
+        {this.getAccountList({
+          data: take(this.props.producerAccountList.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes)), 10),
+          loading: this.props.accountLoading,
+        })}
       </Container>
     );
   }
@@ -473,14 +474,14 @@ class Home extends Component<Props & Store> {
 const mapState = ({
   block: { loading: blockLoading, list: blockData },
   transaction: { loading: transactionLoading, list: transactionData },
-  account: { loading: accountLoading, list: accountData },
+  account: { loading: accountLoading, producerAccountList },
   message: { loading: messageLoading, listByTime: messageData },
   aggregation: { loading: aggregationLoading, data: aggregationData, totalActivatedStake },
   price: { loading: priceLoading, currentPriceData, priceChartData },
 }): Store => ({
   blockData,
   transactionData,
-  accountData,
+  producerAccountList,
   messageData,
   aggregationData,
   blockLoading,
@@ -496,14 +497,14 @@ const mapState = ({
 const mapDispatch = ({
   block: { getBlocksList },
   transaction: { getTransactionsList },
-  account: { getAccountsList },
+  account: { getBPAccountsList },
   message: { getMessagesList },
   aggregation: { getAggregationData, getVoting },
   price: { getPriceData },
 }): Dispatch => ({
   getBlocksList,
   getTransactionsList,
-  getAccountsList,
+  getBPAccountsList,
   getMessagesList,
   getAggregationData,
   getPriceData,
@@ -514,7 +515,7 @@ const frontload = (props: Dispatch & Store) =>
   Promise.all([
     props.blockData.length === 0 && props.getBlocksList(),
     props.transactionData.length === 0 && props.getTransactionsList(),
-    // props.getAccountsList(),
+    props.getBPAccountsList(),
     props.messageData.length === 0 && props.getMessagesList(),
     props.aggregationData?.blockNumber || props.getAggregationData(),
     props.priceChartData.length === 0 && props.getPriceData(),
