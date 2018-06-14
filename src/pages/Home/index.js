@@ -40,15 +40,15 @@ const AggregationContainer = styled(Flex)`
   & .ant-spin-nested-loading {
     width: calc((90vw - 20px * 2) / 2);
   }
-  margin: 30px auto 0;
+  margin: 15px auto 0;
   ${breakpoint('desktop')`
     width: 1050px;
     & .ant-spin-nested-loading {
       width: calc((1050px - 20px * 2) / 5);
     }
-    margin: 50px 0 0;
+    margin: 30px 0 0;
   `};
-  padding: 20px;
+  padding: 10px;
   background-color: white;
   box-shadow: 0px 0px 10px 0 rgba(7, 17, 27, 0.05);
 `;

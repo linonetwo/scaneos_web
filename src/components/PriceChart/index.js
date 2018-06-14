@@ -15,7 +15,7 @@ import 'echarts/lib/chart/line';
 import { Title } from '../../pages/Home/styles';
 
 const PriceChartContainer = styled(Flex)`
-  height: 250px;
+  height: 300px;
   padding: 20px;
 
   width: 90vw;

@@ -222,6 +222,7 @@ export default i18n
           EOSVotes: 'EOS投票量',
           MinimumVotesRequired: '主网启动所需最小投票量',
           TotalEOSSupply: '全网EOS总量',
+          ToVote: '仅剩',
         },
         countdown: {
           Days: '天',

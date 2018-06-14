@@ -10,7 +10,7 @@ import { Icon, Tooltip, Progress } from 'antd';
 import { Title as ATitle } from '../pages/Home/styles';
 
 const Container = styled(Flex)`
-  height: 250px;
+  height: 300px;
   padding: 20px;
 
   width: 90vw;
@@ -24,16 +24,22 @@ const Container = styled(Flex)`
 
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
 
-  .ant-progress-show-info .ant-progress-outer {
-    padding-right: calc(2em + 68px);
-    margin-right: calc(-2em - 68px);
-    margin-left: -30px;
+  .ant-progress-success-bg {
+    background-color: #1aa2db;
+  }
+  .ant-progress-bg {
+    background-color: #b4cfdb;
+  }
+
+  h3 {
+    font-size: 14px;
+    margin-bottom: -10px;
   }
 `;
 const Title = styled(ATitle)``;
 const Content = styled.div`
-  text-align: left;
-  padding: 10px;
+  text-align: center;
+  padding: 10px 0;
   ${breakpoint('desktop')`
     padding: 30px;
   `};
@@ -46,25 +52,45 @@ const Content = styled.div`
 function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
   const votingPercentage = ((Number(props.totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
   return (
-    <Container column alignCenter justifyBetween>
+    <Container column justifyBetween>
       <Title justifyBetween alignCenter>
         <span>
           <Icon type="check-square-o" /> {props.t('VotingProgress')}
         </span>
       </Title>
-      <Content>
-        <div>{props.t('EOSVotes')}: {props.totalActivatedStake} EOS ({votingPercentage.toFixed(4)}%)</div>
-        <div>{props.t('MinimumVotesRequired')}: 150,000,000.0000 EOS (15.0000%)</div>
-        <div>{props.t('TotalEOSSupply')}: 1,000,011,818.7401 EOS (100.0011%)</div>
-      </Content>
+      <h3>
+        {votingPercentage.toFixed(2)}% / 15.00%{' '}
+        {15 - votingPercentage > 0 && `(${props.t('ToVote')}: ${(15 - votingPercentage).toFixed(2)}%)`}
+      </h3>
       <Tooltip title={`${props.t('EOSVotes')}: ${votingPercentage}% ${props.t('MinimumVotesRequired')}: 15%`}>
         <Progress
-          format={() => `${votingPercentage.toFixed(2)}%/15%`}
+          showInfo={false}
           status="active"
           percent={100}
+          strokeWidth={20}
           successPercent={votingPercentage / 0.15}
         />
       </Tooltip>
+      <Content>
+        <div>
+          <div>{props.t('EOSVotes')}:</div>
+          <div>
+            <strong>{props.totalActivatedStake} EOS</strong> ({votingPercentage.toFixed(4)}%)
+          </div>
+        </div>
+        <div>
+          <div>{props.t('MinimumVotesRequired')}:</div>
+          <div>
+            <strong>150000000.00 EOS</strong> (15.0000%)
+          </div>
+        </div>
+        <div>
+          <div>{props.t('TotalEOSSupply')}:</div>
+          <div>
+            <strong>1000011818.74 EOS</strong> (100.0011%)
+          </div>
+        </div>
+      </Content>
     </Container>
   );
 }
