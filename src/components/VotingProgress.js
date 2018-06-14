@@ -55,8 +55,8 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
         <Progress
           format={() => `${votingPercentage.toFixed(2)}%`}
           status="active"
-          percent={15}
-          successPercent={votingPercentage}
+          percent={100}
+          successPercent={votingPercentage / 0.15}
         />
       </Tooltip>
     </Container>
