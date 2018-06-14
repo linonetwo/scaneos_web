@@ -16,6 +16,12 @@ import SearchBar from '../SearchBar';
 import 微信公众号 from './微信公众号.jpg';
 import 运营个人微信号 from './运营个人微信号.jpg';
 import 知识星球 from './知识星球.png';
+import translateLogo from './translate.png'; 
+
+const lang = {
+  'zh': '中文',
+  'en': 'English',
+};
 
 const HeaderContainer = styled.div`
   height: 64px;
@@ -149,6 +155,12 @@ const MobileSearchBarContainer = styled(Flex)`
   height: 70px;
 `;
 
+const TranslateLogo = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+`;
+
 type Props = {
   t: Function,
 };
@@ -256,10 +268,10 @@ class Header extends Component<Props & Store & Dispatch, *> {
   localeMenu = (
     <Menu>
       <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
-        <span>中文</span>
+        <span>{lang.zh}</span>
       </Menu.Item>
       <Menu.Item key="1" onClick={() => this.props.changeLanguage('en')}>
-        <span>English</span>
+        <span>{lang.en}</span>
       </Menu.Item>
     </Menu>
   );
@@ -343,10 +355,10 @@ class Header extends Component<Props & Store & Dispatch, *> {
       </Menu.Item>
       <Menu.SubMenu title={<NavDropDownsButton>{this.props.t('Locale')}</NavDropDownsButton>}>
         <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
-          <span>中文</span>
+          <span>{lang.zh}</span>
         </Menu.Item>
         <Menu.Item key="1" onClick={() => this.props.changeLanguage('en')}>
-          <span>English</span>
+          <span>{lang.en}</span>
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>
@@ -425,7 +437,12 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
                 <Dropdown overlay={this.localeMenu}>
                   <NavDropDownsButton>
-                    {this.props.t('Locale')} <Icon type="down" />
+                    <TranslateLogo
+                      alt={this.props.t('Locale')}
+                      src={translateLogo}
+                    />
+                      {lang[this.props.t('locale')]}
+                    <Icon type="down" />
                     {this.getSelectedIndicator('locale')}
                   </NavDropDownsButton>
                 </Dropdown>
