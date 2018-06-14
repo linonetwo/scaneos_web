@@ -5,6 +5,6 @@ module.exports = {
   webpackConfigPath: 'react-scripts/config/webpack.config.dev',
   webpack: config => overrides.webpack(config),
   publicPath: 'public',
-  globalImports: ['./src/globalStyle.js'],
+  globalImports: ['./src/GlobalStyles.js'],
   proxiesPath: './cosmos.proxies',
 };
