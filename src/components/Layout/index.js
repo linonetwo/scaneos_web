@@ -16,12 +16,16 @@ import SearchBar from '../SearchBar';
 
 const HeaderContainer = styled.div`
   height: 64px;
+  z-index: 10;
   .ant-layout-header {
+    width: 100vw;
     background-color: white;
     border-bottom: 1px solid #d8d8d8;
 
     display: flex;
     justify-content: flex-end;
+
+    position: fixed;
   }
 `;
 const MobileMenuContainer = styled.div`
@@ -359,6 +363,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 <LogoIcon src={this.props.t('logoIcon')} />
               </LogoContainer>
             </Link>
+            <MenuOpenIconContainer center>
+              <Icon onClick={this.toggleSideMenu} type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
+            </MenuOpenIconContainer>
 
             <DesktopSearchBarContainer>
               <SearchBar />
@@ -421,9 +428,6 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 </Dropdown>
               </NavDropDowns>
             </DropDownsContainer>
-            <MenuOpenIconContainer center>
-              <Icon onClick={this.toggleSideMenu} type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
-            </MenuOpenIconContainer>
           </Layout.Header>
         </HeaderContainer>
         <MobileSearchBarContainer center>
