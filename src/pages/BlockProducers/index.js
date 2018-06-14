@@ -65,10 +65,10 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
   }
   onResize = () => {
     let width = 0;
-    let height = 0;
+    let height = 400;
     if (typeof window !== 'undefined') {
       width = window.innerWidth * 0.9;
-      height = window.innerHeight * 0.9 - 100;
+      height = window.innerHeight * 0.9 - 180;
     }
     /* eslint-disable no-undef */
     this.setState({
@@ -160,14 +160,14 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
             size="middle"
             dataSource={blockProducersList}
             pagination={{ pageSize: 10, current: Number(queryString.parse(this.props.location.search).page) }}
-            scroll={{ x: 2500 }}
+            scroll={{ x: 1500 }}
             onChange={pagination => {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column fixed="left" width={180} title={this.props.t('name')} dataIndex="name" key="name" />
+            <Table.Column fixed="left" width={100} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column
-              width={100}
+              width={60}
               title={this.props.t('homepage')}
               dataIndex="homepage"
               key="homepage"
@@ -178,7 +178,7 @@ class BlockProducers extends Component<Props & Store & Dispatch, *> {
               )}
             />
             <Table.Column
-              width={100}
+              width={70}
               title={this.props.t('account')}
               dataIndex="account"
               key="account"
