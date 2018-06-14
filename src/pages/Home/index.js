@@ -302,7 +302,7 @@ class Home extends Component<Props & Store> {
                     <span>
                       {this.props.t('blockNum')}: {item.blockNum}
                     </span>
-                    {formatTimeStamp(item.timestamp, this.props.t('locale'), { time: false })}{' '}
+                    {formatTimeStamp(item.timestamp, this.props.t('locale'), { distance: false })}{' '}
                   </KeyInfoContainer>
                 </Link>
                 <Link to={`/account/${item.producerAccountId}/`}>
@@ -337,9 +337,9 @@ class Home extends Component<Props & Store> {
                 <Link to={`/transaction/${item.transactionId}/`}>
                   <KeyInfoContainer larger column justifyAround>
                     <span>
-                      {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 12, omission: '...' })}
+                      {this.props.t('transactionId')}: {truncate(item.transactionId, { length: 9, omission: '...' })}
                     </span>
-                    <span>{formatTimeStamp(item.createdAt, this.props.t('locale'), { time: false })}</span>
+                    <span>{formatTimeStamp(item.createdAt, this.props.t('locale'), { distance: false })}</span>
                   </KeyInfoContainer>
                 </Link>
                 <div>

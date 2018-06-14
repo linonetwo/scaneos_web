@@ -36,15 +36,15 @@ export function formatTimeStamp(
   } else {
     return '-';
   }
-  return `${
+  return `${time ? `${format(now, 'YY-MM-DD HH:mm:ss')}` : ''}${
     distance
-      ? distanceInWordsToNow(now, {
+      ? ` ${distanceInWordsToNow(now, {
           locale: locales[locale],
           addSuffix: true,
           includeSeconds: true,
-        }).replace('less than', '>')
+        }).replace('less than', '>')}`
       : ''
-  }${time ? ` (${format(now, 'YY-MM-DD HH:mm:ss')})` : ''}`;
+  }`;
 }
 
 // for table
