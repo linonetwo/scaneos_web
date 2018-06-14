@@ -96,7 +96,6 @@ export default i18n
           VotingProgress: 'EOS Voting Progress',
           EOSVotes: 'EOS Votes',
           MinimumVotesRequired: 'Minimum Votes Required',
-          TotalEOSSupply: 'Total EOS Supply',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -223,7 +222,6 @@ export default i18n
           VotingProgress: 'EOS投票进度',
           EOSVotes: 'EOS投票量',
           MinimumVotesRequired: '主网启动所需最小投票量',
-          TotalEOSSupply: '全网EOS总量',
           ToVote: '仅剩',
         },
         countdown: {

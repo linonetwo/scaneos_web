@@ -85,12 +85,6 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
             <strong>150000000.00 EOS</strong> (15.0000%)
           </div>
         </div>
-        <div>
-          <div>{props.t('TotalEOSSupply')}:</div>
-          <div>
-            <strong>1000011818.74 EOS</strong> (100.0011%)
-          </div>
-        </div>
       </Content>
     </Container>
   );
