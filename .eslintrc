@@ -26,7 +26,7 @@
     "fetch": true
   },
   "rules": {
-    "linebreak-style":0,
+    "linebreak-style": 0,
     "comma-dangle": 1,
     "arrow-parens": ["off"],
     "consistent-return": "off",
