@@ -465,13 +465,13 @@ class Home extends Component<Props & Store> {
           priceLoading: this.props.priceLoading,
           currentPriceData: this.props.currentPriceData,
         })}
+        <VotingProgress totalActivatedStake={this.props.totalActivatedStake} />
+        <PriceChart data={this.props.priceChartData} />
         {this.getBPList({
           data: take(this.props.producerAccountList, 7),
           loading: this.props.accountLoading,
         })}
         {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
-        <VotingProgress totalActivatedStake={this.props.totalActivatedStake} />
-        <PriceChart data={this.props.priceChartData} />
         {this.getBlockList({ data: take(this.props.blockData, 5), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 5),

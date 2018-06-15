@@ -6,6 +6,7 @@ import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
 import { Icon, Tooltip, Progress } from 'antd';
+import { Link } from 'react-router-dom';
 
 import { Title as ATitle } from '../pages/Home/styles';
 
@@ -54,22 +55,16 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
   const votingPercentage = ((Number(props.totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
   return (
     <Container column justifyBetween>
-      <Title center>
-        <span>
-          <Icon type="check-square-o" /> {props.t('VotingProgress')}
-        </span>
-      </Title>
-      <h3>
-        {votingPercentage.toFixed(2)}%
-      </h3>
+      <Link to="/producers">
+        <Title center>
+          <span>
+            <Icon type="check-square-o" /> {props.t('VotingProgress')}
+          </span>
+        </Title>
+      </Link>
+      <h3>{votingPercentage.toFixed(2)}%</h3>
       <Tooltip title={`${props.t('EOSVotes')}: ${votingPercentage}%`}>
-        <Progress
-          showInfo={false}
-          status="active"
-          percent={votingPercentage}
-          strokeWidth={20}
-          successPercent={15}
-        />
+        <Progress showInfo={false} status="active" percent={votingPercentage} strokeWidth={20} successPercent={15} />
       </Tooltip>
       <Content>
         <div>
