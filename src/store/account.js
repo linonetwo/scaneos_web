@@ -49,6 +49,7 @@ type VoterInfo = {
 };
 export type AccountData = {
   accountName: string,
+  eosBalance?: string,
   privileged: boolean,
   lastCodeUpdate: string,
   created: string,
@@ -105,6 +106,7 @@ export type Store = {
 
 export const emptyAccountData = {
   accountName: '',
+  eosBalance: undefined,
   privileged: false,
   lastCodeUpdate: '1970-01-01T00:00:00.000',
   created: '2018-06-04T00:40:15.500',
@@ -189,10 +191,9 @@ export default (initialState?: Object = {}) => ({
           postEOS('/v1/chain/get_account', { account_name: accountName }),
           postEOS('/v1/chain/get_currency_balance', { account: accountName, code: 'eosio.token' }),
         ]);
-        console.log(balanceData)
 
         if (!data) throw new Error('No data.');
-        this.initAccountData(data);
+        this.initAccountData({ ...data, eosBalance: balanceData[0] });
         const { default: blockProducersList } = await import('../pages/BlockProducers/blockProducersList');
         const producerInfo = find(blockProducersList, { account: data.accountName });
         if (size(producerInfo) > 0) {
@@ -224,7 +225,6 @@ export default (initialState?: Object = {}) => ({
       try {
         const bpList: {
           rows: BPAccount[],
-          more: boolean,
         } = await postEOS('/v1/chain/get_table_rows', {
           json: true,
           code: 'eosio',

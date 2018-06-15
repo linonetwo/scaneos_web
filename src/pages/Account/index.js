@@ -77,7 +77,10 @@ class Account extends Component<Props & Store, *> {
                     scroll={{ x: 1000 }}
                     size="middle"
                     pagination={false}
-                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field }))}
+                    dataSource={[
+                      { field: 'eosBalance', value: this.props.data.eosBalance, key: 'eosBalance' },
+                      ...toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field })),
+                    ]}
                   >
                     <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
                     <Table.Column
