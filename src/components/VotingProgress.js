@@ -73,12 +73,6 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
             <strong>{props.totalActivatedStake} EOS</strong> ({votingPercentage.toFixed(4)}%)
           </div>
         </div>
-        <div>
-          <div>{props.t('MinimumVotesRequired')}:</div>
-          <div>
-            <strong>150000000.00 EOS</strong> (15.0000%)
-          </div>
-        </div>
       </Content>
     </Container>
   );
