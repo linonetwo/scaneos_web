@@ -60,16 +60,15 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
         </span>
       </Title>
       <h3>
-        {votingPercentage.toFixed(2)}% / 15.00%{' '}
-        {15 - votingPercentage > 0 && `(${props.t('ToVote')}: ${(15 - votingPercentage).toFixed(2)}%)`}
+        {votingPercentage.toFixed(2)}%
       </h3>
-      <Tooltip title={`${props.t('EOSVotes')}: ${votingPercentage}% ${props.t('MinimumVotesRequired')}: 15%`}>
+      <Tooltip title={`${props.t('EOSVotes')}: ${votingPercentage}%`}>
         <Progress
           showInfo={false}
           status="active"
-          percent={100}
+          percent={votingPercentage}
           strokeWidth={20}
-          successPercent={votingPercentage / 0.15}
+          successPercent={15}
         />
       </Tooltip>
       <Content>

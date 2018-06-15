@@ -1,5 +1,5 @@
 // @flow
-import { take, flatten, compact, truncate } from 'lodash';
+import { take, flatten, compact, truncate, toUpper } from 'lodash';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -176,6 +176,8 @@ const MessagePreview = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  text-align: left;
 `;
 
 type Props = {
@@ -387,7 +389,7 @@ class Home extends Component<Props & Store> {
                 </Link>
               </MessagePreview>
               <MessagePreview>
-                {this.props.t('EOSVotes')}: {Number(item.totalVotes).toFixed(2)} EOS
+                {this.props.t('EOSVotes')}: {toUpper(numeral(item.totalVotes).format('(0,0 a)'))} Vote
               </MessagePreview>
               <MessagePreview>
                 {this.props.t('homepage')}:{' '}
@@ -463,6 +465,11 @@ class Home extends Component<Props & Store> {
           priceLoading: this.props.priceLoading,
           currentPriceData: this.props.currentPriceData,
         })}
+        {this.getBPList({
+          data: take(this.props.producerAccountList, 7),
+          loading: this.props.accountLoading,
+        })}
+        {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
         <VotingProgress totalActivatedStake={this.props.totalActivatedStake} />
         <PriceChart data={this.props.priceChartData} />
         {this.getBlockList({ data: take(this.props.blockData, 5), loading: this.props.blockLoading })}
@@ -470,11 +477,6 @@ class Home extends Component<Props & Store> {
           data: take(this.props.transactionData, 5),
           loading: this.props.transactionLoading,
         })}
-        {this.getBPList({
-          data: take(this.props.producerAccountList, 7),
-          loading: this.props.accountLoading,
-        })}
-        {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
       </Container>
     );
   }
