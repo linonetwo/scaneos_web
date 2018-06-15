@@ -1,5 +1,5 @@
 // @flow
-import { take, flatten, compact, truncate, toUpper } from 'lodash';
+import { take, truncate, toUpper } from 'lodash';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';

@@ -172,7 +172,7 @@ export default i18n
           scope: 'scope',
           readScope: 'readScope',
           introduction: '介绍',
-          prerequisites: '申请条件',
+          prerequisites: '条件',
           location: '位置',
           nodeLocation: '节点位置',
           server: '服务器配置',

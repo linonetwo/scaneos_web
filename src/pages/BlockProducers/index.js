@@ -4,6 +4,7 @@ import numeral from 'numeral';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
+import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Table } from 'antd';
@@ -21,13 +22,29 @@ const Container = styled(Flex)`
   width: 100%;
   background-color: rgb(250, 250, 250);
 
-  .ant-table-thead {
+  .ant-table-thead > tr > th {
     line-height: 0.5;
+    padding: 4px !important;
+    ${breakpoint('desktop')`
+      line-height: 1.5;
+      padding: 8px !important;
+    `};
   }
   .ant-table-row {
-    font-size: 12px;
     line-height: 1;
+    ${breakpoint('desktop')`
+      line-height: 1.5;
+    `};
     background-color: white;
+  }
+  .ant-table-row td, .ant-table-row td span {
+    padding: 4px !important;
+
+    white-space: nowrap;
+
+    ${breakpoint('desktop')`
+      padding: 8px !important;
+    `};
   }
 `;
 
@@ -63,7 +80,6 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
               return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
             })}
             pagination={{
-              position: 'both',
               pageSize: 21,
               current: Number(queryString.parse(this.props.location.search).page),
             }}
@@ -81,29 +97,27 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
               render={(name, { account }) => name || toUpper(account)}
             />
             <Table.Column
-              width={70}
-              title={this.props.t('account')}
-              dataIndex="account"
-              key="account"
-              render={account => <Link to={`/account/${account}`}>{account}</Link>}
-            />
-            <Table.Column
               width={120}
               title={this.props.t('EOSVotes')}
               dataIndex="totalVotes"
               key="totalVotes"
               render={voteCount => (
-                <div>
-                  <div>{toUpper(numeral(voteCount).format('(0,0 a)'))}</div>
-                  <div>
-                    <strong>
-                      {this.props.totalProducerVoteWeight > 0
-                        ? numeral(Number(voteCount) / this.props.totalProducerVoteWeight).format('0.00%')
-                        : ''}
-                    </strong>
-                  </div>
-                </div>
+                <span>
+                  {toUpper(numeral(voteCount).format('(0,0a)'))}
+                  <strong>
+                    {this.props.totalProducerVoteWeight > 0
+                      ? ` (${numeral(Number(voteCount) / this.props.totalProducerVoteWeight).format('0.00%')})`
+                      : ''}
+                  </strong>
+                </span>
               )}
+            />
+            <Table.Column
+              width={70}
+              title={this.props.t('account')}
+              dataIndex="account"
+              key="account"
+              render={account => <Link to={`/account/${account}`}>{account}</Link>}
             />
             <Table.Column
               width={100}
@@ -139,7 +153,7 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
                 record.location.indexOf(area) !== -1 || locationBelongsToArea(record.location, area)
               }
             />
-            <Table.Column width={50} title={this.props.t('prerequisites')} dataIndex="prerequisites" />
+            <Table.Column width={70} title={this.props.t('prerequisites')} dataIndex="prerequisites" />
             <Table.Column title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
             <Table.Column title={this.props.t('homepage')} dataIndex="homepage" />
           </Table>
