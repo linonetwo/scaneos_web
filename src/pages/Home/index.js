@@ -45,7 +45,7 @@ const AggregationContainer = styled(Flex)`
   ${breakpoint('desktop')`
     width: 1050px;
     & .ant-spin-nested-loading {
-      width: calc((1050px - 20px * 2) / 5);
+      width: calc((1050px - 20px * 2) / 6);
     }
     margin: 20px 0 0;
     padding: 10px;
@@ -260,14 +260,14 @@ class Home extends Component<Props & Store> {
             </AggregationItem>
           </Link>
         </Spin>
-        {/* <Spin spinning={data.loading}>
+        <Spin spinning={data.loading}>
           <Link to="/accounts/">
             <AggregationItem column center>
               <h4>{this.props.t('accountNum')}</h4>
               {data.data.accountNumber}
             </AggregationItem>
           </Link>
-        </Spin> */}
+        </Spin>
         <Spin spinning={data.loading}>
           <Link to="/messages/">
             <AggregationItem column center>

@@ -94,7 +94,7 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const { blockNumber, transactionNumber, accountNumber = 0, actionNumber } = await get('/stats');
+        const { blockNumber, transactionNumber, accountNumber, actionNumber } = await get('/stats');
 
         this.initAggregationData({ blockNumber, transactionNumber, accountNumber, actionNumber });
       } catch (error) {
