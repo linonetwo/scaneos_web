@@ -68,9 +68,14 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
       </Tooltip>
       <Content>
         <div>
+          <div>
+            {props.t('EOSVotesIntroduction')}
+          </div>
+        </div>
+        <div>
           <div>{props.t('EOSVotes')}:</div>
           <div>
-            <strong>{props.totalActivatedStake} EOS</strong> ({votingPercentage.toFixed(4)}%)
+            <strong>{props.totalActivatedStake}</strong> ({votingPercentage.toFixed(4)}%)
           </div>
         </div>
       </Content>

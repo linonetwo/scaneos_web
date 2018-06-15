@@ -97,6 +97,7 @@ export default i18n
           EOSVotes: 'EOS Votes',
           MinimumVotesRequired: 'Minimum Votes Required',
           contactUs: 'Contact US',
+          EOSVotesIntroduction: 'Each staking of 1 EOS can cast votes of about 373757, This value will change over time.',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -227,6 +228,7 @@ export default i18n
           contactUs: '加入社群',
           country: '国家',
           rank: '排名',
+          EOSVotesIntroduction: '每质押 1 EOS 可投出约 373757 票，此数值会随时间变化。',
         },
         countdown: {
           Days: '天',
