@@ -63,9 +63,9 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column width={20} fixed="left" title={this.props.t('rank')} dataIndex="key" key="key" />
+            <Table.Column width={35} title={this.props.t('rank')} dataIndex="key" key="key" />
             <Table.Column
-              fixed="left"
+              width={95}
               title={this.props.t('name')}
               dataIndex="name"
               key="name"
