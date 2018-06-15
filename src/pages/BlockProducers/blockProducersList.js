@@ -1,4 +1,18 @@
 const blockProducersByUrl = {
+  'eosauthority.com': {
+    location: 'London, EC3V 9LJ, UK',
+    latitude: 51.5127989,
+    longitude: -0.0894574,
+    name: 'EOS Authority',
+    homepage: 'https://eosauthority.com/',
+    prerequisites: '8/8',
+    nodeLocation: '',
+    server: '',
+    contact:
+      'Email\r\nhello@eosauthority.com\r\nTwitter\r\nhttps://twitter.com/EOSauthority\r\Call\r\n+442070960498',
+    account: 'eosauthority',
+  },
+
   'eoshuobipool.com': {
     location: 'Beijing China',
     latitude: 39.90419989999999,
