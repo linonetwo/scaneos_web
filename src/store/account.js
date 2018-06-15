@@ -64,8 +64,7 @@ export type AccountData = {
   voterInfo?: VoterInfo | null,
 };
 
-
-export type CreatedAccountData =  {
+export type CreatedAccountData = {
   id: string,
   handlerAccountName: string,
   name: string,
@@ -73,7 +72,7 @@ export type CreatedAccountData =  {
   data: {
     creator: string,
     name: string,
-  }
+  },
 };
 export type ListResponse = {
   content: CreatedAccountData[],
@@ -186,7 +185,11 @@ export default (initialState?: Object = {}) => ({
 
       try {
         // const data = await get(`/accounts?name=${accountName}`);
-        const data = await postEOS('/v1/chain/get_account', { account_name: accountName });
+        const [data, balanceData] = await Promise.all([
+          postEOS('/v1/chain/get_account', { account_name: accountName }),
+          postEOS('/v1/chain/get_currency_balance', { account: accountName, code: 'eosio.token' }),
+        ]);
+        console.log(balanceData)
 
         if (!data) throw new Error('No data.');
         this.initAccountData(data);

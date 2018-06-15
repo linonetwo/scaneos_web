@@ -20,6 +20,15 @@ const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
   width: 100%;
   background-color: rgb(250, 250, 250);
+
+  .ant-table-thead {
+    line-height: 0.5;
+  }
+  .ant-table-row {
+    font-size: 12px;
+    line-height: 1;
+    background-color: white;
+  }
 `;
 
 type Props = {
@@ -55,7 +64,7 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
             })}
             pagination={{
               position: 'both',
-              pageSize: 10,
+              pageSize: 21,
               current: Number(queryString.parse(this.props.location.search).page),
             }}
             scroll={{ x: 1000 }}
