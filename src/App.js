@@ -13,6 +13,7 @@ import Loading from './components/Loading';
 import ScrollToTop from './components/ScrollToTop';
 import './GlobalStyles';
 import Home from './pages/Home';
+import BlockProducers from './pages/BlockProducers';
 
 const Block = Loadable({
   loader: () => import('./pages/Block'),
@@ -44,10 +45,6 @@ const Message = Loadable({
 });
 const Messages = Loadable({
   loader: () => import('./pages/Messages'),
-  loading: Loading,
-});
-const BlockProducers = Loadable({
-  loader: () => import('./pages/BlockProducers'),
   loading: Loading,
 });
 const UnderDevelopment = Loadable({
