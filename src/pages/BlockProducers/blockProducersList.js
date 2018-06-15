@@ -124,7 +124,7 @@ const blockProducersByUrl = {
     name: 'EOS Canada',
     homepage: 'https://www.eoscanada.com/',
     prerequisites: '8/8',
-    nodeLocation: 'Montrea',
+    nodeLocation: 'Montreal',
     server: 'Google云端平台',
     introduction:
       'EOS加拿大总部设在加拿大蒙特利尔，由知名加拿大金融企业支持。我们相信EOS.IO将资助系统，因此我们致力于为生态系统的发展做出贡献。\r\n\r\n\r\n我们一直积极参与运行和测试社区测试网络，创建BIOS BOOT序列，以及构建生态系统蓬勃发展所需的各种社区工具。我们的目标是成为公司，企业家和开发人员的中心，他们希望在EOS.IO之上构建基础架构和去中心化应用程序。由于我们深厚的技术背景和连接，我们希望利用我们的网络帮助为EOS.IO网络构建增值产品。',
@@ -285,12 +285,12 @@ const blockProducersByUrl = {
     contact:
       'GitHub\r\nhttps://github.com/EOS-Nation\r\nTwitter\r\nhttps://eosnation.io/\r\nFacebook\r\nhttps://www.facebook.com/groups/EOSNation\r\nSteemit\r\nhttps://steemit.com/@daverex',
   },
-  'eosnewyork.io': {
+  'bp.eosnewyork.io': {
     location: 'America',
     latitude: 37.09024,
     longitude: -95.712891,
     name: 'EOS New York',
-    homepage: 'https://www.eosnewyork.io/',
+    homepage: 'https://bp.eosnewyork.io/',
     prerequisites: '8/8',
     nodeLocation: 'North America',
     server:

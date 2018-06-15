@@ -51,7 +51,7 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
             dataSource={this.props.producerAccountList.map(({ url, ...rest }, index) => {
               const hostName = url.match(reURLInformation)?.[3];
               const details = hostName ? blockProducersByUrl[hostName] : {};
-              return { account: rest.owner, homepage: url, ...rest, ...details, key: index };
+              return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
             })}
             pagination={{
               position: 'both',
@@ -63,7 +63,7 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column width={35} title={this.props.t('rank')} dataIndex="key" key="key" />
+            <Table.Column width={35} dataIndex="key" key="key" />
             <Table.Column
               width={95}
               title={this.props.t('name')}
@@ -132,6 +132,7 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
             />
             <Table.Column width={50} title={this.props.t('prerequisites')} dataIndex="prerequisites" />
             <Table.Column title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
+            <Table.Column title={this.props.t('homepage')} dataIndex="homepage" />
           </Table>
         </ProducerListContainer>
       </Container>
