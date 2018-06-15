@@ -96,6 +96,7 @@ export default i18n
           VotingProgress: 'EOS Voting Progress',
           EOSVotes: 'EOS Votes',
           MinimumVotesRequired: 'Minimum Votes Required',
+          contactUs: 'Contact US',
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -223,6 +224,7 @@ export default i18n
           EOSVotes: 'EOS投票量',
           MinimumVotesRequired: '主网启动所需最小投票量',
           ToVote: '仅剩',
+          contactUs: '加入社群',
         },
         countdown: {
           Days: '天',

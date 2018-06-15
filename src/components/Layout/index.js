@@ -16,11 +16,11 @@ import SearchBar from '../SearchBar';
 import 微信公众号 from './微信公众号.jpg';
 import 运营个人微信号 from './运营个人微信号.jpg';
 import 知识星球 from './知识星球.png';
-import translateLogo from './translate.png'; 
+import translateLogo from './translate.png';
 
 const lang = {
-  'zh': '中文',
-  'en': 'English',
+  zh: '中文',
+  en: 'English',
 };
 
 const HeaderContainer = styled.div`
@@ -437,11 +437,8 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
                 <Dropdown overlay={this.localeMenu}>
                   <NavDropDownsButton>
-                    <TranslateLogo
-                      alt={this.props.t('Locale')}
-                      src={translateLogo}
-                    />
-                      {lang[this.props.t('locale')]}
+                    <TranslateLogo alt={this.props.t('Locale')} src={translateLogo} />
+                    {lang[this.props.t('locale')]}
                     <Icon type="down" />
                     {this.getSelectedIndicator('locale')}
                   </NavDropDownsButton>
@@ -495,6 +492,7 @@ const ContactLinks = styled(Flex)`
     margin-bottom: 5px;
     & span {
       color: #3498db;
+      cursor: pointer;
     }
   }
 `;
@@ -581,7 +579,7 @@ export class Footer extends Component<{ t: Function }, *> {
           </FooterItem>
           <FooterItem column>
             <FooterTitle>
-              <TitleDecorator>{this.props.t('contact')}</TitleDecorator>
+              <TitleDecorator>{this.props.t('contactUs')}</TitleDecorator>
             </FooterTitle>
             {this.props.t('locale') === 'zh' ? (
               <ContactLinks column>
@@ -608,12 +606,12 @@ export class Footer extends Component<{ t: Function }, *> {
                   </span>
                 </div>
                 <div>
-                  知乎:{' '}
-                  <a href="https://www.zhihu.com/people/scaneos/activities" target="_black" rel="noopener noreferrer">
+                  Telegram:{' '}
+                  <a href="https://t.me/scaneos" target="_black" rel="noopener noreferrer">
                     scanEOS
                   </a>
                 </div>
-                <div>百家号: scanEOS社区</div>
+                <div>邮箱: scaneos.io@gmail.com</div>
               </ContactLinks>
             ) : (
               <ContactLinks column>
@@ -636,6 +634,7 @@ export class Footer extends Component<{ t: Function }, *> {
                   </a>
                 </div>
                 <div>Steemit: scanEOS</div>
+                <div>email: scaneos.io@gmail.com</div>
               </ContactLinks>
             )}
           </FooterItem>
