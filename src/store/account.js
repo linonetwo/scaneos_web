@@ -79,7 +79,7 @@ export type BPAccount = {
   isActive: number,
   url: string,
   unpaidBlocks: number,
-  lastClaimTime: number,
+  lastClaimTime: number | string,
   location: number,
 };
 
