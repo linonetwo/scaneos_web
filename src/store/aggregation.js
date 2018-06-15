@@ -8,39 +8,40 @@ export type AggregationData = {
   actionNumber: number,
 };
 
+export type VoteData = {
+  maxBlockNetUsage: number,
+  targetBlockNetUsagePct: number,
+  maxTransactionNetUsage: number,
+  basePerTransactionNetUsage: number,
+  netUsageLeeway: number,
+  contextFreeDiscountNetUsageNum: number,
+  contextFreeDiscountNetUsageDen: number,
+  maxBlockCpuUsage: number,
+  targetBlockCpuUsagePct: number,
+  maxTransactionCpuUsage: number,
+  minTransactionCpuUsage: number,
+  maxTransactionLifetime: number,
+  deferredTrxExpirationWindow: number,
+  maxTransactionDelay: number,
+  maxInlineActionSize: number,
+  maxInlineActionDepth: number,
+  maxAuthorityDepth: number,
+  maxRamSize: string,
+  totalRamBytesReserved: number,
+  totalRamStake: number,
+  lastProducerScheduleUpdate: string,
+  lastPervoteBucketFill: string,
+  pervoteBucket: number,
+  perblockBucket: number,
+  totalUnpaidBlocks: number,
+  totalActivatedStake: string,
+  threshActivatedStakeTime: string,
+  lastProducerScheduleSize: number,
+  totalProducerVoteWeight: string,
+  lastNameClose: string,
+}
 type AggregationTable = {
-  rows: {
-    maxBlockNetUsage: number,
-    targetBlockNetUsagePct: number,
-    maxTransactionNetUsage: number,
-    basePerTransactionNetUsage: number,
-    netUsageLeeway: number,
-    contextFreeDiscountNetUsageNum: number,
-    contextFreeDiscountNetUsageDen: number,
-    maxBlockCpuUsage: number,
-    targetBlockCpuUsagePct: number,
-    maxTransactionCpuUsage: number,
-    minTransactionCpuUsage: number,
-    maxTransactionLifetime: number,
-    deferredTrxExpirationWindow: number,
-    maxTransactionDelay: number,
-    maxInlineActionSize: number,
-    maxInlineActionDepth: number,
-    maxAuthorityDepth: number,
-    maxRamSize: string,
-    totalRamBytesReserved: number,
-    totalRamStake: number,
-    lastProducerScheduleUpdate: string,
-    lastPervoteBucketFill: string,
-    pervoteBucket: number,
-    perblockBucket: number,
-    totalUnpaidBlocks: number,
-    totalActivatedStake: string,
-    threshActivatedStakeTime: string,
-    lastProducerScheduleSize: number,
-    totalProducerVoteWeight: string,
-    lastNameClose: string,
-  }[],
+  rows: VoteData[],
   more: boolean,
 };
 
@@ -48,6 +49,7 @@ export type Store = {
   loading: boolean,
   data: AggregationData,
   totalActivatedStake: number,
+  totalProducerVoteWeight: number,
 };
 
 export const emptyAggregationData: AggregationData = {
@@ -60,6 +62,7 @@ const defaultState = {
   loading: false,
   data: emptyAggregationData,
   totalActivatedStake: 0,
+  totalProducerVoteWeight: 0,
 };
 export default (initialState?: Object = {}) => ({
   state: {
@@ -75,8 +78,9 @@ export default (initialState?: Object = {}) => ({
       state.data = data;
       return state;
     },
-    initVotingProgress(state: Store, totalActivatedStake: number) {
-      state.totalActivatedStake = totalActivatedStake;
+    initVotingData(state: Store, voteData: VoteData) {
+      state.totalActivatedStake = Number(voteData.totalActivatedStake);
+      state.totalProducerVoteWeight = Number(voteData.totalProducerVoteWeight);
       return state;
     },
   },
@@ -110,7 +114,7 @@ export default (initialState?: Object = {}) => ({
     },
     async getVoting() {
       const {
-        rows: [{ totalActivatedStake }],
+        rows: [voteData],
       }: AggregationTable = await postEOS('/v1/chain/get_table_rows', {
         json: true,
         code: 'eosio',
@@ -118,7 +122,7 @@ export default (initialState?: Object = {}) => ({
         table: 'global',
         limit: 1,
       });
-      this.initVotingProgress(Number(totalActivatedStake));
+      this.initVotingData(voteData);
     },
   },
 });

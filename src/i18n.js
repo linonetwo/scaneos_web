@@ -225,6 +225,8 @@ export default i18n
           MinimumVotesRequired: '主网启动所需最小投票量',
           ToVote: '仅剩',
           contactUs: '加入社群',
+          country: '国家',
+          rank: '排名',
         },
         countdown: {
           Days: '天',

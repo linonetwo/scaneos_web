@@ -28,35 +28,43 @@ type Props = {
 };
 type Store = {
   producerAccountList: BPAccount[],
+  totalProducerVoteWeight: number,
 };
 type Dispatch = {
   updateURI: (queryOverride?: Object) => void,
   getBPAccountsList: () => void,
+  getVoting: () => void,
 };
 
 class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
   render() {
+    // console.log(this.props.producerAccountList.map(({ url, ...rest }) => {
+    //   const hostName = url.match(reURLInformation)?.[3];
+    //   const details = hostName ? blockProducersByUrl[hostName] : {};
+    //   return { account: rest.owner, homepage: url,...rest, ...details };
+    // }).filter(({ name }) => !name).map(({ account, homepage }) => `账号： ${account} 网址： ${homepage}`).join('\n'))
     return (
       <Container column>
         <ProducerListContainer>
           <Table
             size="small"
-            dataSource={this.props.producerAccountList.map(({ url, ...rest }) => {
+            dataSource={this.props.producerAccountList.map(({ url, ...rest }, index) => {
               const hostName = url.match(reURLInformation)?.[3];
               const details = hostName ? blockProducersByUrl[hostName] : {};
-              return { account: rest.owner, ...rest, ...details };
+              return { account: rest.owner, homepage: url, ...rest, ...details, key: index };
             })}
             pagination={{
               position: 'both',
               pageSize: 10,
               current: Number(queryString.parse(this.props.location.search).page),
             }}
-            scroll={{ x: 800 }}
+            scroll={{ x: 1000 }}
             onChange={pagination => {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column fixed="left" width={90} title={this.props.t('BlockProducer')} dataIndex="name" key="name" />
+            <Table.Column fixed="left" title={this.props.t('rank')} dataIndex="key" key="key" />
+            <Table.Column fixed="left" width={90} title={this.props.t('name')} dataIndex="name" key="name" />
             <Table.Column
               width={70}
               title={this.props.t('account')}
@@ -69,11 +77,22 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
               title={this.props.t('EOSVotes')}
               dataIndex="totalVotes"
               key="totalVotes"
-              render={voteCount => toUpper(numeral(voteCount).format('(0,0 a)'))}
+              render={voteCount => (
+                <div>
+                  <div>{toUpper(numeral(voteCount).format('(0,0 a)'))}</div>
+                  <div>
+                    <strong>
+                      {this.props.totalProducerVoteWeight > 0
+                        ? numeral(Number(voteCount) / this.props.totalProducerVoteWeight).format('0.00%')
+                        : ''}
+                    </strong>
+                  </div>
+                </div>
+              )}
             />
             <Table.Column
               width={100}
-              title={this.props.t('location')}
+              title={this.props.t('country')}
               dataIndex="location"
               filters={[
                 {
@@ -114,13 +133,24 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ account: { producerAccountList } }): Store => ({ producerAccountList });
-const mapDispatch = ({ history: { updateURI }, account: { getBPAccountsList } }): Dispatch => ({
+const mapState = ({ account: { producerAccountList }, aggregation: { totalProducerVoteWeight } }): Store => ({
+  producerAccountList,
+  totalProducerVoteWeight,
+});
+const mapDispatch = ({
+  history: { updateURI },
+  account: { getBPAccountsList },
+  aggregation: { getVoting },
+}): Dispatch => ({
   updateURI,
   getBPAccountsList,
+  getVoting,
 });
 const frontload = (props: Dispatch & Store) =>
-  Promise.all([props.producerAccountList.length === 0 && props.getBPAccountsList()]);
+  Promise.all([
+    props.producerAccountList.length === 0 && props.getBPAccountsList(),
+    props.totalProducerVoteWeight === 0 && props.getVoting(),
+  ]);
 
 export default translate()(
   connect(
