@@ -51,12 +51,11 @@ export const ProducerListContainer = styled.div`
   .ant-table {
     height: unset;
     margin-bottom: 50px;
-    ${breakpoint('desktop')`
-      padding: 0;
-      width: 90vw;
-    `};
-    width: 90vw;
+    width: 95vw;
     padding: 0;
+    ${breakpoint('desktop')`
+      width: calc(100% - 45px * 2);
+    `};
   }
 
   & small {

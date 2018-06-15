@@ -45,6 +45,7 @@ class Account extends Component<Props & Store, *> {
                   key="1"
                 >
                   <LongListContainer column>
+                    <small>{this.props.t('bpcontactus')}</small>
                     <Table
                       scroll={{ x: 1000 }}
                       size="middle"

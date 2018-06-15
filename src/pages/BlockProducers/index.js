@@ -34,26 +34,15 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
       <Container column>
         <ProducerListContainer>
           <Table
-            size="middle"
+            size="small"
             dataSource={blockProducersList}
-            pagination={{ pageSize: 10, current: Number(queryString.parse(this.props.location.search).page) }}
-            scroll={{ x: 1500 }}
+            pagination={{ position: 'both', pageSize: 10, current: Number(queryString.parse(this.props.location.search).page) }}
+            scroll={{ x: 800 }}
             onChange={pagination => {
               this.props.updateURI({ page: pagination.current });
             }}
           >
             <Table.Column fixed="left" width={90} title={this.props.t('name')} dataIndex="name" key="name" />
-            <Table.Column
-              width={60}
-              title={this.props.t('homepage')}
-              dataIndex="homepage"
-              key="homepage"
-              render={url => (
-                <a href={url} target="_black" rel="noopener noreferrer">
-                  {url}
-                </a>
-              )}
-            />
             <Table.Column
               width={70}
               title={this.props.t('account')}
@@ -62,7 +51,7 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
               render={account => <Link to={`/account/${account}`}>{account}</Link>}
             />
             <Table.Column
-              width={50}
+              width={100}
               title={this.props.t('location')}
               dataIndex="location"
               filters={[
@@ -95,26 +84,8 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
                 record.location.indexOf(area) !== -1 || locationBelongsToArea(record.location, area)
               }
             />
-            <Table.Column width={100} title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
-            <Table.Column
-              width={200}
-              title={
-                <div>
-                  {this.props.t('introduction')} <small>{this.props.t('bpcontactus')}</small>
-                </div>
-              }
-              dataIndex="introduction"
-              key="introduction"
-            />
-            <Table.Column width={100} title={this.props.t('server')} dataIndex="server" key="server" />
-            <Table.Column width={10} title={this.props.t('prerequisites')} dataIndex="prerequisites" />
-            <Table.Column
-              width={100}
-              title={this.props.t('contact')}
-              dataIndex="contact"
-              key="contact"
-              render={contact => <AutoLinkText text={contact} />}
-            />
+            <Table.Column width={50} title={this.props.t('prerequisites')} dataIndex="prerequisites" />
+            <Table.Column title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
           </Table>
         </ProducerListContainer>
       </Container>
