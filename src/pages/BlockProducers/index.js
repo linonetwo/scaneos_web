@@ -63,8 +63,14 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column fixed="left" title={this.props.t('rank')} dataIndex="key" key="key" />
-            <Table.Column fixed="left" width={90} title={this.props.t('name')} dataIndex="name" key="name" />
+            <Table.Column width={20} fixed="left" title={this.props.t('rank')} dataIndex="key" key="key" />
+            <Table.Column
+              fixed="left"
+              title={this.props.t('name')}
+              dataIndex="name"
+              key="name"
+              render={(name, { account }) => name || toUpper(account)}
+            />
             <Table.Column
               width={70}
               title={this.props.t('account')}
