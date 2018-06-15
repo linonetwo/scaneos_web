@@ -120,3 +120,14 @@ export function locationBelongsToArea(location: string, area: string) {
   }
   return false;
 }
+
+export const reURLInformation = new RegExp(
+  [
+    '^(https?:)//', // protocol
+    '(www.)?([^:/?#]*)', // hostname
+    '(?::([0-9]+))?', // port
+    '(/{0,1}[^?#]*)', // pathname
+    '(\\?[^#]*|)', // search
+    '(#.*|)$', // hash
+  ].join(''),
+);

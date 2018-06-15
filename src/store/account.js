@@ -217,7 +217,7 @@ export default (initialState?: Object = {}) => ({
           table: 'producers',
           limit: 100000,
         });
-        this.initProducerList(bpList.rows);
+        this.initProducerList(bpList.rows.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes)));
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

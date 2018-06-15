@@ -595,7 +595,7 @@ export class Footer extends Component<{ t: Function }, *> {
                   </span>
                 </div>
                 <div>
-                  微信公众号:{' '}
+                  微信:{' '}
                   <span
                     role="button"
                     tabIndex={0}

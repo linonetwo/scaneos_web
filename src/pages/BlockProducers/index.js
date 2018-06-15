@@ -1,17 +1,20 @@
 // @flow
+import { toUpper } from 'lodash';
+import numeral from 'numeral';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Table } from 'antd';
-import AutoLinkText from 'react-autolink-text2';
 import queryString from 'query-string';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { frontloadConnect } from 'react-frontload';
 
-import blockProducersList from './blockProducersList';
+import blockProducersByUrl from './blockProducersList';
 import { ProducerListContainer } from '../../components/Table';
-import { locationBelongsToArea } from '../../store/utils';
+import { locationBelongsToArea, reURLInformation } from '../../store/utils';
+import type { BPAccount } from '../../store/account';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -23,9 +26,12 @@ type Props = {
   t: Function,
   location: Object,
 };
-type Store = {};
+type Store = {
+  producerAccountList: BPAccount[],
+};
 type Dispatch = {
   updateURI: (queryOverride?: Object) => void,
+  getBPAccountsList: () => void,
 };
 
 class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
@@ -35,20 +41,35 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
         <ProducerListContainer>
           <Table
             size="small"
-            dataSource={blockProducersList}
-            pagination={{ position: 'both', pageSize: 10, current: Number(queryString.parse(this.props.location.search).page) }}
+            dataSource={this.props.producerAccountList.map(({ url, ...rest }) => {
+              const hostName = url.match(reURLInformation)?.[3];
+              const details = hostName ? blockProducersByUrl[hostName] : {};
+              return { account: rest.owner, ...rest, ...details };
+            })}
+            pagination={{
+              position: 'both',
+              pageSize: 10,
+              current: Number(queryString.parse(this.props.location.search).page),
+            }}
             scroll={{ x: 800 }}
             onChange={pagination => {
               this.props.updateURI({ page: pagination.current });
             }}
           >
-            <Table.Column fixed="left" width={90} title={this.props.t('name')} dataIndex="name" key="name" />
+            <Table.Column fixed="left" width={90} title={this.props.t('BlockProducer')} dataIndex="name" key="name" />
             <Table.Column
               width={70}
               title={this.props.t('account')}
               dataIndex="account"
               key="account"
               render={account => <Link to={`/account/${account}`}>{account}</Link>}
+            />
+            <Table.Column
+              width={120}
+              title={this.props.t('EOSVotes')}
+              dataIndex="totalVotes"
+              key="totalVotes"
+              render={voteCount => toUpper(numeral(voteCount).format('(0,0 a)'))}
             />
             <Table.Column
               width={100}
@@ -93,12 +114,22 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
   }
 }
 
-const mapDispatch = ({ history: { updateURI } }): Dispatch => ({ updateURI });
-export default withRouter(
-  translate()(
-    connect(
-      undefined,
-      mapDispatch,
-    )(BlockProducers),
+const mapState = ({ account: { producerAccountList } }): Store => ({ producerAccountList });
+const mapDispatch = ({ history: { updateURI }, account: { getBPAccountsList } }): Dispatch => ({
+  updateURI,
+  getBPAccountsList,
+});
+const frontload = (props: Dispatch & Store) =>
+  Promise.all([props.producerAccountList.length === 0 && props.getBPAccountsList()]);
+
+export default translate()(
+  connect(
+    mapState,
+    mapDispatch,
+  )(
+    frontloadConnect(frontload, {
+      onUpdate: false,
+      onMount: true,
+    })(BlockProducers),
   ),
 );

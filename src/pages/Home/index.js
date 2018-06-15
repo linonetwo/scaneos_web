@@ -200,7 +200,7 @@ type Store = {
 type Dispatch = {
   getBlocksList: (size?: number) => void,
   getTransactionsList: (size?: number) => void,
-  getBPAccountsList: (page?: number) => void,
+  getBPAccountsList: () => void,
   getMessagesList: (page?: number) => void,
   getAggregationData: () => void,
   getPriceData: () => void,
@@ -471,7 +471,7 @@ class Home extends Component<Props & Store> {
           loading: this.props.transactionLoading,
         })}
         {this.getBPList({
-          data: take(this.props.producerAccountList.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes)), 7),
+          data: take(this.props.producerAccountList, 7),
           loading: this.props.accountLoading,
         })}
         {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}

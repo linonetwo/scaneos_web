@@ -1,5 +1,5 @@
-const blockProducersList = [
-  {
+const blockProducersByUrl = {
+  'eoshuobipool.com': {
     location: 'Beijing China',
     latitude: 39.90419989999999,
     longitude: 116.4073963,
@@ -12,8 +12,9 @@ const blockProducersList = [
     introduction: '火币资产平台，致力于为用户提供方便安全的服务。',
     contact:
       'GitHub\r\nhttps://github.com/eoshuobipool\r\nTwitter\r\nhttps://twitter.com/EOS_huobipool\r\nTelegram\r\nhttps://t.me/eoshuobipool',
+    account: 'eoshuobipool',
   },
-  {
+  'eos.store': {
     location: 'Beijing',
     latitude: 39.90419989999999,
     longitude: 116.4073963,
@@ -27,8 +28,9 @@ const blockProducersList = [
       'we provide Master-Slave structure of node. There are two stages in total. We will step in the second stage once the workload reached the 70% of capacity.\r\n\r\nFirst Stage\r\n\r\nMaster(model: AWS x1e.16xlarge)\r\nSlave(model: AWS x1e.8xlarge)\r\n\r\nSecond Stage\r\n\r\nMaster(model: AWS x1e.32xlarge)\r\nSlave(model: AWS x1e.16xlarge)\r\n\r\nTest node\r\n\r\nvCPU: 16\r\nMemory: 128G\r\nBandwidth: 1Gb\r\nStorage: 10Tb, AWS EFS\r\nLocation: Hong Kong',
     contact:
       'GitHub\r\nhttps://github.com/eosstore\r\nTwitter\r\nhttps://twitter.com/StoreEos\r\nFacebook\r\nhttps://www.facebook.com/profile.php?id=10002\r\n微信公众号\r\nEosStore\r\nMedium\r\nhttps://steemit.com/@eos.store\r\nSteemit\r\nhttps://steemit.com/@eos.store',
+    account: 'eosstorebest',
   },
-  {
+  'eoscannon.io': {
     location: 'Shanghai, China',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -42,8 +44,9 @@ const blockProducersList = [
       'EOS的发展将会为区块链以更好的方式改变着我们的生活，我们努力为EOS分散式生态系统做贡献！作为一个具有很高声望的社区，我们愿意连接并促进海外和中国EOS社区之间的共享。此外，我们很乐意带领大多数国内token持有者，参与全球EOS社区的增长。\r\n\r\nEOS Cannon将是一个可靠的区块生产者，致力为社区服务。此外，我们计划成为积极的EOS生态系统贡献者和项目孵化器，而不仅仅是一个EOS社区，我们将成为中国重要的EOS合作伙伴。',
     contact:
       'Twitter\r\nhttps://twitter.com/cannon_eos\r\nTelegram\r\nhttps://t.me/eos_cannon\r\nSteemit\r\nhttps://steemit.com/@eoscannon',
+    account: 'eoscannonchn',
   },
-  {
+  'eosasia.one': {
     location: 'Hong Kong ',
     latitude: 22.396428,
     longitude: 114.109497,
@@ -58,7 +61,7 @@ const blockProducersList = [
     contact: 'Twitter\r\nhttps://twitter.com/eosasia_one\r\nSteemit\r\nhttps://steemit.com/@eos-asia',
     account: 'eosasia11111',
   },
-  {
+  'eosfans.one': {
     location: 'China',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -71,7 +74,7 @@ const blockProducersList = [
       '总部位于中国上海的EOS Gravity是一个区块链生态社区，聚集了大量区块链和EOS追随者。该社区致力于为区块链技术感兴趣的人士提供帮助，并通过我们对区块链技术和EOS公共链的深入分析和明确指导鼓励更大规模的参与。\r\n\r\n此外，我们通过提供富有洞察力的评论，最新消息以及专业技术支持，为EOS生态系统的发展做出贡献。未来，EOS Gravity将致力于开发EOS社区，重点关注价值信息、技术讨论、离线研讨会、高峰论坛和生态系统的Dapp等各个方面，这些都为过渡到一个全新的世界。\r\n\r\n我们的价值观：安全，团结，高级和繁荣。\r\n我们的使命：为快速发展的EOS行业做出贡献。\r\n我们的未来前景：成为全球领先的EOS社区。',
     contact: 'Twitter\r\nhttps://twitter.com/EOSGravity\r\n微信公众号\r\nEOS引力区',
   },
-  {
+  'eosargentina.io': {
     location: 'Argentina',
     latitude: -38.416097,
     longitude: -63.61667199999999,
@@ -82,8 +85,9 @@ const blockProducersList = [
       'EOS阿根廷，主要目标是通过在一个已经以“区块链友好”而闻名的国家推广使用EOS，并在南美其他地区效仿这一成功举措，推动区块链的采用，我们相信我们大陆迫切需要区块链透明度。',
     contact:
       'Twitter\r\nhttps://twitter.com/EosArgentina\r\nFacebook\r\nhttps://www.facebook.com/groups/6108327225889\r\nSteemit\r\nhttps://steemit.com/@eosargentina',
+    account: 'argentinaeos',
   },
-  {
+  'ono.chat': {
     location: 'Beijing China',
     latitude: 39.90419989999999,
     longitude: 116.4073963,
@@ -97,8 +101,9 @@ const blockProducersList = [
       '我们是EOS ONO，一个免费的，分散的社交网络Dapp，它保护和尊重人类社交互动的多样性和多样性，并且即将在EOS平台上推出。',
     contact:
       'Twitter\r\nhttps://twitter.com/onosocial\r\nFacebook\r\nhttps://www.facebook.com/ONOofficial\r\nTelegram\r\nhttps://t.me/ONOCN\r\n微信公众号\r\nonogogo\r\nMedium\r\nhttps://medium.com/@ONOsocial\r\nSteemit\r\nhttps://steemit.com/@onosocial',
+    account: 'eosonoeosono',
   },
-  {
+  'eoscanada.com': {
     location: 'Canada',
     latitude: 56.130366,
     longitude: -106.346771,
@@ -113,7 +118,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eos_canada\r\nTelegram\r\nhttps://t.me/eoscanada\r\nSteemit\r\nhttps://steemit.com/@eos-canada\r\nReddit\r\nhttps://www.reddit.com/user/EOSCanada/',
     account: 'eoscanadacom',
   },
-  {
+  'eosbeijing.one': {
     location: 'Beijing ',
     latitude: 39.90419989999999,
     longitude: 116.4073963,
@@ -127,8 +132,9 @@ const blockProducersList = [
       'EOS Beijing将与大学合作研究项目和各种区块链社区团体,支持EOS-related学术研究和促进EOS意识和采用。的支持与合作交流、账户、cryptocurrency媒体,和其他元素的生态系统,我们将能够对EOS的成功做出了重大贡献。\r\nIn recent years, the development of blockchain technology has advanced faster than its practical applications. The balance of EOS performance and decentralization has led us to see the possibility of bridging this gap. The EOS Beijing team is composed of experienced digital currency professionals and investors who are eager to participate in this new cutting-edge technology. EOS Beijing will collaborate with university research programs and various blockchain community groups, to support EOS-related academic research and promote EOS awareness and adoption. With the support and cooperation of cryptocurrency wallets, media, and other elements of the ecosystem, we will be capable of making significant contributions to the development and adoption of EOS.',
     contact:
       'Twitter\r\nhttps://twitter.com/eosbeijing\r\nTelegram\r\nhttp://t.me/eosbeijing\r\nSteemit\r\nhttps://steemit.com/@eosbeijing',
+    account: 'eosbeijingbp',
   },
-  {
+  'eosuk.io': {
     location: 'England',
     latitude: 52.3555177,
     longitude: -1.1743197,
@@ -142,8 +148,9 @@ const blockProducersList = [
       'EOS UK坐落于伦敦，创始人Roger John Davies，打算为我区块生成者提供EOS网络上最透明和可靠的节点。\r\n\r\n除了对所有员工的工资合理和标准的运营成本，所有的初始收入将漏斗放回我们的砌块生产基础设施，以确保在弹性极限和达到的性能。\r\n\r\n未来想建立EOS大学，重点开展“下一代”下一代”在计算机科学，政治和经济问题，以及这些学科通过使用Blockchain技术和断词被从根本上改变。\r\n\r\nEOS UK将作为候选团队和区块生产者的一起推动EOS理念，通过聚会，信息发布和协作与商业和学术机构利用网络来造福英国。',
     contact:
       'Twitter\r\nhttps://twitter.com/eosukbp\r\nFacebook\r\nhttps://www.facebook.com/advantaproductions/\r\nSteemit\r\nhttps://steemit.com/@bodget',
+    account: 'eosukblocpro',
   },
-  {
+  'eoseoul.io': {
     location: 'South Korea',
     latitude: 35.907757,
     longitude: 127.766922,
@@ -158,7 +165,7 @@ const blockProducersList = [
     contact:
       'GitHub\r\nhttp://github.com/eoseoul\r\nTwitter\r\nhttp://twitter.com/eoseoul_kor\r\nFacebook\r\nhttp://facebook.com/eoseoul.kr\r\nTelegram\r\nhttp://t.me/eoseoul_en\r\nSteemit\r\nhttp://steemit.com/@eoseoul',
   },
-  {
+  'node.eosfans.io': {
     location: 'Hong Kong ',
     latitude: 22.396428,
     longitude: 114.109497,
@@ -172,7 +179,7 @@ const blockProducersList = [
       '部署在香港\r\n节点将部署在香港,与大陆地区采用CN2网络高速连接,合理的避免了一些不可抗因素,使网络连通性和安全性达到一个接近完美的平衡.\r\n\r\n由社区驱动\r\n没有内幕,没有阴谋,代表社区成员存在的一个节点.后期将会逐步完善社区的生态治理.\r\n\r\n利益最大化\r\n首先我们会尊重且履行EOS.IO官方及国际社区推行的宪法内容,同时我们会使用合理的方式使参与的社区成员利益最大化(欢迎广大社区成员给我们提议).',
     contact: 'Telegram\r\nhttps://t.me/eosfanscn\r\n微信公众号\r\neosiochina',
   },
-  {
+  'meet.one': {
     location: 'Singapore',
     latitude: 1.352083,
     longitude: 103.819836,
@@ -188,7 +195,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/MeetDotOne\r\nTelegram\r\nhttps://t.me/MeetOneEnglish\r\n微信公众号\r\nEOSMeetOne\r\nSteemit\r\nhttps://steemit.com/@meetone',
     account: 'eosiomeetone',
   },
-  {
+  'eosio.sg': {
     location: 'Singapore',
     latitude: 1.352083,
     longitude: 103.819836,
@@ -201,8 +208,9 @@ const blockProducersList = [
       '团队介绍\r\neosio.sg来自新加坡，是EOS全球超级节点竞选团队，致力于区块链底层技术研发，发展和构建安全、健康、活跃的EOS生态平台与应用。\r\n团队成员均来自世界级名校和互联网、金融、科研等行业的顶级公司，拥有扎实的产品设计、开发和运营经验以及扎实的EOS底层代码研究能力。\r\n团队在2018年4月成立以来，在技术理解上获得了迅速的积累，并积极为EOS社区生态的活跃作出贡献。\r\n团队在成立第一周，发布了eosio.sg Testnet并率先实现了一键接入等功能；\r\n团队成立第二周，在尚未提交节点申请的情况下，提前获邀成为正式的超级节点候选人，并分配在Group1；\r\n团队成立第三周，开始凭借对底层代码的深刻理解建立了技术博客，并获得了Daniel Larimer、Thomas Cox等官方人物的关注与互动。\r\n目前，eosio.sg正与其他优秀的团队一起，积极探索和开发新的EOS功能与应用。',
     contact:
       'Twitter\r\nhttps://twitter.com/eosiosg\r\nFacebook\r\nhttps://www.facebook.com/eosiosg-168790343770\r\nTelegram\r\nhttps://t.me/eosiosg',
+    account: 'eosiosg11111',
   },
-  {
+  'top.one': {
     location: 'The British Virgin Islands',
     latitude: 18.420695,
     longitude: -64.639968,
@@ -215,8 +223,9 @@ const blockProducersList = [
     introduction: '我们是一家全语种孵化交换平台TOP.ONE，TOP. ONE很高兴你们来社区分享交流意见。',
     contact:
       'Twitter\r\nhttps://twitter.com/TOPONE_2017\r\nFacebook\r\nhttps://www.facebook.com/top.oneexchange2017\r\nTelegram\r\nhttps://t.me/topone_2017',
+    account: 'top111111111',
   },
-  {
+  'oraclechain.io': {
     location: 'China',
     latitude: 35.86166,
     longitude: 104.195397,
@@ -229,8 +238,9 @@ const blockProducersList = [
     introduction:
       '作为世界上第一个建立在EOS生态圈上的应用程序，Oracle Chain基于EOS区块链技术，为区块链提供实际数据和交叉链数据。我们还在区块链上实现了数据服务提供商和数据使用者之间的有效连接。作为EOS Oracle机器和其他基础架构的构建者，同时我们也是节点竞选候选者之一。\r\n\r\n产品介绍：\r\n作为基于EOS的科技技术，OracleChain采用了自动PoRD机制，将实际数据带入区块链区域，并将其用作为其他区块链应用程序提供服务的基础架构。另外，我们还开发了当前在EOS网络上运行的全球首个相关资产应用程序PocketEOS。它将与EOS上众多的Dapp应用程序接口，允许用户直接进入区块链3.0时代。',
     contact: 'Twitter\r\nhttps://twitter.com/Oracle_Chain\r\nTelegram\r\nhttps://t.me/OracleChainChat',
+    account: 'oraclegogogo',
   },
-  {
+  'eos.cybex.io': {
     location: 'Shanghai',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -244,8 +254,9 @@ const blockProducersList = [
       'EOS.CYBEX是一支经验丰富的团队，致力于EOS项目孵化和社区发展。我们内部经过考虑和计划制定后，现在已经做好准备好运行EOS超级节点。EOS.CYBEX旨在为所有基于EOS平台的Dapp开发人员提供无数的一站式服务，包括开发人员随时可以访问的测试链以及复杂的测试工具和服务。',
     contact:
       'Twitter\r\nhttps://twitter.com/EOSCYBEX\r\nMedium\r\nhttps://medium.com/@eoscybex\r\nSteemit\r\nhttps://steemit.com/cybex/@eos.cybex/an-intro',
+    account: 'eoscybexiobp',
   },
-  {
+  'eosnation.io': {
     location: 'Canada',
     latitude: 56.130366,
     longitude: -106.346771,
@@ -260,7 +271,7 @@ const blockProducersList = [
     contact:
       'GitHub\r\nhttps://github.com/EOS-Nation\r\nTwitter\r\nhttps://eosnation.io/\r\nFacebook\r\nhttps://www.facebook.com/groups/EOSNation\r\nSteemit\r\nhttps://steemit.com/@daverex',
   },
-  {
+  'eosnewyork.io': {
     location: 'America',
     latitude: 37.09024,
     longitude: -95.712891,
@@ -275,7 +286,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/eosnewyork\r\nTelegram\r\nhttps://t.me/eosnewyorkchat\r\nMedium\r\nhttps://medium.com/@eosnewyork',
   },
-  {
+  'bitfinex.com': {
     location: 'BVI',
     latitude: 18.420695,
     longitude: -64.639968,
@@ -289,8 +300,9 @@ const blockProducersList = [
       'Bitfinex成立于2012年，是一家数字资产交易平台，为交易商和流动性提供商提供最先进的服务。\r\n自成立以来，我们一直致力于识别和提升协议级技术的能力，以满足基于区块链交易平台的大量法律和技术需求，并且我们相信我们可以为EOSIO贡献巨大的价值通过分享这个社区。\r\n我们的团队由100多位行业专家组成，其中包括高度灵活的开发团队，技术支持代理，法律专家和热情的行业倡导者。我们的基本目标是通过密集的社区发展，研究和协作，提高去中心化数字资产空间的开源性质。\r\n我们作为一个区块生产者的愿景是建立一个协作孵化器，将EOSIO的潜力与我们的经验相结合，将EOSIO的研究，开发和采用提升到另一个层次。我们的团队在此过程中获得了宝贵的行业经验，我们的目标是利用这一点丰富我们周围的团队-尽可能分享信息并提供指导。',
     contact:
       'Twitter\r\nhttps://twitter.com/bitfinex\r\nFacebook\r\nhttps://www.facebook.com/bitfinex1\r\nTelegram\r\nhttps://t.me/bitfinex',
+    account: 'bitfinexeos1',
   },
-  {
+  'eosgalaxy.io': {
     location: 'China',
     latitude: 35.86166,
     longitude: 104.195397,
@@ -302,8 +314,9 @@ const blockProducersList = [
     introduction: '全球首家区块链媒体火星财经EOS Galaxy节点社区',
     contact:
       'GitHub\r\nhttps://github.com/EosGalaxy\r\nTwitter\r\nhttps://twitter.com/EOS_Galaxy\r\nSteemit\r\nhttps://steemit.com/@kevinxu/',
+    account: 'eosgalaxybp1',
   },
-  {
+  'helloeos.com.cn': {
     location: 'Suzhou China',
     latitude: 31.298974,
     longitude: 120.585289,
@@ -317,8 +330,9 @@ const blockProducersList = [
       'HelloEOS，在中国的区块生产者团队之一。具有开发和维护Graphene区块链的能力，以及拥有3万多个用户基础的社区，HelloEOS将会最大限度地帮助实现有效的社区治理，和一个充满活力、健康的EOS区块链生态系统。\r\n\r\nHelloEOS最早将EOS引入华语社区的群体，吸引了相当多的人，从而形成了最早的国内EOS社区。作为比特股的成员，HellEOS多年来一直是Bytemaster的坚定支持者。自从比特股1.0启动以来，我们就一直专注于操作和维护节点服务器并提供技术，而比特股区块链网络支持至少有3名活跃的独立操作者。\r\n\r\nHelloEOS团队在梓岑和Alex的带领下，创建和管理了几个社交媒体集团，不仅介绍了EOS，还翻译了许多技术和分析文章，帮助社区更好地理解了EOS。从初学者到高级用户，了解更多关于HelloEOS的信息，请访问我们的官方网站：www.helloeos.com.cn。',
     contact:
       'Twitter\r\nhttps://twitter.com/HelloEOS\r\nTelegram\r\nhttps://t.me/helloeos123\r\nSteemit\r\nhttps://steemit.com/@helloeos\r\nReddit\r\nhttps://www.reddit.com/user/helloeos/',
+    account: 'helloeoscnbp',
   },
-  {
+  'eos.cafe': {
     location: 'Canada',
     latitude: 56.130366,
     longitude: -106.346771,
@@ -333,7 +347,7 @@ const blockProducersList = [
     contact:
       'GitHub\r\nhttps://github.com/eoscafe\r\nTwitter\r\nhttps://twitter.com/eoscafe\r\nTelegram\r\nhttps://t.me/eoscafe\r\nMedium\r\nhttps://medium.com/@eoscafe\r\nSteemit\r\nhttps://steemit.com/@eoscafe',
   },
-  {
+  'eostribe.io': {
     location: 'Wyoming',
     latitude: 43.0759678,
     longitude: -107.2902839,
@@ -349,7 +363,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eostribe\r\nFacebook\r\nhttps://www.facebook.com/groups/eostribe\r\nTelegram\r\nhttps://t.me/EOSTribe\r\nMedium\r\nhttps://medium.com/eostribe\r\nSteemit\r\nhttps://steemit.com/@eostribe',
     account: 'eostribeprod',
   },
-  {
+  'eosocal.io': {
     location: 'Southern California',
     latitude: 34.9592083,
     longitude: -116.419389,
@@ -365,7 +379,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eos_la\r\nTelegram\r\nhttps://t.me/eossocal\r\nSteemit\r\nhttps://steemit.com/@eos-socal',
     account: 'eossocalprod',
   },
-  {
+  'eosdetroit.com': {
     location: 'Detroit, MI',
     latitude: 42.331427,
     longitude: -83.0457538,
@@ -378,7 +392,7 @@ const blockProducersList = [
       'EOS Detroit是一家位于密歇根州底特律的基础设施公司，专注于为EOS网络提供资源，这是一种共享的公共数据库即服务。\r\n\r\n在EOS主网启动后，我们的团队与全球其他BP候选人参与超级节点的竞选。这代表了一个新互联网的曙光，一个高度可用，值得信赖，审查抵制和分散的互联网。\r\n\r\n我们的团队努力获得EOStoken持有者的支持，他们将通过批准投票共同决定我们是否适合作为节点团队被网络雇佣。\r\n\r\n在收到他们的支持后，我们的收入将通过EOS网络直接获得，作为区块奖励，并反过来将通过扩展我们的基础架构和团队来引导EOS网络。\r\n\r\n除了作为网络基础架构的基石之外，我们的愿景是资助EOS.IO分布式应用程序开发，并通过教育，宣传和推广来发展EOS社区。我们的目标是通过我们为EOS网络和共同利益而努力创造相互价值',
     contact: 'Twitter\r\nhttps://twitter.com/eosiodetroit\r\nFacebook\r\nhttps://www.facebook.com/eosiodetroit',
   },
-  {
+  'eosdr.io': {
     location: 'Dominican Republic ',
     latitude: 18.735693,
     longitude: -70.162651,
@@ -392,7 +406,7 @@ const blockProducersList = [
       '商业模式：\r\n透明的商业模式：不应该每个企业和政府都这样操作吗？\r\n\r\n其他英国石油公司候选人评论道，我们同意：“节点团队有透明的商业模式，但也有收入和成本基础，能够长期支持EOS社区。” \r\n\r\n净收入（收入-直接成本）将分配如下：\r\n60％-保留资本（基础设施，研究/能力可扩展性）\r\n25％- EOS发展基金（或帮助创业公司和有前途的EOS发展项目的类似项目）\r\n15％-社区扩展和支持\r\n\r\n我们保留与其他BP合作的权利，如果他们同意，可以使用其他BP团队作为上述任何奖励分配的代理，例如资金开发项目或共享组织EOS社区活动的费用。\r\n\r\n我们保留接受任何直接发送的捐款以解决EOSDR.io主页中的链接的权利。这些捐赠将每年或每季度向社区披露，并按上述分配。\r\n\r\n我们保留随时更改分配百分比的权利，因为仍然有许多关于运行BP节点所需的适当基础设施或任何突然的扩展需求的未知数。',
     contact: 'Twitter\r\nhttps://twitter.com/info_eosdr\r\nSteemit\r\nhttps://steemit.com/@eosdr/',
   },
-  {
+  'eosgeek.io': {
     location: 'Shanghai ',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -404,7 +418,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/EosGeek\r\nTelegram\r\nhttps://t.me/EOSGeek\r\nSteemit\r\nhttps://steemit.com/@eosgeek',
   },
-  {
+  'eos.hcc.top': {
     location: 'Singapore',
     latitude: 1.352083,
     longitude: 103.819836,
@@ -418,7 +432,7 @@ const blockProducersList = [
       'EOS.HCC不仅是一个区块生产者，我们还将是EOS在亚太地区的重要合作伙伴，我们保持积极的EOS社区活动，是EOS的生态贡献者之一，我们相信EOS强大的技术指标和低成本用户具有非常大的应用空间，特别是在观众中，处理大量数据和数据存储;希望EOSHCC成为EOS生态的先驱，并从小众应用领域拓展更多的EOS生态可能性。相信EOS能可以更好地改变我们的生活方式。',
     contact: 'GitHub\r\nhttps://github.com/headthcarechain\r\nTelegram\r\nhttp://t.me/eos_hcc_node',
   },
-  {
+  'eosys.io': {
     location: 'Repubic of Korea',
     latitude: 35.907757,
     longitude: 127.766922,
@@ -433,7 +447,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/@eosys_io\r\nTelegram\r\nhttps://t.me/eosysiokor（KOR）\r\nMedium\r\nhttps://medium.com/@eosys\r\nSteemit\r\nhttps://steemit.com/@eosys',
     account: 'eosyskoreabp',
   },
-  {
+  'wancloud.cloud': {
     location: 'Hong Kong ',
     latitude: 22.396428,
     longitude: 114.109497,
@@ -448,7 +462,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/WancloudEOS\r\nFacebook\r\nhttps://www.facebook.com/wan.cloud.73\r\nTelegram\r\nhttps://t.me/Wancloud',
   },
-  {
+  'tokenika.io': {
     location: 'Warsaw, Poland',
     latitude: 52.2296756,
     longitude: 21.0122287,
@@ -464,7 +478,7 @@ const blockProducersList = [
       'GitHub\r\nhttps://github.com/tokenika\r\nTwitter\r\nhttps://twitter.com/tokenika_io\r\nFacebook\r\nhttps://www.facebook.com/groups/tokenika/\r\nSteemit\r\nhttps://steemit.com/@tokenika',
     account: 'tokenika4eos',
   },
-  {
+  'eos-nl.net': {
     location: 'Amsterdam, The Netherlans',
     latitude: 52.3702157,
     longitude: 4.895167900000001,
@@ -478,7 +492,7 @@ const blockProducersList = [
     contact:
       'EOS-NL致力于阿姆斯特丹和全球，建立和支持蓬勃发展的EOS社区。我们计划如下执行此操作：\r\n1.技术\r\n在具有冗余的快速设施中运行最佳服务器EOS-NL的主要重点是通过阿姆斯特丹互联网交换（AMS-ix）主机托管尽可能提供CPU，内存和吞吐量方面的EOS网络，尽可能提高最大运行时间和最小延迟。\r\n\r\nEOS-NL目前拥有一台法兰克福AWS测试服务器，运行Dawn.3作为Jungle测试网中的Raven。在EOS社区测试网发布Dawn.3之后，EOS-NL将把测试环境转移到其带有24个CPU，64 GB RAM和200 GB SSD，1 GBps带宽和6ms延迟连接的裸机设备上。EOS-NL将很快发布进一步扩大计划。\r\n\r\n2.团队和组织\r\n作为BP，我们主要提供一个可靠的节点并促进社区的发展和参与。从这些主要目标来看非常简单组织结构出现。\r\n\r\n3.合作\r\nEOS -NL认为应该在BP团队之间分享知识，以便每个BP能够最有效地支持全球和当地的EOS社区。\r\n\r\n4.仁爱\r\nEOS -NL将为其运营的收入和成本提供充分的透明度。\r\n\r\n5.多样性\r\nEOS -NL努力代表荷兰参与全球EOS网络，并使用全球第二大互联网枢纽-阿姆斯特丹互联网交换中心，因为它是ISP。EOS -NL将设在阿姆斯特丹，这个以其多样性和创业友好环境而闻名的城市。\r\n\r\n6.政治观点\r\nEOS -NL完全支持EOS的愿景，节点生产者主要是为了整个EOS社区而受益。作为一名BP，EOS-NL认为它应该提供一个知识平台，并通过举办见面会和会议为讨论提供空间。最终决定应该始终在于社区。',
   },
-  {
+  'eoswtz.com': {
     location: 'Nanjing, China',
     latitude: 32.060255,
     longitude: 118.796877,
@@ -494,7 +508,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eos_wtz\r\nFacebook\r\nhttps://www.facebook.com/eos.wtz.1\r\n微信公众号\r\nEOS WTZ\r\nReddit\r\nhttps://www.reddit.com/user/EOSWTZ',
     account: 'eoswtzeoswtz',
   },
-  {
+  'eosgreen.io': {
     location: 'EU',
     latitude: 54.5259614,
     longitude: 15.2551187,
@@ -508,8 +522,9 @@ const blockProducersList = [
       'EOS Green是一家受区块链技术和可再生能源相结合启发的公司。\r\n我们提供适当的设备以参与EOS块的生产，所有需要的能源最终将来自太阳能电池板，水电和生物燃料等可再生资源。未来，我们计划不仅为我们而且为成千上万的潜在客户产生和储存足够的能量。预计未来十年内，美国国家可再生能源市场将继续强劲增长，这将为我们实现成功的商业做出承诺。我们所做的一切，我们都相信挑战我们如何使用该技术的现状。',
     contact:
       'GitHub\r\nhttps://github.com/eosgreen\r\nFacebook\r\nhttps://www.facebook.com/eosgreen.io\r\nSteemit\r\nhttps://steemit.com/@marcinsteem',
+    account: 'eosgreeniobp',
   },
-  {
+  '91eos.io': {
     location: 'Shanghai, China',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -523,7 +538,7 @@ const blockProducersList = [
       '91EOS是第一个接触块链技术的团队。我们的团队有很多关于石墨烯技术的经验，并且充满激情和强大的社区运营和节点维护。配备高效设施和危机管理的经验可以帮助我们给每个人更舒适的用户体验。\r\n我们的主要目标是传播EOS通过持续教育，知识和资源共享，社区参与以及项目创建带来的社会效益。我们将成为您在社区中的声音，我们将把您的项目放在心上。',
     contact: 'Twitter\r\nhttps://twitter.com/91EOS\r\nTelegram\r\nhttps://t.me/eos91',
   },
-  {
+  'eosnodeone.io': {
     location: 'Seoul, South Korea',
     latitude: 37.566535,
     longitude: 126.9779692,
@@ -535,8 +550,9 @@ const blockProducersList = [
       '截至2018年6月3日的技术规格和资源总支出估算。\r\n*类型：云（AWS）\r\n*地点：首尔AWS地区\r\n*机器：m4.2xlarge实例\r\n* 1号\r\n*内存：32GB \r\n* CPU：vCPU 8核心\r\n*存储：SSD 300GB \r\n预计2018年6月3日之后的硬件扩展计划。\r\nEOS NodeOne将采用与对应的实际有效载荷配置的云机和裸机，典型的扩展方案是（1主机，1备用）：\r\n*类型：裸机和云\r\n* 2号\r\n*内存：768GB \r\n* CPU：2x3.4GHz 6128 6核12线程处理器\r\n*存储：2x480GB STA SSD Intel S4',
     contact:
       'Twitter\r\nhttp://twitter.com/eosnodeone\r\nFacebook\r\nhttps://www.facebook.com/eosnodeone\r\nTelegram\r\nhttp://t.me/eosnodeone_en\r\nSteemit\r\nhttp://steemit.com/@eosnodeone',
+    account: 'eosnodeonebp',
   },
-  {
+  'blockgenic.io': {
     location: 'Seattle',
     latitude: 47.6062095,
     longitude: -122.3320708,
@@ -548,8 +564,9 @@ const blockProducersList = [
     introduction:
       'Blockgenic的总部位于西雅图，我们期待成为一个值得信赖和值得信赖的区块生产者。始终支持EOS生态系统，并为开发EOS做出贡献。我们非常重视安全性和透明度，并确保始终使我们的系统完成任务。我们还计划通过关于不同主题的各种聚会将EOS社区聚集在一起。',
     contact: 'Twitter\r\nhttps://twitter.com/blockgenic\r\nSteemit\r\nhttps://steemit.com/@block21',
+    account: 'blockgenicbp',
   },
-  {
+  'cigeos.com': {
     location: 'Taiwan, China',
     latitude: 23.69781,
     longitude: 120.960515,
@@ -564,7 +581,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/CIGEOS\r\nFacebook\r\nhttps://www.facebook.com/cigeos\r\nTelegram\r\nhttps://t.me/cigeos\r\n微信公众号\r\nCoinsInGuideline\r\nSteemit\r\nhttps://steemit.com/eos/@cigeos/cigeos-block-',
   },
-  {
+  'eoseco.com': {
     location: 'Shanghai, China',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -578,8 +595,9 @@ const blockProducersList = [
       'EOS sec致力于孵化和社区发展，为所有基于EOS平台的Dapp开发者提供服务。\r\n我们正在启动EOS账户，EOS浏览器，EOS侧链等项目。我们还提供EOSeco基金来支持启动EOS项目。',
     contact:
       'GitHub\r\nhttps://github.com/Eoseco\r\nTwitter\r\nhttps://twitter.com/Eoseco2018\r\nFacebook\r\nhttps://www.facebook.com/eoseco2018\r\nTelegram\r\nhttps://t.me/eoseco\r\nMedium\r\nhttp://medium.com/@eoseconet',
+    account: 'eosecoeoseco',
   },
-  {
+  'cryptolions.io': {
     location: 'Ukraine',
     latitude: 48.379433,
     longitude: 31.1655799,
@@ -595,7 +613,7 @@ const blockProducersList = [
       'GitHub\r\nhttps://github.com/CryptoLions\r\nTelegram\r\nhttps://t.me/block_producer_candidate\r\nSteemit\r\nhttps://steemit.com/@cryptolions',
     account: 'cryptolions1',
   },
-  {
+  'eos42.io': {
     location: 'Uncertain',
     latitude: 32.7120883,
     longitude: -94.1212965,
@@ -608,8 +626,9 @@ const blockProducersList = [
       'EOS42作为英国伦敦的节点候选团队，我们的主要目标是通过高性能，可靠的网络支持服务和保护EOS网络，投资使其可扩展，保护珍贵的EOS token资源和价值，并赋予社区创建健康和可持续的生态系统的权利。\r\n\r\n我们将以诚实、正直和道德的态度，来做到这一点。同时保持政治和财务的全面独立，并提供高度的团队和财务透明。此外，我们将承诺一部分净利润用于区块链教育慈善事业。',
     contact:
       'Twitter\r\nhttps://twitter.com/eos42io\r\nTelegram\r\nhttps://t.me/eos42\r\nSteemit\r\nhttps://steemit.com/@eos42\r\nReddit\r\nhttps://www.reddit.com/user/GunnisonCap/',
+    account: 'eos42freedom',
   },
-  {
+  'chainpool.io': {
     location: 'Hangzhou, China',
     latitude: 30.274084,
     longitude: 120.15507,
@@ -622,7 +641,7 @@ const blockProducersList = [
     introduction: 'ChainPool首个中国PoS矿业集团，旨在持续促进EOS生态系统的发展。',
     contact: 'Twitter\r\nhttps://twitter.com/chainpool_io\r\nTelegram\r\nhttps://t.me/chainpool',
   },
-  {
+  'eosantpool.com': {
     location: 'Beijing, China',
     latitude: 39.90419989999999,
     longitude: 116.4073963,
@@ -637,7 +656,7 @@ const blockProducersList = [
     contact: 'Telegram\r\nhttp://t.me/AntPoolEOSUS\r\nSteemit\r\nhttps://steemit.com/@antpool',
     account: 'eosantpoolbp',
   },
-  {
+  'eoslaomao.com': {
     location: 'Tokyo, Japan',
     latitude: 35.6894875,
     longitude: 139.6917064,
@@ -650,8 +669,9 @@ const blockProducersList = [
     introduction:
       'EOSLaoMao，由着名区块链倡导者和INBlockchain合作伙伴老猫发起。目标是在EOS主网6月份上线时成为21个超级节点之一。我们唯一的目标是维护一个公平和稳定的Eos Block Producer节点，由于利润不在我们的考虑范围内，因此我们将用它来以多种方式推广EOS，我们位于东京，我们可以使用最好的云服务来运行稳定的节点。\r\n联系方式',
     contact: 'Telegram\r\nhttps://t.me/eoslaomao\r\nSteemit\r\nhttps://steemit.com/@eoslaomao',
+    account: 'eoslaomaocom',
   },
-  {
+  'eosphere.io': {
     location: 'Australia',
     latitude: -25.274398,
     longitude: 133.775136,
@@ -666,7 +686,7 @@ const blockProducersList = [
     contact: 'Twitter\r\nhttps://twitter.com/eosphere_io\r\nSteemit\r\nhttps://steemit.com/@eosphere',
     account: 'eosphereiobp',
   },
-  {
+  'eosblocksmith.io': {
     location: 'USA',
     latitude: 37.09024,
     longitude: -95.712891,
@@ -681,7 +701,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/eosBlockSmith\r\nMedium\r\nhttps://medium.com/@eosBlockSmith\r\nSteemit\r\nhttps://steemit.com/@eosblocksmith',
   },
-  {
+  'eosdac.io': {
     location: 'Anguilla, West Indies',
     latitude: 18.220554,
     longitude: -63.06861499999999,
@@ -697,7 +717,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eosdac\r\nFacebook\r\nhttps://www.facebook.com/eosdac/\r\nTelegram\r\nhttps://t.me/eosdacio\r\nSteemit\r\nhttps://steemit.com/@eosdac',
     account: 'eosdacserver',
   },
-  {
+  'eosmx.com': {
     location: 'Mexico',
     latitude: 23.634501,
     longitude: -102.552784,
@@ -709,7 +729,7 @@ const blockProducersList = [
       '我们成立EOSMX只有一个目的——支持,加强和领导EOS社区在拉丁美洲,从墨西哥开始。\r\n作为一个EOS区块生产者，我们将为EOS社区提供：一个透明的治理。',
     contact: 'Facebook\r\nhttps://www.facebook.com/oficommx/\r\nTelegram\r\nhttps://t.me/eosmxlatam',
   },
-  {
+  'jrrcrypto.io': {
     location: 'Beijing, China',
     latitude: 39.90419989999999,
     longitude: 116.4073963,
@@ -723,7 +743,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/eosjrr\r\nTelegram\r\nhttp://t.me/eosjrr\r\nSteemit\r\nhttps://steemit.com/@eosjrr',
   },
-  {
+  'eosio.se': {
     location: 'Sweden',
     latitude: 60.12816100000001,
     longitude: 18.643501,
@@ -736,7 +756,7 @@ const blockProducersList = [
     introduction: '来自瑞典的超级节点候选团队，具有高度的诚信和对科技的很好的理解。',
     contact: 'Twitter\r\nhttps://www.twitter.com/eossweden\r\nSteemit\r\nhttps://steemit.com/@xebb',
   },
-  {
+  'hedging.network': {
     location: 'Hong Kong ',
     latitude: 22.396428,
     longitude: 114.109497,
@@ -751,7 +771,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/EosHedging\r\nFacebook\r\nhttps://www.facebook.com/eos.hedging/\r\nTelegram\r\nhttps://t.me/eoshedging\r\n微信公众号\r\nEosHedging',
   },
-  {
+  'atticlab.net': {
     location: 'Kyiv Ukraine',
     latitude: 50.4501,
     longitude: 30.5234,
@@ -765,8 +785,9 @@ const blockProducersList = [
       'Attic Lab成立于2016年。最初，我们与Ambisafe、Alliance Bank和Humaniq合作，现在我们多元化和经验丰富的团队让我们专注于构建自己的区块链应用程序，并且支持开发区块链举措，通过举办讲座和研讨会与区块链社区分享我们的专业知识。',
     contact:
       'GitHub\r\nhttps://github.com/atticlab/\r\nTwitter\r\nhttps://twitter.com/atticlab_it\r\nFacebook\r\nhttps://www.facebook.com/atticlab\r\nTelegram\r\nhttps://t.me/joinchat/CFEEkxHa_iJNv0AYOJ1VEw\r\nSteemit\r\nhttps://steemit.com/@attic-lab',
+    account: 'atticlabeosp',
   },
-  {
+  'eosmetal.io': {
     location: 'Iceland',
     latitude: 64.963051,
     longitude: -19.020835,
@@ -782,7 +803,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/EOSMetal\r\nTelegram\r\nhttps://t.me/EOSMetal\r\nSteemit\r\nhttps://steemit.com/eos/@eosmetal/introducing',
     account: 'eosmetaliobp',
   },
-  {
+  'eoshenzhen.io': {
     location: 'China',
     latitude: 22.543096,
     longitude: 114.057865,
@@ -797,8 +818,9 @@ const blockProducersList = [
       'EOShenzhen作为EOS.io作为第一批来自深圳的节点候选人,我们将以英文和中文的形式与大家沟通。\r\n我们将继续努力，建立一个健康的EOSIO生态系统和中国社区。\r\nEOS将深刻的改变我们的现在的生活方式，EOShenzhen将全力以赴到该项事业中。\r\n\r\nEOShenzhen为一个稳定的区块链BP的同时，未来将打造利于社区发展的基金及孵化器，致力于将会成为中国最具影响力的BP，也会加强与全球的节点沟通合作。\r\n我们致力于稳扎稳打的作风、严格高效的技术团队及良性发展的社区运营工作，维护EOSIO稳定运行，维护社区发展，共同打造网络空间新的运作模式。',
     contact:
       'Twitter\r\nhttps://twitter.com/eostechlover\r\nTelegram\r\nhttps://t.me/eoshenzhen\r\n微信公众号\r\nhttps://mp.weixin.qq.com/mp/profile_ext?actio\r\nSteemit\r\nhttps://steemit.com/@eoshenzhen',
+    account: 'eoshenzhenio',
   },
-  {
+  'eosland.ca': {
     location: 'Canada',
     latitude: 56.130366,
     longitude: -106.346771,
@@ -813,7 +835,7 @@ const blockProducersList = [
     contact:
       'GitHub\r\nhttps://github.com/eosland2018\r\nTwitter\r\nhttps://twitter.com/eosland1\r\nFacebook\r\nhttps://www.facebook.com/eosland.eos.3\r\nTelegram\r\nhttps://t.me/joinchat/Gl6KDg4bKD1itwmBwH7o7w\r\nSteemit\r\nhttps://steemit.com/@eosland',
   },
-  {
+  'eosdublin.com': {
     location: 'Ireland',
     latitude: 53.1423672,
     longitude: -7.692053599999999,
@@ -827,9 +849,9 @@ const blockProducersList = [
       'EOS Dublin是位于爱尔兰都柏林的超级节点候选人。\r\n我们徽标上的四个绿点代表了我们的核心价值观：独立，诚信，诚信和教育。我们相信EOS.IO代表了一个向更好的数字世界迈进的全球范式转变。\r\nEOS.IO不仅仅是一项技术进步，而是关于我们融合技术，社区和个人承诺时变得可能的事情。\r\n对我们来说，EOS块的生产者就像在美国宇航局扫地的看门人一样。我们在改变世界的风险中扮演一小部分角色。作为区块生产者，我们正在设计未来的基础。我们迫不及待想要了解基金会完成后的未来。',
     contact:
       'Twitter\r\nhttps://twitter.com/@eosdublin\r\nTelegram\r\nhttps://t.me/eosdb\r\nMedium\r\nhttps://medium/@eosdublin\r\nSteemit\r\nhttps://steemit.com/@eosdublin',
-    account: 'eosdublinwow',
+    account: 'theeosdublin',
   },
-  {
+  'eos.medishares.org': {
     location: 'Singapore',
     latitude: 1.352083,
     longitude: 103.819836,
@@ -842,8 +864,9 @@ const blockProducersList = [
     introduction:
       '我们致力于将EOS带给大众，实现广泛采用的最佳方式是通过有用的，有趣的和精心设计的产品来展示EOS平台的最佳功能。还可以与EOS开发人员社区共享我们的工具。',
     contact: 'Telegram\r\nhttps://t.me/eosmedishares\r\nSteemit\r\nhttps://steemit.com/@ericfish',
+    account: 'ha4daobxg4ge',
   },
-  {
+  'eosbixin.com': {
     location: 'Thailand',
     latitude: 15.870032,
     longitude: 100.992541,
@@ -857,7 +880,7 @@ const blockProducersList = [
     contact:
       'GitHub\r\nhttps://github.com/EOSBIXIN\r\nTwitter\r\nhttps://twitter.com/eosbixin\r\nTelegram\r\nhttps://t.me/EosBixinChat\r\nSteemit\r\nhttps://steemit.com/@tuitui',
   },
-  {
+  'eosnairobi.io': {
     location: 'Kenya',
     latitude: -0.023559,
     longitude: 37.906193,
@@ -871,7 +894,7 @@ const blockProducersList = [
       'EOSNAIROBI个是一个强大和充满活力的社区，与不同背景的人认为区块链技术将推动未来。未来财富创造的工具是分散的，可以对许多人来说,透明度和问责制的未来，未来个人和团体可以参与一个鼓励平台上使世界变得更美好',
     contact: 'Telegram\r\nhttps://t.me/eosnairobi',
   },
-  {
+  'eoscube.io': {
     location: 'Shenzhen, China',
     latitude: 22.543096,
     longitude: 114.057865,
@@ -885,8 +908,9 @@ const blockProducersList = [
       '我们是中国深圳柚子魔方eoscube团队，目前拥有核心成员共20余人，技术团队成员大部分来自于世界五百强通信公司华为，拥有多年的云服务器部署和研发经验。目前正在研究跨链技术和EOS侧链，开发EOS跨链账户、EOS区块链浏览器等基础设施。\r\n我们在节点部署和维护上拥有巨大的优势，技术团队都来自于华为云服务和运维的金牌团队，有服务全球75个国家120家运营商的经验和技术实力。我们是来自于中国“硅谷”深圳的超级节点，节点标识“eoscube”，或者“EOSCUBE”，请支持我们。',
     contact:
       'Twitter\r\nhttps://twitter.com/Eos_Cube\r\nTelegram\r\nhttp://t.me/eoscube\r\n微信公众号\r\neoscube\r\nSteemit\r\nhttps://steemit.com/@eoscube',
+    account: 'eoscube11111',
   },
-  {
+  'eosrio.entropia.in': {
     location: 'Brazil',
     latitude: -14.235004,
     longitude: -51.92528,
@@ -898,7 +922,7 @@ const blockProducersList = [
     contact:
       'GitHub\r\nhttps://github.com/eosrio\r\nTelegram\r\nhttps://t.me/eosrio\r\nSteemit\r\nhttps://steemit.com/@eosrio',
   },
-  {
+  'eostheworld.co': {
     location: 'Puerto Rico',
     latitude: 18.220833,
     longitude: -66.590149,
@@ -912,7 +936,7 @@ const blockProducersList = [
       '我们是一个分散式的计算机科、商业、市场营销和慈善人员团队，对EOS平台非常感兴趣。完全是自筹资金的（并且将永久保留），没有任何外部利益冲突。',
     contact: 'Twitter\r\nhttps://twitter.com/EOStheWorld\r\nFacebook\r\nhttps://www.facebook.com/groups/1334038041609',
   },
-  {
+  'oneroot.io': {
     location: 'Shanghai ',
     latitude: 31.2303904,
     longitude: 121.4737021,
@@ -926,8 +950,9 @@ const blockProducersList = [
       'ONEROOT成立于2017年，在众多共同建设者的支持下实现了雄心壮志迈出的第一步。在未来的日子里，我们将尽力履行您的信任和期望，并尽我们所能建立一个全新的经济体系。\r\n\r\n我们作为一个超级节点候选人的愿景是合作孵化器，将EOS作为共同建设者的一部分。ONEROOT将有助于在上海的封锁之家进行研究和宣传。',
     contact:
       'Twitter\r\nhttps://twitter.com/OneRootNetwork\r\nTelegram\r\nhttps://t.me/OneRootProject\r\nMedium\r\nhttps://medium.com/@oneroot\r\nReddit\r\nhttps://www.reddit.com/r/OneRoot',
+    account: 'onerootlleos',
   },
-  {
+  'eosemerge.io': {
     location: 'Poland',
     latitude: 51.919438,
     longitude: 19.145136,
@@ -941,8 +966,9 @@ const blockProducersList = [
       '作为EOS Emerge的成员，我们很荣幸能够成为这一革命性项目的一部分，并有机会作为基于EOS.io的区块链推出的创始块生产商候选人向EOS社区展示自己。\r\n\r\n在这里你可以找到我们的完整候选人- > https://steemit.com/eos/@eosemerge/eos-emerge-eos-block-producing-candidate-from-poland \r\n\r\n我们是一群来自波兰的强大的IT和区块链爱好者，他们拥有在私人公司（贵金属，共同基金，保险）的背景和IT经验，在金融市场有14年的历史，对大多数金融工具出现在过去的十年中，表明我们有能力适应不断变化的业务环境。\r\n\r\n因此，我们非常兴奋并准备好利用我们的财务背景，IT知识和创新技能来服务EOS项目。\r\n\r\n我们是EOS生态系统的大爱好者，我们相信其核心基础，这使我们希望成为其早期采用阶段的积极参与者。\r\n利用我们以前的IT和财务经验，我们渴望加入您的社区，为构建EOS的dApps做出贡献，我们认为这可能是一个真正的突破！',
     contact:
       'Twitter\r\nhttps://twitter.com/eos_emerge\r\nTelegram\r\nhttps://t.me/eosemerge\r\nSteemit\r\nhttps://steemit.com/@eosemerge\r\nReddit\r\nhttps://www.reddit.com/user/Eos_Emerge',
+    account: 'emergepoland',
   },
-  {
+  'eosjapan.org': {
     location: 'Japan',
     latitude: 36.204824,
     longitude: 138.252924,
@@ -955,7 +981,7 @@ const blockProducersList = [
     introduction: 'Twitter\r\nhttps://twitter.com/eosjapan_jeda\r\nTelegram\r\nhttp://t.me/eosjapan',
     account: 'jedaaaaaaaaa',
   },
-  {
+  'eosreal.com': {
     location: 'Singapore',
     latitude: 1.352083,
     longitude: 103.819836,
@@ -969,8 +995,9 @@ const blockProducersList = [
       'EOSREAL总部位于新加坡，拥有一支来自世界各地的3人团队，如新加坡和澳大利亚;从发达国家到巴基斯坦等新兴国家;法律，大陆法和穆斯林法。\r\n在最初阶段，我有能力在同一阶段成立和监管机构。我们计划在巴基斯坦的伊斯兰堡和澳大利亚的墨尔本设立我们自己的托管服务器和本地的云服务器。',
     contact:
       'Twitter\r\nhttps://twitter.com/EOSREAL_IO\r\nTelegram\r\nhttps://t.me/joinchat/G6-t7RKGUdGWu-Q8MA5IKg\r\nMedium\r\nhttps://medium.com/@EOSREAL_IO\r\nSteemit\r\nhttps://steemit.com/@eosreal-io',
+    account: 'eosrealbpcsg',
   },
-  {
+  'eosnewzealand.com': {
     location: 'New Zealand',
     latitude: -40.900557,
     longitude: 174.885971,
@@ -984,8 +1011,9 @@ const blockProducersList = [
       'EOSNz通过社区的反馈不断完善基础设施，并且致力于开放和创建自由化途径，以便应用程序可以通过经济高效的方式在现实世界中蓬勃发展。',
     contact:
       'Telegram\r\nhttps://t.me/eosnz\r\nMedium\r\nhttps://medium.com/@info_13409\r\nSteemit\r\nhttps://steemit.com/@eosnz.com',
+    account: 'eosnewzealbp',
   },
-  {
+  'eosindia.io': {
     location: 'India ',
     latitude: 20.593684,
     longitude: 78.96288,
@@ -998,8 +1026,9 @@ const blockProducersList = [
     introduction: 'EOS India我们的团队汇集了来自各领域领先组织的技术、战略和业务方向的专业知识。',
     contact:
       'Twitter\r\nhttps://twitter.com/indianeagle\r\nFacebook\r\nhttps://www.facebook.com/indianeaglellc/\r\nTelegram\r\nhttps://t.me/eosindiabp\r\nMedium\r\nhttps://medium.com/@venkatapedi\r\nSteemit\r\nhttps://steemit.com/@eosindia',
+    account: 'eosindiaiobp',
   },
-  {
+  'eosraychain.com': {
     location: 'Hong Kong, China',
     latitude: 22.396428,
     longitude: 114.109497,
@@ -1012,8 +1041,9 @@ const blockProducersList = [
     introduction: 'EOS印度团队汇集了来自各领域领先组织的技术，战略和业务方向的专业知识。',
     contact:
       'Twitter\r\nhttps://twitter.com/EosRaychain\r\nFacebook\r\nhttps://www.facebook.com/EosRaychain\r\nTelegram\r\nhttps://t.me/EosRaychain\r\nSteemit\r\nhttps://steemit.com/@eosraychain',
+    account: 'eosraychains',
   },
-  {
+  'bitspace.no': {
     location: 'Norway',
     latitude: 60.47202399999999,
     longitude: 8.468945999999999,
@@ -1028,7 +1058,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://www.twitter.com/BitSpaceNetwork\r\nFacebook\r\nhttps://www.facebook.com/bitspace.no\r\nTelegram\r\nhttps://t.me/BitSpaceNetwork\r\nSteemit\r\nhttps://www.steemit.com/@bitspace',
   },
-  {
+  'esobidu.com': {
     location: 'Shenzhen, China',
     latitude: 22.543096,
     longitude: 114.057865,
@@ -1042,7 +1072,7 @@ const blockProducersList = [
       'EOSbidu基于每日币读自媒体，为区块链项目提供信息、评级服务。我们致力于建立国内一流的区块链咨询评级媒体。通过普及区块链的基本知识，导出原创内容，创建互动社区，孵化区块链项目，我们将打造中国最具影响力和服务的区块链社区。\r\n自2017年4月成立以来，每日币读在微信公众号、微博上获得极高的人气和声誉，截至2018年4月20日，已经积累了超过10万名会员。',
     contact: 'Twitter\r\nhttps://twitter.com/Pink_FloydZAC',
   },
-  {
+  'webvr.pro': {
     location: 'Singapore',
     latitude: 1.352083,
     longitude: 103.819836,
@@ -1057,7 +1087,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/WebVR_Engine\r\nTelegram\r\nhttps://t.me/WebVREngine\r\nSteemit\r\nhttps://steemit.com/webvr/@webvr/webvr-eos-io',
   },
-  {
+  'saltblock.io': {
     location: 'America',
     latitude: 37.09024,
     longitude: -95.712891,
@@ -1073,7 +1103,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/saltblockBP\r\nTelegram\r\nhttps://t.me/EOSPros\r\nSteemit\r\nhttps://steemit.com/@saltblock',
     account: 'saltblockeos',
   },
-  {
+  'blockpro.one': {
     location: 'Asia, Europe and North America',
     latitude: 45.1888777,
     longitude: -93.8538858,
@@ -1086,7 +1116,7 @@ const blockProducersList = [
     introduction: 'Steemit\r\nhttps://steemit.com/@blockpro',
     account: 'blockpro1eos',
   },
-  {
+  'eoswz.com': {
     location: 'Wenzhou, China',
     latitude: 27.993828,
     longitude: 120.699361,
@@ -1102,7 +1132,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eoswenzhou\r\nTelegram\r\nhttps://t.me/EOSwenzhouofficial\r\n微信公众号\r\nEOSWENZHOU\r\nSteemit\r\nhttps://steemit.com/@eos.wenzhou',
     account: 'eoswenzhoubp',
   },
-  {
+  'eos.bitcoingod.org': {
     location: 'USA',
     latitude: 37.09024,
     longitude: -95.712891,
@@ -1115,8 +1145,9 @@ const blockProducersList = [
     introduction:
       '我们要创建一个安全，稳定和高效的EOS民主节点。\r\n\r\n我们是一个热心公益事业的技术小组，致力于建立一个基于EOS的民主，开放和透明的公益社区我们相信并投资于我们的激情，我们相信并投资于激情。\r\n\r\n知识和信念，让我们为EOS平台及其社区做出积极贡献，并且相信EOS社区将成为公益事业的典范。',
     contact: 'Twitter\r\nhttps://twitter.com/BitcoinGodOrg\r\nSteemit\r\nhttps://steemit.com/@bitcoingod2018',
+    account: 'gerryduan123',
   },
-  {
+  'superone.io': {
     location: 'Guangzhou, Guangdong, China',
     latitude: 23.12911,
     longitude: 113.264385,
@@ -1132,7 +1163,7 @@ const blockProducersList = [
       'GitHub\r\nhttps://github.com/superoneio\r\nTwitter\r\nhttps://twitter.com/superoneio\r\nFacebook\r\nhttps://www.facebook.com/superoneio\r\nMedium\r\nhttps://medium.com/@superoneio\r\nSteemit\r\nhttps://steemit.com/@superoneio',
     account: 'superoneiobp',
   },
-  {
+  'eosvibes.io': {
     location: 'the Netherlands',
     latitude: 52.132633,
     longitude: 5.291265999999999,
@@ -1146,8 +1177,9 @@ const blockProducersList = [
       "大家好！\r\n我们是EOSVibes - ''Dapp发展''EOS Block制片人候选人。\r\n\r\n我们是谁生活在一个不同的世界各地的地方有才华，上进和创意blockchain爱好者的多元化团队。EOSVibes是一种荣誉和名誉为基础的组织，我们已经创建了我们宪法的初稿，并使其开源社区输入在GitHub上。\r\n我们的使命是为EOS社区创造持续的价值。\r\n\r\nEOSVibes承诺：\r\n以最佳方式保护EOS区块链，同时保护在EOS.IO之上创建和部署具有真实世界用例的新Dapp我们的第一个Dapp团队通过免费的Airdrop向所有EOS token持有者发布（在EOS区块链启动后的90天内）;\r\n\r\n通过EOS Vibes创建的所有未来Dapps将遵循类似的模式空投，这将给整个EOS社区建设EOS供电 token 的投资组合的机会。\r\n\r\nEOSVibes还将公布来自EOS社区的新Dapp创意，让每个人都有机会将他们梦想到Dapp上发展。",
     contact:
       'Twitter\r\nhttps://twitter.com/eosvibes_bp\r\nTelegram\r\nhttps://t.me/EOSVibes\r\nSteemit\r\nhttps://steemit.com/@eosvibes',
+    account: 'eosvibesbloc',
   },
-  {
+  'eosamsterdam.net': {
     location: 'the Netherlands',
     latitude: 52.132633,
     longitude: 5.291265999999999,
@@ -1162,7 +1194,7 @@ const blockProducersList = [
       'Twitter\r\nhttps://twitter.com/eosamsterdam\r\nTelegram\r\nhttps://t.me/eosamsterdam\r\nSteemit\r\nhttps://steemit.com/@eosamsterdam',
     account: 'eosamsterdam',
   },
-  {
+  'roelandp.nl': {
     location: 'the Netherlands',
     latitude: 52.132633,
     longitude: 5.291265999999999,
@@ -1176,8 +1208,9 @@ const blockProducersList = [
       '我们将为EOS运行一个区块生产者服务器，并因此要竞选EOS的超级节点。自从我3年前接触石墨烯/区块链以来，我对软件和开发者社区的易用性感到沉迷。\r\n现在住在阿姆斯特丹，是一个狂热的风筝冲浪者，组织活动是一个维嘉的父亲和在风车上出生并长大，在这里了解更多关于我个人生活的信息。',
     contact:
       'GitHub\r\nhttps://github.com/roelandp\r\nTwitter\r\nhttps://twitter.com/roelandp\r\nSteemit\r\nhttps://steemit.com/@roelandp',
+    account: 'roelandp1eos',
   },
-  {
+  'eos.block.cc': {
     location: 'Hong Kong, China',
     latitude: 22.396428,
     longitude: 114.109497,
@@ -1190,8 +1223,9 @@ const blockProducersList = [
     introduction:
       'Block.CC是一个致力于开发区块链服务的团队，使用户能够更轻松，更可靠地在各个领域使用区块链技术。我们提供与区块链相关的技术和数据服务，我们致力于挖掘用户需求，解决用户的痛点，通过区块链技术全面提升用户体验。我们建立了区块链数据社区，希望社区的所有参与者都能体验区块链技术的透明性，开放性和安全性。',
     contact: 'Twitter\r\nhttps://twitter.com/block_cc\r\nSteemit\r\nhttps://steemit.com/@blockcc',
+    account: 'blockcceosio',
   },
-  {
+  'eossv.io': {
     location: 'America',
     latitude: 37.09024,
     longitude: -95.712891,
@@ -1206,7 +1240,7 @@ const blockProducersList = [
     contact:
       'Twitter\r\nhttps://twitter.com/EOS_SV\r\nTelegram\r\nhttps://t.me/eossv\r\nMedium\r\nhttps://medium.com/@eossiliconvalley\r\nSteemit\r\nhttps://twitter.com/EOS_SV',
   },
-  {
+  'eoslove.io': {
     location: 'US and India ',
     latitude: 28.5975663,
     longitude: 77.1880475,
@@ -1219,8 +1253,9 @@ const blockProducersList = [
     introduction:
       'EOSLOVE决定致力于改善社会，让我们看到不平等和不公正持续存在的各行各业。在过着合理的生活，达到了我们的职业生涯高峰期后，我们满意地回报社会，为改善人民群众做好技术工作，这是我们工作满意度在我们生活的这一点上所取得的成就。\r\n\r\nEOS基于生命，自由和财产价值以及技术背后的原则构建的原则呼吁我们作为将我们的使命推进主流的合适工具。对于我们需要在我们的社会效益努力中展示的透明度和敏捷性，区块链可能没有更好的机制。\r\n\r\n有了这个作为我们人生愿望的基础，我们正在通过以最有效和最具成本效益的方式提供真正需要的帮助，开始改变世界的旅程。我们的团队来自各种各样的背景和文化/国界，这将为我们提供一个独特的视角，看看如何解决各种文化和国家社会众多不同部门的各种问题。',
     contact: 'Twitter\r\nhttp://twitter.com/@eoslove_io\r\nSteemit\r\nhttps://steemit.com/@eoslove',
+    account: 'eoslovebirds',
   },
-  {
+  'eos.fish': {
     location: 'Bangkok',
     latitude: 13.7563309,
     longitude: 100.5017651,
@@ -1233,6 +1268,8 @@ const blockProducersList = [
       'eos.fish团队来自泰国曼谷，是由一群经验丰富的加密货币拥护者和区块链信仰者组成，均为区块链行业内的专家。\r\neos.fish将高端硬件与下一代技术紧密结合,打造一个全球化和充满活力的社区，与EOS爱好者共建我们的未来！\r\neos.fish致力于在以下领域发展基于区块链的创新：财务，跨境社区，技术，物流，高级硬件。\r\n\r\nWe are eos.fish from Bangkok, Thailand, our founders comprise an experienced team of crypto advocates and blockchain believers, with an abundance of expertise.\r\neos.fish combines high-end hardware with next level technology. We are creating a global and fun community, together we will build our future!\r\nEos.fish aims to develop blockchain-based innovations in: Finance, Cross-border communities, Technologies, Logistics, Premium hardware.',
     contact:
       'Twitter\r\nhttps://twitter.com/eosfish\r\nTelegram\r\nhttps://t.me/eosfish_en\r\nSteemit\r\nhttps://steemit.com/eos/@hibitfish/eos-fish-e',
+    account: 'eosfishrocks',
   },
-];
-export default blockProducersList;
+};
+
+export default blockProducersByUrl;

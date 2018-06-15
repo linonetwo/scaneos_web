@@ -134,7 +134,7 @@ class BlockProducersMap extends Component<Props & Store & Dispatch, *> {
           onViewportChange={viewport => this.setState({ viewport })}
           mapboxApiAccessToken={MAPBOX_TOKEN}
         >
-          {blockProducersList.map(this.renderCityMarker)}
+          {Object.values(blockProducersList).map(this.renderCityMarker)}
           {this.renderPopup()}
           <MapNav className="nav">
             <NavigationControl onViewportChange={viewport => this.setState({ viewport })} />
