@@ -153,7 +153,7 @@ class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
                 record.location.indexOf(area) !== -1 || locationBelongsToArea(record.location, area)
               }
             />
-            <Table.Column width={70} title={this.props.t('prerequisites')} dataIndex="prerequisites" />
+            <Table.Column title={this.props.t('prerequisites')} dataIndex="prerequisites" />
             <Table.Column title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
             <Table.Column title={this.props.t('homepage')} dataIndex="homepage" />
           </Table>
