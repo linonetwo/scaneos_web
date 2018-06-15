@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { frontloadConnect } from 'react-frontload';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
-import type { AccountData } from '../../store/account';
+import type { CreatedAccountData } from '../../store/account';
 import type { Pagination } from '../../store/block';
 import { ListContainer } from '../../components/Table';
 
@@ -15,7 +15,7 @@ type Props = {
   t: Function,
 };
 type Store = {
-  list: AccountData[],
+  list: CreatedAccountData[],
   pagination: Pagination,
   loading: boolean,
 };
@@ -31,7 +31,7 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
         <ListContainer column>
           <Table
-            scroll={{ x: 1000 }}
+            scroll={{ x: 500 }}
             size="middle"
             dataSource={this.props.list}
             rowKey="id"
@@ -44,24 +44,16 @@ class Accounts extends Component<Props & Store & Dispatch, *> {
             }}
           >
             <Table.Column
-              width={70}
               title={this.props.t('name')}
-              dataIndex="name"
-              key="name"
-              render={name => <Link to={`/account/${name}/`}>{name}</Link>}
+              dataIndex="data"
+              key="data"
+              render={data => <Link to={`/account/${data.name}/`}>{data.name}</Link>}
             />
-            <Table.Column width={70} title={this.props.t('eosBalance')} dataIndex="eosBalance" key="eosBalance" />
             <Table.Column
               title={this.props.t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
-            />
-            <Table.Column
-              title={this.props.t('updatedAt')}
-              dataIndex="updatedAt"
-              key="updatedAt"
-              render={({ sec }) => formatTimeStamp(sec, this.props.t('locale'))}
+              render={createdAt => formatTimeStamp(createdAt, this.props.t('locale'))}
             />
           </Table>
         </ListContainer>

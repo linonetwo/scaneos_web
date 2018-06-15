@@ -15,7 +15,7 @@ import { frontloadConnect } from 'react-frontload';
 import { formatTimeStamp } from '../../store/utils';
 import type { BlockData } from '../../store/block';
 import type { TransactionData } from '../../store/transaction';
-import type { BPAccount } from '../../store/account';
+import type { BPAccount, CreatedAccountData } from '../../store/account';
 import type { MessageData } from '../../store/message';
 import type { AggregationData } from '../../store/aggregation';
 import type { CurrentPriceData } from '../../store/price';
@@ -193,6 +193,7 @@ type Store = {
   blockData: BlockData[],
   transactionData: TransactionData[],
   producerAccountList: BPAccount[],
+  accountData: CreatedAccountData[],
   messageData: MessageData[],
   aggregationData: AggregationData,
   currentPriceData: CurrentPriceData,
@@ -203,6 +204,7 @@ type Dispatch = {
   getBlocksList: (size?: number) => void,
   getTransactionsList: (size?: number) => void,
   getBPAccountsList: () => void,
+  getAccountsList: () => void,
   getMessagesList: (page?: number) => void,
   getAggregationData: () => void,
   getPriceData: () => void,
@@ -404,14 +406,14 @@ class Home extends Component<Props & Store> {
     );
   }
 
-  getMessageList(data: { loading: boolean, data: MessageData[] }) {
+  getAccountList(data: { loading: boolean, data: CreatedAccountData[] }) {
     return (
       <ListContainer small>
         <Title justifyBetween alignCenter>
           <span>
-            <Icon type="database" /> {this.props.t('Messages')}
+            <Icon type="database" /> {this.props.t('Accounts')}
           </span>
-          <Link to="/messages/">
+          <Link to="/accounts/">
             <ViewAll>{this.props.t('ViewAll')}</ViewAll>
           </Link>
         </Title>
@@ -420,35 +422,12 @@ class Home extends Component<Props & Store> {
           loading={data.loading}
           itemLayout="vertical"
           dataSource={data.data}
-          renderItem={(item: MessageData) => (
+          renderItem={(item: CreatedAccountData) => (
             <List.Item>
               <MessagePreview>
-                <Link to={`/message/${item.transactionId}/`}>
-                  {this.props.t('Messages')}: {item.transactionId}
-                </Link>
+                <Link to={`/account/${item.data.name}/`}>{item.data.name}</Link>
               </MessagePreview>
-              <MessagePreview>
-                <Link to={`/transaction/${item.transactionId}/`}>
-                  {this.props.t('transactionId')}: {item.transactionId}
-                </Link>
-              </MessagePreview>
-              <MessagePreview>
-                {compact([
-                  ...flatten(
-                    item.authorization.map(({ actor, permission }) => (
-                      <Link to={`/account/${actor}/`}>
-                        {actor}: ({permission})
-                      </Link>
-                    )),
-                  ),
-                  item.handlerAccountName !== undefined && (
-                    <Link to={`/account/${String(item.handlerAccountName)}/`}>
-                      {this.props.t('handlerAccountName')}: {item.handlerAccountName}
-                    </Link>
-                  ),
-                ])}
-              </MessagePreview>
-              <MessagePreview>{formatTimeStamp(item.createdAt, this.props.t('locale'))}</MessagePreview>
+              <MessagePreview>{formatTimeStamp(item.createdAt, this.props.t('locale'), { distance: false })}</MessagePreview>
             </List.Item>
           )}
         />
@@ -471,7 +450,7 @@ class Home extends Component<Props & Store> {
           data: take(this.props.producerAccountList, 7),
           loading: this.props.accountLoading,
         })}
-        {this.getMessageList({ data: take(this.props.messageData, 6), loading: this.props.messageLoading })}
+        {this.getAccountList({ data: take(this.props.accountData, 10), loading: this.props.accountLoading })}
         {this.getBlockList({ data: take(this.props.blockData, 5), loading: this.props.blockLoading })}
         {this.getTransactionList({
           data: take(this.props.transactionData, 5),
@@ -485,7 +464,7 @@ class Home extends Component<Props & Store> {
 const mapState = ({
   block: { loading: blockLoading, list: blockData },
   transaction: { loading: transactionLoading, list: transactionData },
-  account: { loading: accountLoading, producerAccountList },
+  account: { loading: accountLoading, producerAccountList, list: accountData },
   message: { loading: messageLoading, listByTime: messageData },
   aggregation: { loading: aggregationLoading, data: aggregationData, totalActivatedStake },
   price: { loading: priceLoading, currentPriceData, priceChartData },
@@ -493,6 +472,7 @@ const mapState = ({
   blockData,
   transactionData,
   producerAccountList,
+  accountData,
   messageData,
   aggregationData,
   blockLoading,
@@ -508,7 +488,7 @@ const mapState = ({
 const mapDispatch = ({
   block: { getBlocksList },
   transaction: { getTransactionsList },
-  account: { getBPAccountsList },
+  account: { getBPAccountsList, getAccountsList },
   message: { getMessagesList },
   aggregation: { getAggregationData, getVoting },
   price: { getPriceData },
@@ -516,6 +496,7 @@ const mapDispatch = ({
   getBlocksList,
   getTransactionsList,
   getBPAccountsList,
+  getAccountsList,
   getMessagesList,
   getAggregationData,
   getPriceData,
@@ -527,6 +508,7 @@ const frontload = (props: Dispatch & Store) =>
     props.blockData.length === 0 && props.getBlocksList(),
     props.transactionData.length === 0 && props.getTransactionsList(),
     props.producerAccountList.length === 0 && props.getBPAccountsList(),
+    props.accountData.length === 0 && props.getAccountsList(),
     props.messageData.length === 0 && props.getMessagesList(),
     props.aggregationData?.blockNumber || props.getAggregationData(),
     props.priceChartData.length === 0 && props.getPriceData(),

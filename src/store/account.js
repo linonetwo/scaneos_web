@@ -63,8 +63,20 @@ export type AccountData = {
   delegatedBandwidth?: DelegatedBandwidth | null,
   voterInfo?: VoterInfo | null,
 };
+
+
+export type CreatedAccountData =  {
+  id: string,
+  handlerAccountName: string,
+  name: string,
+  createdAt: string,
+  data: {
+    creator: string,
+    name: string,
+  }
+};
 export type ListResponse = {
-  content: AccountData[],
+  content: CreatedAccountData[],
   page: {
     size: number,
     totalElements: number,
@@ -88,7 +100,7 @@ export type Store = {
   data: AccountData,
   producerInfo: Object | null,
   producerAccountList: BPAccount[],
-  list: AccountData[],
+  list: CreatedAccountData[],
   pagination: Pagination,
 };
 
@@ -142,7 +154,7 @@ export default (initialState?: Object = {}) => ({
       state.loading = !state.loading;
       return state;
     },
-    initAccountsList(state: Store, list: AccountData[]) {
+    initAccountsList(state: Store, list: CreatedAccountData[]) {
       state.list = list;
       return state;
     },
@@ -243,7 +255,7 @@ export default (initialState?: Object = {}) => ({
       try {
         const dataPage = gotoPage ? gotoPage - 1 : 0;
         const { getPageSize } = await import('./utils');
-        const data: ListResponse = await get(`/accounts?page=${dataPage}&size=${getPageSize()}`);
+        const data: ListResponse = await get(`/actions?type=newaccount&page=${dataPage}&size=${getPageSize()}`);
         const {
           content,
           page: { totalElements },
