@@ -155,12 +155,6 @@ const MobileSearchBarContainer = styled(Flex)`
   height: 70px;
 `;
 
-const TranslateLogo = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-`;
-
 type Props = {
   t: Function,
 };
@@ -437,7 +431,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
                 <Dropdown overlay={this.localeMenu}>
                   <NavDropDownsButton>
-                    <TranslateLogo alt={this.props.t('Locale')} src={translateLogo} />
+                    <img style={{ width: '20px', height: '20px', marginRight: '5px' }} alt={this.props.t('Locale')} src={translateLogo} />
                     {lang[this.props.t('locale')]}
                     <Icon type="down" />
                     {this.getSelectedIndicator('locale')}
