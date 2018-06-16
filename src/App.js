@@ -16,44 +16,54 @@ import Home from './pages/Home';
 import BlockProducers from './pages/BlockProducers';
 
 const Block = Loadable({
-  loader: () => import('./pages/Block'),
+  loader: () => import(/* webpackChunkName: "Block" */ './pages/Block'),
   loading: Loading,
+  modules: ['Block'],
 });
 const Blocks = Loadable({
-  loader: () => import('./pages/Blocks'),
+  loader: () => import(/* webpackChunkName: "Blocks" */ './pages/Blocks'),
   loading: Loading,
+  modules: ['Blocks'],
 });
 const Transaction = Loadable({
-  loader: () => import('./pages/Transaction'),
+  loader: () => import(/* webpackChunkName: "Transaction" */ './pages/Transaction'),
   loading: Loading,
+  modules: ['Transaction'],
 });
 const Transactions = Loadable({
-  loader: () => import('./pages/Transactions'),
+  loader: () => import(/* webpackChunkName: "Transactions" */ './pages/Transactions'),
   loading: Loading,
+  modules: ['Transactions'],
 });
 const Account = Loadable({
-  loader: () => import('./pages/Account'),
+  loader: () => import(/* webpackChunkName: "Account" */ './pages/Account'),
   loading: Loading,
+  modules: ['Account'],
 });
 const Accounts = Loadable({
-  loader: () => import('./pages/Accounts'),
+  loader: () => import(/* webpackChunkName: "Accounts" */ './pages/Accounts'),
   loading: Loading,
+  modules: ['Accounts'],
 });
 const Message = Loadable({
-  loader: () => import('./pages/Message'),
+  loader: () => import(/* webpackChunkName: "Message" */ './pages/Message'),
   loading: Loading,
+  modules: ['Message'],
 });
 const Messages = Loadable({
-  loader: () => import('./pages/Messages'),
+  loader: () => import(/* webpackChunkName: "Messages" */ './pages/Messages'),
   loading: Loading,
+  modules: ['Messages'],
 });
 const UnderDevelopment = Loadable({
-  loader: () => import('./pages/UnderDevelopment'),
+  loader: () => import(/* webpackChunkName: "UnderDevelopment" */ './pages/UnderDevelopment'),
   loading: Loading,
+  modules: ['UnderDevelopment'],
 });
 const About = Loadable({
-  loader: () => import('./pages/About'),
+  loader: () => import(/* webpackChunkName: "About" */ './pages/About'),
   loading: Loading,
+  modules: ['About'],
 });
 
 function Title(props: { t: Function }) {

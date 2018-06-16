@@ -16,7 +16,6 @@ module.exports = function override(config, env) {
   config = rewireLess.withLoaderOptions({
     modifyVars: { '@primary-color': '#1aa2db' },
   })(config, env);
-  config = injectBabelPlugin('react-loadable/babel', config);
 
   if (env === 'production') {
     console.log('⚡ Production build with optimization ⚡');
