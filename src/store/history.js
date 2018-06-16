@@ -50,31 +50,31 @@ export default (initialState: Object = {}) => ({
           ...queryString.parse(history.location.search),
           page: state.block.pagination.current,
         });
-        history.push(`/blocks/?${query}`, { isAction: true });
+        history.replace(`/blocks/?${query}`, { isAction: true });
       } else if (history.location.pathname === '/transactions/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           page: state.transaction.pagination.current,
         });
-        history.push(`/transactions/?${query}`, { isAction: true });
+        history.replace(`/transactions/?${query}`, { isAction: true });
       } else if (history.location.pathname === '/accounts/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           page: state.account.pagination.current,
         });
-        history.push(`/accounts/?${query}`, { isAction: true });
+        history.replace(`/accounts/?${query}`, { isAction: true });
       } else if (history.location.pathname === '/messages/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           page: state.message.pagination.current,
         });
-        history.push(`/messages/?${query}`, { isAction: true });
+        history.replace(`/messages/?${query}`, { isAction: true });
       } else if (history.location.pathname === '/producers/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           ...queryOverride,
         });
-        history.push(`/producers/?${query}`, { isAction: true });
+        history.replace(`/producers/?${query}`, { isAction: true });
       }
     },
   },

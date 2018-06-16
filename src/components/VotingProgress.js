@@ -55,7 +55,7 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
   const votingPercentage = ((Number(props.totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
   return (
     <Container column justifyBetween>
-      <Link to="/producers">
+      <Link to="/producers/">
         <Title center>
           <span>
             <Icon type="check-square-o" /> {props.t('VotingProgress')}
