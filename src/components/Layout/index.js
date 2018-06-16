@@ -270,7 +270,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
     </Menu>
   );
 
-  mobileMenu = (
+  getMobileMenu = () => (
     <Menu mode="inline" style={{ width: 256 }}>
       <Menu.Item>
         <NavDropDownsButtonLink
@@ -347,7 +347,18 @@ class Header extends Component<Props & Store & Dispatch, *> {
           {this.props.t('BlockProducers')}
         </NavDropDownsButtonLink>
       </Menu.Item>
-      <Menu.SubMenu title={<NavDropDownsButton>{this.props.t('Locale')}</NavDropDownsButton>}>
+      <Menu.SubMenu
+        title={
+          <NavDropDownsButton>
+            <img
+              style={{ width: '20px', height: '20px', marginRight: '5px' }}
+              alt={this.props.t('Locale')}
+              src={translateLogo}
+            />
+            {lang[this.props.t('locale')]}
+          </NavDropDownsButton>
+        }
+      >
         <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
           <span>{lang.zh}</span>
         </Menu.Item>
@@ -364,7 +375,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
     return (
       <Fragment>
         <Fixed opened={this.state.sideMenuOpened} onClick={this.toggleSideMenu} />
-        <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.mobileMenu}</MobileMenuContainer>
+        <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
         <HeaderContainer>
           <Layout.Header>
             <Link to="/" onClick={() => this.props.changeNavTab('home')}>
@@ -431,7 +442,11 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
                 <Dropdown overlay={this.localeMenu}>
                   <NavDropDownsButton>
-                    <img style={{ width: '20px', height: '20px', marginRight: '5px' }} alt={this.props.t('Locale')} src={translateLogo} />
+                    <img
+                      style={{ width: '20px', height: '20px', marginRight: '5px' }}
+                      alt={this.props.t('Locale')}
+                      src={translateLogo}
+                    />
                     {lang[this.props.t('locale')]}
                     <Icon type="down" />
                     {this.getSelectedIndicator('locale')}
