@@ -27,13 +27,6 @@ type Dispatch = {
 class Transactions extends Component<Props & Store & Dispatch, *> {
   state = {};
 
-  componentDidMount() {
-    // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
-    if (!this.props.loading && this.props.list.length === 0) {
-      this.props.getTransactionsList();
-    }
-  }
-
   render() {
     return (
       <Spin tip="Connecting" spinning={this.props.loading} size="large">
