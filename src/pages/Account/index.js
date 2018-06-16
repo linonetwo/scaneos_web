@@ -78,7 +78,7 @@ class Account extends Component<Props & Store, *> {
                     size="middle"
                     pagination={false}
                     dataSource={[
-                      { field: 'eosBalance', value: this.props.data.eosBalance, key: 'eosBalance' },
+                      { field: 'tokenBalance', value: this.props.data.tokenBalance, key: 'tokenBalance' },
                       ...toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field })),
                     ]}
                   >

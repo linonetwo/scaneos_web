@@ -49,7 +49,7 @@ type VoterInfo = {
 };
 export type AccountData = {
   accountName: string,
-  eosBalance?: string,
+  tokenBalance?: string,
   privileged: boolean,
   lastCodeUpdate: string,
   created: string,
@@ -106,7 +106,7 @@ export type Store = {
 
 export const emptyAccountData = {
   accountName: '',
-  eosBalance: undefined,
+  tokenBalance: undefined,
   privileged: false,
   lastCodeUpdate: '1970-01-01T00:00:00.000',
   created: '2018-06-04T00:40:15.500',
@@ -193,7 +193,7 @@ export default (initialState?: Object = {}) => ({
         ]);
 
         if (!data) throw new Error('No data.');
-        this.initAccountData({ ...data, eosBalance: balanceData[0] });
+        this.initAccountData({ ...data, tokenBalance: balanceData.join(', ') });
         const { default: blockProducersList } = await import('../pages/BlockProducers/blockProducersList');
         const producerInfo = find(blockProducersList, { account: data.accountName });
         if (size(producerInfo) > 0) {
