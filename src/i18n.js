@@ -97,7 +97,22 @@ export default i18n
           EOSVotes: 'EOS Votes',
           MinimumVotesRequired: 'Minimum Votes Required',
           contactUs: 'Contact US',
-          EOSVotesIntroduction: 'Each staking of 1 EOS can cast votes of about 373757, This value will change over time.',
+          EOSVotesIntroduction:
+            'Each staking of 1 EOS can cast votes of about 373757, This value will change over time.',
+          aboutThisSite: `<0>ScanEOS is the world's first professional blockchain explorer and data analysis platform that focuses on EOS ecosystem.</0>
+            <1>
+              Blockchain browser is one of the most import window to view information inside blockchain's blocks.
+              Scan EOS read data from EOS' blocks for you. So you can search transactions, accounts and more data that is related to you.
+              These data may be very important to investigator and worker that works in blockchain industry.
+            </1>
+            <2>
+              Besides basic blocks data and transaction data, Scan EOS enables you to view even more kinds of aggregated information, getting your own insight from charts that describe the movement of EOS community. These information can be your first hand reference for product design and value investigation.
+            </2>`,
+          aboutEOS: `<p>EOS is an advanced distributed smart contract platform.</p>
+          <p>
+            EOS (Enterprise Operation System) is a software developed by Block.one and EOS community. It aims to provide a brand new smart contract platform, making developing high performance distributed application even more easier.
+            EOS's development is leaded by Daniel Larimer（BM), who had his huge successes in BitShares and Steemit. So EOS will find its balance in performance and security, finally supporting various of DAPP running efficiently.
+          </p>`,
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
