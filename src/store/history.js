@@ -82,23 +82,33 @@ export default (initialState: Object = {}) => ({
 
 export async function followURI(location: { pathname: string, search?: string, state: any }) {
   const {
-    store: { dispatch },
+    store: { dispatch, getState },
   } = await import('./');
-  // 如果不是从 store 发出的 push 导致的路由变动，或者相应的 store 里没有数据
+  // 如果不是从 store 发出的 push 导致的路由变动，而是用户刷新浏览器，我们才加载数据
   if (location?.state?.isAction !== true) {
     const { page: pageString } = queryString.parse(location.search);
-    // 暂时不让用户通过 querystring 直接跳到很后面，以免加重后端负担，而且业务上一般也没需求
-    const page =
-      Number.isInteger(Number(pageString)) && Number(pageString) >= 1 && Number(pageString) <= 10
-        ? Number(pageString)
-        : 1;
-    if (location.pathname === '/blocks/') {
+    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 1 ? Number(pageString) : 1;
+    const state = await getState();
+    // 只有相应的 store 里没有数据，或者是翻页了(应该没有这种情况)，才加载数据
+    if (
+      location.pathname === '/blocks/' &&
+      (state.block.list.length === 0 || state.block.pagination.current + 1 !== page)
+    ) {
       await dispatch.block.getBlocksList(page);
-    } else if (location.pathname === '/transactions/') {
+    } else if (
+      location.pathname === '/transactions/' &&
+      (state.transaction.list.length === 0 || state.transaction.pagination.current + 1 !== page)
+    ) {
       await dispatch.transaction.getTransactionsList(page);
-    } else if (location.pathname === '/accounts/') {
+    } else if (
+      location.pathname === '/accounts/' &&
+      (state.account.list.length === 0 || state.account.pagination.current + 1 !== page)
+    ) {
       await dispatch.account.getAccountsList(page);
-    } else if (location.pathname === '/messages/') {
+    } else if (
+      location.pathname === '/messages/' &&
+      (state.message.list.length === 0 || state.message.pagination.current + 1 !== page)
+    ) {
       await dispatch.message.getMessagesList(page);
     }
   }
