@@ -12,9 +12,17 @@ import Header, { Footer } from './components/Layout';
 import Loading from './components/Loading';
 import ScrollToTop from './components/ScrollToTop';
 import './GlobalStyles';
-import Home from './pages/Home';
-import BlockProducers from './pages/BlockProducers';
 
+const Home = Loadable({
+  loader: () => import(/* webpackChunkName: "Home" */ './pages/Home'),
+  loading: Loading,
+  modules: ['Home'],
+});
+const BlockProducers = Loadable({
+  loader: () => import(/* webpackChunkName: "BlockProducers" */ './pages/BlockProducers'),
+  loading: Loading,
+  modules: ['BlockProducers'],
+});
 const Block = Loadable({
   loader: () => import(/* webpackChunkName: "Block" */ './pages/Block'),
   loading: Loading,
