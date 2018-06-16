@@ -108,11 +108,11 @@ export default i18n
             <2>
               Besides basic blocks data and transaction data, Scan EOS enables you to view even more kinds of aggregated information, getting your own insight from charts that describe the movement of EOS community. These information can be your first hand reference for product design and value investigation.
             </2>`,
-          aboutEOS: `<p>EOS is an advanced distributed smart contract platform.</p>
-          <p>
+          aboutEOS: `<0>EOS is an advanced distributed smart contract platform.</0>
+          <1>
             EOS (Enterprise Operation System) is a software developed by Block.one and EOS community. It aims to provide a brand new smart contract platform, making developing high performance distributed application even more easier.
             EOS's development is leaded by Daniel Larimer（BM), who had his huge successes in BitShares and Steemit. So EOS will find its balance in performance and security, finally supporting various of DAPP running efficiently.
-          </p>`,
+          </1>`,
         },
         countdown: {
           Until: 'Until the EOS.IO Launch',
@@ -244,6 +244,23 @@ export default i18n
           country: '国家',
           rank: '排名',
           EOSVotesIntroduction: '每质押 1 EOS 可投出约 373757 票，此数值会随时间变化。',
+          aboutThisSite: `<0>Scan EOS 是一个区块链浏览器，也是一个关于 EOS 的数据分析平台。</0>
+          <1>
+            区块链浏览器是浏览区块链信息的主要窗口，例如 Scan EOS 就可以浏览 EOS
+            每一个区块内包含的信息，也能直接搜索与自己有关的交易和账户。这些数据对于工作、投资与 EOS
+            相关的人，非常关键。
+          </1>
+          <2>
+            除了基本的区块数据、交易数据以外，Scan EOS 还将允许你查看更多种类的聚合数据，通过图表洞察 EOS
+            社区的动向，从而能为 EOS 相关的产品设计、价值投资收集第一手的参考数据。
+          </2>`,
+          aboutEOS: `<0>我们所关注的 EOS 是一个先进的分布式智能合约平台。</0>
+          <1>
+            EOS (Enterprise Operation System)
+            是由Block.one公司主导开发的一种全新的基于区块链智能合约平台，旨在为高性能分布式应用提供底层区块链平台服务。EOS
+            项目由 Daniel Larimer（人称BM）主导，继承了 BitShares 和 Steemit 的成功经验，因此 EOS
+            在效率和安全性中找到了很好的平衡，可以高效运行多样化的去中心化应用（DAPP）。
+          </1>`,
         },
         countdown: {
           Days: '天',
