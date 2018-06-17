@@ -101,7 +101,7 @@ export default i18n
             'Each staking of 1 EOS can cast votes of about 373757, This value will change over time.',
           aboutThisSite: `<0>ScanEOS is the world's first professional blockchain explorer and data analysis platform that focuses on EOS ecosystem.</0>
             <1>
-              Blockchain browser is one of the most import window to view information inside blockchain's blocks.
+              Blockchain browser is one of the most important window to view information inside blockchain's blocks.
               Scan EOS read data from EOS' blocks for you. So you can search transactions, accounts and more data that is related to you.
               These data may be very important to investigator and worker that works in blockchain industry.
             </1>
