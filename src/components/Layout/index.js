@@ -5,7 +5,7 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is from 'styled-is';
-import { Layout, Menu, Dropdown, Icon, Breadcrumb, Modal } from 'antd';
+import { Layout, Menu, Dropdown, Icon, Breadcrumb, Modal, Affix } from 'antd';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { withRouter, Link } from 'react-router-dom';
@@ -24,13 +24,17 @@ const lang = {
 };
 
 const HeaderContainer = styled.div`
-  height: 64px;
+  transition: all 300ms;
+  height: ${props => (props.affixed ? 48 : 64)}px;
+  ${breakpoint('desktop')`
+    height: 64px;
+  `};
   z-index: 10;
   .ant-layout-header {
     width: 100vw;
     background-color: white;
     border-bottom: 1px solid #d8d8d8;
-
+    height: inherit;
     display: flex;
     justify-content: flex-end;
 
@@ -75,7 +79,7 @@ const MenuOpenIconContainer = styled(Flex)`
     display: none;
   `};
   position: absolute;
-  top: 25px;
+  height: inherit;
   right: 20px;
   ${breakpoint('desktop')`
     right: 50px;
@@ -92,6 +96,11 @@ const LogoContainer = styled(Flex)`
   `};
 `;
 const LogoIcon = styled.img`
+  ${is('affixed')`
+    display: none;
+  `} ${breakpoint('desktop')`
+    display: unset;
+  `};
   height: 40px;
 `;
 
@@ -153,6 +162,24 @@ const MobileSearchBarContainer = styled(Flex)`
     display: none;
   `};
   height: 70px;
+  position: static;
+  ${is('affixed')`
+    position: fixed;
+    top: 0;
+    left: 5vw;
+    height: 48px;
+  `};
+`;
+
+const HeaderAffixSpace = styled.div`
+  width: 100vw;
+  height: 64px;
+`;
+
+const HeaderAffix = styled(Affix)`
+  position: absolute;
+  transition: all 300ms;
+  z-index: 1;
 `;
 
 type Props = {
@@ -211,10 +238,17 @@ export const miscPaths: RouteData[] = [{ route: 'about', display: 'About' }];
 class Header extends Component<Props & Store & Dispatch, *> {
   state = {
     sideMenuOpened: false,
+    headerAffixed: false,
   };
   toggleSideMenu = () => {
     this.setState({ sideMenuOpened: !this.state.sideMenuOpened });
     noScroll.toggle();
+  };
+
+  onHeaderChanged = affixed => {
+    this.setState({
+      headerAffixed: affixed,
+    });
   };
 
   blockChainMenu = (
@@ -374,88 +408,100 @@ class Header extends Component<Props & Store & Dispatch, *> {
   render() {
     return (
       <Fragment>
-        <Fixed opened={this.state.sideMenuOpened} onClick={this.toggleSideMenu} />
-        <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
-        <HeaderContainer>
-          <Layout.Header>
-            <Link to="/" onClick={() => this.props.changeNavTab('home')}>
-              <LogoContainer center>
-                <LogoIcon src={this.props.t('logoIcon')} />
-              </LogoContainer>
-            </Link>
-            <MenuOpenIconContainer center>
-              <Icon onClick={this.toggleSideMenu} type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
-            </MenuOpenIconContainer>
+        <HeaderAffix onChange={this.onHeaderChanged}>
+          <Fixed opened={this.state.sideMenuOpened} onClick={this.toggleSideMenu} />
+          <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
+          <HeaderContainer affixed={this.state.headerAffixed}>
+            <Layout.Header>
+              <Link to="/" onClick={() => this.props.changeNavTab('home')}>
+                <LogoContainer center>
+                  <LogoIcon src={this.props.t('logoIcon')} affixed={this.state.headerAffixed} />
+                </LogoContainer>
+              </Link>
+              <MenuOpenIconContainer center>
+                <Icon onClick={this.toggleSideMenu} type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
+              </MenuOpenIconContainer>
 
-            <DesktopSearchBarContainer>
-              <SearchBar />
-            </DesktopSearchBarContainer>
-            <DropDownsContainer>
-              <NavDropDowns justifyEnd>
-                <NavDropDownsButtonLink
-                  selected={this.props.navTab === 'home'}
-                  onClick={() => this.props.changeNavTab('home')}
-                  to="/"
-                >
-                  {this.props.t('Home')}
-                  {this.getSelectedIndicator('home')}
-                </NavDropDownsButtonLink>
+              <DesktopSearchBarContainer>
+                <SearchBar />
+              </DesktopSearchBarContainer>
+              <DropDownsContainer>
+                <NavDropDowns justifyEnd>
+                  <NavDropDownsButtonLink
+                    selected={this.props.navTab === 'home'}
+                    onClick={() => this.props.changeNavTab('home')}
+                    to="/"
+                  >
+                    {this.props.t('Home')}
+                    {this.getSelectedIndicator('home')}
+                  </NavDropDownsButtonLink>
 
-                <Dropdown overlay={this.blockChainMenu}>
-                  <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
-                    {this.props.t('BlockChain')} <Icon type="down" />
-                    {this.getSelectedIndicator('blockChain')}
-                  </NavDropDownsButton>
-                </Dropdown>
+                  <Dropdown overlay={this.blockChainMenu}>
+                    <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
+                      {this.props.t('BlockChain')} <Icon type="down" />
+                      {this.getSelectedIndicator('blockChain')}
+                    </NavDropDownsButton>
+                  </Dropdown>
 
-                <Dropdown overlay={this.tokensMenu}>
-                  <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
-                    {this.props.t('Tokens')} <Icon type="down" />
-                    {this.getSelectedIndicator('tokens')}
-                  </NavDropDownsButton>
-                </Dropdown>
+                  <Dropdown overlay={this.tokensMenu}>
+                    <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
+                      {this.props.t('Tokens')} <Icon type="down" />
+                      {this.getSelectedIndicator('tokens')}
+                    </NavDropDownsButton>
+                  </Dropdown>
 
-                <NavDropDownsButtonLink
-                  selected={this.props.navTab === 'resources'}
-                  onClick={() => this.props.changeNavTab('resources')}
-                  to="/resources/"
-                >
-                  {this.props.t('Resources')}
-                  {this.getSelectedIndicator('resources')}
-                </NavDropDownsButtonLink>
+                  <NavDropDownsButtonLink
+                    selected={this.props.navTab === 'resources'}
+                    onClick={() => this.props.changeNavTab('resources')}
+                    to="/resources/"
+                  >
+                    {this.props.t('Resources')}
+                    {this.getSelectedIndicator('resources')}
+                  </NavDropDownsButtonLink>
 
-                <Dropdown overlay={this.miscMenu}>
-                  <NavDropDownsButton selected={this.props.navTab === 'misc'}>
-                    {this.props.t('Misc')} <Icon type="down" />
-                    {this.getSelectedIndicator('misc')}
-                  </NavDropDownsButton>
-                </Dropdown>
+                  <Dropdown overlay={this.miscMenu}>
+                    <NavDropDownsButton selected={this.props.navTab === 'misc'}>
+                      {this.props.t('Misc')} <Icon type="down" />
+                      {this.getSelectedIndicator('misc')}
+                    </NavDropDownsButton>
+                  </Dropdown>
 
-                <NavDropDownsButtonLink
-                  selected={this.props.navTab === 'producers'}
-                  onClick={() => this.props.changeNavTab('producers')}
-                  to="/producers/"
-                >
-                  {this.props.t('BlockProducers')}
-                  {this.getSelectedIndicator('producers')}
-                </NavDropDownsButtonLink>
+                  <NavDropDownsButtonLink
+                    selected={this.props.navTab === 'producers'}
+                    onClick={() => this.props.changeNavTab('producers')}
+                    to="/producers/"
+                  >
+                    {this.props.t('BlockProducers')}
+                    {this.getSelectedIndicator('producers')}
+                  </NavDropDownsButtonLink>
 
-                <Dropdown overlay={this.localeMenu}>
-                  <NavDropDownsButton>
-                    <img
-                      style={{ width: '20px', height: '20px', marginRight: '5px' }}
-                      alt={this.props.t('Locale')}
-                      src={translateLogo}
-                    />
-                    {lang[this.props.t('locale')]}
-                    <Icon type="down" />
-                    {this.getSelectedIndicator('locale')}
-                  </NavDropDownsButton>
-                </Dropdown>
-              </NavDropDowns>
-            </DropDownsContainer>
-          </Layout.Header>
-        </HeaderContainer>
+                  <Dropdown overlay={this.localeMenu}>
+                    <NavDropDownsButton>
+                      <img
+                        style={{
+                          width: '20px',
+                          height: '20px',
+                          marginRight: '5px',
+                        }}
+                        alt={this.props.t('Locale')}
+                        src={translateLogo}
+                      />
+                      {lang[this.props.t('locale')]}
+                      <Icon type="down" />
+                      {this.getSelectedIndicator('locale')}
+                    </NavDropDownsButton>
+                  </Dropdown>
+                </NavDropDowns>
+              </DropDownsContainer>
+            </Layout.Header>
+          </HeaderContainer>
+          {this.state.headerAffixed && (
+            <MobileSearchBarContainer center affixed={this.state.headerAffixed}>
+              <SearchBar affixed={this.state.headerAffixed} />
+            </MobileSearchBarContainer>
+          )}
+        </HeaderAffix>
+        <HeaderAffixSpace affixed={this.state.headerAffixed} />
         <MobileSearchBarContainer center>
           <SearchBar />
         </MobileSearchBarContainer>

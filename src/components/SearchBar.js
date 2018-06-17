@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
+import is from 'styled-is';
 
 const SearchContainer = styled.div`
   width: 200px;
@@ -20,6 +21,9 @@ const SearchContainer = styled.div`
       width: calc(100vw - 50px * 2 - 150px - 650px);
     }
   `};
+  ${is('affixed')`
+    padding-right: 48px;
+  `};
 `;
 
 type Store = {
@@ -27,6 +31,7 @@ type Store = {
 };
 type Props = {
   t: Function,
+  affixed?: boolean,
 };
 type Dispatch = {
   changeKeyWord: (keyWord: string) => void,
@@ -44,6 +49,10 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
     return null;
   }
 
+  static defaultProps = {
+    affixed: false,
+  };
+
   state = {
     keyWord: '',
   };
@@ -56,7 +65,7 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
 
   render() {
     return (
-      <SearchContainer active={this.state.keyWord}>
+      <SearchContainer active={this.state.keyWord} affixed={this.props.affixed}>
         <Input.Search
           size="large"
           placeholder={this.props.t('cansearch')}
@@ -81,7 +90,9 @@ const mapDispatch = ({ search: { changeKeyWord, search } }): Dispatch => ({
   changeKeyWord,
   search: debounce(search, 100),
 });
-export default translate()(connect(
-  mapState,
-  mapDispatch,
-)(SearchBar));
+export default translate()(
+  connect(
+    mapState,
+    mapDispatch,
+  )(SearchBar),
+);
