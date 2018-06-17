@@ -188,8 +188,8 @@ export default (initialState?: Object = {}) => ({
       try {
         // const data = await get(`/accounts?name=${accountName}`);
         const [data, balanceData] = await Promise.all([
-          postEOS('/v1/chain/get_account', { account_name: accountName }),
-          postEOS('/v1/chain/get_currency_balance', { account: accountName, code: 'eosio.token' }),
+          postEOS('/chain/get_account', { account_name: accountName }),
+          postEOS('/chain/get_currency_balance', { account: accountName, code: 'eosio.token' }),
         ]);
 
         if (!data) throw new Error('No data.');
@@ -225,7 +225,7 @@ export default (initialState?: Object = {}) => ({
       try {
         const bpList: {
           rows: BPAccount[],
-        } = await postEOS('/v1/chain/get_table_rows', {
+        } = await postEOS('/chain/get_table_rows', {
           json: true,
           code: 'eosio',
           scope: 'eosio',

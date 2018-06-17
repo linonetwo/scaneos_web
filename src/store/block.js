@@ -1,6 +1,4 @@
 // @flow
-import { initial } from 'lodash';
-
 import get from '../API.config';
 
 export type BlockData = {

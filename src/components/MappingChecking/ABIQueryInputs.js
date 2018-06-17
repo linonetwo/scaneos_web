@@ -54,7 +54,7 @@ async function getEOSAddressByETHAddress(ethAddress: string) {
   return EOSAddress;
 }
 async function getEOSOwnerAddressByEOSAccount(account: string) {
-  const data: AccountData = await postEOS('/v1/chain/get_account', { account_name: account });
+  const data: AccountData = await postEOS('/chain/get_account', { account_name: account });
   return find(data.permissions, { permName: 'owner' })?.requiredAuth?.keys?.[0]?.key;
 }
 

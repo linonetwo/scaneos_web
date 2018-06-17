@@ -2,7 +2,7 @@
 import camelize from 'camelize';
 
 export const API = 'https://scaneos.io/api';
-export const EOS_API = 'https://scaneos.io/eosapi';
+export const EOS_API = 'https://scaneos.io/eosapi/v1';
 export default (path: string) =>
   fetch(`${API}${path}`)
     .then(res => res.json())

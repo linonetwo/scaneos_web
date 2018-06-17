@@ -115,7 +115,7 @@ export default (initialState?: Object = {}) => ({
     async getVoting() {
       const {
         rows: [voteData],
-      }: AggregationTable = await postEOS('/v1/chain/get_table_rows', {
+      }: AggregationTable = await postEOS('/chain/get_table_rows', {
         json: true,
         code: 'eosio',
         scope: 'eosio',
