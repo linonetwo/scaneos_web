@@ -37,7 +37,9 @@ const AggregationItem = styled(Flex)`
   color: #333;
   opacity: 0.9;
   font-size: 18px;
+  letter-spacing: -3px;
   & h4 {
+    letter-spacing: 0px;
     color: #333;
     opacity: 0.6;
     font-size: 14px;
