@@ -1,7 +1,7 @@
 // @flow
 import { debounce } from 'lodash';
 import React, { Component } from 'react';
-import { Input } from 'antd';
+import { Input, Icon } from 'antd';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import breakpoint from 'styled-components-breakpoint';
@@ -28,6 +28,7 @@ const SearchContainer = styled.div`
 
 type Store = {
   keyWord: string,
+  loading: boolean,
 };
 type Props = {
   t: Function,
@@ -68,10 +69,10 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
       <SearchContainer active={this.state.keyWord} affixed={this.props.affixed}>
         <Input.Search
           size="large"
+          enterButton={this.props.loading ? <Icon type="loading" /> : <Icon type="search" />}
           placeholder={this.props.t('cansearch')}
           value={this.state.keyWord}
           onChange={this.onSearchInputChange}
-          enterButton
           onSearch={keyWord => {
             if (!keyWord) return;
             this.props.changeKeyWord(keyWord);
@@ -83,8 +84,9 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
   }
 }
 
-const mapState = ({ search: { keyWord } }): Store => ({
+const mapState = ({ search: { keyWord, loading } }): Store => ({
   keyWord,
+  loading,
 });
 const mapDispatch = ({ search: { changeKeyWord, search } }): Dispatch => ({
   changeKeyWord,
