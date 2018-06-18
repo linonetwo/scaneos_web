@@ -20,9 +20,9 @@ export const zh = {
   Uncles: '叔块',
   Accounts: '账户列表',
   Account: '账户',
-  Messages: '消息列表',
+  Actions: '消息列表',
   Transactions: '交易列表',
-  Message: '消息',
+  Action: '消息',
   Charts: '图表',
   BlockProducers: '超级节点',
   BlockProducer: '超级节点',
@@ -38,7 +38,7 @@ export const zh = {
 
   transactionNum: '总交易量',
   accountNum: '总账户量',
-  messageNum: '总消息量',
+  actionNum: '总消息量',
   blocksNum: '总区块量',
 
   Overview: '概览',
@@ -62,6 +62,6 @@ export const en = {
 
   transactionNum: 'Transactions',
   accountNum: 'Accounts',
-  messageNum: 'Messages',
+  actionNum: 'Actions',
   blocksNum: 'Blocks',
 };

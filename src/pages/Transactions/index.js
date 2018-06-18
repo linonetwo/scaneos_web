@@ -69,10 +69,10 @@ class Transactions extends Component<Props & Store & Dispatch, *> {
               )}
             />
             {/* <Table.Column
-              title={this.props.t('messages')}
-              dataIndex="messages"
-              key="messages"
-              render={messages => messages.map(({ id }) => <Link to={`/message/${id}/`}>{id}</Link>)}
+              title={this.props.t('actions')}
+              dataIndex="actions"
+              key="actions"
+              render={actions => actions.map(({ id }) => <Link to={`/action/${id}/`}>{id}</Link>)}
             /> */}
           </Table>
         </ListContainer>

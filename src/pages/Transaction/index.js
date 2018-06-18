@@ -9,7 +9,7 @@ import { frontloadConnect } from 'react-frontload';
 
 import { getBreadcrumb } from '../../components/Layout';
 import type { TransactionData } from '../../store/transaction';
-import type { MessageData } from '../../store/message';
+import type { ActionData } from '../../store/action';
 import { LongListContainer, DetailTabsContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
@@ -18,13 +18,13 @@ type Props = {
 };
 type Store = {
   data: TransactionData,
-  messages: MessageData[],
+  actions: ActionData[],
   transactionLoading: boolean,
-  messageLoading: boolean,
+  actionLoading: boolean,
 };
 type Dispatch = {
   getTransactionData: (transactionId: string) => void,
-  getMessageData: (transactionId: string) => void,
+  getActionData: (transactionId: string) => void,
 };
 
 class Transaction extends Component<Props & Store, *> {
@@ -41,14 +41,14 @@ class Transaction extends Component<Props & Store, *> {
               tab={
                 <span>
                   <Icon type="solution" />
-                  {this.props.t('Messages')}
+                  {this.props.t('Actions')}
                 </span>
               }
               key="1"
             >
-              <Spin tip="Connecting" spinning={this.props.transactionLoading || this.props.messageLoading} size="large">
-                {this.props.messages.length > 0 ? (
-                  this.props.messages.map(data => (
+              <Spin tip="Connecting" spinning={this.props.transactionLoading || this.props.actionLoading} size="large">
+                {this.props.actions.length > 0 ? (
+                  this.props.actions.map(data => (
                     <LongListContainer column>
                       <Table
                         size="middle"
@@ -128,16 +128,16 @@ class Transaction extends Component<Props & Store, *> {
 
 const mapState = ({
   transaction: { loading: transactionLoading, data },
-  message: { loading: messageLoading, listByTransaction },
+  action: { loading: actionLoading, listByTransaction },
 }): Store => ({
   data,
-  messages: listByTransaction,
+  actions: listByTransaction,
   transactionLoading,
-  messageLoading,
+  actionLoading,
 });
-const mapDispatch = ({ transaction: { getTransactionData }, message: { getMessageData } }): Dispatch => ({
+const mapDispatch = ({ transaction: { getTransactionData }, action: { getActionData } }): Dispatch => ({
   getTransactionData,
-  getMessageData,
+  getActionData,
 });
 
 type LoaderProps = Dispatch & {
@@ -149,7 +149,7 @@ type LoaderProps = Dispatch & {
 };
 const frontload = async (props: LoaderProps) => {
   const currentTransactionId = String(props.match.params.transactionId);
-  return Promise.all([props.getTransactionData(currentTransactionId), props.getMessageData(currentTransactionId)]);
+  return Promise.all([props.getTransactionData(currentTransactionId), props.getActionData(currentTransactionId)]);
 };
 
 export default withRouter(

@@ -53,15 +53,15 @@ const Accounts = Loadable({
   loading: Loading,
   modules: ['Accounts'],
 });
-const Message = Loadable({
-  loader: () => import(/* webpackChunkName: "Message" */ './pages/Message'),
+const Action = Loadable({
+  loader: () => import(/* webpackChunkName: "Action" */ './pages/Action'),
   loading: Loading,
-  modules: ['Message'],
+  modules: ['Action'],
 });
-const Messages = Loadable({
-  loader: () => import(/* webpackChunkName: "Messages" */ './pages/Messages'),
+const Actions = Loadable({
+  loader: () => import(/* webpackChunkName: "Actions" */ './pages/Actions'),
   loading: Loading,
-  modules: ['Messages'],
+  modules: ['Actions'],
 });
 const UnderDevelopment = Loadable({
   loader: () => import(/* webpackChunkName: "UnderDevelopment" */ './pages/UnderDevelopment'),
@@ -103,8 +103,8 @@ export default class App extends Component<{}> {
             <Route exact path="/transactions" component={Transactions} />
             <Route exact path="/account/:accountId" component={Account} />
             <Route exact path="/accounts" component={Accounts} />
-            <Route exact path="/message/:transactionId" component={Message} />
-            <Route exact path="/messages" component={Messages} />
+            <Route exact path="/action/:transactionId" component={Action} />
+            <Route exact path="/actions" component={Actions} />
             <Route exact path="/producers" component={BlockProducers} />
             <Route exact path="/about" component={About} />
             <Route exact path="/" component={Home} />

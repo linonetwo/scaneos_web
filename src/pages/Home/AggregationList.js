@@ -138,9 +138,9 @@ function AggregationList(props: Props & Store) {
         </Link>
       </Spin>
       <Spin spinning={props.loading}>
-        <Link to="/messages/">
+        <Link to="/actions/">
           <AggregationItem column center>
-            <h4>{t('messageNum')}</h4>
+            <h4>{t('actionNum')}</h4>
             {props.data.actionNumber}
           </AggregationItem>
         </Link>

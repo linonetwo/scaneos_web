@@ -1,7 +1,7 @@
 // @flow
-import type { ListResponse } from './message';
+import type { ListResponse } from './action';
 
-export const messageDataByTransactionId: ListResponse = {
+export const actionDataByTransactionId: ListResponse = {
   links: [
     {
       rel: 'self',

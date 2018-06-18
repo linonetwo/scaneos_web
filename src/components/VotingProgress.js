@@ -94,15 +94,15 @@ function VotingProgress(props: Props & Store) {
 }
 
 const mapState = ({
-  message: { loading: messageLoading, listByTime: messageData },
+  action: { loading: actionLoading, listByTime: actionData },
   aggregation: { totalActivatedStake },
 }): Store => ({
-  messageData,
-  messageLoading,
+  actionData,
+  actionLoading,
   totalActivatedStake,
 });
-const mapDispatch = ({ message: { getMessagesList }, aggregation: { getVoting } }): Dispatch => ({
-  getMessagesList,
+const mapDispatch = ({ action: { getActionsList }, aggregation: { getVoting } }): Dispatch => ({
+  getActionsList,
   getVoting,
 });
 

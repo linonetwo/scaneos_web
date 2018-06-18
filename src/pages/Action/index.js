@@ -8,7 +8,7 @@ import { translate } from 'react-i18next';
 import { frontloadConnect } from 'react-frontload';
 
 import { getBreadcrumb } from '../../components/Layout';
-import type { MessageData } from '../../store/message';
+import type { ActionData } from '../../store/action';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
@@ -16,20 +16,20 @@ type Props = {
   t: Function,
 };
 type Store = {
-  listByTransaction: MessageData[],
+  listByTransaction: ActionData[],
   loading: boolean,
 };
 type Dispatch = {
-  getMessageData: (transactionID: string) => void,
+  getActionData: (transactionID: string) => void,
 };
 
-class Message extends Component<Props & Store, *> {
+class Action extends Component<Props & Store, *> {
   state = {};
 
   render() {
     return (
       <Fragment>
-        {getBreadcrumb('message', this.props.t)}
+        {getBreadcrumb('action', this.props.t)}
         <Spin tip="Connecting" spinning={this.props.loading} size="large">
           <DetailTabsContainer>
             <Tabs defaultActiveKey="2">
@@ -82,8 +82,8 @@ class Message extends Component<Props & Store, *> {
   }
 }
 
-const mapState = ({ message: { listByTransaction }, info: { loading } }): Store => ({ listByTransaction, loading });
-const mapDispatch = ({ message: { getMessageData } }): Dispatch => ({ getMessageData });
+const mapState = ({ action: { listByTransaction }, info: { loading } }): Store => ({ listByTransaction, loading });
+const mapDispatch = ({ action: { getActionData } }): Dispatch => ({ getActionData });
 
 type LoaderProps = Dispatch & {
   match: {
@@ -94,7 +94,7 @@ type LoaderProps = Dispatch & {
 };
 const frontload = async (props: LoaderProps) => {
   const currentTransactionID = String(props.match.params.transactionId);
-  return props.getMessageData(currentTransactionID);
+  return props.getActionData(currentTransactionID);
 };
 
 export default withRouter(
@@ -105,7 +105,7 @@ export default withRouter(
     )(
       frontloadConnect(frontload, {
         onUpdate: false,
-      })(Message),
+      })(Action),
     ),
   ),
 );

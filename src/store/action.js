@@ -23,7 +23,7 @@ type Data = {
   header?: Header,
 };
 
-export type MessageData = {
+export type ActionData = {
   id: string,
   actionId: number,
   transactionId: string,
@@ -34,7 +34,7 @@ export type MessageData = {
   createdAt: string,
 };
 export type ListResponse = {
-  content: MessageData[],
+  content: ActionData[],
   page: {
     size: number,
     totalElements: number,
@@ -45,12 +45,12 @@ export type ListResponse = {
 
 export type Store = {
   loading: boolean,
-  listByTime: MessageData[],
-  listByTransaction: MessageData[],
+  listByTime: ActionData[],
+  listByTransaction: ActionData[],
   pagination: Pagination,
 };
 
-export const emptyMessageData = {
+export const emptyActionData = {
   id: '',
   actionId: -1,
   transactionId: '',
@@ -88,11 +88,11 @@ export default (initialState?: Object = {}) => ({
       state.loading = !state.loading;
       return state;
     },
-    initMessagesList(state: Store, listByTime: MessageData[]) {
+    initActionsList(state: Store, listByTime: ActionData[]) {
       state.listByTime = listByTime;
       return state;
     },
-    initMessageData(state: Store, listByTransaction: MessageData[]) {
+    initActionData(state: Store, listByTransaction: ActionData[]) {
       state.listByTransaction = listByTransaction;
       return state;
     },
@@ -102,19 +102,19 @@ export default (initialState?: Object = {}) => ({
     },
   },
   effects: {
-    async getMessageData(transactionId: string) {
+    async getActionData(transactionId: string) {
       const {
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
-      dispatch.message.toggleLoading();
+      dispatch.action.toggleLoading();
       dispatch.history.updateURI();
 
       try {
-        const listByTransaction: MessageData[] = await get(`/actions?transaction_id=${transactionId}`);
+        const listByTransaction: ActionData[] = await get(`/actions?transaction_id=${transactionId}`);
 
         if (listByTransaction.length === 0) throw new Error('No data.');
-        this.initMessageData(listByTransaction);
+        this.initActionData(listByTransaction);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
@@ -127,15 +127,15 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
-        dispatch.message.toggleLoading();
+        dispatch.action.toggleLoading();
       }
     },
-    async getMessagesList(gotoPage?: number) {
+    async getActionsList(gotoPage?: number) {
       const {
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
-      dispatch.message.toggleLoading();
+      dispatch.action.toggleLoading();
 
       try {
         const dataPage = gotoPage ? gotoPage - 1 : 0;
@@ -145,7 +145,7 @@ export default (initialState?: Object = {}) => ({
           content,
           page: { totalElements },
         } = data;
-        this.initMessagesList(content);
+        this.initActionsList(content);
         this.setPage({ current: gotoPage || 0, total: totalElements });
         dispatch.history.updateURI();
       } catch (error) {
@@ -160,7 +160,7 @@ export default (initialState?: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
-        dispatch.message.toggleLoading();
+        dispatch.action.toggleLoading();
       }
     },
   },

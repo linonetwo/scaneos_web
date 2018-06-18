@@ -13,8 +13,8 @@ export default (initialState: Object = {}) => ({
     },
   },
   effects: {
-    displayNotification(message: string) {
-      if (!isServer) notification.open({ message });
+    displayNotification(action: string) {
+      if (!isServer) notification.open({ action });
     },
     changeLanguage(newLanguage: string) {
       i18n.changeLanguage(newLanguage);

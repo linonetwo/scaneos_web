@@ -24,10 +24,10 @@ export default function getListValueRendering(field: string, value: any, t: Func
     case 'producerAccountId':
       return <Link to={`/account/${value}/`}>{value}</Link>;
 
-    case 'messages':
-      return value.map(({ id }) => <Link to={`/message/${id}/`}>{id}</Link>);
-    case 'messageNum':
-      return <Link to={`/message/${value}/`}>{value}</Link>;
+    case 'actions':
+      return value.map(({ id }) => <Link to={`/action/${id}/`}>{id}</Link>);
+    case 'actionNum':
+      return <Link to={`/action/${value}/`}>{value}</Link>;
 
     case 'authorization':
       return value.map(({ actor, permission }) => (
