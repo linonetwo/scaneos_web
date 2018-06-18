@@ -173,7 +173,7 @@ const mapDispatch = ({ aggregation: { getAggregationData }, price: { getCurrentP
   getCurrentPriceData,
 });
 
-const frontload = (props: Dispatch & Store) =>
+const frontload = (props: Dispatch & Store & Props) =>
   Promise.all([
     props.data.blockNumber || props.getAggregationData(),
     props.currentPriceData.priceUsd === -1 && props.getCurrentPriceData(),
