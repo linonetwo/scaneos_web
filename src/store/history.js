@@ -50,31 +50,31 @@ export default (initialState: Object = {}) => ({
           ...queryString.parse(history.location.search),
           page: state.block.pagination.current,
         });
-        history.replace(`/blocks/?${query}`, { isAction: true });
+        history.replace(`/blocks/?${query}`, { isFromEffect: true });
       } else if (history.location.pathname === '/transactions/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           page: state.transaction.pagination.current,
         });
-        history.replace(`/transactions/?${query}`, { isAction: true });
+        history.replace(`/transactions/?${query}`, { isFromEffect: true });
       } else if (history.location.pathname === '/accounts/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           page: state.account.pagination.current,
         });
-        history.replace(`/accounts/?${query}`, { isAction: true });
-      } else if (history.location.pathname === '/messages/') {
+        history.replace(`/accounts/?${query}`, { isFromEffect: true });
+      } else if (history.location.pathname === '/actions/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
-          page: state.message.pagination.current,
+          page: state.action.pagination.current,
         });
-        history.replace(`/messages/?${query}`, { isAction: true });
+        history.replace(`/actions/?${query}`, { isFromEffect: true });
       } else if (history.location.pathname === '/producers/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           ...queryOverride,
         });
-        history.replace(`/producers/?${query}`, { isAction: true });
+        history.replace(`/producers/?${query}`, { isFromEffect: true });
       }
     },
   },
@@ -85,7 +85,7 @@ export async function followURI(location: { pathname: string, search?: string, s
     store: { dispatch, getState },
   } = await import('./');
   // 如果不是从 store 发出的 push 导致的路由变动，而是用户刷新浏览器，我们才加载数据
-  if (location?.state?.isAction !== true) {
+  if (location?.state?.isFromEffect !== true) {
     const { page: pageString } = queryString.parse(location.search);
     const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 1 ? Number(pageString) : 1;
     const state = await getState();
@@ -109,10 +109,10 @@ export async function followURI(location: { pathname: string, search?: string, s
       return dispatch.account.getAccountsList(page);
     }
     if (
-      location.pathname === '/messages/' &&
-      (state.message.list.length === 0 || state.message.pagination.current + 1 !== page)
+      location.pathname === '/actions/' &&
+      (state.action.listByTime.length === 0 || state.action.pagination.current + 1 !== page)
     ) {
-      return dispatch.message.getMessagesList(page);
+      return dispatch.action.getActionsList(page);
     }
 
     if (/\/block\//g.test(location.pathname)) {
@@ -141,10 +141,10 @@ export async function followURI(location: { pathname: string, search?: string, s
           .replace('/', ''),
       );
     }
-    if (/\/message\//g.test(location.pathname)) {
-      return dispatch.message.getMessageData(
+    if (/\/action\//g.test(location.pathname)) {
+      return dispatch.action.getActionData(
         location.pathname
-          .split('/message/')
+          .split('/action/')
           .pop()
           .replace('/', ''),
       );

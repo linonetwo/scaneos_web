@@ -1,8 +1,8 @@
 import Component from './';
 
 import { API } from '../../API.config';
-import { listDataByTime } from '../../store/message.data';
-import { defaultState } from '../../store/message';
+import { listDataByTime } from '../../store/action.data';
+import { defaultState } from '../../store/action';
 import { getPageSize } from '../../store/utils';
 
 export default [
@@ -10,16 +10,16 @@ export default [
     component: Component,
     name: '消息列表',
     props: {},
-    url: '/messages/',
-    route: '/messages/',
+    url: '/actions/',
+    route: '/actions/',
     fetch: [
       {
-        matcher: () => `${API}/messages?page=0&size=${getPageSize() * defaultState.pagination.pageCountToLoad + 1}`,
+        matcher: () => `${API}/actions?page=0&size=${getPageSize() * defaultState.pagination.pageCountToLoad + 1}`,
         response: listDataByTime,
       },
     ],
     reduxState: {
-      message: {},
+      action: {},
     },
   },
 ];

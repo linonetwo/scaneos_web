@@ -9,7 +9,7 @@ import numeral from 'numeral';
 import { frontloadConnect } from 'react-frontload';
 
 import type { BPAccount } from '../../store/account';
-import { Title, ListContainer, ViewAll, MessagePreview } from './styles';
+import { Title, ListContainer, ViewAll, ActionPreview } from './styles';
 
 type Props = {
   t: Function,
@@ -41,18 +41,18 @@ function BPList(props: Props & Store) {
         dataSource={take(producerAccountList, 7)}
         renderItem={(item: BPAccount) => (
           <List.Item>
-            <MessagePreview>
+            <ActionPreview>
               <Link to={`/account/${item.owner}/`}>{item.owner}</Link>
-            </MessagePreview>
-            <MessagePreview>
+            </ActionPreview>
+            <ActionPreview>
               {t('EOSVotes')}: {toUpper(numeral(item.totalVotes).format('(0,0 a)'))} Vote
-            </MessagePreview>
-            <MessagePreview>
+            </ActionPreview>
+            <ActionPreview>
               {t('homepage')}:{' '}
               <a href={item.url} target="_black" rel="noopener noreferrer">
                 {item.url}
               </a>
-            </MessagePreview>
+            </ActionPreview>
           </List.Item>
         )}
       />

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { frontloadConnect } from 'react-frontload';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
-import type { MessageData } from '../../store/message';
+import type { ActionData } from '../../store/action';
 import type { Pagination } from '../../store/block';
 import { ListContainer } from '../../components/Table';
 
@@ -16,15 +16,15 @@ type Props = {
   t: Function,
 };
 type Store = {
-  listByTime: MessageData[],
+  listByTime: ActionData[],
   pagination: Pagination,
   loading: boolean,
 };
 type Dispatch = {
-  getMessagesList: (gotoPage?: number) => void,
+  getActionsList: (gotoPage?: number) => void,
 };
 
-class Messages extends Component<Props & Store & Dispatch, *> {
+class Actions extends Component<Props & Store & Dispatch, *> {
   state = {};
 
   render() {
@@ -41,14 +41,14 @@ class Messages extends Component<Props & Store & Dispatch, *> {
               ...this.props.pagination,
             }}
             onChange={pagination => {
-              this.props.getMessagesList(pagination.current);
+              this.props.getActionsList(pagination.current);
             }}
           >
             <Table.Column
               title={this.props.t('actionId')}
               dataIndex="actionId"
               key="actionId"
-              render={(actionId, { transactionId }) => <Link to={`/message/${transactionId}/`}>{actionId}</Link>}
+              render={(actionId, { transactionId }) => <Link to={`/action/${transactionId}/`}>{actionId}</Link>}
             />
             <Table.Column
               title={this.props.t('transactionId')}
@@ -93,18 +93,18 @@ class Messages extends Component<Props & Store & Dispatch, *> {
   }
 }
 
-const mapState = ({ message: { listByTime, pagination }, info: { loading } }): Store => ({
+const mapState = ({ action: { listByTime, pagination }, info: { loading } }): Store => ({
   listByTime,
   pagination,
   loading,
 });
-const mapDispatch = ({ message: { getMessagesList } }): Dispatch => ({
-  getMessagesList,
+const mapDispatch = ({ action: { getActionsList } }): Dispatch => ({
+  getActionsList,
 });
 const frontload = async (props: Store & Dispatch) => {
   // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
   if (!props.loading && props.listByTime.length === 0) {
-    return props.getMessagesList();
+    return props.getActionsList();
   }
   return Promise.resolve();
 };
@@ -115,6 +115,6 @@ export default translate('action')(
   )(
     frontloadConnect(frontload, {
       onUpdate: false,
-    })(Messages),
+    })(Actions),
   ),
 );

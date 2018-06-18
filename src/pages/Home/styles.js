@@ -93,7 +93,7 @@ export const ViewAll = styled(Flex)`
   }
 `;
 
-export const MessagePreview = styled.div`
+export const ActionPreview = styled.div`
   & a + a {
     margin-left: 10px;
   }

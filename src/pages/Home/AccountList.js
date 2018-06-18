@@ -10,7 +10,7 @@ import { frontloadConnect } from 'react-frontload';
 import { formatTimeStamp } from '../../store/utils';
 import type { CreatedAccountData } from '../../store/account';
 
-import { Title, ListContainer, ViewAll, MessagePreview } from './styles';
+import { Title, ListContainer, ViewAll, ActionPreview } from './styles';
 
 type Props = {
   t: Function,
@@ -42,10 +42,10 @@ function AccountList(props: Props & Store) {
         dataSource={take(list, 10)}
         renderItem={(item: CreatedAccountData) => (
           <List.Item>
-            <MessagePreview>
+            <ActionPreview>
               <Link to={`/account/${item.data.name}/`}>{item.data.name}</Link>
-            </MessagePreview>
-            <MessagePreview>{formatTimeStamp(item.createdAt, t('locale'), { distance: false })}</MessagePreview>
+            </ActionPreview>
+            <ActionPreview>{formatTimeStamp(item.createdAt, t('locale'), { distance: false })}</ActionPreview>
           </List.Item>
         )}
       />
