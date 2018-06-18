@@ -130,7 +130,7 @@ const frontload = async (props: LoaderProps) => {
 };
 
 export default withRouter(
-  translate()(
+  translate('account')(
     connect(
       mapState,
       mapDispatch,

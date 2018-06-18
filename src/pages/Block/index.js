@@ -68,7 +68,7 @@ class Block extends Component<Props & Store, *> {
                           width={70}
                           dataIndex="field"
                           key="field"
-                          render={this.props.t}
+                          render={field => this.props.t(`transaction:${field}`)}
                         />
                         <Table.Column
                           title={this.props.t('value')}
@@ -163,7 +163,7 @@ const frontload = async (props: LoaderProps) => {
 };
 
 export default withRouter(
-  translate()(
+  translate(['block', 'transaction'])(
     connect(
       mapState,
       mapDispatch,

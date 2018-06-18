@@ -51,18 +51,18 @@ const Container = styled(Flex)`
 type Props = {
   t: Function,
   location: Object,
+  updateURI: (queryOverride?: Object) => void,
 };
 type Store = {
   producerAccountList: BPAccount[],
   totalProducerVoteWeight: number,
 };
 type Dispatch = {
-  updateURI: (queryOverride?: Object) => void,
   getBPAccountsList: () => void,
   getVoting: () => void,
 };
 
-class BlockProducers extends PureComponent<Props & Store & Dispatch, *> {
+class BlockProducers extends PureComponent<Props & Store, *> {
   render() {
     // console.log(this.props.producerAccountList.map(({ url, ...rest }) => {
     //   const hostName = url.match(reURLInformation)?.[3];
@@ -182,7 +182,7 @@ const frontload = (props: Dispatch & Store) =>
     props.totalProducerVoteWeight === 0 && props.getVoting(),
   ]);
 
-export default translate()(
+export default translate('bp')(
   connect(
     mapState,
     mapDispatch,

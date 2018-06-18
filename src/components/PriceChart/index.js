@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
-import { Icon } from 'antd';
+import { Icon, Spin } from 'antd';
 import { format } from 'date-fns';
+import { connect } from 'react-redux';
+import { frontloadConnect } from 'react-frontload';
 import numeral from 'numeral';
 import IEcharts from 'react-echarts-v3/src/lite';
 import echarts from 'echarts/lib/echarts';
@@ -68,12 +70,22 @@ const chartOption = {
   ],
 };
 
-function PriceChart(props: { data: number[][], t: Function }) {
-  const { data } = props;
+type Props = {
+  t: Function,
+};
+type Store = {
+  priceChartData: number[][],
+  loading: boolean,
+};
+type Dispatch = {
+  getPriceChartData: () => void,
+};
+function PriceChart(props: Props & Store) {
+  const { priceChartData } = props;
   const series = [
     {
       name: 'USD',
-      data: data.map(([, usdPrice]) => usdPrice),
+      data: priceChartData.map(([, usdPrice]) => usdPrice),
       type: 'line',
       showSymbol: false,
       hoverAnimation: false,
@@ -86,7 +98,7 @@ function PriceChart(props: { data: number[][], t: Function }) {
       splitLine: {
         show: false,
       },
-      data: data.map(([, , timeStamp]) => timeStamp),
+      data: priceChartData.map(([, , timeStamp]) => timeStamp),
       axisLabel: {
         formatter: value => format(value * 1000, 'MM-DD HH:mm:ss'),
       },
@@ -101,15 +113,36 @@ function PriceChart(props: { data: number[][], t: Function }) {
     global.window = {};
   }
   return (
-    <PriceChartContainer column justifyBetween>
-      <Title center>
-        <span>
-          <Icon type="bar-chart" /> {props.t('PriceHistory')}
-        </span>
-      </Title>
-      <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
-    </PriceChartContainer>
+    <Spin spinning={props.loading}>
+      <PriceChartContainer column justifyBetween>
+        <Title center>
+          <span>
+            <Icon type="bar-chart" /> {props.t('PriceHistory')}
+          </span>
+        </Title>
+        <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
+      </PriceChartContainer>
+    </Spin>
   );
 }
 
-export default translate()(PriceChart);
+const mapState = ({ price: { loading, priceChartData } }): Store => ({
+  loading,
+  priceChartData,
+});
+const mapDispatch = ({ price: { getPriceChartData } }): Dispatch => ({
+  getPriceChartData,
+});
+const frontload = (props: Dispatch & Store) => props.priceChartData.length === 0 && props.getPriceChartData();
+
+export default translate()(
+  connect(
+    mapState,
+    mapDispatch,
+  )(
+    frontloadConnect(frontload, {
+      onUpdate: false,
+      onMount: true,
+    })(PriceChart),
+  ),
+);

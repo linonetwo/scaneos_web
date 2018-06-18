@@ -59,7 +59,7 @@ class Transaction extends Component<Props & Store, *> {
                           title={this.props.t('field')}
                           dataIndex="field"
                           key="field"
-                          render={this.props.t}
+                          render={field => this.props.t(`action:${field}`)}
                         />
                         <Table.Column
                           title={this.props.t('value')}
@@ -153,7 +153,7 @@ const frontload = async (props: LoaderProps) => {
 };
 
 export default withRouter(
-  translate()(
+  translate(['transaction', 'action'])(
     connect(
       mapState,
       mapDispatch,

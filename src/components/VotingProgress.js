@@ -7,6 +7,8 @@ import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
 import { Icon, Tooltip, Progress } from 'antd';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { frontloadConnect } from 'react-frontload';
 
 import { Title as ATitle } from '../pages/Home/styles';
 
@@ -51,7 +53,17 @@ const Content = styled.div`
   color: #333;
 `;
 
-function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
+type Props = {
+  t: Function
+}
+type Store = {
+  totalActivatedStake: number,
+};
+type Dispatch = {
+  getVoting: () => void,
+};
+
+function VotingProgress(props: Props & Store) {
   const votingPercentage = ((Number(props.totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
   return (
     <Container column justifyBetween>
@@ -68,9 +80,7 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
       </Tooltip>
       <Content>
         <div>
-          <div>
-            {props.t('EOSVotesIntroduction')}
-          </div>
+          <div>{props.t('EOSVotesIntroduction')}</div>
         </div>
         <div>
           <div>{props.t('EOSVotes')}:</div>
@@ -83,4 +93,29 @@ function VotingProgress(props: { t: Function, totalActivatedStake: number }) {
   );
 }
 
-export default translate()(VotingProgress);
+const mapState = ({
+  message: { loading: messageLoading, listByTime: messageData },
+  aggregation: { totalActivatedStake },
+}): Store => ({
+  messageData,
+  messageLoading,
+  totalActivatedStake,
+});
+const mapDispatch = ({ message: { getMessagesList }, aggregation: { getVoting } }): Dispatch => ({
+  getMessagesList,
+  getVoting,
+});
+
+const frontload = (props: Dispatch & Store) => props.totalActivatedStake || props.getVoting()
+
+export default translate('bp')(
+  connect(
+    mapState,
+    mapDispatch,
+  )(
+    frontloadConnect(frontload, {
+      onUpdate: false,
+      onMount: true,
+    })(VotingProgress),
+  ),
+);

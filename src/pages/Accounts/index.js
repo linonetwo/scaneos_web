@@ -79,7 +79,7 @@ const frontload = async (props: Store & Dispatch) => {
   return Promise.resolve();
 };
 
-export default translate()(
+export default translate('account')(
   connect(
     mapState,
     mapDispatch,
