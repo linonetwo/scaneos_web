@@ -63,6 +63,16 @@ const Actions = Loadable({
   loading: Loading,
   modules: ['Actions'],
 });
+const NameBidings = Loadable({
+  loader: () => import(/* webpackChunkName: "NameBidings" */ './pages/NameBidings'),
+  loading: Loading,
+  modules: ['NameBidings'],
+});
+const NameBiding = Loadable({
+  loader: () => import(/* webpackChunkName: "NameBiding" */ './pages/NameBiding'),
+  loading: Loading,
+  modules: ['NameBiding'],
+});
 const UnderDevelopment = Loadable({
   loader: () => import(/* webpackChunkName: "UnderDevelopment" */ './pages/UnderDevelopment'),
   loading: Loading,
@@ -105,6 +115,8 @@ export default class App extends Component<{}> {
             <Route exact path="/accounts" component={Accounts} />
             <Route exact path="/action/:transactionId" component={Action} />
             <Route exact path="/actions" component={Actions} />
+            <Route exact path="/bidings" component={NameBidings} />
+            <Route exact path="/biding/:accountName" component={NameBiding} />
             <Route exact path="/producers" component={BlockProducers} />
             <Route exact path="/about" component={About} />
             <Route exact path="/" component={Home} />

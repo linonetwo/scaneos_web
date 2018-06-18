@@ -14,7 +14,7 @@ import * as mappingChecker from '../../src/components/MappingChecking/i18n';
 export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).init({
   preload: ['en', 'zh-CN'],
   fallbackLng: 'en',
-  debug: true,
+  debug: false,
   interpolation: {
     escapeValue: false, // not needed for react!!
   },

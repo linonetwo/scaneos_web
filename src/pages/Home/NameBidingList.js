@@ -8,7 +8,7 @@ import { translate } from 'react-i18next';
 import { frontloadConnect } from 'react-frontload';
 
 import { formatTimeStamp } from '../../store/utils';
-import type { CreatedAccountData } from '../../store/account';
+import type { NameBidingData } from '../../store/account';
 
 import { Title, ListContainer, ViewAll, ActionPreview } from './styles';
 
@@ -17,21 +17,21 @@ type Props = {
 };
 type Store = {
   loading: boolean,
-  list: CreatedAccountData[],
+  list: NameBidingData[],
 };
 type Dispatch = {
-  getAccountsList: () => void,
+  getNameBidingList: () => void,
 };
-function AccountList(props: Props & Store) {
+function NameBidingList(props: Props & Store) {
   const { loading, list, t } = props;
 
   return (
-    <ListContainer small>
+    <ListContainer large>
       <Title justifyBetween alignCenter>
         <span>
-          <Icon type="database" /> {t('Accounts')}
+          <Icon type="database" /> {t('Biding')}
         </span>
-        <Link to="/accounts/">
+        <Link to="/bidings/">
           <ViewAll>{t('ViewAll')}</ViewAll>
         </Link>
       </Title>
@@ -39,13 +39,18 @@ function AccountList(props: Props & Store) {
         size="small"
         loading={loading}
         itemLayout="vertical"
-        dataSource={take(list, 10)}
-        renderItem={(item: CreatedAccountData) => (
+        dataSource={take(list, 8)}
+        renderItem={(item: NameBidingData) => (
           <List.Item>
             <ActionPreview>
-              <Link to={`/account/${item.data.name}/`}>{item.data.name}</Link>
+              {t('newName')} <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
             </ActionPreview>
-            <ActionPreview>{formatTimeStamp(item.createdAt, t('locale'), { distance: false })}</ActionPreview>
+            <ActionPreview>
+              <Link to={`/account/${item.highBidder}/`}>
+                {item.highBidder} {t('offerBid')} {item.highBid}EOS
+              </Link>
+            </ActionPreview>
+            <ActionPreview>{formatTimeStamp(item.lastBidTime, t('locale'), { distance: false })}</ActionPreview>
           </List.Item>
         )}
       />
@@ -53,15 +58,15 @@ function AccountList(props: Props & Store) {
   );
 }
 
-const mapState = ({ account: { loading, list } }): Store => ({
+const mapState = ({ account: { loading, nameBidingList: list } }): Store => ({
   loading,
   list,
 });
-const mapDispatch = ({ account: { getAccountsList } }): Dispatch => ({
-  getAccountsList,
+const mapDispatch = ({ account: { getNameBidingList } }): Dispatch => ({
+  getNameBidingList,
 });
 
-const frontload = (props: Dispatch & Store) => props.list.length === 0 && props.getAccountsList();
+const frontload = (props: Dispatch & Store) => props.list.length === 0 && props.getNameBidingList();
 
 export default translate('account')(
   connect(
@@ -71,6 +76,6 @@ export default translate('account')(
     frontloadConnect(frontload, {
       onUpdate: false,
       onMount: true,
-    })(AccountList),
+    })(NameBidingList),
   ),
 );

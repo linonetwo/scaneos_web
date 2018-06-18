@@ -25,7 +25,7 @@ type Dispatch = {
 function BPList(props: Props & Store) {
   const { t, loading, producerAccountList } = props;
   return (
-    <ListContainer small>
+    <ListContainer large>
       <Title justifyBetween alignCenter>
         <span>
           <Icon type="solution" /> {t('BlockProducers')}
@@ -38,7 +38,7 @@ function BPList(props: Props & Store) {
         size="small"
         loading={loading}
         itemLayout="vertical"
-        dataSource={take(producerAccountList, 7)}
+        dataSource={take(producerAccountList, 8)}
         renderItem={(item: BPAccount) => (
           <List.Item>
             <ActionPreview>

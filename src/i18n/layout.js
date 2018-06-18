@@ -24,6 +24,7 @@ export const zh = {
   Transactions: '交易列表',
   Action: '消息',
   Charts: '图表',
+  Bidings: '靓号列表',
   BlockProducers: '超级节点',
   BlockProducer: '超级节点',
   ViewAll: '查看全部',

@@ -62,6 +62,13 @@ export const zh = {
     signatures: '签名',
     scope: 'scope',
     readScope: 'readScope',
+
+    Biding: '靓号竞拍',
+    newName: '靓号',
+    offerBid: '出价',
+    highBidder: '最高出价者',
+    highBid: '目前最高出价',
+    lastBidTime: '出价时间',
   },
   action: {
     ...zhShared,
@@ -114,6 +121,12 @@ export const en = {
     signatures: 'Signatures',
     scope: 'Scope',
     readScope: 'Read Scope',
+
+    newName: 'Biding',
+    offerBid: 'offers',
+    highBidder: 'HighestBidder',
+    highBid: 'HighestBid',
+    lastBidTime: 'LastBidTime',
   },
   action: {
     ...enShared,

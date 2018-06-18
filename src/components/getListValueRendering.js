@@ -19,9 +19,12 @@ export default function getListValueRendering(field: string, value: any, t: Func
     case 'updatedAt':
     case 'timestamp':
     case 'expiration':
+    case 'lastBidTime':
       return formatTimeStamp(value, t('locale'));
 
     case 'producerAccountId':
+    case 'highBidder':
+    case 'handlerAccountName':
       return <Link to={`/account/${value}/`}>{value}</Link>;
 
     case 'actions':
@@ -35,8 +38,6 @@ export default function getListValueRendering(field: string, value: any, t: Func
           {actor} ({t('permission')}: {permission})
         </Link>
       ));
-    case 'handlerAccountName':
-      return <Link to={`/account/${value}/`}>{value}</Link>;
     
     case 'voterInfo':
     case 'selfDelegatedBandwidth':

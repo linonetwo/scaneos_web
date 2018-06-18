@@ -97,9 +97,11 @@ class AggregationList extends PureComponent<Props & Store> {
   render() {
     const priceUp = this.props.currentPriceData.percentChange24h > 0;
     const { t } = this.props;
+    // 初次加载之后，轮询就不要一直转圈了
+    const showLoading = this.props.currentPriceData.priceUsd === -1 && this.props.loading;
     return (
       <AggregationContainer wrap="true">
-        <Spin spinning={this.props.loading}>
+        <Spin spinning={showLoading}>
           <Link to="/blocks/">
             <AggregationItem column center>
               <h4>{t('blocksNum')}</h4>
@@ -107,7 +109,7 @@ class AggregationList extends PureComponent<Props & Store> {
             </AggregationItem>
           </Link>
         </Spin>
-        <Spin spinning={this.props.loading}>
+        <Spin spinning={showLoading}>
           <Link to="/transactions/">
             <AggregationItem column center>
               <h4>{t('transactionNum')}</h4>
@@ -141,7 +143,7 @@ class AggregationList extends PureComponent<Props & Store> {
             </AggregationItem>
           </Link>
         </Spin>
-        <Spin spinning={this.props.loading}>
+        <Spin spinning={showLoading}>
           <Link to="/accounts/">
             <AggregationItem column center>
               <h4>{t('accountNum')}</h4>
@@ -149,7 +151,7 @@ class AggregationList extends PureComponent<Props & Store> {
             </AggregationItem>
           </Link>
         </Spin>
-        <Spin spinning={this.props.loading}>
+        <Spin spinning={showLoading}>
           <Link to="/actions/">
             <AggregationItem column center>
               <h4>{t('actionNum')}</h4>

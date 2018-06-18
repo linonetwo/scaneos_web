@@ -10,7 +10,7 @@ import TransactionList from './TransactionList';
 import BlockList from './BlockList';
 import AggregationList from './AggregationList';
 import BPList from './BPList';
-import AccountList from './AccountList';
+import NameBidingList from './NameBidingList';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -31,7 +31,7 @@ export default class Home extends PureComponent<{}> {
         <VotingProgress />
         <PriceChart />
         <BPList />
-        <AccountList />
+        <NameBidingList />
         <BlockList />
         <TransactionList />
       </Container>

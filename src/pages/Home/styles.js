@@ -21,8 +21,8 @@ export const ListContainer = styled.div`
     width: 500px;
     margin: 30px 0 0;
   `};
-  ${is('small')`
-    height: 820px;
+  ${is('large')`
+    height: 850px;
   `};
   .ant-list {
     margin: 0;

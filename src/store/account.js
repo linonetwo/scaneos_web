@@ -75,8 +75,8 @@ export type CreatedAccountData = {
     name: string,
   },
 };
-export type ListResponse = {
-  content: CreatedAccountData[],
+export type ListResponse<T> = {
+  content: T[],
   page: {
     size: number,
     totalElements: number,
@@ -95,12 +95,22 @@ export type BPAccount = {
   location: number,
 };
 
+export type NameBidingData = {
+  newName: string,
+  highBidder: string,
+  highBid: number,
+  lastBidTime: string | number,
+};
+
 export type Store = {
   loading: boolean,
   data: AccountData,
+  bidingData: NameBidingData,
   producerInfo: Object | null,
   producerAccountList: BPAccount[],
   list: CreatedAccountData[],
+  nameBidingList: NameBidingData[],
+  nameBidingListPagination: Pagination,
   pagination: Pagination,
 };
 
@@ -140,7 +150,15 @@ export const emptyAccountData = {
 export const defaultState = {
   loading: false,
   list: [],
+  nameBidingList: [],
+  nameBidingListPagination: { current: 0, total: 1 },
   data: emptyAccountData,
+  bidingData: {
+    newName: '',
+    highBidder: '',
+    highBid: -1,
+    lastBidTime: '',
+  },
   producerInfo: null,
   producerAccountList: [],
   pagination: { current: 0, total: 1 },
@@ -159,6 +177,10 @@ export default (initialState?: Object = {}) => ({
       state.list = list;
       return state;
     },
+    initNameBidingList(state: Store, nameBidingList: NameBidingData[]) {
+      state.nameBidingList = nameBidingList;
+      return state;
+    },
     initProducerInfo(state: Store, producerInfo: Object | null) {
       state.producerInfo = producerInfo;
       return state;
@@ -171,7 +193,15 @@ export default (initialState?: Object = {}) => ({
       state.data = data;
       return state;
     },
-    setPage(state: Store, payload: { current: number, total: number }) {
+    initNameBidingData(state: Store, data: NameBidingData) {
+      state.bidingData = data;
+      return state;
+    },
+    setPage(state: Store, payload: { current: number, total: number, listName?: string }) {
+      if (payload.listName === 'nameBidingList') {
+        state.nameBidingListPagination = payload;
+        return state;
+      }
       state.pagination = payload;
       return state;
     },
@@ -258,7 +288,9 @@ export default (initialState?: Object = {}) => ({
       try {
         const dataPage = gotoPage ? gotoPage - 1 : 0;
         const { getPageSize } = await import('./utils');
-        const data: ListResponse = await get(`/actions?type=newaccount&page=${dataPage}&size=${getPageSize()}`);
+        const data: ListResponse<CreatedAccountData> = await get(
+          `/actions?type=newaccount&page=${dataPage}&size=${getPageSize()}`,
+        );
         const {
           content,
           page: { totalElements },
@@ -266,6 +298,69 @@ export default (initialState?: Object = {}) => ({
         this.initAccountsList(content);
         this.setPage({ current: gotoPage || 0, total: totalElements });
         dispatch.history.updateURI();
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+        dispatch.account.toggleLoading();
+      }
+    },
+    async getNameBidingList(gotoPage?: number) {
+      const {
+        store: { dispatch },
+      } = await import('./');
+      dispatch.account.toggleLoading();
+      dispatch.info.toggleLoading();
+      dispatch.history.updateURI();
+
+      try {
+        const dataPage = gotoPage ? gotoPage - 1 : 0;
+        const { getPageSize } = await import('./utils');
+        const data: ListResponse<NameBidingData> = await get(
+          `/accounts/biddingaccounts?page=${dataPage}&size=${getPageSize()}`,
+        );
+        const {
+          content,
+          page: { totalElements },
+        } = data;
+        this.initNameBidingList(
+          content.map(({ lastBidTime, ...rest }) => ({ lastBidTime: Number(lastBidTime) / 1000 / 1000, ...rest, id: undefined })),
+        );
+        this.setPage({ listName: 'nameBidingList', current: gotoPage || 0, total: totalElements });
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+        dispatch.account.toggleLoading();
+      }
+    },
+    async getNameBidingData(accountName: string) {
+      const {
+        store: { dispatch },
+      } = await import('./');
+      dispatch.account.toggleLoading();
+      dispatch.info.toggleLoading();
+      dispatch.history.updateURI();
+
+      try {
+        const { lastBidTime, ...rest } = await get(`/accounts/biddingaccount?name=${accountName}`);
+        this.initNameBidingData({ lastBidTime: Number(lastBidTime) / 1000 / 1000, ...rest, id: undefined });
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

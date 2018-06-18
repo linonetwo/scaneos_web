@@ -23,7 +23,7 @@ export function scrollTop() {
 }
 
 export function formatTimeStamp(
-  timeStamp?: number | string | null,
+  timeStamp?: number | string | Date | null,
   locale: string,
   { time = true, distance = true }: { time?: boolean, distance?: boolean } = {},
 ) {
