@@ -58,13 +58,17 @@ export default (initialState?: Object = {}) => ({
         store: { getState, dispatch },
       } = await import('./');
       const { history } = await import('./');
-      const {
+      let {
         search: { keyWord },
       } = await getState();
 
       if (Number.isFinite(Number(keyWord))) {
         return history.push(`/block/${keyWord}`);
-      } else if (keyWord.replace(/\s/g, '').length === 64) {
+      }
+
+      // 搜索黏贴的时候可能带上了空格
+      keyWord = keyWord.replace(/\s/g, '');
+      if (keyWord.replace(/\s/g, '').length === 64) {
         // 长度为 64 的可能是 blockId，或者 transactionId
         const data = await this.searchKeyWord({ keyWord, type: 'block' }).then(res =>
           dispatch.block.getFirstBlockIdFromBlockListResponse(res),

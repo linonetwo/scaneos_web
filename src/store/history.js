@@ -94,22 +94,38 @@ export async function followURI(location: { pathname: string, search?: string, s
       location.pathname === '/blocks/' &&
       (state.block.list.length === 0 || state.block.pagination.current + 1 !== page)
     ) {
-      await dispatch.block.getBlocksList(page);
-    } else if (
+      return dispatch.block.getBlocksList(page);
+    }
+    if (
       location.pathname === '/transactions/' &&
       (state.transaction.list.length === 0 || state.transaction.pagination.current + 1 !== page)
     ) {
-      await dispatch.transaction.getTransactionsList(page);
-    } else if (
+      return dispatch.transaction.getTransactionsList(page);
+    }
+    if (
       location.pathname === '/accounts/' &&
       (state.account.list.length === 0 || state.account.pagination.current + 1 !== page)
     ) {
-      await dispatch.account.getAccountsList(page);
-    } else if (
+      return dispatch.account.getAccountsList(page);
+    }
+    if (
       location.pathname === '/messages/' &&
       (state.message.list.length === 0 || state.message.pagination.current + 1 !== page)
     ) {
-      await dispatch.message.getMessagesList(page);
+      return dispatch.message.getMessagesList(page);
+    }
+
+    if (/\/block\//g.test(location.pathname)) {
+      return dispatch.block.getBlockData(location.pathname.split('/block/').pop().replace('/', ''))
+    }
+    if (/\/transaction\//g.test(location.pathname)) {
+      return dispatch.transaction.getTransactionData(location.pathname.split('/transaction/').pop().replace('/', ''))
+    }
+    if (/\/account\//g.test(location.pathname)) {
+      return dispatch.account.getAccountData(location.pathname.split('/account/').pop().replace('/', ''))
+    }
+    if (/\/message\//g.test(location.pathname)) {
+      return dispatch.message.getMessageData(location.pathname.split('/message/').pop().replace('/', ''))
     }
   }
 }
