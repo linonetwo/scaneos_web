@@ -116,16 +116,38 @@ export async function followURI(location: { pathname: string, search?: string, s
     }
 
     if (/\/block\//g.test(location.pathname)) {
-      return dispatch.block.getBlockData(location.pathname.split('/block/').pop().replace('/', ''))
+      const nextBlockNumOrId = location.pathname
+        .split('/block/')
+        .pop()
+        .replace('/', '');
+      if (nextBlockNumOrId !== state.block.data.blockId && Number(nextBlockNumOrId) !== state.block.data.blockNum) {
+        return dispatch.block.getBlockData(nextBlockNumOrId);
+      }
+      return null;
     }
     if (/\/transaction\//g.test(location.pathname)) {
-      return dispatch.transaction.getTransactionData(location.pathname.split('/transaction/').pop().replace('/', ''))
+      const nextTransactionId = location.pathname
+        .split('/transaction/')
+        .pop()
+        .replace('/', '');
+      if (nextTransactionId !== state.transaction.data.transactionId)
+        return dispatch.transaction.getTransactionData(nextTransactionId);
     }
     if (/\/account\//g.test(location.pathname)) {
-      return dispatch.account.getAccountData(location.pathname.split('/account/').pop().replace('/', ''))
+      return dispatch.account.getAccountData(
+        location.pathname
+          .split('/account/')
+          .pop()
+          .replace('/', ''),
+      );
     }
     if (/\/message\//g.test(location.pathname)) {
-      return dispatch.message.getMessageData(location.pathname.split('/message/').pop().replace('/', ''))
+      return dispatch.message.getMessageData(
+        location.pathname
+          .split('/message/')
+          .pop()
+          .replace('/', ''),
+      );
     }
   }
 }
