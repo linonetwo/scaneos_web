@@ -1,6 +1,6 @@
 // @flow
 import { take } from 'lodash';
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { List, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -22,43 +22,54 @@ type Store = {
 type Dispatch = {
   getBlocksList: (size?: number) => void,
 };
-function BlockList(props: Props & Store) {
-  const { loading, list, t } = props;
-  return (
-    <ListContainer>
-      <Title justifyBetween alignCenter>
-        <span>
-          <Icon type="appstore-o" /> {t('Blocks')}
-        </span>
-        <Link to="/blocks/">
-          <ViewAll>{t('ViewAll')}</ViewAll>
-        </Link>
-      </Title>
-      <List
-        size="small"
-        loading={loading}
-        itemLayout="vertical"
-        dataSource={take(list, 5)}
-        renderItem={(item: BlockData) => (
-          <List.Item>
-            <KeyInfoItemContainer>
-              <Link to={`/block/${item.blockNum}/`}>
-                <KeyInfoContainer column justifyAround>
-                  <span>
-                    {t('blockNum')}: {item.blockNum}
-                  </span>
-                  {formatTimeStamp(item.timestamp, t('locale'), { distance: false })}{' '}
-                </KeyInfoContainer>
-              </Link>
-              <Link to={`/account/${item.producerAccountId}/`}>
-                {t('producerAccountId')}: {item.producerAccountId}
-              </Link>
-            </KeyInfoItemContainer>
-          </List.Item>
-        )}
-      />
-    </ListContainer>
-  );
+class BlockList extends PureComponent<Props & Store & Dispatch> {
+  componentDidMount() {
+    this.polling = setInterval(() => {
+      this.props.getBlocksList();
+    }, 4000);
+  }
+  componentWillUnmount() {
+    this.polling && clearInterval(this.polling);
+  }
+  polling = null;
+  render() {
+    const { loading, list, t } = this.props;
+    return (
+      <ListContainer>
+        <Title justifyBetween alignCenter>
+          <span>
+            <Icon type="appstore-o" /> {t('Blocks')}
+          </span>
+          <Link to="/blocks/">
+            <ViewAll>{t('ViewAll')}</ViewAll>
+          </Link>
+        </Title>
+        <List
+          size="small"
+          loading={loading}
+          itemLayout="vertical"
+          dataSource={take(list, 5)}
+          renderItem={(item: BlockData) => (
+            <List.Item>
+              <KeyInfoItemContainer>
+                <Link to={`/block/${item.blockNum}/`}>
+                  <KeyInfoContainer column justifyAround>
+                    <span>
+                      {t('blockNum')}: {item.blockNum}
+                    </span>
+                    {formatTimeStamp(item.timestamp, t('locale'), { distance: false })}{' '}
+                  </KeyInfoContainer>
+                </Link>
+                <Link to={`/account/${item.producerAccountId}/`}>
+                  {t('producerAccountId')}: {item.producerAccountId}
+                </Link>
+              </KeyInfoItemContainer>
+            </List.Item>
+          )}
+        />
+      </ListContainer>
+    );
+  }
 }
 
 const mapState = ({ block: { loading, list } }): Store => ({

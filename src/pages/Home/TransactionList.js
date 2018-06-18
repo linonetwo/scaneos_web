@@ -1,6 +1,6 @@
 // @flow
 import { truncate, take } from 'lodash';
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { List, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -21,63 +21,71 @@ type Store = {
 type Dispatch = {
   getTransactionsList: (size?: number) => void,
 };
-function TransactionList(props: Props & Store) {
-  return (
-    <ListContainer>
-      <Title justifyBetween alignCenter>
-        <span>
-          <Icon type="right-square-o" /> {props.t('Transactions')}
-        </span>
-        <Link to="/transactions/">
-          <ViewAll>{props.t('ViewAll')}</ViewAll>
-        </Link>
-      </Title>
-      <List
-        size="small"
-        loading={props.loading}
-        itemLayout="vertical"
-        dataSource={take(props.list, 5)}
-        renderItem={(item: TransactionData) => (
-          <List.Item>
-            <KeyInfoItemContainer>
-              <Link to={`/transaction/${item.transactionId}/`}>
-                <KeyInfoContainer larger column justifyAround>
-                  <span>
-                    {props.t('transactionId')}: {truncate(item.transactionId, { length: 9, omission: '...' })}
-                  </span>
-                  <span>{formatTimeStamp(item.createdAt, props.t('locale'), { distance: false })}</span>
-                </KeyInfoContainer>
-              </Link>
-              <div>
+class TransactionList extends PureComponent<Props & Store & Dispatch> {
+  componentDidMount() {
+    this.polling = setInterval(() => {
+      this.props.getTransactionsList();
+    }, 4000);
+  }
+  componentWillUnmount() {
+    this.polling && clearInterval(this.polling);
+  }
+  polling = null;
+  render() {
+    const { t, loading, list } = this.props;
+    return (
+      <ListContainer>
+        <Title justifyBetween alignCenter>
+          <span>
+            <Icon type="right-square-o" /> {t('Transactions')}
+          </span>
+          <Link to="/transactions/">
+            <ViewAll>{t('ViewAll')}</ViewAll>
+          </Link>
+        </Title>
+        <List
+          size="small"
+          loading={loading}
+          itemLayout="vertical"
+          dataSource={take(list, 5)}
+          renderItem={(item: TransactionData) => (
+            <List.Item>
+              <KeyInfoItemContainer>
+                <Link to={`/transaction/${item.transactionId}/`}>
+                  <KeyInfoContainer larger column justifyAround>
+                    <span>
+                      {t('transactionId')}: {truncate(item.transactionId, { length: 9, omission: '...' })}
+                    </span>
+                    <span>{formatTimeStamp(item.createdAt, t('locale'), { distance: false })}</span>
+                  </KeyInfoContainer>
+                </Link>
                 <div>
-                  <Link to={`/block/${item.blockId}/?tab=transactions`}>
-                    {props.t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
-                  </Link>
+                  <div>
+                    <Link to={`/block/${item.blockId}/?tab=transactions`}>
+                      {t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}
+                    </Link>
+                  </div>
+                  <div>
+                    {t('status')}: {item.status}
+                  </div>
+                  <div>
+                    {t('pending')}: {String(item.pending)}
+                  </div>
                 </div>
-                <div>
-                  {props.t('status')}: {item.status}
-                </div>
-                <div>
-                  {props.t('pending')}: {String(item.pending)}
-                </div>
-              </div>
-            </KeyInfoItemContainer>
-          </List.Item>
-        )}
-      />
-    </ListContainer>
-  );
+              </KeyInfoItemContainer>
+            </List.Item>
+          )}
+        />
+      </ListContainer>
+    );
+  }
 }
 
-const mapState = ({
-  transaction: { loading, list },
-}): Store => ({
+const mapState = ({ transaction: { loading, list } }): Store => ({
   list,
   loading,
 });
-const mapDispatch = ({
-  transaction: { getTransactionsList },
-}): Dispatch => ({
+const mapDispatch = ({ transaction: { getTransactionsList } }): Dispatch => ({
   getTransactionsList,
 });
 
