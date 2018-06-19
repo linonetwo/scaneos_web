@@ -80,7 +80,7 @@ class BlockProducers extends PureComponent<Props & Store, *> {
               return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
             })}
             pagination={{
-              pageSize: 21,
+              pageSize: 512,
               current: Number(queryString.parse(this.props.location.search).page),
             }}
             scroll={{ x: 1000 }}
