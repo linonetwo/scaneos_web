@@ -59,9 +59,9 @@ export const getDisplayAreaHeight = () => {
     }
     return window.innerHeight;
   }
-  return 600;
+  return 700;
 };
-export const getTableHeight = () => getDisplayAreaHeight() - navHeight - paginationHeight;
+export const getTableHeight = () => (getDisplayAreaHeight() - navHeight - paginationHeight) * 3;
 /** 根据屏幕高度和每行高度等信息，建议适合加载几条数据，最少 6 条，以便首页有数据 */
 export const getPageSize = () => Math.max(Math.floor(getTableHeight() / rowHeight) - 1, 6);
 
