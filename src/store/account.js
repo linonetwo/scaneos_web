@@ -408,7 +408,14 @@ export default (initialState?: Object = {}) => ({
           lower_bound: accountName,
           limit: 1,
         });
-        this.initNameBidingSearchResult(result.map(data => ({ ...data, newName: data.newname })));
+        this.initNameBidingSearchResult(
+          result.map(data => ({
+            ...data,
+            newName: data.newname,
+            lastBidTime: Number(data.lastBidTime) / 1000 / 1000,
+            highBid: data.highBid / 10000,
+          })),
+        );
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
