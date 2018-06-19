@@ -45,7 +45,7 @@ class TransactionList extends PureComponent<Props & Store & Dispatch> {
         </Title>
         <List
           size="small"
-          loading={loading}
+          loading={list.length === 0 && loading}
           itemLayout="vertical"
           dataSource={take(list, 5)}
           renderItem={(item: TransactionData) => (
