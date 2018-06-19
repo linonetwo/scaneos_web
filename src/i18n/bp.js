@@ -1,6 +1,8 @@
 export const zh = {
   country: '地区',
   rank: '排名',
+  name: '超级节点',
+  account: '账户',
 
   China: '中国',
   Asia: '亚洲',
@@ -26,6 +28,8 @@ export const zh = {
 
 export const en = {
   country: 'Location',
+  name: 'Name',
+  account: 'Account',
 
   China: 'China',
   Asia: 'Asia',

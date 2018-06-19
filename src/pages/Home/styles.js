@@ -36,6 +36,12 @@ export const ListContainer = styled.div`
   .ant-list-item-content {
     margin-bottom: 0 !important;
   }
+  .ant-table-pagination {
+    display: none;
+  }
+  .ant-table-small {
+    border: none;
+  }
 
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
