@@ -203,6 +203,7 @@ export const blockChainPaths: RouteData[] = [
   { route: 'uncles', display: 'Uncles' },
   {},
   { route: 'accounts', display: 'Accounts' },
+  { route: 'bidings', display: 'Bidings' },
   { route: 'verifiedContracts', display: 'VerifiedContracts' },
   {},
   { route: 'actions', display: 'Actions' },
@@ -247,7 +248,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
     });
   };
 
-  blockChainMenu = (
+  getBlockChainMenu = () => (
     <Menu>
       {blockChainPaths.map(
         ({ route, display }, index) =>
@@ -261,7 +262,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
       )}
     </Menu>
   );
-  tokensMenu = (
+  tokensMenu = () => (
     <Menu>
       {tokenPaths.map(
         ({ route, display }, index) =>
@@ -275,7 +276,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
       )}
     </Menu>
   );
-  miscMenu = (
+  miscMenu = () => (
     <Menu>
       {miscPaths.map(
         ({ route, display }, index) =>
@@ -432,14 +433,14 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     {this.getSelectedIndicator('home')}
                   </NavDropDownsButtonLink>
 
-                  <Dropdown overlay={this.blockChainMenu}>
+                  <Dropdown overlay={this.getBlockChainMenu()}>
                     <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
                       {this.props.t('BlockChain')} <Icon type="down" />
                       {this.getSelectedIndicator('blockChain')}
                     </NavDropDownsButton>
                   </Dropdown>
 
-                  <Dropdown overlay={this.tokensMenu}>
+                  <Dropdown overlay={this.tokensMenu()}>
                     <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
                       {this.props.t('Tokens')} <Icon type="down" />
                       {this.getSelectedIndicator('tokens')}
@@ -455,7 +456,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     {this.getSelectedIndicator('resources')}
                   </NavDropDownsButtonLink>
 
-                  <Dropdown overlay={this.miscMenu}>
+                  <Dropdown overlay={this.miscMenu()}>
                     <NavDropDownsButton selected={this.props.navTab === 'misc'}>
                       {this.props.t('Misc')} <Icon type="down" />
                       {this.getSelectedIndicator('misc')}
