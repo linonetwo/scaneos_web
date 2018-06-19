@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { frontloadConnect } from 'react-frontload';
+import { Helmet } from 'react-helmet';
 
 import { getBreadcrumb } from '../../components/Layout';
 import type { NameBidingData } from '../../store/account';
@@ -27,16 +28,22 @@ class NameBiding extends Component<Props & Store, *> {
   state = {};
 
   render() {
+    const { data, loading, t } = this.props;
     return (
       <Fragment>
-        {getBreadcrumb('biding', this.props.t)}
-        <Spin tip="Connecting" spinning={this.props.loading} size="large">
+        <Helmet>
+          <title>
+            {`${data.newName} ${data.highBid}EOS ${t('Biding')} | ${t('webSiteTitle')}`}
+          </title>
+        </Helmet>
+        {getBreadcrumb('biding', t)}
+        <Spin tip="Connecting" spinning={loading} size="large">
           <LongListContainer column>
             <Table
               scroll={{ x: 1000 }}
               size="middle"
               pagination={false}
-              dataSource={toPairs(this.props.data)
+              dataSource={toPairs(data)
                 .map(([field, value]) => ({
                   field,
                   value,
@@ -44,11 +51,11 @@ class NameBiding extends Component<Props & Store, *> {
                 }))
                 .filter(({ field }) => field !== 'id')}
             >
-              <Table.Column width={200} dataIndex="field" key="field" render={this.props.t} />
+              <Table.Column width={200} dataIndex="field" key="field" render={t} />
               <Table.Column
                 dataIndex="value"
                 key="value"
-                render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
+                render={(value, { field }) => getListValueRendering(field, value, t)}
               />
             </Table>
           </LongListContainer>
