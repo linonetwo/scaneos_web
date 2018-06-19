@@ -37,7 +37,8 @@ const Container = styled(Flex)`
     `};
     background-color: white;
   }
-  .ant-table-row td, .ant-table-row td span {
+  .ant-table-row td,
+  .ant-table-row td span {
     padding: 4px !important;
 
     white-space: nowrap;
@@ -150,11 +151,10 @@ class BlockProducers extends PureComponent<Props & Store, *> {
                 },
               ]}
               onFilter={(area, record) =>
-                record.location.indexOf(area) !== -1 || locationBelongsToArea(record.location, area)
+                (record.location && String(record.location).indexOf(area) !== -1) ||
+                locationBelongsToArea(String(record.location), area)
               }
             />
-            <Table.Column title={this.props.t('prerequisites')} dataIndex="prerequisites" />
-            <Table.Column title={this.props.t('nodeLocation')} dataIndex="nodeLocation" />
             <Table.Column title={this.props.t('homepage')} dataIndex="homepage" />
           </Table>
         </ProducerListContainer>
