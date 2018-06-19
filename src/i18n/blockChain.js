@@ -122,7 +122,7 @@ export const en = {
     scope: 'Scope',
     readScope: 'Read Scope',
 
-    newName: 'Biding',
+    newName: 'Name Auction',
     offerBid: 'offers',
     highBidder: 'HighestBidder',
     highBid: 'HighestBid',

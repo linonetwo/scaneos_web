@@ -54,6 +54,8 @@ export const en = {
   BlockProducers: 'Block Producers',
   VerifiedContracts: 'Verified Contracts',
   ViewAll: 'View All',
+  Biding: 'Name Auction',
+  Bidings: 'NameAuctions',
 
   Locale: 'Language',
   contactUs: 'Contact Us',

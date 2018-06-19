@@ -43,7 +43,7 @@ function NameBidingList(props: Props & Store) {
         renderItem={(item: NameBidingData) => (
           <List.Item>
             <ActionPreview>
-              {t('newName')} <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
+              <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
             </ActionPreview>
             <ActionPreview>
               <Link to={`/account/${item.highBidder}/`}>
