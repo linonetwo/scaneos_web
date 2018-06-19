@@ -91,14 +91,12 @@ class BlockProducers extends PureComponent<Props & Store, *> {
           >
             <Table.Column width={35} dataIndex="key" key="key" />
             <Table.Column
-              width={95}
               title={this.props.t('name')}
               dataIndex="name"
               key="name"
               render={(name, { account }) => name || toUpper(account)}
             />
             <Table.Column
-              width={120}
               title={this.props.t('EOSVotes')}
               dataIndex="totalVotes"
               key="totalVotes"
@@ -114,14 +112,12 @@ class BlockProducers extends PureComponent<Props & Store, *> {
               )}
             />
             <Table.Column
-              width={70}
               title={this.props.t('account')}
               dataIndex="account"
               key="account"
               render={account => <Link to={`/account/${account}`}>{account}</Link>}
             />
             <Table.Column
-              width={100}
               title={this.props.t('country')}
               dataIndex="location"
               filters={[
