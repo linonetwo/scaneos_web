@@ -18,7 +18,7 @@ export const zh = {
   index: '序号',
   homepage: '主页',
   contact: '联系方式',
-  bpcontactus: '如果您是该BP的所有者，请联系 scaneos.io@gmail.com 更新关于该BP的信息。',
+  bpcontactus: '如果您是该BP的所有者，请联系 support@scaneos.io 更新关于该BP的信息。',
 
   VotingProgress: 'EOS投票进度',
   EOSVotes: 'EOS投票量',
@@ -45,7 +45,7 @@ export const en = {
   index: 'Index',
   homepage: 'Home',
   contact: 'Contact',
-  bpcontactus: 'If you are the owner of this BP, please contact scaneos.io@gmail.com to update the info here.',
+  bpcontactus: 'If you are the owner of this BP, please contact support@scaneos.io to update the info here.',
 
   VotingProgress: 'EOS Voting Progress',
   EOSVotes: 'EOS Votes',

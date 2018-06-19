@@ -153,7 +153,7 @@ class Footer extends Component<{ t: Function }, *> {
                     scanEOS
                   </a>
                 </div>
-                <div>邮箱: scaneos.io@gmail.com</div>
+                <div>邮箱: support@scaneos.io</div>
               </ContactLinks>
             ) : (
               <ContactLinks column>
@@ -176,7 +176,7 @@ class Footer extends Component<{ t: Function }, *> {
                   </a>
                 </div>
                 <div>Steemit: scanEOS</div>
-                <div>email: scaneos.io@gmail.com</div>
+                <div>email: support@scaneos.io</div>
               </ContactLinks>
             )}
           </FooterItem>
