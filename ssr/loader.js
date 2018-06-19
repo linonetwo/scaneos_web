@@ -23,6 +23,9 @@ import manifest from '../build/asset-manifest.json';
 
 // LOADER
 export default (req: $Request, res: $Response) => {
+  // 禁用缓存，目前正在 alpha 阶段，需要用户每次都打开最新的版本
+  res.header('Cache-Control', 'no-cache');
+  res.header('Cache-Control', 'private');
   /*
     A simple helper function to prepare the HTML markup. This loads:
       - Page title
