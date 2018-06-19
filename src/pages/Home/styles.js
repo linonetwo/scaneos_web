@@ -22,7 +22,7 @@ export const ListContainer = styled.div`
     margin: 30px 0 0;
   `};
   ${is('large')`
-    height: 850px;
+    height: 900px;
   `};
   .ant-list {
     margin: 0;

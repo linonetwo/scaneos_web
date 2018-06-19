@@ -110,6 +110,7 @@ export type Store = {
   producerAccountList: BPAccount[],
   list: CreatedAccountData[],
   nameBidingList: NameBidingData[],
+  nameBidingSearchResult: NameBidingData[],
   nameBidingListPagination: Pagination,
   pagination: Pagination,
 };
@@ -151,6 +152,7 @@ export const defaultState = {
   loading: false,
   list: [],
   nameBidingList: [],
+  nameBidingSearchResult: [],
   nameBidingListPagination: { current: 0, total: 1 },
   data: emptyAccountData,
   bidingData: {
@@ -195,6 +197,10 @@ export default (initialState?: Object = {}) => ({
     },
     initNameBidingData(state: Store, data: NameBidingData) {
       state.bidingData = data;
+      return state;
+    },
+    initNameBidingSearchResult(state: Store, nameBidingSearchResult: NameBidingData[]) {
+      state.nameBidingSearchResult = nameBidingSearchResult;
       return state;
     },
     setPage(state: Store, payload: { current: number, total: number, listName?: string }) {
@@ -371,6 +377,38 @@ export default (initialState?: Object = {}) => ({
           ...rest,
           id: undefined,
         });
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+        dispatch.account.toggleLoading();
+      }
+    },
+    async searchIfNameIsInBiding(accountName: string) {
+      const {
+        store: { dispatch },
+      } = await import('./');
+      dispatch.account.toggleLoading();
+      dispatch.info.toggleLoading();
+
+      try {
+        const { rows: result } = await postEOS('/chain/get_table_rows', {
+          json: true,
+          scope: 'eosio',
+          code: 'eosio',
+          table: 'namebids',
+          lower_bound: accountName,
+          limit: 1,
+        });
+        this.initNameBidingSearchResult(result.map(data => ({ ...data, newName: data.newname })));
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

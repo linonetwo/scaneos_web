@@ -69,6 +69,8 @@ export const zh = {
     highBidder: '最高出价者',
     highBid: '目前最高出价',
     lastBidTime: '出价时间',
+    tryName: '搜索靓号是否正在竞拍',
+    notInBiding: '此账户名尚未参与竞拍',
   },
   action: {
     ...zhShared,
@@ -127,6 +129,8 @@ export const en = {
     highBidder: 'HighestBidder',
     highBid: 'HighestBid',
     lastBidTime: 'LastBidTime',
+    tryName: 'Search a name you want',
+    notInBiding: 'Not in a bid',
   },
   action: {
     ...enShared,

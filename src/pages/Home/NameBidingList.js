@@ -1,7 +1,10 @@
 // @flow
 import { take } from 'lodash';
-import React from 'react';
-import { List, Icon } from 'antd';
+import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+import Flex from 'styled-flex-component';
+import breakpoint from 'styled-components-breakpoint';
+import { List, Icon, Input } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
@@ -12,58 +15,96 @@ import type { NameBidingData } from '../../store/account';
 
 import { Title, ListContainer, ViewAll, ActionPreview } from './styles';
 
+const SearchContainer = styled(Flex)`
+  padding-top: 10px;
+  width: 100%;
+  ${breakpoint('desktop')`
+    .ant-input-search {
+      width: 200px;
+      margin-right: 10px;
+    }
+  `};
+`;
+
 type Props = {
   t: Function,
+  searchIfNameIsInBiding: (name: string) => void,
 };
 type Store = {
   loading: boolean,
   list: NameBidingData[],
+  nameBidingSearchResult: NameBidingData[],
 };
 type Dispatch = {
   getNameBidingList: () => void,
 };
-function NameBidingList(props: Props & Store) {
-  const { loading, list, t } = props;
+class NameBidingList extends PureComponent<Props & Store, *> {
+  state = {
+    keyWord: '',
+  };
+  render() {
+    const { loading, list, t, nameBidingSearchResult } = this.props;
 
-  return (
-    <ListContainer large>
-      <Title justifyBetween alignCenter>
-        <span>
-          <Icon type="database" /> {t('Biding')}
-        </span>
-        <Link to="/bidings/">
-          <ViewAll>{t('ViewAll')}</ViewAll>
-        </Link>
-      </Title>
-      <List
-        size="small"
-        loading={loading}
-        itemLayout="vertical"
-        dataSource={take(list, 8)}
-        renderItem={(item: NameBidingData) => (
-          <List.Item>
-            <ActionPreview>
-              <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
-            </ActionPreview>
-            <ActionPreview>
-              <Link to={`/account/${item.highBidder}/`}>
-                {item.highBidder} {t('offerBid')} {item.highBid}EOS
-              </Link>
-            </ActionPreview>
-            <ActionPreview>{formatTimeStamp(item.lastBidTime, t('locale'), { distance: false })}</ActionPreview>
-          </List.Item>
-        )}
-      />
-    </ListContainer>
-  );
+    return (
+      <ListContainer large>
+        <Title justifyBetween alignCenter>
+          <span>
+            <Icon type="database" /> {t('Biding')}
+          </span>
+          <Link to="/bidings/">
+            <ViewAll>{t('ViewAll')}</ViewAll>
+          </Link>
+        </Title>
+        <SearchContainer>
+          <Input.Search
+            size="small"
+            placeholder={t('tryName')}
+            onSearch={name => {
+              this.props.searchIfNameIsInBiding(name);
+              this.setState({ keyWord: name });
+            }}
+          />
+          {nameBidingSearchResult.length > 0 && this.state.keyWord.length > 0 &&
+            (this.state.keyWord === nameBidingSearchResult[0].newName ? (
+              <span>
+                {nameBidingSearchResult[0].highBidder} {t('offerBid')} {nameBidingSearchResult[0].highBid}EOS
+              </span>
+            ) : (
+              t('notInBiding')
+            ))}
+        </SearchContainer>
+        <List
+          size="small"
+          loading={loading}
+          itemLayout="vertical"
+          dataSource={take(list, 8)}
+          renderItem={(item: NameBidingData) => (
+            <List.Item>
+              <ActionPreview>
+                <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
+              </ActionPreview>
+              <ActionPreview>
+                <Link to={`/account/${item.highBidder}/`}>
+                  {item.highBidder} {t('offerBid')} {item.highBid}EOS
+                </Link>
+              </ActionPreview>
+              <ActionPreview>{formatTimeStamp(item.lastBidTime, t('locale'), { distance: false })}</ActionPreview>
+            </List.Item>
+          )}
+        />
+      </ListContainer>
+    );
+  }
 }
 
-const mapState = ({ account: { loading, nameBidingList: list } }): Store => ({
+const mapState = ({ account: { loading, nameBidingList: list, nameBidingSearchResult } }): Store => ({
   loading,
   list,
+  nameBidingSearchResult,
 });
-const mapDispatch = ({ account: { getNameBidingList } }): Dispatch => ({
+const mapDispatch = ({ account: { getNameBidingList, searchIfNameIsInBiding } }): Dispatch => ({
   getNameBidingList,
+  searchIfNameIsInBiding,
 });
 
 const frontload = (props: Dispatch & Store) => props.list.length === 0 && props.getNameBidingList();
