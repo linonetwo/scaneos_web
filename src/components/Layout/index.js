@@ -196,15 +196,11 @@ type RouteData = {
 // list
 export const blockChainPaths: RouteData[] = [
   { route: 'transactions', display: 'Transactions' },
-  { route: 'pendingTransactions', display: 'PendingTransactions' },
-  { route: 'internalTransactions', display: 'ContractInternalTransactions' },
   {},
   { route: 'blocks', display: 'Blocks' },
-  { route: 'uncles', display: 'Uncles' },
   {},
   { route: 'accounts', display: 'Accounts' },
   { route: 'bidings', display: 'Bidings' },
-  { route: 'verifiedContracts', display: 'VerifiedContracts' },
   {},
   { route: 'actions', display: 'Actions' },
   { route: 'charts', display: 'Charts' },
@@ -212,12 +208,9 @@ export const blockChainPaths: RouteData[] = [
 // single data
 export const blockChainDetailPaths: RouteData[] = [
   { route: 'transaction', display: 'Transactions' },
-  { route: 'pendingTransaction', display: 'PendingTransactions' },
-  { route: 'internalTransaction', display: 'ContractInternalTransactions' },
   { route: 'block', display: 'Blocks' },
-  { route: 'uncle', display: 'Uncles' },
   { route: 'account', display: 'Accounts' },
-  { route: 'verifiedContract', display: 'VerifiedContracts' },
+  { route: 'biding', display: 'Bidings' },
   { route: 'action', display: 'Actions' },
   { route: 'chart', display: 'Charts' },
 ];
@@ -330,7 +323,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
             ),
         )}
       </Menu.SubMenu>
-      <Menu.SubMenu
+      {/* <Menu.SubMenu
         title={
           <NavDropDownsButton selected={this.props.navTab === 'tokens'}>{this.props.t('Tokens')}</NavDropDownsButton>
         }
@@ -345,16 +338,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
               <Menu.Divider key={index} />
             ),
         )}
-      </Menu.SubMenu>
-      <Menu.Item>
-        <NavDropDownsButtonLink
-          selected={this.props.navTab === 'resources'}
-          onClick={() => this.props.changeNavTab('resources')}
-          to="/resources/"
-        >
-          {this.props.t('Resources')}
-        </NavDropDownsButtonLink>
-      </Menu.Item>
+      </Menu.SubMenu> */}
       <Menu.SubMenu
         title={<NavDropDownsButton selected={this.props.navTab === 'misc'}>{this.props.t('Misc')}</NavDropDownsButton>}
       >
@@ -440,21 +424,12 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     </NavDropDownsButton>
                   </Dropdown>
 
-                  <Dropdown overlay={this.tokensMenu()}>
+                  {/* <Dropdown overlay={this.tokensMenu()}>
                     <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
                       {this.props.t('Tokens')} <Icon type="down" />
                       {this.getSelectedIndicator('tokens')}
                     </NavDropDownsButton>
-                  </Dropdown>
-
-                  <NavDropDownsButtonLink
-                    selected={this.props.navTab === 'resources'}
-                    onClick={() => this.props.changeNavTab('resources')}
-                    to="/resources/"
-                  >
-                    {this.props.t('Resources')}
-                    {this.getSelectedIndicator('resources')}
-                  </NavDropDownsButtonLink>
+                  </Dropdown> */}
 
                   <Dropdown overlay={this.miscMenu()}>
                     <NavDropDownsButton selected={this.props.navTab === 'misc'}>
