@@ -20,7 +20,7 @@ const SearchContainer = styled(Flex)`
   width: 100%;
   ${breakpoint('desktop')`
     .ant-input-search {
-      width: 200px;
+      width: 260px;
       margin-right: 10px;
     }
   `};
