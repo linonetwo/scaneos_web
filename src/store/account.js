@@ -332,7 +332,12 @@ export default (initialState?: Object = {}) => ({
           page: { totalElements },
         } = data;
         this.initNameBidingList(
-          content.map(({ lastBidTime, ...rest }) => ({ lastBidTime: Number(lastBidTime) / 1000 / 1000, ...rest, id: undefined })),
+          content.map(({ lastBidTime, highBid, ...rest }) => ({
+            lastBidTime: Number(lastBidTime) / 1000 / 1000,
+            highBid: highBid / 10000,
+            ...rest,
+            id: undefined,
+          })),
         );
         this.setPage({ listName: 'nameBidingList', current: gotoPage || 0, total: totalElements });
       } catch (error) {
@@ -359,8 +364,13 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const { lastBidTime, ...rest } = await get(`/accounts/biddingaccount?name=${accountName}`);
-        this.initNameBidingData({ lastBidTime: Number(lastBidTime) / 1000 / 1000, ...rest, id: undefined });
+        const { lastBidTime, highBid, ...rest } = await get(`/accounts/biddingaccount?name=${accountName}`);
+        this.initNameBidingData({
+          lastBidTime: Number(lastBidTime) / 1000 / 1000,
+          highBid: highBid / 10000,
+          ...rest,
+          id: undefined,
+        });
       } catch (error) {
         console.error(error);
         const errorString = error.toString();
