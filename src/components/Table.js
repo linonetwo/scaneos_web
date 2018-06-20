@@ -38,11 +38,11 @@ export const DetailTabsContainer = styled.div`
     padding: 0;
   }
   .ant-tabs {
-    margin: 0 20px;
+    margin: 0 5vw;
   }
   ${breakpoint('desktop')`
     .ant-tabs {
-      margin: 0 40px;
+      margin: 0 calc((100vw - 1200px) / 2);
     }
   `};
 `;
