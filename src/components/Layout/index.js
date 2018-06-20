@@ -175,7 +175,7 @@ const HeaderAffixSpace = styled.div`
 const HeaderAffix = styled(Affix)`
   position: absolute;
   transition: all 300ms;
-  z-index: 1;
+  z-index: 5;
 `;
 
 type Props = {

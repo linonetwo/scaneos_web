@@ -22,7 +22,7 @@ const SearchContainer = styled.div`
     }
   `};
   ${is('affixed')`
-    padding-right: 48px;
+    width: calc(90vw - 48px);
   `};
 `;
 
