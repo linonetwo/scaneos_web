@@ -55,7 +55,13 @@ function BPList(props: Props & Store) {
             title={t('name')}
             dataIndex="name"
             key="name"
-            render={(name, { account }) => name || toUpper(account)}
+            render={(name, { account }) =>
+              name ? (
+                <Link to={`/account/${account}`}>{name}</Link>
+              ) : (
+                <Link to={`/account/${account}`}>{toUpper(account)}</Link>
+              )
+            }
           />
           <Table.Column
             width={50}
