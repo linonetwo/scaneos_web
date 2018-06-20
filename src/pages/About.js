@@ -12,7 +12,7 @@ const Content = styled(Flex)`
   margin: 20px auto;
   padding: 20px;
   background-color: white;
-  box-shadow: 0px 0px 10px 0 rgba(7, 17, 27, 0.05);
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
   width: 90vw;
 `;
 const ContentTitle = styled.h2`

@@ -18,8 +18,8 @@ export const ListContainer = styled.div`
   width: 90vw;
   margin: 15px auto 0;
   ${breakpoint('desktop')`
-    width: calc((1200px - 20px) / 2);
-    margin: 30px 0 0;
+    width: calc((1200px - 24px) / 2);
+    margin: 24px 0 0;
   `};
   ${is('large')`
     height: 820px;
@@ -32,6 +32,7 @@ export const ListContainer = styled.div`
     white-space: nowrap;
     overflow: hidden;
     padding: 10px 0;
+    border-bottom: 1px solid #f3f3f3 !important;
   }
   .ant-list-item-content {
     margin-bottom: 0 !important;
@@ -39,12 +40,15 @@ export const ListContainer = styled.div`
   .ant-table-pagination {
     display: none;
   }
+  .ant-table-tbody > tr > td {
+    border-bottom: 1px solid #f3f3f3 !important;
+  }
   .ant-table-small {
     border: none;
   }
 
   background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
   padding: 20px;
   padding-bottom: 5px;
 `;

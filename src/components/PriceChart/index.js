@@ -19,13 +19,13 @@ import { Title } from '../../pages/Home/styles';
 const PriceChartContainer = styled(Flex)`
   height: 220px;
   padding: 20px 5px 5px;
-  box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
 
   width: 90vw;
-  margin: 20px auto 0;
+  margin: 24px auto 0;
   ${breakpoint('desktop')`
-    width: calc((1200px - 20px) / 2);
-    margin: 30px 0 0;
+    width: calc((1200px - 24px) / 2);
+    margin: 24px 0 0;
   `};
 
   background-color: white;

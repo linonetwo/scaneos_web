@@ -16,10 +16,10 @@ const Container = styled(Flex)`
   padding: 20px;
 
   width: 90vw;
-  margin: 30px auto 0;
+  margin: 24px auto 0;
   ${breakpoint('desktop')`
     width: 500px;
-    margin: 30px 0 0;
+    margin: 24px 0 0;
   `};
 
   background-color: white;

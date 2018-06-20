@@ -19,13 +19,13 @@ const Container = styled(Flex)`
   width: 90vw;
   margin: 20px auto 0;
   ${breakpoint('desktop')`
-    width: calc((1200px - 20px) / 2);
-    margin: 30px 0 0;
+    width: calc((1200px - 24px) / 2);
+    margin: 24px 0 0;
   `};
 
   background-color: white;
 
-  box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
 
   .ant-progress-success-bg {
     background-color: #1aa2db;

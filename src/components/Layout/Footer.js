@@ -16,6 +16,7 @@ const FooterContainer = styled.div`
     background-color: #333;
     color: white;
     padding-left: 5vw;
+    padding-bottom: 0;
     ${breakpoint('desktop')`
       padding-left: calc((100vw - 1200px) / 2);
       display: flex;

@@ -19,7 +19,7 @@ const AggregationContainer = styled(Flex)`
   & .ant-spin-nested-loading {
     width: calc((90vw - 20px * 2) / 2);
   }
-  margin: 10px auto 0;
+  margin: 24px auto 0;
   padding: 5px 10px;
   ${breakpoint('desktop')`
     width: 1200px;
@@ -31,7 +31,7 @@ const AggregationContainer = styled(Flex)`
   `};
   padding: 5px 10px;
   background-color: white;
-  box-shadow: 0px 0px 10px 0 rgba(7, 17, 27, 0.05);
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
 `;
 const AggregationItem = styled(Flex)`
   color: #333;
