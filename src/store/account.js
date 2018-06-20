@@ -3,31 +3,35 @@ import { find, size } from 'lodash';
 import type { Pagination } from './block';
 import get, { postEOS } from '../API.config';
 
-type DelegatedBandwidth = {
-  from: string,
-  to: string,
-  netWeight: string,
-  cpuWeight: string,
+type Permission = {
+  actor: string,
+  permission: string,
 };
-type Keys = {
-  key: string,
+type Accounts = {
+  permission: Permission,
   weight: number,
 };
 type NetLimit = {
   used: number,
-  available: number,
-  max: number,
+  available: string,
+  max: string,
 };
 type RequiredAuth = {
   threshold: number,
-  keys: Keys[],
-  accounts: any[],
+  keys: any[],
+  accounts: Accounts[],
   waits: any[],
 };
 type Permissions = {
   permName: string,
   parent: string,
   requiredAuth: RequiredAuth,
+};
+type SelfDelegatedBandwidth = {
+  from: string,
+  to: string,
+  netWeight: string,
+  cpuWeight: string,
 };
 type TotalResources = {
   owner: string,
@@ -39,7 +43,7 @@ type VoterInfo = {
   owner: string,
   proxy: string,
   producers: any[],
-  staked: number,
+  staked: string,
   lastVoteWeight: string,
   proxiedVoteWeight: string,
   isProxy: number,
@@ -49,20 +53,23 @@ type VoterInfo = {
 };
 export type AccountData = {
   accountName: string,
-  tokenBalance?: string,
+  headBlockNum: number,
+  headBlockTime: string,
   privileged: boolean,
   lastCodeUpdate: string,
   created: string,
+  coreLiquidBalance: string,
   ramQuota: number,
-  netWeight: number,
-  cpuWeight: number,
+  netWeight: string,
+  cpuWeight: string,
   netLimit: NetLimit,
   cpuLimit: NetLimit,
   ramUsage: number,
   permissions: Permissions[],
-  totalResources?: TotalResources | null,
-  delegatedBandwidth?: DelegatedBandwidth | null,
-  voterInfo?: VoterInfo | null,
+  totalResources: TotalResources,
+  selfDelegatedBandwidth: SelfDelegatedBandwidth,
+  refundRequest: string | null,
+  voterInfo: VoterInfo,
 };
 
 export type CreatedAccountData = {
@@ -116,32 +123,69 @@ export type Store = {
 };
 
 export const emptyAccountData = {
-  accountName: '',
-  tokenBalance: undefined,
+  accountName: 'bitfinexcw11',
+  headBlockNum: 1673357,
+  headBlockTime: '2018-06-20T08:34:51.500',
   privileged: false,
   lastCodeUpdate: '1970-01-01T00:00:00.000',
-  created: '2018-06-04T00:40:15.500',
-  ramQuota: -1,
-  netWeight: -1,
-  cpuWeight: -1,
-  netLimit: { used: -1, available: -1, max: -1 },
-  cpuLimit: { used: -1, available: -1, max: -1 },
-  ramUsage: -1,
-  permissions: [],
-  totalResources: { owner: '', netWeight: '-1 EOS', cpuWeight: '-1 EOS', ramBytes: -1 },
-  delegatedBandwidth: {
-    from: '',
-    to: '',
-    netWeight: '-1 EOS',
-    cpuWeight: '-1 EOS',
+  created: '2018-06-18T16:10:31.500',
+  coreLiquidBalance: '189.8000 EOS',
+  ramQuota: 18043,
+  netWeight: '90000004000',
+  cpuWeight: '90000004000',
+  netLimit: { used: 442, available: '4039412089546', max: '4039412089988' },
+  cpuLimit: { used: 10334, available: '773413270165', max: '773413280499' },
+  ramUsage: 3666,
+  permissions: [
+    {
+      permName: 'active',
+      parent: 'owner',
+      requiredAuth: {
+        threshold: 2,
+        keys: [],
+        accounts: [
+          { permission: { actor: 'bitfinexsig1', permission: 'active' }, weight: 1 },
+          { permission: { actor: 'bitfinexsig2', permission: 'active' }, weight: 1 },
+          { permission: { actor: 'bitfinexsig5', permission: 'active' }, weight: 1 },
+        ],
+        waits: [],
+      },
+    },
+    {
+      permName: 'owner',
+      parent: '',
+      requiredAuth: {
+        threshold: 2,
+        keys: [],
+        accounts: [
+          { permission: { actor: 'bitfinexsig1', permission: 'owner' }, weight: 1 },
+          { permission: { actor: 'bitfinexsig2', permission: 'owner' }, weight: 1 },
+          { permission: { actor: 'bitfinexsig5', permission: 'owner' }, weight: 1 },
+        ],
+        waits: [],
+      },
+    },
+  ],
+  totalResources: {
+    owner: 'bitfinexcw11',
+    netWeight: '9000000.4000 EOS',
+    cpuWeight: '9000000.4000 EOS',
+    ramBytes: 18043,
   },
+  selfDelegatedBandwidth: {
+    from: 'bitfinexcw11',
+    to: 'bitfinexcw11',
+    netWeight: '9000000.1000 EOS',
+    cpuWeight: '9000000.1000 EOS',
+  },
+  refundRequest: null,
   voterInfo: {
-    owner: '',
-    proxy: '',
+    owner: 'bitfinexcw11',
+    proxy: 'bitfinexvp11',
     producers: [],
-    staked: -1,
-    lastVoteWeight: '0.0',
-    proxiedVoteWeight: '0.0',
+    staked: '180000002000',
+    lastVoteWeight: '67626431007592776.00000000000000000',
+    proxiedVoteWeight: '0.00000000000000000',
     isProxy: 0,
     deferredTrxId: 0,
     lastUnstakeTime: '1970-01-01T00:00:00',
@@ -229,6 +273,7 @@ export default (initialState?: Object = {}) => ({
         ]);
 
         if (!data) throw new Error('No data.');
+        console.log(data);
         this.initAccountData({ ...data, tokenBalance: balanceData.join(', ') });
         const { default: blockProducersList } = await import('../pages/BlockProducers/blockProducersList');
         const producerInfo = find(blockProducersList, { account: data.accountName });
