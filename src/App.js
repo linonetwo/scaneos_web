@@ -5,6 +5,7 @@ import { Layout, BackTop } from 'antd';
 import { translate } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import Loadable from 'react-loadable';
+import { ThemeProvider } from 'styled-components';
 
 import { store } from './store';
 
@@ -94,6 +95,11 @@ function Title(props: { t: Function }) {
 }
 const DynamicTitle = translate()(Title);
 
+const theme = {
+  breakpoints: {
+    desktop: 1200,
+  },
+};
 export default class App extends Component<{}> {
   componentDidMount() {
     store.dispatch.history.updateURI();
@@ -101,30 +107,32 @@ export default class App extends Component<{}> {
   }
   render() {
     return (
-      <ScrollToTop>
-        <Layout>
-          <DynamicTitle />
-          <BackTop />
-          <Header />
-          <Switch>
-            <Route exact path="/blocks" component={Blocks} />
-            <Route exact path="/block/:blockNum" component={Block} />
-            <Route exact path="/transaction/:transactionId" component={Transaction} />
-            <Route exact path="/transactions" component={Transactions} />
-            <Route exact path="/account/:accountId" component={Account} />
-            <Route exact path="/accounts" component={Accounts} />
-            <Route exact path="/action/:transactionId" component={Action} />
-            <Route exact path="/actions" component={Actions} />
-            <Route exact path="/bidings" component={NameBidings} />
-            <Route exact path="/biding/:accountName" component={NameBiding} />
-            <Route exact path="/producers" component={BlockProducers} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/" component={Home} />
-            <Route component={UnderDevelopment} />
-          </Switch>
-          <Footer />
-        </Layout>
-      </ScrollToTop>
+      <ThemeProvider theme={theme}>
+        <ScrollToTop>
+          <Layout>
+            <DynamicTitle />
+            <BackTop />
+            <Header />
+            <Switch>
+              <Route exact path="/blocks" component={Blocks} />
+              <Route exact path="/block/:blockNum" component={Block} />
+              <Route exact path="/transaction/:transactionId" component={Transaction} />
+              <Route exact path="/transactions" component={Transactions} />
+              <Route exact path="/account/:accountId" component={Account} />
+              <Route exact path="/accounts" component={Accounts} />
+              <Route exact path="/action/:transactionId" component={Action} />
+              <Route exact path="/actions" component={Actions} />
+              <Route exact path="/bidings" component={NameBidings} />
+              <Route exact path="/biding/:accountName" component={NameBiding} />
+              <Route exact path="/producers" component={BlockProducers} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/" component={Home} />
+              <Route component={UnderDevelopment} />
+            </Switch>
+            <Footer />
+          </Layout>
+        </ScrollToTop>
+      </ThemeProvider>
     );
   }
 }

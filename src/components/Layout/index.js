@@ -27,6 +27,7 @@ const HeaderContainer = styled.div`
   `};
   z-index: 10;
   .ant-layout-header {
+    padding: 0 calc((100vw - 1200px) / 2);
     width: 100vw;
     background-color: white;
     border-bottom: 1px solid #d8d8d8;
@@ -76,7 +77,7 @@ const MenuOpenIconContainer = styled(Flex)`
   `};
   position: absolute;
   height: inherit;
-  right: 20px;
+  right: 5vw;
   ${breakpoint('desktop')`
     right: 50px;
   `};
@@ -86,9 +87,9 @@ const LogoContainer = styled(Flex)`
   position: absolute;
   top: 10px;
 
-  left: 20px;
+  left: 5vw;
   ${breakpoint('desktop')`
-    left: 50px;
+    left: calc((100vw - 1200px) / 2);
   `};
 `;
 const LogoIcon = styled.img`

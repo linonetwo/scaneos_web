@@ -9,7 +9,7 @@ injectGlobal`
   body {
     margin: 0;
     color: #1aa2db;
-    font-size: 14px;
+    font-size: 12px;
   }
   * {
     outline: none;
@@ -53,6 +53,9 @@ injectGlobal`
       display: none;  /* Safari and Chrome */
   }
 
+  .ant-table, .ant-list-item-content, .ant-dropdown-menu-item {
+    font-size: 12px !important;
+  }
   .ant-layout {
     background-color: rgb(250, 250, 250);
   }

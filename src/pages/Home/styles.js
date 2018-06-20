@@ -18,11 +18,11 @@ export const ListContainer = styled.div`
   width: 90vw;
   margin: 15px auto 0;
   ${breakpoint('desktop')`
-    width: 500px;
+    width: calc((1200px - 20px) / 2);
     margin: 30px 0 0;
   `};
   ${is('large')`
-    height: 900px;
+    height: 820px;
   `};
   .ant-list {
     margin: 0;
@@ -89,7 +89,7 @@ export const KeyInfoContainer = styled(Flex)`
 export const ViewAll = styled(Flex)`
   border: 1px solid gray;
   padding: 5px 13px;
-  font-size: 14px;
+  font-size: 13px;
 
   cursor: pointer;
   color: gray;

@@ -19,7 +19,7 @@ const Container = styled(Flex)`
   width: 90vw;
   margin: 20px auto 0;
   ${breakpoint('desktop')`
-    width: 500px;
+    width: calc((1200px - 20px) / 2);
     margin: 30px 0 0;
   `};
 
@@ -37,7 +37,7 @@ const Container = styled(Flex)`
   text-align: center;
   h3 {
     margin-top: 25px;
-    font-size: 14px;
+    font-size: 12px;
   }
 `;
 const Title = styled(ATitle)``;

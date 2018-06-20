@@ -22,9 +22,9 @@ const AggregationContainer = styled(Flex)`
   margin: 10px auto 0;
   padding: 5px 10px;
   ${breakpoint('desktop')`
-    width: 1050px;
+    width: 1200px;
     & .ant-spin-nested-loading {
-      width: calc((1050px - 20px * 2) / 6);
+      width: calc((1200px - 20px * 2) / 6);
     }
     margin: 20px 0 0;
     padding: 10px;
@@ -42,7 +42,7 @@ const AggregationItem = styled(Flex)`
     letter-spacing: 0px;
     color: #333;
     opacity: 0.6;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-flex;
   }
 

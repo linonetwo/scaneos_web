@@ -11,10 +11,10 @@ const BreadCrumbContainer = styled.nav`
   width: 100%;
   background-color: white;
 
-  padding: 0 20px;
+  padding: 0 5vw;
   ${breakpoint('desktop')`
-  padding: 0 40px;
-`};
+    padding: 0 calc((100vw - 1200px) / 2);
+  `};
   display: flex;
   align-items: center;
 `;

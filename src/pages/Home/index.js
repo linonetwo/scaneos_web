@@ -19,14 +19,14 @@ const Container = styled(Flex)`
   text-align: center;
   width: 90vw;
   ${breakpoint('desktop')`
-    width: 1100px;
+    width: 1200px;
   `};
 `;
 
 export default class Home extends PureComponent<{}> {
   render() {
     return (
-      <Container alignCenter justifyAround wrap="true">
+      <Container alignCenter justifyBetween wrap="true">
         <AggregationList />
         <VotingProgress />
         <PriceChart />
