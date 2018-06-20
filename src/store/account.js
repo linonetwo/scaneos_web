@@ -47,9 +47,7 @@ type VoterInfo = {
   lastVoteWeight: string,
   proxiedVoteWeight: string,
   isProxy: number,
-  deferredTrxId: number,
-  lastUnstakeTime: string,
-  unstaking: string | number,
+  unstaking?: string | number,
 };
 export type AccountData = {
   tokenBalance?: string,
