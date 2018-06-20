@@ -44,6 +44,7 @@ const AggregationItem = styled(Flex)`
     opacity: 0.6;
     font-size: 12px;
     display: inline-flex;
+    margin: 5px 0 0;
   }
 
   width: calc((90vw - 20px * 2) / 2);

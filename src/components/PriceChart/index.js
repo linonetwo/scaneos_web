@@ -17,8 +17,9 @@ import 'echarts/lib/chart/line';
 import { Title } from '../../pages/Home/styles';
 
 const PriceChartContainer = styled(Flex)`
-  height: 300px;
-  padding: 20px;
+  height: 220px;
+  padding: 20px 5px 5px;
+  box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.05);
 
   width: 90vw;
   margin: 20px auto 0;
@@ -29,6 +30,9 @@ const PriceChartContainer = styled(Flex)`
 
   background-color: white;
 
+  & div:first-child {
+    margin-left: 15px;
+  }
   & .react-echarts {
     overflow: hidden;
   }
@@ -115,7 +119,7 @@ function PriceChart(props: Props & Store) {
   return (
     <Spin spinning={props.loading}>
       <PriceChartContainer column justifyBetween>
-        <Title center>
+        <Title>
           <span>
             <Icon type="bar-chart" /> {props.t('PriceHistory')}
           </span>

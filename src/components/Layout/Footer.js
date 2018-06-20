@@ -20,6 +20,7 @@ const FooterContainer = styled.div`
       padding-left: calc((100vw - 1200px) / 2);
       display: flex;
     `};
+    font-size: 12px !important;
   }
 `;
 const FooterItem = styled(Flex)`

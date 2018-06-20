@@ -21,6 +21,16 @@ const SearchContainer = styled.div`
   ${is('affixed')`
     width: calc(90vw - 48px);
   `};
+
+  .ant-input-suffix > button {
+    line-height: 1 !important;
+  }
+  input {
+    font-size: 12px;
+  }
+  .ant-input {
+    border-bottom: 1px solid #eeeeee;
+  }
 `;
 
 type Store = {

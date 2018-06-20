@@ -31,6 +31,7 @@ export const zh = {
   ViewIt: '查看',
   VerifiedContracts: '已确认合约',
 
+  introduction: '介绍',
   Locale: '语言',
   contactUs: '加入社群',
   logoIcon: logoIconZh,
@@ -59,6 +60,7 @@ export const en = {
   Biding: 'Name Auction',
   Bidings: 'NameAuctions',
 
+  introduction: 'Intro',
   Locale: 'Language',
   contactUs: 'Contact Us',
   logoIcon: logoIconEn,

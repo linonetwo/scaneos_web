@@ -89,7 +89,7 @@ class NameBidingList extends PureComponent<Props & Store, *> {
               </List.Item>
             ) : (
               <List.Item>
-                <ActionPreview>
+                <ActionPreview style={{ fontSize: 14, marginBottom: -2 }}>
                   <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
                 </ActionPreview>
                 <ActionPreview>

@@ -13,7 +13,7 @@ import { frontloadConnect } from 'react-frontload';
 import { Title as ATitle } from '../pages/Home/styles';
 
 const Container = styled(Flex)`
-  height: 300px;
+  height: 220px;
   padding: 20px;
 
   width: 90vw;
@@ -54,8 +54,8 @@ const Content = styled.div`
 `;
 
 type Props = {
-  t: Function
-}
+  t: Function,
+};
 type Store = {
   totalActivatedStake: number,
 };
@@ -68,7 +68,7 @@ function VotingProgress(props: Props & Store) {
   return (
     <Container column justifyBetween>
       <Link to="/producers/">
-        <Title center>
+        <Title>
           <span>
             <Icon type="check-square-o" /> {props.t('VotingProgress')}
           </span>
@@ -83,8 +83,8 @@ function VotingProgress(props: Props & Store) {
           <div>{props.t('EOSVotesIntroduction')}</div>
         </div>
         <div>
-          <div>{props.t('EOSVotes')}:</div>
           <div>
+            {props.t('EOSVotes')}:{' '}
             <strong>{props.totalActivatedStake}</strong> ({votingPercentage.toFixed(4)}%)
           </div>
         </div>
@@ -106,7 +106,7 @@ const mapDispatch = ({ action: { getActionsList }, aggregation: { getVoting } })
   getVoting,
 });
 
-const frontload = (props: Dispatch & Store) => props.totalActivatedStake || props.getVoting()
+const frontload = (props: Dispatch & Store) => props.totalActivatedStake || props.getVoting();
 
 export default translate('bp')(
   connect(

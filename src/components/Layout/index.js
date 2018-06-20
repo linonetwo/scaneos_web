@@ -30,7 +30,7 @@ const HeaderContainer = styled.div`
     padding: 0 calc((100vw - 1200px) / 2);
     width: 100vw;
     background-color: white;
-    border-bottom: 1px solid #d8d8d8;
+    border-bottom: 1px solid #eeeeee;
     height: inherit;
     display: flex;
     justify-content: flex-end;
