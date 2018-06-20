@@ -42,10 +42,14 @@ function BPList(props: Props & Store) {
             pageSize: 21,
           }}
           size="small"
-          dataSource={producerAccountList.map(({ url, ...rest }, index) => ({ account: rest.owner, ...rest, key: index + 1 }))}
+          dataSource={producerAccountList.map(({ url, ...rest }, index) => ({
+            account: rest.owner,
+            ...rest,
+            key: index + 1,
+          }))}
           scroll={{ x: 450 }}
         >
-          <Table.Column width={5} dataIndex="key" key="key" />
+          <Table.Column width={5} title={t('rank')} dataIndex="key" key="key" />
           <Table.Column
             width={70}
             title={t('name')}
