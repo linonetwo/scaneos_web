@@ -59,7 +59,7 @@ class TransactionList extends PureComponent<Props & Store & Dispatch> {
                     <span>{formatTimeStamp(item.createdAt, t('locale'), { distance: false })}</span>
                   </KeyInfoContainer>
                 </Link>
-                <div>
+                <div style={{ textAlign: 'left' }}>
                   <div>
                     <Link to={`/block/${item.blockId}/?tab=transactions`}>
                       {t('blockId')}: {truncate(item.blockId, { length: 15, omission: '...' })}

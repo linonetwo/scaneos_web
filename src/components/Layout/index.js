@@ -119,10 +119,9 @@ const NavDropDownsButton = styled.a`
     display: block;
   }
 
-  color: #333;
-  opacity: 0.7;
+  color: #666;
   &:hover {
-    color: #333;
+    color: #666;
     opacity: 0.8;
   }
   ${is('selected')`
