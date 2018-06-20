@@ -12,76 +12,78 @@ import 运营个人微信号 from './运营个人微信号.jpg';
 import 知识星球 from './知识星球.png';
 
 const FooterContainer = styled.div`
-.ant-layout-footer {
-  background-color: #333;
-  color: white;
-  ${breakpoint('desktop')`
-    display: flex;
-  `};
-}
+  .ant-layout-footer {
+    background-color: #333;
+    color: white;
+    padding-left: 5vw;
+    ${breakpoint('desktop')`
+      padding-left: calc((100vw - 1200px) / 2);
+      display: flex;
+    `};
+  }
 `;
 const FooterItem = styled(Flex)`
-margin-bottom: 20px;
-${breakpoint('desktop')`
-width: 300px;
-margin-right: 20px;
+  margin-bottom: 20px;
+  ${breakpoint('desktop')`
+    width: 300px;
+    margin-right: 20px;
 `};
 `;
 const Introduction = styled(Flex)``;
 const ContactLinks = styled(Flex)`
-& div {
-  margin-top: 15px;
-  margin-bottom: 5px;
-  & span {
-    color: #3498db;
-    cursor: pointer;
+  & div {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    & span {
+      color: #3498db;
+      cursor: pointer;
+    }
   }
-}
 `;
 const ContactImage = styled.img`
-width: 100%;
-object-fit: contain;
-object-position: center;
-font-family: 'object-fit: contain; object-position: center;';
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  font-family: 'object-fit: contain; object-position: center;';
 `;
 
 const FooterTitle = styled.h3`
-color: white;
-border-bottom: 1px dotted white;
+  color: white;
+  border-bottom: 1px dotted white;
 `;
 const TitleDecorator = styled(Flex)`
-width: 100%;
-border-bottom: 1px solid #3498db;
-margin-bottom: -1px;
-width: fit-content;
+  width: 100%;
+  border-bottom: 1px solid #3498db;
+  margin-bottom: -1px;
+  width: fit-content;
 `;
 const FriendLinks = styled(Flex)`
-height: unset;
-${breakpoint('desktop')`
+  height: unset;
+  ${breakpoint('desktop')`
   height: 130px;
   width: 300px;
 `};
 `;
 const FriendLink = styled.a`
-color: white;
-margin: 5px 0;
+  color: white;
+  margin: 5px 0;
 `;
 const friendLinks = [
-{ name: 'EOSStore', homepage: 'http://www.eos.store/' },
-{ name: 'EOS Asia', homepage: 'https://www.eosasia.one/' },
-{ name: 'Huobi Pool', homepage: 'http://www.eoshuobipool.com/' },
-{ name: 'EOS CANNON', homepage: 'https://eoscannon.io' },
-{ name: 'EOS Gravity', homepage: 'http://eosfans.one/' },
-{
-  name: 'EOS Argentina ',
-  homepage: 'https://www.eosargentina.io/',
-},
-{ name: 'eosONO', homepage: 'https://www.ono.chat/eos/' },
-{ name: 'EOS Canada', homepage: 'https://www.eoscanada.com/' },
-{ name: 'EOSBeijing', homepage: 'http://www.eosbeijing.one/' },
-{ name: 'EOS UK', homepage: 'https://eosuk.io/' },
-{ name: 'EOSeoul', homepage: 'http://eoseoul.io/' },
-{ name: 'EOS TEA', homepage: 'https://node.eosfans.io/' },
+  { name: 'EOSStore', homepage: 'http://www.eos.store/' },
+  { name: 'EOS Asia', homepage: 'https://www.eosasia.one/' },
+  { name: 'Huobi Pool', homepage: 'http://www.eoshuobipool.com/' },
+  { name: 'EOS CANNON', homepage: 'https://eoscannon.io' },
+  { name: 'EOS Gravity', homepage: 'http://eosfans.one/' },
+  {
+    name: 'EOS Argentina ',
+    homepage: 'https://www.eosargentina.io/',
+  },
+  { name: 'eosONO', homepage: 'https://www.ono.chat/eos/' },
+  { name: 'EOS Canada', homepage: 'https://www.eoscanada.com/' },
+  { name: 'EOSBeijing', homepage: 'http://www.eosbeijing.one/' },
+  { name: 'EOS UK', homepage: 'https://eosuk.io/' },
+  { name: 'EOSeoul', homepage: 'http://eoseoul.io/' },
+  { name: 'EOS TEA', homepage: 'https://node.eosfans.io/' },
 ];
 
 class Footer extends Component<{ t: Function }, *> {

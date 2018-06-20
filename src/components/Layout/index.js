@@ -106,6 +106,7 @@ const DropDownsContainer = styled.nav`
   ${breakpoint('desktop')`
     display: unset;
   `};
+  font-size: 14px;
 `;
 const NavDropDowns = styled(Flex)``;
 const NavDropDownsButton = styled.a`

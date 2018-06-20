@@ -89,7 +89,7 @@ export const KeyInfoContainer = styled(Flex)`
 export const ViewAll = styled(Flex)`
   border: 1px solid gray;
   padding: 5px 13px;
-  font-size: 13px;
+  font-size: 12px;
 
   cursor: pointer;
   color: gray;

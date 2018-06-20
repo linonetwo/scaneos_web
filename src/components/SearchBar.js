@@ -15,11 +15,8 @@ const SearchContainer = styled.div`
   margin: auto;
   width: 90vw;
   ${breakpoint('desktop')`
-    margin: 0 9px;
-    max-width: calc(100vw - 50px * 2 - 150px - 650px);
-    &:focus-within {
-      width: calc(100vw - 50px * 2 - 150px - 650px);
-    }
+    margin: 0 30px;
+    max-width: 420px;
   `};
   ${is('affixed')`
     width: calc(90vw - 48px);
@@ -68,7 +65,7 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
     return (
       <SearchContainer active={this.state.keyWord} affixed={this.props.affixed}>
         <Input.Search
-          size="large"
+          size="middle"
           enterButton={this.props.loading ? <Icon type="loading" /> : <Icon type="search" />}
           placeholder={this.props.t('cansearch')}
           value={this.state.keyWord}
