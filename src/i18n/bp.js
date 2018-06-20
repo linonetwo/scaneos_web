@@ -3,6 +3,8 @@ export const zh = {
   rank: '排名',
   name: '超级节点',
   account: '账户',
+  latitude: '纬度',
+  longitude: '经度',
 
   China: '中国',
   Asia: '亚洲',

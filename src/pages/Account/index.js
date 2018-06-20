@@ -45,7 +45,7 @@ class Account extends PureComponent<Props & Store, *> {
                   key="1"
                 >
                   <LongListContainer column>
-                    <small>{this.props.t('bpcontactus')}</small>
+                    <small>{this.props.t('bp:bpcontactus')}</small>
                     <Table
                       scroll={{ x: 1000 }}
                       size="middle"
@@ -56,7 +56,12 @@ class Account extends PureComponent<Props & Store, *> {
                         key: field,
                       }))}
                     >
-                      <Table.Column width={200} dataIndex="field" key="field" render={this.props.t} />
+                      <Table.Column
+                        width={200}
+                        dataIndex="field"
+                        key="field"
+                        render={str => this.props.t(`bp:${str}`)}
+                      />
                       <Table.Column dataIndex="value" key="value" />
                     </Table>
                   </LongListContainer>
