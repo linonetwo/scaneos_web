@@ -43,8 +43,18 @@ class NameBidingList extends PureComponent<Props & Store, *> {
     keyWord: '',
   };
   render() {
-    const { loading, list, t, nameBidingSearchResult } = this.props;
-
+    const { loading, t, nameBidingSearchResult } = this.props;
+    let { list } = this.props;
+    if (nameBidingSearchResult.length > 0 && this.state.keyWord.length > 0) {
+      list = [
+        ...(nameBidingSearchResult.length > 0 &&
+        this.state.keyWord.length > 0 &&
+        this.state.keyWord === nameBidingSearchResult[0].newName
+          ? nameBidingSearchResult
+          : [t('notInBiding')]),
+        ...list,
+      ];
+    }
     return (
       <ListContainer large>
         <Title justifyBetween alignCenter>
@@ -64,33 +74,33 @@ class NameBidingList extends PureComponent<Props & Store, *> {
               this.setState({ keyWord: name });
             }}
           />
-          {nameBidingSearchResult.length > 0 && this.state.keyWord.length > 0 &&
-            (this.state.keyWord === nameBidingSearchResult[0].newName ? (
-              <span>
-                {nameBidingSearchResult[0].highBidder} {t('offerBid')} {nameBidingSearchResult[0].highBid}EOS
-              </span>
-            ) : (
-              t('notInBiding')
-            ))}
         </SearchContainer>
         <List
           size="small"
           loading={loading}
           itemLayout="vertical"
           dataSource={take(list, 8)}
-          renderItem={(item: NameBidingData) => (
-            <List.Item>
-              <ActionPreview>
-                <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
-              </ActionPreview>
-              <ActionPreview>
-                <Link to={`/account/${item.highBidder}/`}>
-                  {item.highBidder} {t('offerBid')} {item.highBid}EOS
-                </Link>
-              </ActionPreview>
-              <ActionPreview>{formatTimeStamp(item.lastBidTime, t('locale'), { distance: false })}</ActionPreview>
-            </List.Item>
-          )}
+          renderItem={(item: NameBidingData | string) =>
+            typeof item === 'string' ? (
+              <List.Item>
+                <ActionPreview>{item}</ActionPreview>
+                <ActionPreview>{'　'}</ActionPreview>
+                <ActionPreview>{'　'}</ActionPreview>
+              </List.Item>
+            ) : (
+              <List.Item>
+                <ActionPreview>
+                  <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
+                </ActionPreview>
+                <ActionPreview>
+                  <Link to={`/account/${item.highBidder}/`}>
+                    {item.highBidder} {t('offerBid')} {item.highBid}EOS
+                  </Link>
+                </ActionPreview>
+                <ActionPreview>{formatTimeStamp(item.lastBidTime, t('locale'), { distance: false })}</ActionPreview>
+              </List.Item>
+            )
+          }
         />
       </ListContainer>
     );
