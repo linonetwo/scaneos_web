@@ -52,6 +52,7 @@ type VoterInfo = {
   unstaking: string | number,
 };
 export type AccountData = {
+  tokenBalance?: string,
   accountName: string,
   headBlockNum: number,
   headBlockTime: string,
