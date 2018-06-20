@@ -1,6 +1,6 @@
 // @flow
 import { toPairs } from 'lodash';
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -24,7 +24,7 @@ type Dispatch = {
   getAccountData: (accountName: string) => void,
 };
 
-class Account extends Component<Props & Store, *> {
+class Account extends PureComponent<Props & Store, *> {
   state = {};
 
   render() {

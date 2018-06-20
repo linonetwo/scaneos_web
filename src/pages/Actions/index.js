@@ -28,13 +28,14 @@ class Actions extends Component<Props & Store & Dispatch, *> {
   state = {};
 
   render() {
+    const { loading, listByTime, t } = this.props;
     return (
-      <Spin tip="Connecting" spinning={this.props.loading} size="large">
+      <Spin tip="Connecting" spinning={loading} size="large">
         <ListContainer column>
           <Table
             scroll={{ x: 1000 }}
             size="middle"
-            dataSource={this.props.listByTime}
+            dataSource={listByTime}
             rowKey="id"
             pagination={{
               pageSize: getPageSize(),
@@ -45,13 +46,12 @@ class Actions extends Component<Props & Store & Dispatch, *> {
             }}
           >
             <Table.Column
-              title={this.props.t('actionId')}
-              dataIndex="actionId"
-              key="actionId"
-              render={(actionId, { transactionId }) => <Link to={`/action/${transactionId}/`}>{actionId}</Link>}
+              dataIndex="id"
+              key="id"
+              render={id => <Link to={`/action/${id}/`}>{t('ViewIt')}</Link>}
             />
             <Table.Column
-              title={this.props.t('transactionId')}
+              title={t('transactionId')}
               dataIndex="transactionId"
               render={transactionId => (
                 <Link to={`/transaction/${transactionId}/`}>
@@ -60,32 +60,32 @@ class Actions extends Component<Props & Store & Dispatch, *> {
               )}
             />
             <Table.Column
-              title={this.props.t('createdAt')}
+              title={t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={timeStamp => formatTimeStamp(timeStamp, this.props.t('locale'))}
+              render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
             />
             <Table.Column
-              title={this.props.t('authorization')}
+              title={t('authorization')}
               dataIndex="authorization"
               key="authorization"
               render={authorization =>
                 flatten(
                   authorization.map(({ actor, permission }) => (
                     <Link to={`/account/${actor}/`}>
-                      {actor} ({this.props.t('permission')}: {permission})
+                      {actor} ({t('permission')}: {permission})
                     </Link>
                   )),
                 )
               }
             />
             <Table.Column
-              title={this.props.t('handlerAccountName')}
+              title={t('handlerAccountName')}
               dataIndex="handlerAccountName"
               key="handlerAccountName"
               render={handlerAccountName => <Link to={`/account/${handlerAccountName}/`}>{handlerAccountName}</Link>}
             />
-            <Table.Column title={this.props.t('type')} dataIndex="name" key="name" />
+            <Table.Column title={t('type')} dataIndex="name" key="name" />
           </Table>
         </ListContainer>
       </Spin>

@@ -4,6 +4,7 @@ import type { Pagination } from './block';
 
 export type TransactionData = {
   id: string,
+  actions: string[],
   transactionId: string,
   sequenceNum: number,
   blockId: string,
@@ -34,8 +35,9 @@ export type Store = {
   pagination: Pagination,
 };
 
-export const emptyTransactionData = {
+export const emptyTransactionData: TransactionData = {
   id: '',
+  actions: [],
   transactionId: '',
   sequenceNum: -1,
   blockId: '',

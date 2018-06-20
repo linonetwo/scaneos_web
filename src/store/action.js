@@ -1,5 +1,4 @@
 // @flow
-import { initial } from 'lodash';
 import get from '../API.config';
 import type { Pagination } from './block';
 
@@ -7,22 +6,6 @@ type Authorization = {
   permission: string,
   actor: string,
 };
-
-type Header = {
-  previous?: string | null,
-  timestamp?: number | null,
-  transactionMroot?: string | null,
-  actionMroot?: string | null,
-  blockMroot?: string | null,
-  producer?: string | null,
-  scheduleVersion?: number | null,
-  newProducers?: string | null,
-};
-
-type Data = {
-  header?: Header,
-};
-
 export type ActionData = {
   id: string,
   actionId: number,
@@ -30,9 +13,10 @@ export type ActionData = {
   authorization: Authorization[],
   handlerAccountName: string,
   name: string,
-  data: Data,
+  data: Object,
   createdAt: string,
 };
+
 export type ListResponse = {
   content: ActionData[],
   page: {
@@ -46,36 +30,24 @@ export type ListResponse = {
 export type Store = {
   loading: boolean,
   listByTime: ActionData[],
-  listByTransaction: ActionData[],
+  data: ActionData,
   pagination: Pagination,
 };
 
 export const emptyActionData = {
   id: '',
-  actionId: -1,
+  actionId: 0,
   transactionId: '',
   authorization: [{ permission: 'active', actor: '' }],
   handlerAccountName: '',
   name: '',
-  data: {
-    header: {
-      previous: '0000000000000000000000000000000000000000000000000000000000000000',
-      timestamp: -1,
-      transaction_mroot: '0000000000000000000000000000000000000000000000000000000000000000',
-      action_mroot: '0000000000000000000000000000000000000000000000000000000000000000',
-      block_mroot: '0000000000000000000000000000000000000000000000000000000000000000',
-      producer: '',
-      schedule_version: -1,
-      new_producers: null,
-    },
-  },
-  createdAt: '2018-06-02T10:17:49.501+0000',
-  links: [],
+  data: {},
+  createdAt: '2018-06-20T08:55:33.499+0000',
 };
 export const defaultState = {
   loading: false,
   listByTime: [],
-  listByTransaction: [],
+  data: emptyActionData,
   pagination: { current: 0, total: 1 },
 };
 export default (initialState?: Object = {}) => ({
@@ -92,8 +64,8 @@ export default (initialState?: Object = {}) => ({
       state.listByTime = listByTime;
       return state;
     },
-    initActionData(state: Store, listByTransaction: ActionData[]) {
-      state.listByTransaction = listByTransaction;
+    initActionData(state: Store, data: ActionData) {
+      state.data = data;
       return state;
     },
     setPage(state: Store, payload: { current: number, total: number }) {
@@ -111,10 +83,8 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        const listByTransaction: ActionData[] = await get(`/actions?transaction_id=${transactionId}`);
-
-        if (listByTransaction.length === 0) throw new Error('No data.');
-        this.initActionData(listByTransaction);
+        const data = await get(`/actions?id=${transactionId}`);
+        this.initActionData(data);
       } catch (error) {
         console.error(error);
         const errorString = error.toString();

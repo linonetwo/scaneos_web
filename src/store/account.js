@@ -12,9 +12,9 @@ type Accounts = {
   weight: number,
 };
 type NetLimit = {
-  used: number,
-  available: string,
-  max: string,
+  used: string | number,
+  available: string | number,
+  max: string | number,
 };
 type RequiredAuth = {
   threshold: number,
@@ -30,26 +30,26 @@ type Permissions = {
 type SelfDelegatedBandwidth = {
   from: string,
   to: string,
-  netWeight: string,
-  cpuWeight: string,
+  netWeight: string | number,
+  cpuWeight: string | number,
 };
 type TotalResources = {
   owner: string,
-  netWeight: string,
-  cpuWeight: string,
-  ramBytes: number,
+  netWeight: string | number,
+  cpuWeight: string | number,
+  ramBytes: number | number,
 };
 type VoterInfo = {
   owner: string,
   proxy: string,
   producers: any[],
-  staked: string,
+  staked: string | number,
   lastVoteWeight: string,
   proxiedVoteWeight: string,
   isProxy: number,
   deferredTrxId: number,
   lastUnstakeTime: string,
-  unstaking: string,
+  unstaking: string | number,
 };
 export type AccountData = {
   accountName: string,
@@ -58,10 +58,10 @@ export type AccountData = {
   privileged: boolean,
   lastCodeUpdate: string,
   created: string,
-  coreLiquidBalance: string,
+  coreLiquidBalance: string | number,
   ramQuota: number,
-  netWeight: string,
-  cpuWeight: string,
+  netWeight: string | number,
+  cpuWeight: string | number,
   netLimit: NetLimit,
   cpuLimit: NetLimit,
   ramUsage: number,
@@ -123,19 +123,19 @@ export type Store = {
 };
 
 export const emptyAccountData = {
-  accountName: 'bitfinexcw11',
-  headBlockNum: 1673357,
+  accountName: '',
+  headBlockNum: -1,
   headBlockTime: '2018-06-20T08:34:51.500',
   privileged: false,
   lastCodeUpdate: '1970-01-01T00:00:00.000',
   created: '2018-06-18T16:10:31.500',
-  coreLiquidBalance: '189.8000 EOS',
-  ramQuota: 18043,
-  netWeight: '90000004000',
-  cpuWeight: '90000004000',
-  netLimit: { used: 442, available: '4039412089546', max: '4039412089988' },
-  cpuLimit: { used: 10334, available: '773413270165', max: '773413280499' },
-  ramUsage: 3666,
+  coreLiquidBalance: '-1 EOS',
+  ramQuota: -1,
+  netWeight: '1',
+  cpuWeight: '1',
+  netLimit: { used: -1, available: '1', max: '1' },
+  cpuLimit: { used: -1, available: '1', max: '1' },
+  ramUsage: -1,
   permissions: [
     {
       permName: 'active',
@@ -143,11 +143,7 @@ export const emptyAccountData = {
       requiredAuth: {
         threshold: 2,
         keys: [],
-        accounts: [
-          { permission: { actor: 'bitfinexsig1', permission: 'active' }, weight: 1 },
-          { permission: { actor: 'bitfinexsig2', permission: 'active' }, weight: 1 },
-          { permission: { actor: 'bitfinexsig5', permission: 'active' }, weight: 1 },
-        ],
+        accounts: [{ permission: { actor: '', permission: 'active' }, weight: 1 }],
         waits: [],
       },
     },
@@ -157,39 +153,35 @@ export const emptyAccountData = {
       requiredAuth: {
         threshold: 2,
         keys: [],
-        accounts: [
-          { permission: { actor: 'bitfinexsig1', permission: 'owner' }, weight: 1 },
-          { permission: { actor: 'bitfinexsig2', permission: 'owner' }, weight: 1 },
-          { permission: { actor: 'bitfinexsig5', permission: 'owner' }, weight: 1 },
-        ],
+        accounts: [{ permission: { actor: '', permission: 'owner' }, weight: 1 }],
         waits: [],
       },
     },
   ],
   totalResources: {
-    owner: 'bitfinexcw11',
-    netWeight: '9000000.4000 EOS',
-    cpuWeight: '9000000.4000 EOS',
-    ramBytes: 18043,
+    owner: '',
+    netWeight: '-1 EOS',
+    cpuWeight: '-1 EOS',
+    ramBytes: -1,
   },
   selfDelegatedBandwidth: {
-    from: 'bitfinexcw11',
-    to: 'bitfinexcw11',
-    netWeight: '9000000.1000 EOS',
-    cpuWeight: '9000000.1000 EOS',
+    from: '',
+    to: '',
+    netWeight: '-1 EOS',
+    cpuWeight: '-1 EOS',
   },
   refundRequest: null,
   voterInfo: {
-    owner: 'bitfinexcw11',
-    proxy: 'bitfinexvp11',
+    owner: '',
+    proxy: '',
     producers: [],
-    staked: '180000002000',
-    lastVoteWeight: '67626431007592776.00000000000000000',
-    proxiedVoteWeight: '0.00000000000000000',
+    staked: '-1',
+    lastVoteWeight: '-1',
+    proxiedVoteWeight: '-1',
     isProxy: 0,
     deferredTrxId: 0,
     lastUnstakeTime: '1970-01-01T00:00:00',
-    unstaking: '0.0000 EOS',
+    unstaking: '-1 EOS',
   },
 };
 export const defaultState = {

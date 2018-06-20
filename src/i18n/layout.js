@@ -28,6 +28,7 @@ export const zh = {
   BlockProducers: '超级节点',
   BlockProducer: '超级节点',
   ViewAll: '查看全部',
+  ViewIt: '查看',
   VerifiedContracts: '已确认合约',
 
   Locale: '语言',
@@ -54,6 +55,7 @@ export const en = {
   BlockProducers: 'Block Producers',
   VerifiedContracts: 'Verified Contracts',
   ViewAll: 'View All',
+  ViewIt: 'View',
   Biding: 'Name Auction',
   Bidings: 'NameAuctions',
 

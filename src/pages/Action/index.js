@@ -1,6 +1,6 @@
 // @flow
 import { toPairs } from 'lodash';
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -16,62 +16,61 @@ type Props = {
   t: Function,
 };
 type Store = {
-  listByTransaction: ActionData[],
+  data: ActionData,
   loading: boolean,
 };
 type Dispatch = {
   getActionData: (transactionID: string) => void,
 };
 
-class Action extends Component<Props & Store, *> {
+class Action extends PureComponent<Props & Store, *> {
   state = {};
 
   render() {
+    const { data, loading, t } = this.props;
     return (
       <Fragment>
-        {getBreadcrumb('action', this.props.t)}
-        <Spin tip="Connecting" spinning={this.props.loading} size="large">
+        {getBreadcrumb('action', t)}
+        <Spin tip="Connecting" spinning={loading} size="large">
           <DetailTabsContainer>
             <Tabs defaultActiveKey="2">
               <Tabs.TabPane
                 tab={
                   <span>
                     <Icon type="database" />
-                    {this.props.t('Overview')}
+                    {t('Overview')}
                   </span>
                 }
                 key="2"
               >
-                {this.props.listByTransaction.map(data => (
-                  <LongListContainer column>
-                    <Table
-                      size="middle"
-                      pagination={false}
-                      dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
-                    >
-                      <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                      <Table.Column
-                        title={this.props.t('value')}
-                        dataIndex="value"
-                        key="value"
-                        render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
-                      />
-                    </Table>
-                  </LongListContainer>
-                ))}
+                <LongListContainer column>
+                  <Table
+                    size="middle"
+                    pagination={false}
+                    dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                  >
+                    <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
+                    <Table.Column
+                      title={t('value')}
+                      dataIndex="value"
+                      key="value"
+                      render={(value, { field }) => getListValueRendering(field, value, t)}
+                    />
+                  </Table>
+                </LongListContainer>
               </Tabs.TabPane>
 
               <Tabs.TabPane
                 tab={
                   <span>
                     <Icon type="file-text" />
-                    {this.props.t('Raw')}
+                    {t('Raw')}
                   </span>
                 }
                 key="3"
               >
                 <pre>
-                  <code>{JSON.stringify(this.props.listByTransaction, null, '  ')}</code>
+                  <code>{JSON.stringify(data, null, '  ')}</code>
                 </pre>
               </Tabs.TabPane>
             </Tabs>
@@ -82,7 +81,7 @@ class Action extends Component<Props & Store, *> {
   }
 }
 
-const mapState = ({ action: { listByTransaction }, info: { loading } }): Store => ({ listByTransaction, loading });
+const mapState = ({ action: { data }, info: { loading } }): Store => ({ data, loading });
 const mapDispatch = ({ action: { getActionData } }): Dispatch => ({ getActionData });
 
 type LoaderProps = Dispatch & {

@@ -3,7 +3,7 @@ import { toPairs } from 'lodash';
 import React, { Component, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { frontloadConnect } from 'react-frontload';
 
@@ -18,13 +18,10 @@ type Props = {
 };
 type Store = {
   data: TransactionData,
-  actions: ActionData[],
   transactionLoading: boolean,
-  actionLoading: boolean,
 };
 type Dispatch = {
   getTransactionData: (transactionId: string) => void,
-  getActionData: (transactionId: string) => void,
 };
 
 class Transaction extends Component<Props & Store, *> {
@@ -46,33 +43,18 @@ class Transaction extends Component<Props & Store, *> {
               }
               key="1"
             >
-              <Spin tip="Connecting" spinning={this.props.transactionLoading || this.props.actionLoading} size="large">
-                {this.props.actions.length > 0 ? (
-                  this.props.actions.map(data => (
-                    <LongListContainer column>
-                      <Table
-                        size="middle"
-                        pagination={false}
-                        dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
-                      >
-                        <Table.Column
-                          title={this.props.t('field')}
-                          dataIndex="field"
-                          key="field"
-                          render={field => this.props.t(`action:${field}`)}
-                        />
-                        <Table.Column
-                          title={this.props.t('value')}
-                          dataIndex="value"
-                          key="value"
-                          render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
-                        />
-                      </Table>
-                    </LongListContainer>
-                  ))
-                ) : (
-                  <NoData>No Actions.</NoData>
-                )}
+              <Spin tip="Connecting" spinning={this.props.transactionLoading} size="large">
+                <LongListContainer column>
+                  {this.props.data.actions.length > 0 ? (
+                    this.props.data.actions.map(actionId => (
+                      <div>
+                        <Link to={`/action/${actionId}`}>{actionId}</Link>
+                      </div>
+                    ))
+                  ) : (
+                    <NoData>No Actions.</NoData>
+                  )}
+                </LongListContainer>
               </Spin>
             </Tabs.TabPane>
 
@@ -126,18 +108,12 @@ class Transaction extends Component<Props & Store, *> {
   }
 }
 
-const mapState = ({
-  transaction: { loading: transactionLoading, data },
-  action: { loading: actionLoading, listByTransaction },
-}): Store => ({
+const mapState = ({ transaction: { loading: transactionLoading, data } }): Store => ({
   data,
-  actions: listByTransaction,
   transactionLoading,
-  actionLoading,
 });
-const mapDispatch = ({ transaction: { getTransactionData }, action: { getActionData } }): Dispatch => ({
+const mapDispatch = ({ transaction: { getTransactionData } }): Dispatch => ({
   getTransactionData,
-  getActionData,
 });
 
 type LoaderProps = Dispatch & {
@@ -149,7 +125,7 @@ type LoaderProps = Dispatch & {
 };
 const frontload = async (props: LoaderProps) => {
   const currentTransactionId = String(props.match.params.transactionId);
-  return Promise.all([props.getTransactionData(currentTransactionId), props.getActionData(currentTransactionId)]);
+  return props.getTransactionData(currentTransactionId);
 };
 
 export default withRouter(
