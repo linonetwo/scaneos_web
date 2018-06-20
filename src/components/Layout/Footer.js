@@ -25,16 +25,16 @@ const FooterContainer = styled.div`
   }
 `;
 const FooterItem = styled(Flex)`
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   ${breakpoint('desktop')`
     width: 300px;
-    margin-right: 20px;
+    margin-right: 110px;
 `};
 `;
 const Introduction = styled(Flex)``;
 const ContactLinks = styled(Flex)`
   & div {
-    margin-top: 15px;
+    margin-top: 5px;
     margin-bottom: 5px;
     & span {
       color: #3498db;
