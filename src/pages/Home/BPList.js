@@ -45,20 +45,13 @@ function BPList(props: Props & Store) {
           dataSource={producerAccountList.map(({ url, ...rest }, index) => ({ account: rest.owner, ...rest, key: index + 1 }))}
           scroll={{ x: 450 }}
         >
-          <Table.Column width={35} dataIndex="key" key="key" />
+          <Table.Column width={5} dataIndex="key" key="key" />
           <Table.Column
-            width={95}
+            width={70}
             title={t('name')}
             dataIndex="name"
             key="name"
             render={(name, { account }) => name || toUpper(account)}
-          />
-          <Table.Column
-            width={70}
-            title={t('account')}
-            dataIndex="account"
-            key="account"
-            render={account => <Link to={`/account/${account}`}>{account}</Link>}
           />
           <Table.Column
             width={50}
@@ -70,6 +63,13 @@ function BPList(props: Props & Store) {
                 ? `${numeral(Number(voteCount) / totalProducerVoteWeight).format('0.00%')}`
                 : ''
             }
+          />
+          <Table.Column
+            width={70}
+            title={t('account')}
+            dataIndex="account"
+            key="account"
+            render={account => <Link to={`/account/${account}`}>{account}</Link>}
           />
         </Table>
       </ListContainer>
