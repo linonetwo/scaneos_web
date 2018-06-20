@@ -94,7 +94,13 @@ class BlockProducers extends PureComponent<Props & Store, *> {
               title={this.props.t('name')}
               dataIndex="name"
               key="name"
-              render={(name, { account }) => name || toUpper(account)}
+              render={(name, { account }) =>
+                name ? (
+                  <Link to={`/account/${account}`}>{name}</Link>
+                ) : (
+                  <Link to={`/account/${account}`}>{toUpper(account)}</Link>
+                )
+              }
             />
             <Table.Column
               title={this.props.t('EOSVotes')}
