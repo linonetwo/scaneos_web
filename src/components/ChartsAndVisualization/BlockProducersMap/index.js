@@ -62,8 +62,8 @@ class BlockProducersMap extends Component<Props, *> {
     let width = 0;
     let height = 400;
     if (typeof window !== 'undefined') {
-      width = window.innerWidth >= 1200 ? (1200 - 24) / 2 - 20 * 2 : window.innerWidth * 0.9;
-      height = window.innerHeight * 0.9 - 180;
+      width = window.innerWidth >= 1200 ? (1200 - 24) / 2 - 20 * 2 : window.innerWidth * 0.9 - 20 * 2;
+      height = window.innerHeight * 0.5;
     }
     /* eslint-disable no-undef */
     this.setState({

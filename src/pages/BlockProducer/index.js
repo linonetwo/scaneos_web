@@ -2,6 +2,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
+import is from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
 import { Spin, Icon } from 'antd';
 import { connect } from 'react-redux';
@@ -36,6 +37,7 @@ const Container = styled(Flex)`
   background-color: rgb(250, 250, 250);
 `;
 const BPInfoContainer = styled.div`
+  height: min-content;
   background-color: white;
   box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
   padding: 20px;
@@ -55,7 +57,7 @@ const IntroContainer = styled.div`
 const DetailContainer = styled.div``;
 const DetailFieldContainer = styled(Flex)`
   float: left;
-  width: calc(90vw / 3);
+  width: calc(90vw - 20px * 2 - 24px);
   ${breakpoint('desktop')`
     width: calc((((1200px - 24px) / 2) - 20px * 2) / 3);
   `};
@@ -63,6 +65,17 @@ const DetailFieldContainer = styled(Flex)`
   span {
     color: #333;
   }
+`;
+const BlockProducersMapContainer = styled.div`
+  ${breakpoint('desktop')`
+    display: none;
+  `};
+  ${is('desktop')`
+    display: none;
+    ${breakpoint('desktop')`
+      display: block;
+    `};
+  `};
 `;
 
 type Props = {
@@ -126,15 +139,20 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                     </DetailFieldContainer>
                   )}
                 </DetailContainer>
+                <BlockProducersMapContainer desktop>
+                  <BlockProducersMap points={[producerInfo]} />
+                </BlockProducersMapContainer>
               </BPInfoContainer>
             )}
             <BPInfoContainer>
               <AccountDashboard data={this.props.data} />
             </BPInfoContainer>
             {producerInfo && (
-              <BPInfoContainer>
-                <BlockProducersMap points={[producerInfo]} />
-              </BPInfoContainer>
+              <BlockProducersMapContainer>
+                <BPInfoContainer>
+                  <BlockProducersMap points={[producerInfo]} />
+                </BPInfoContainer>
+              </BlockProducersMapContainer>
             )}
           </Container>
         </Spin>
