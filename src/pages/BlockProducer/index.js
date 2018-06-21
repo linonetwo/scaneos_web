@@ -34,7 +34,6 @@ const Container = styled(Flex)`
   ${breakpoint('desktop')`
     width: 1200px;
   `};
-  background-color: rgb(250, 250, 250);
 `;
 const BPInfoContainer = styled.div`
   height: min-content;
@@ -45,7 +44,7 @@ const BPInfoContainer = styled.div`
   width: 90vw;
   margin: 15px auto 0;
   ${breakpoint('desktop')`
-    width: calc((1200px - 24px) / 2);
+    width: 1200px;
     margin: 24px 0 0;
   `};
 `;
@@ -59,7 +58,7 @@ const DetailFieldContainer = styled(Flex)`
   float: left;
   width: calc(90vw - 20px * 2 - 24px);
   ${breakpoint('desktop')`
-    width: calc((((1200px - 24px) / 2) - 20px * 2) / 3);
+    width: calc((1200px - 20px * 2) / 3);
   `};
   padding: 20px;
   span {
