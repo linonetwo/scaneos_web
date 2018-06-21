@@ -16,6 +16,7 @@ import { getBreadcrumb } from '../../components/Layout';
 import type { AccountData } from '../../store/account';
 import getListValueRendering from '../../components/getListValueRendering';
 import Loading from '../../components/Loading';
+import AccountDashboard from '../Account/AccountDashboard';
 
 const BlockProducersMap = Loadable({
   loader: () =>
@@ -85,7 +86,7 @@ class BlockProducer extends PureComponent<Props & Store, *> {
       <Fragment>
         {getBreadcrumb('producer', t)}
         <Spin tip="Connecting" spinning={loading} size="large">
-          <Container>
+          <Container justifyBetween wrap="true">
             {producerInfo && (
               <BPInfoContainer>
                 <Title justifyBetween alignCenter>
@@ -125,6 +126,13 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                     </DetailFieldContainer>
                   )}
                 </DetailContainer>
+              </BPInfoContainer>
+            )}
+            <BPInfoContainer>
+              <AccountDashboard data={this.props.data} />
+            </BPInfoContainer>
+            {producerInfo && (
+              <BPInfoContainer>
                 <BlockProducersMap points={[producerInfo]} />
               </BPInfoContainer>
             )}

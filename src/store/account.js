@@ -57,7 +57,7 @@ export type AccountData = {
   privileged: boolean,
   lastCodeUpdate: string,
   created: string,
-  coreLiquidBalance: string | number,
+  coreLiquidBalance?: string | number,
   ramQuota: number,
   netWeight: string | number,
   cpuWeight: string | number,
@@ -66,9 +66,9 @@ export type AccountData = {
   ramUsage: number,
   permissions: Permissions[],
   totalResources: TotalResources,
-  selfDelegatedBandwidth: SelfDelegatedBandwidth,
+  selfDelegatedBandwidth: SelfDelegatedBandwidth | null,
   refundRequest: string | null,
-  voterInfo: VoterInfo,
+  voterInfo: VoterInfo | null,
 };
 
 export type CreatedAccountData = {
@@ -271,10 +271,10 @@ export default (initialState?: Object = {}) => ({
         const producerInfo = find(blockProducersList, { account: data.accountName });
         if (size(producerInfo) > 0) {
           this.initProducerInfo(producerInfo);
-          history.replace(`/producer/${accountName}`) ;
+          history.replace(`/producer/${accountName}`, { isFromEffect: true }) ;
         } else {
           this.initProducerInfo(null);
-          history.replace(`/account/${accountName}`);
+          history.replace(`/account/${accountName}`, { isFromEffect: true });
         }
       } catch (error) {
         console.error(error);

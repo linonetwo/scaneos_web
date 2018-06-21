@@ -11,6 +11,7 @@ import { getBreadcrumb } from '../../components/Layout';
 import type { AccountData } from '../../store/account';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
+import AccountDashboard from './AccountDashboard';
 
 type Props = {
   t: Function,
@@ -77,25 +78,7 @@ class Account extends PureComponent<Props & Store, *> {
                 }
                 key="2"
               >
-                <LongListContainer column>
-                  <Table
-                    scroll={{ x: 1000 }}
-                    size="middle"
-                    pagination={false}
-                    dataSource={[
-                      { field: 'tokenBalance', value: this.props.data.tokenBalance, key: 'tokenBalance' },
-                      ...toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field })),
-                    ]}
-                  >
-                    <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                    <Table.Column
-                      title={this.props.t('value')}
-                      dataIndex="value"
-                      key="value"
-                      render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
-                    />
-                  </Table>
-                </LongListContainer>
+                <LongListContainer><AccountDashboard data={this.props.data} /></LongListContainer>
               </Tabs.TabPane>
 
               <Tabs.TabPane
