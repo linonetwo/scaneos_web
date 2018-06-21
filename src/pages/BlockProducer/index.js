@@ -96,7 +96,6 @@ class BlockProducer extends PureComponent<Props & Store, *> {
     const { t, loading, producerInfo } = this.props;
     return (
       <Fragment>
-        {getBreadcrumb('producer', t)}
         <Spin tip="Connecting" spinning={loading} size="large">
           <Container justifyBetween wrap="true">
             {producerInfo && (
