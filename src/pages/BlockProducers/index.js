@@ -7,7 +7,7 @@ import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Table } from 'antd';
+import { Table, Spin } from 'antd';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { frontloadConnect } from 'react-frontload';
@@ -57,6 +57,7 @@ type Props = {
 type Store = {
   producerAccountList: BPAccount[],
   totalProducerVoteWeight: number,
+  loading: boolean,
 };
 type Dispatch = {
   getBPAccountsList: () => void,
@@ -72,100 +73,103 @@ class BlockProducers extends PureComponent<Props & Store, *> {
     // }).filter(({ name }) => !name).map(({ account, homepage }) => `账号： ${account} 网址： ${homepage}`).join('\n'))
     return (
       <Container column>
-        <ProducerListContainer>
-          <Table
-            size="small"
-            dataSource={this.props.producerAccountList.map(({ url, ...rest }, index) => {
-              const hostName = url.match(reURLInformation)?.[3];
-              const details = hostName ? blockProducersByUrl[hostName] : {};
-              return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
-            })}
-            pagination={{
-              pageSize: 512,
-              current: Number(queryString.parse(this.props.location.search).page),
-            }}
-            scroll={{ x: 1000 }}
-            onChange={pagination => {
-              this.props.updateURI({ page: pagination.current });
-            }}
-          >
-            <Table.Column width={35} dataIndex="key" key="key" />
-            <Table.Column
-              title={this.props.t('name')}
-              dataIndex="name"
-              key="name"
-              render={(name, { account }) =>
-                name ? (
-                  <Link to={`/account/${account}`}>{name}</Link>
-                ) : (
-                  <Link to={`/account/${account}`}>{toUpper(account)}</Link>
-                )
-              }
-            />
-            <Table.Column
-              title={this.props.t('EOSVotes')}
-              dataIndex="totalVotes"
-              key="totalVotes"
-              render={voteCount => (
-                <span>
-                  {toUpper(numeral(voteCount).format('(0,0a)'))}
-                  <strong>
-                    {this.props.totalProducerVoteWeight > 0
-                      ? ` (${numeral(Number(voteCount) / this.props.totalProducerVoteWeight).format('0.00%')})`
-                      : ''}
-                  </strong>
-                </span>
-              )}
-            />
-            <Table.Column
-              title={this.props.t('account')}
-              dataIndex="account"
-              key="account"
-              render={account => <Link to={`/account/${account}`}>{account}</Link>}
-            />
-            <Table.Column
-              title={this.props.t('country')}
-              dataIndex="location"
-              filters={[
-                {
-                  text: this.props.t('China'),
-                  value: 'China',
-                },
-                {
-                  text: this.props.t('Asia'),
-                  value: 'Asia',
-                },
-                {
-                  text: this.props.t('America'),
-                  value: 'America',
-                },
-                {
-                  text: this.props.t('Europe'),
-                  value: 'Europe',
-                },
-                {
-                  text: this.props.t('Oceania'),
-                  value: 'Oceania',
-                },
-                {
-                  text: this.props.t('Africa'),
-                  value: 'Africa',
-                },
-              ]}
-              onFilter={(area, record) =>
-                (record.location && String(record.location).indexOf(area) !== -1) ||
-                locationBelongsToArea(String(record.location), area)
-              }
-            />
-            <Table.Column title={this.props.t('homepage')} dataIndex="homepage" />
-          </Table>
-        </ProducerListContainer>
+        <Spin tip="Connecting" spinning={this.props.loading} size="large">
+          <ProducerListContainer>
+            <Table
+              size="small"
+              dataSource={this.props.producerAccountList.map(({ url, ...rest }, index) => {
+                const hostName = url.match(reURLInformation)?.[3];
+                const details = hostName ? blockProducersByUrl[hostName] : {};
+                return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
+              })}
+              pagination={{
+                pageSize: 512,
+                current: Number(queryString.parse(this.props.location.search).page),
+              }}
+              scroll={{ x: 1000 }}
+              onChange={pagination => {
+                this.props.updateURI({ page: pagination.current });
+              }}
+            >
+              <Table.Column width={35} dataIndex="key" key="key" />
+              <Table.Column
+                title={this.props.t('name')}
+                dataIndex="name"
+                key="name"
+                render={(name, { account }) =>
+                  name ? (
+                    <Link to={`/producer/${account}`}>{name}</Link>
+                  ) : (
+                    <Link to={`/producer/${account}`}>{toUpper(account)}</Link>
+                  )
+                }
+              />
+              <Table.Column
+                title={this.props.t('EOSVotes')}
+                dataIndex="totalVotes"
+                key="totalVotes"
+                render={voteCount => (
+                  <span>
+                    {toUpper(numeral(voteCount).format('(0,0a)'))}
+                    <strong>
+                      {this.props.totalProducerVoteWeight > 0
+                        ? ` (${numeral(Number(voteCount) / this.props.totalProducerVoteWeight).format('0.00%')})`
+                        : ''}
+                    </strong>
+                  </span>
+                )}
+              />
+              <Table.Column
+                title={this.props.t('account')}
+                dataIndex="account"
+                key="account"
+                render={account => <Link to={`/producer/${account}`}>{account}</Link>}
+              />
+              <Table.Column
+                title={this.props.t('country')}
+                dataIndex="location"
+                filters={[
+                  {
+                    text: this.props.t('China'),
+                    value: 'China',
+                  },
+                  {
+                    text: this.props.t('Asia'),
+                    value: 'Asia',
+                  },
+                  {
+                    text: this.props.t('America'),
+                    value: 'America',
+                  },
+                  {
+                    text: this.props.t('Europe'),
+                    value: 'Europe',
+                  },
+                  {
+                    text: this.props.t('Oceania'),
+                    value: 'Oceania',
+                  },
+                  {
+                    text: this.props.t('Africa'),
+                    value: 'Africa',
+                  },
+                ]}
+                onFilter={(area, record) =>
+                  (record.location && String(record.location).indexOf(area) !== -1) ||
+                  locationBelongsToArea(String(record.location), area)
+                }
+              />
+              <Table.Column title={this.props.t('homepage')} dataIndex="homepage" />
+            </Table>
+          </ProducerListContainer>
+        </Spin>
       </Container>
     );
   }
 }
 
-const mapState = ({ account: { producerAccountList }, aggregation: { totalProducerVoteWeight } }): Store => ({
+const mapState = ({ account: { producerAccountList, loading }, aggregation: { totalProducerVoteWeight } }): Store => ({
+  loading,
   producerAccountList,
   totalProducerVoteWeight,
 });

@@ -57,9 +57,9 @@ function BPList(props: Props & Store) {
             key="name"
             render={(name, { account }) =>
               name ? (
-                <Link to={`/account/${account}`}>{name}</Link>
+                <Link to={`/producer/${account}`}>{name}</Link>
               ) : (
-                <Link to={`/account/${account}`}>{toUpper(account)}</Link>
+                <Link to={`/producer/${account}`}>{toUpper(account)}</Link>
               )
             }
           />
@@ -79,7 +79,7 @@ function BPList(props: Props & Store) {
             title={t('account')}
             dataIndex="account"
             key="account"
-            render={account => <Link to={`/account/${account}`}>{account}</Link>}
+            render={account => <Link to={`/producer/${account}`}>{account}</Link>}
           />
         </Table>
       </ListContainer>

@@ -251,6 +251,7 @@ export default (initialState?: Object = {}) => ({
     async getAccountData(accountName: string) {
       const {
         store: { dispatch },
+        history,
       } = await import('./');
       dispatch.info.toggleLoading();
       dispatch.account.toggleLoading();
@@ -270,8 +271,10 @@ export default (initialState?: Object = {}) => ({
         const producerInfo = find(blockProducersList, { account: data.accountName });
         if (size(producerInfo) > 0) {
           this.initProducerInfo(producerInfo);
+          history.replace(`/producer/${accountName}`) ;
         } else {
           this.initProducerInfo(null);
+          history.replace(`/account/${accountName}`);
         }
       } catch (error) {
         console.error(error);

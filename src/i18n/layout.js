@@ -20,6 +20,8 @@ export const zh = {
   Uncles: '叔块',
   Accounts: '账户列表',
   Account: '账户',
+  Producers: '超级节点列表',
+  Producer: '超级节点',
   Actions: '消息列表',
   Transactions: '交易列表',
   Action: '消息',
