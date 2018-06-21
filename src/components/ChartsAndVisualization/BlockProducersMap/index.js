@@ -5,7 +5,6 @@ import Flex from 'styled-flex-component';
 import { translate } from 'react-i18next';
 import MapGL, { Marker, Popup, NavigationControl } from 'react-map-gl';
 
-import blockProducersList from '../../../pages/BlockProducers/blockProducersList';
 import { MAPBOX_TOKEN } from '../../../API.config';
 
 const MapContainer = styled(Flex)`
@@ -22,14 +21,10 @@ type Props = {
   width?: number,
   height?: number,
   t: Function,
-  location: Object,
-};
-type Store = {};
-type Dispatch = {
-  updateURI: (queryOverride?: Object) => void,
+  points: Object[],
 };
 
-class BlockProducersMap extends Component<Props & Store & Dispatch, *> {
+class BlockProducersMap extends Component<Props, *> {
   state = {
     viewport: {
       latitude: 37.785164,
@@ -42,7 +37,19 @@ class BlockProducersMap extends Component<Props & Store & Dispatch, *> {
     },
     popupInfo: null,
   };
-
+  static getDerivedStateFromProps(nextProps: Props, prevState) {
+    if (nextProps.points.length > 0) {
+      return {
+        ...prevState,
+        viewport: {
+          ...prevState.viewport,
+          latitude: nextProps.points[0].latitude,
+          longitude: nextProps.points[0].longitude,
+        },
+      };
+    }
+    return null;
+  }
   /* eslint-disable no-undef */
   componentDidMount() {
     if (typeof window !== 'undefined') window.addEventListener('resize', this.onResize);
@@ -55,7 +62,7 @@ class BlockProducersMap extends Component<Props & Store & Dispatch, *> {
     let width = 0;
     let height = 400;
     if (typeof window !== 'undefined') {
-      width = window.innerWidth * 0.9;
+      width = window.innerWidth >= 1200 ? (1200 - 24) / 2 - 20 * 2 : window.innerWidth * 0.9;
       height = window.innerHeight * 0.9 - 180;
     }
     /* eslint-disable no-undef */
@@ -96,14 +103,6 @@ class BlockProducersMap extends Component<Props & Store & Dispatch, *> {
       <div>
         {this.props.t('location')}: {info.location || ''}
       </div>
-      <div>
-        {this.props.t('prerequisites')}: {info.prerequisites || ''}
-      </div>
-      {info.homepage && (
-        <a href={info.homepage} target="_black" rel="noopener noreferrer">
-          {info.homepage}
-        </a>
-      )}
       {info.image && <img width={240} src={info.image} alt={info.name} />}
     </Flex>
   );
@@ -134,7 +133,7 @@ class BlockProducersMap extends Component<Props & Store & Dispatch, *> {
           onViewportChange={viewport => this.setState({ viewport })}
           mapboxApiAccessToken={MAPBOX_TOKEN}
         >
-          {Object.values(blockProducersList).map(this.renderCityMarker)}
+          {Object.values(this.props.points).map(this.renderCityMarker)}
           {this.renderPopup()}
           <MapNav className="nav">
             <NavigationControl onViewportChange={viewport => this.setState({ viewport })} />

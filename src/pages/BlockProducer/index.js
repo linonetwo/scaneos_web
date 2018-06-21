@@ -1,16 +1,68 @@
 // @flow
-import { toPairs } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
-import { Spin, Table, Tabs, Icon } from 'antd';
+import styled from 'styled-components';
+import Flex from 'styled-flex-component';
+import breakpoint from 'styled-components-breakpoint';
+import { Spin, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { frontloadConnect } from 'react-frontload';
+import AutoLinkText from 'react-autolink-text2';
+import Loadable from 'react-loadable';
 
+import { Title } from '../Home/styles';
 import { getBreadcrumb } from '../../components/Layout';
 import type { AccountData } from '../../store/account';
-import { LongListContainer, DetailTabsContainer } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
+import Loading from '../../components/Loading';
+
+const BlockProducersMap = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "BlockProducersMap" */ '../../components/ChartsAndVisualization/BlockProducersMap'),
+  loading: Loading,
+  modules: ['BlockProducersMap'],
+});
+
+const Container = styled(Flex)`
+  min-height: calc(100vh - 64px);
+  padding-bottom: 50px;
+  margin: auto;
+  width: 90vw;
+  ${breakpoint('desktop')`
+    width: 1200px;
+  `};
+  background-color: rgb(250, 250, 250);
+`;
+const BPInfoContainer = styled.div`
+  background-color: white;
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
+  padding: 20px;
+
+  width: 90vw;
+  margin: 15px auto 0;
+  ${breakpoint('desktop')`
+    width: calc((1200px - 24px) / 2);
+    margin: 24px 0 0;
+  `};
+`;
+const IntroContainer = styled.div`
+  padding: 20px;
+  border-bottom: 1px solid #eeeeee;
+  color: #333;
+`;
+const DetailContainer = styled.div``;
+const DetailFieldContainer = styled(Flex)`
+  float: left;
+  width: calc(90vw / 3);
+  ${breakpoint('desktop')`
+    width: calc((((1200px - 24px) / 2) - 20px * 2) / 3);
+  `};
+  padding: 20px;
+  span {
+    color: #333;
+  }
+`;
 
 type Props = {
   t: Function,
@@ -28,91 +80,55 @@ class BlockProducer extends PureComponent<Props & Store, *> {
   state = {};
 
   render() {
+    const { t, loading, producerInfo } = this.props;
     return (
       <Fragment>
-        {getBreadcrumb('producer', this.props.t)}
-        <Spin tip="Connecting" spinning={this.props.loading} size="large">
-          <DetailTabsContainer>
-            <Tabs defaultActiveKey="2">
-              {this.props.producerInfo && (
-                <Tabs.TabPane
-                  tab={
-                    <span>
-                      <Icon type="solution" />
-                      {this.props.t('BlockProducer')}
-                    </span>
-                  }
-                  key="1"
-                >
-                  <LongListContainer column>
-                    <small>{this.props.t('bp:bpcontactus')}</small>
-                    <Table
-                      scroll={{ x: 1000 }}
-                      size="middle"
-                      pagination={false}
-                      dataSource={toPairs(this.props.producerInfo).map(([field, value]) => ({
-                        field,
-                        value,
-                        key: field,
-                      }))}
-                    >
-                      <Table.Column
-                        width={200}
-                        dataIndex="field"
-                        key="field"
-                        render={str => this.props.t(`bp:${str}`)}
-                      />
-                      <Table.Column dataIndex="value" key="value" />
-                    </Table>
-                  </LongListContainer>
-                </Tabs.TabPane>
-              )}
-
-              <Tabs.TabPane
-                tab={
+        {getBreadcrumb('producer', t)}
+        <Spin tip="Connecting" spinning={loading} size="large">
+          <Container>
+            {producerInfo && (
+              <BPInfoContainer>
+                <Title justifyBetween alignCenter>
                   <span>
-                    <Icon type="database" />
-                    {this.props.t('Overview')}
+                    <Icon type="solution" /> {t('BlockProducers')}{' '}
+                    <a href={producerInfo.homepage} target="_black" rel="noopener noreferrer">
+                      {producerInfo.name}
+                    </a>
                   </span>
-                }
-                key="2"
-              >
-                <LongListContainer column>
-                  <Table
-                    scroll={{ x: 1000 }}
-                    size="middle"
-                    pagination={false}
-                    dataSource={[
-                      { field: 'tokenBalance', value: this.props.data.tokenBalance, key: 'tokenBalance' },
-                      ...toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field })),
-                    ]}
-                  >
-                    <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                    <Table.Column
-                      title={this.props.t('value')}
-                      dataIndex="value"
-                      key="value"
-                      render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
-                    />
-                  </Table>
-                </LongListContainer>
-              </Tabs.TabPane>
-
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="file-text" />
-                    {this.props.t('Raw')}
-                  </span>
-                }
-                key="3"
-              >
-                <pre>
-                  <code>{JSON.stringify(this.props.data, null, '  ')}</code>
-                </pre>
-              </Tabs.TabPane>
-            </Tabs>
-          </DetailTabsContainer>
+                </Title>
+                <IntroContainer>
+                  <article>{producerInfo.introduction || ''}</article>
+                </IntroContainer>
+                <DetailContainer>
+                  {producerInfo.contact && (
+                    <DetailFieldContainer column>
+                      <h3>{t('contact')}</h3>
+                      {producerInfo.contact.split('\n').map(text => <AutoLinkText text={text} />)}
+                    </DetailFieldContainer>
+                  )}
+                  {producerInfo.location && (
+                    <DetailFieldContainer column>
+                      <h3>{t('location')}</h3>
+                      <span>{producerInfo.location}</span>
+                    </DetailFieldContainer>
+                  )}
+                  {producerInfo.nodeLocation && (
+                    <DetailFieldContainer column>
+                      <h3>{t('nodeLocation')}</h3>
+                      <span>{producerInfo.nodeLocation}</span>
+                    </DetailFieldContainer>
+                  )}
+                  {producerInfo.server && (
+                    <DetailFieldContainer column>
+                      <h3>{t('server')}</h3>
+                      <span>{producerInfo.server}</span>
+                    </DetailFieldContainer>
+                  )}
+                </DetailContainer>
+                <BlockProducersMap points={[producerInfo]} />
+              </BPInfoContainer>
+            )}
+          </Container>
         </Spin>
       </Fragment>
     );
@@ -135,7 +151,7 @@ const frontload = async (props: LoaderProps) => {
 };
 
 export default withRouter(
-  translate('account')(
+  translate('bp')(
     connect(
       mapState,
       mapDispatch,
