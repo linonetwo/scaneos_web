@@ -49,7 +49,7 @@ const BPInfoContainer = styled.div`
   `};
 `;
 const IntroContainer = styled.div`
-  padding: 20px;
+  padding: 20px 0;
   border-bottom: 1px solid #eeeeee;
   color: #333;
 `;
@@ -60,7 +60,7 @@ const DetailFieldContainer = styled(Flex)`
   ${breakpoint('desktop')`
     width: calc((1200px - 20px * 2) / 3);
   `};
-  padding: 20px;
+  padding: 20px 0;
   span {
     color: #333;
   }
