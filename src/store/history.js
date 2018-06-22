@@ -143,7 +143,7 @@ export async function followURI(location: { pathname: string, search?: string, s
           .replace('/', ''),
       );
     }
-    if (/\/producer\//g.test(location.pathname) && !(size(state.account.producerInfo) > 0)) {
+    if (/\/producer\//g.test(location.pathname) && !state.account.loading && !(size(state.account.producerInfo) > 0)) {
       return dispatch.account.getAccountData(
         location.pathname
           .split('/producer/')

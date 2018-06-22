@@ -195,7 +195,7 @@ type LoaderProps = Dispatch & {
   },
 };
 const frontload = async (props: LoaderProps & Store) => {
-  if (!(size(props.producerInfo) > 0)) {
+  if (!props.loading && !(size(props.producerInfo) > 0)) {
     const currentAccountName = String(props.match.params.accountId);
     return props.getAccountData(currentAccountName);
   }
