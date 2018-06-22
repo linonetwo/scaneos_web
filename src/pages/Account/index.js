@@ -10,7 +10,6 @@ import { frontloadConnect } from 'react-frontload';
 import { getBreadcrumb } from '../../components/Layout';
 import type { AccountData } from '../../store/account';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
-import getListValueRendering from '../../components/getListValueRendering';
 import AccountDashboard from './AccountDashboard';
 
 type Props = {
@@ -29,29 +28,30 @@ class Account extends PureComponent<Props & Store, *> {
   state = {};
 
   render() {
+    const { t, loading, data, producerInfo } = this.props;
     return (
       <Fragment>
-        {getBreadcrumb('account', this.props.t)}
-        <Spin tip="Connecting" spinning={this.props.loading} size="large">
+        {getBreadcrumb('account', t)}
+        <Spin tip="Connecting" spinning={loading} size="large">
           <DetailTabsContainer>
             <Tabs defaultActiveKey="2">
-              {this.props.producerInfo && (
+              {producerInfo && (
                 <Tabs.TabPane
                   tab={
                     <span>
                       <Icon type="solution" />
-                      {this.props.t('BlockProducer')}
+                      {t('BlockProducer')}
                     </span>
                   }
                   key="1"
                 >
                   <LongListContainer column>
-                    <small>{this.props.t('bp:bpcontactus')}</small>
+                    <small>{t('bp:bpcontactus')}</small>
                     <Table
                       scroll={{ x: 1000 }}
                       size="middle"
                       pagination={false}
-                      dataSource={toPairs(this.props.producerInfo).map(([field, value]) => ({
+                      dataSource={toPairs(producerInfo).map(([field, value]) => ({
                         field,
                         value,
                         key: field,
@@ -61,7 +61,7 @@ class Account extends PureComponent<Props & Store, *> {
                         width={200}
                         dataIndex="field"
                         key="field"
-                        render={str => this.props.t(`bp:${str}`)}
+                        render={str => t(`bp:${str}`)}
                       />
                       <Table.Column dataIndex="value" key="value" />
                     </Table>
@@ -73,25 +73,25 @@ class Account extends PureComponent<Props & Store, *> {
                 tab={
                   <span>
                     <Icon type="database" />
-                    {this.props.t('Overview')}
+                    {t('Overview')}
                   </span>
                 }
                 key="2"
               >
-                <LongListContainer><AccountDashboard data={this.props.data} /></LongListContainer>
+                <LongListContainer><AccountDashboard data={data} /></LongListContainer>
               </Tabs.TabPane>
 
               <Tabs.TabPane
                 tab={
                   <span>
                     <Icon type="file-text" />
-                    {this.props.t('Raw')}
+                    {t('Raw')}
                   </span>
                 }
                 key="3"
               >
                 <pre>
-                  <code>{JSON.stringify(this.props.data, null, '  ')}</code>
+                  <code>{JSON.stringify(data, null, '  ')}</code>
                 </pre>
               </Tabs.TabPane>
             </Tabs>
@@ -112,10 +112,10 @@ type LoaderProps = Dispatch & {
     },
   },
 };
-const frontload = async (props: LoaderProps) => {
-  if (!props.loading && !props.loading && !props.data.accountName) {
-    const currentAccountName = String(props.match.params.accountId);
-    return props.getAccountData(currentAccountName);
+const frontload = async ({ loading, data, getAccountData, match }: Store & LoaderProps) => {
+  if (!loading && !loading && !data.accountName) {
+    const currentAccountName = String(match.params.accountId);
+    return getAccountData(currentAccountName);
   }
   return Promise.resolve();
 };

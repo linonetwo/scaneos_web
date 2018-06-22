@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { frontloadConnect } from 'react-frontload';
 
 import { ProducerListContainer } from '../../components/Table';
-import { locationBelongsToArea, reURLInformation } from '../../store/utils';
+import { locationBelongsToArea } from '../../store/utils';
 import type { BPAccount } from '../../store/account';
 
 const Container = styled(Flex)`
@@ -61,6 +61,7 @@ type Store = {
 };
 type Dispatch = {
   getBPAccountsList: () => void,
+  getBPInfoList: () => void,
   getVoting: () => void,
 };
 
@@ -123,37 +124,37 @@ class BlockProducers extends PureComponent<Props & Store, *> {
                 )}
               />
               <Table.Column
-                title={this.props.t('account')}
+                title={t('account')}
                 dataIndex="account"
                 key="account"
                 render={account => <Link to={`/producer/${account}`}>{account}</Link>}
               />
               <Table.Column
-                title={this.props.t('country')}
+                title={t('country')}
                 dataIndex="location"
                 filters={[
                   {
-                    text: this.props.t('China'),
+                    text: t('China'),
                     value: 'China',
                   },
                   {
-                    text: this.props.t('Asia'),
+                    text: t('Asia'),
                     value: 'Asia',
                   },
                   {
-                    text: this.props.t('America'),
+                    text: t('America'),
                     value: 'America',
                   },
                   {
-                    text: this.props.t('Europe'),
+                    text: t('Europe'),
                     value: 'Europe',
                   },
                   {
-                    text: this.props.t('Oceania'),
+                    text: t('Oceania'),
                     value: 'Oceania',
                   },
                   {
-                    text: this.props.t('Africa'),
+                    text: t('Africa'),
                     value: 'Africa',
                   },
                 ]}
@@ -162,7 +163,7 @@ class BlockProducers extends PureComponent<Props & Store, *> {
                   locationBelongsToArea(String(record.location), area)
                 }
               />
-              <Table.Column title={this.props.t('homepage')} dataIndex="homepage" />
+              <Table.Column title={t('homepage')} dataIndex="homepage" />
             </Table>
           </ProducerListContainer>
         </Spin>
@@ -190,10 +191,16 @@ const mapDispatch = ({
   getBPInfoList,
   getVoting,
 });
-const frontload = (props: Dispatch & Store) =>
+const frontload = ({
+  producerAccountList,
+  totalProducerVoteWeight,
+  getBPAccountsList,
+  getBPInfoList,
+  getVoting,
+}: Dispatch & Store) =>
   Promise.all([
-    ...(props.producerAccountList.length === 0 ? [props.getBPAccountsList(), props.getBPInfoList()] : []),
-    props.totalProducerVoteWeight === 0 && props.getVoting(),
+    ...(producerAccountList.length === 0 ? [getBPAccountsList(), getBPInfoList()] : []),
+    totalProducerVoteWeight === 0 && getVoting(),
   ]);
 
 export default translate('bp')(
