@@ -1,5 +1,5 @@
 // @flow
-import { map } from 'lodash';
+import { map, size } from 'lodash';
 import queryString from 'query-string';
 
 import { blockChainPaths, blockChainDetailPaths, tokenPaths, tokenDetailPaths, miscPaths } from '../components/Layout';
@@ -137,6 +137,14 @@ export async function followURI(location: { pathname: string, search?: string, s
       return dispatch.account.getAccountData(
         location.pathname
           .split('/account/')
+          .pop()
+          .replace('/', ''),
+      );
+    }
+    if (/\/producer\//g.test(location.pathname) && !size(state.account.producerInfo) > 0) {
+      return dispatch.account.getAccountData(
+        location.pathname
+          .split('/producer/')
           .pop()
           .replace('/', ''),
       );

@@ -1,4 +1,5 @@
 // @flow
+import { size } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -13,7 +14,6 @@ import AutoLinkText from 'react-autolink-text2';
 import Loadable from 'react-loadable';
 
 import { Title } from '../Home/styles';
-import { getBreadcrumb } from '../../components/Layout';
 import type { AccountData } from '../../store/account';
 import getListValueRendering from '../../components/getListValueRendering';
 import Loading from '../../components/Loading';
@@ -169,9 +169,12 @@ type LoaderProps = Dispatch & {
     },
   },
 };
-const frontload = async (props: LoaderProps) => {
-  const currentAccountName = String(props.match.params.accountId);
-  return props.getAccountData(currentAccountName);
+const frontload = async (props: LoaderProps & Store) => {
+  if (!(size(props.producerInfo) > 0)) {
+    const currentAccountName = String(props.match.params.accountId);
+    return props.getAccountData(currentAccountName);
+  }
+  return Promise.resolve();
 };
 
 export default withRouter(
