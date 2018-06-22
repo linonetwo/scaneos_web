@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
-import { List, Icon, Input } from 'antd';
+import { Table, Icon, Input, Spin } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
@@ -42,6 +42,7 @@ class NameBidingList extends PureComponent<Props & Store, *> {
   state = {
     keyWord: '',
   };
+
   render() {
     const { loading, t, nameBidingSearchResult } = this.props;
     let { list } = this.props;
@@ -51,58 +52,68 @@ class NameBidingList extends PureComponent<Props & Store, *> {
         this.state.keyWord.length > 0 &&
         this.state.keyWord === nameBidingSearchResult[0].newName
           ? nameBidingSearchResult
-          : [t('notInBiding')]),
+          : [{ newName: this.state.keyWord, highBidder: t('notInBiding') }]),
         ...list,
       ];
     }
     return (
-      <ListContainer large>
-        <Title justifyBetween alignCenter>
-          <span>
-            <Icon type="database" /> {t('Biding')}
-          </span>
-          <Link to="/bidings/">
-            <ViewAll>{t('ViewAll')}</ViewAll>
-          </Link>
-        </Title>
-        <SearchContainer>
-          <Input.Search
-            size="small"
-            placeholder={t('tryName')}
-            onSearch={name => {
-              this.props.searchIfNameIsInBiding(name);
-              this.setState({ keyWord: name });
+      <Spin tip="Connecting" spinning={loading} size="large">
+        <ListContainer large>
+          <Title justifyBetween alignCenter>
+            <span>
+              <Icon type="database" /> {t('Biding')}
+            </span>
+            <Link to="/bidings/">
+              <ViewAll>{t('ViewAll')}</ViewAll>
+            </Link>
+          </Title>
+
+          <SearchContainer>
+            <Input.Search
+              size="small"
+              placeholder={t('tryName')}
+              onSearch={name => {
+                this.props.searchIfNameIsInBiding(name);
+                this.setState({ keyWord: name });
+              }}
+            />
+          </SearchContainer>
+
+          <Table
+            pagination={{
+              pageSize: 21,
             }}
-          />
-        </SearchContainer>
-        <List
-          size="small"
-          loading={loading}
-          itemLayout="vertical"
-          dataSource={take(list, 8)}
-          renderItem={(item: NameBidingData | string) =>
-            typeof item === 'string' ? (
-              <List.Item>
-                <ActionPreview>{item}</ActionPreview>
-                <ActionPreview>{'　'}</ActionPreview>
-                <ActionPreview>{'　'}</ActionPreview>
-              </List.Item>
-            ) : (
-              <List.Item>
-                <ActionPreview style={{ fontSize: 14, marginBottom: -2 }}>
-                  <Link to={`/biding/${item.newName}/`}>{item.newName}</Link>
-                </ActionPreview>
-                <ActionPreview>
-                  <Link to={`/account/${item.highBidder}/`}>
-                    {item.highBidder} {t('offerBid')} {item.highBid}EOS
-                  </Link>
-                </ActionPreview>
-                <ActionPreview>{formatTimeStamp(item.lastBidTime, t('locale'), { distance: false })}</ActionPreview>
-              </List.Item>
-            )
-          }
-        />
-      </ListContainer>
+            size="small"
+            dataSource={take(list, 20)}
+            scroll={{ x: 450 }}
+          >
+            <Table.Column
+              title={t('newName')}
+              dataIndex="newName"
+              key="newName"
+              render={newName => <Link to={`/biding/${newName}/`}>{newName}</Link>}
+            />
+            <Table.Column
+              title={t('highBidder')}
+              dataIndex="highBidder"
+              key="highBidder"
+              render={highBidder => <Link to={`/account/${highBidder}/`}>{highBidder}</Link>}
+            />
+            <Table.Column
+              title={t('offerBid')}
+              dataIndex="highBid"
+              key="highBid"
+              render={highBid => <span>{highBid}EOS</span>}
+            />
+            <Table.Column
+              title={t('lastBidTime')}
+              dataIndex="lastBidTime"
+              key="lastBidTime"
+              render={lastBidTime => formatTimeStamp(lastBidTime, t('locale'), { distance: false })}
+            />
+          </Table>
+        </ListContainer>
+      </Spin>
     );
   }
 }
