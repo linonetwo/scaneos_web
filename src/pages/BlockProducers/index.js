@@ -66,29 +66,31 @@ type Dispatch = {
 
 class BlockProducers extends PureComponent<Props & Store, *> {
   render() {
+    const { totalProducerVoteWeight, producerAccountList, producerInfoList, loading, location } = this.props;
+    const { updateURI, t } = this.props;
     return (
       <Container column>
-        <Spin tip="Connecting" spinning={this.props.loading} size="large">
+        <Spin tip="Connecting" spinning={loading} size="large">
           <ProducerListContainer>
             <Table
               size="small"
-              dataSource={this.props.producerAccountList.map(({ url, ...rest }, index) => {
+              dataSource={producerAccountList.map(({ url, ...rest }, index) => {
                 const account = rest.owner;
-                const details = find(this.props.producerInfoList, { account }) || {};
+                const details = find(producerInfoList, { account }) || {};
                 return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
               })}
               pagination={{
                 pageSize: 512,
-                current: Number(queryString.parse(this.props.location.search).page),
+                current: Number(queryString.parse(location.search).page),
               }}
               scroll={{ x: 1000 }}
               onChange={pagination => {
-                this.props.updateURI({ page: pagination.current });
+                updateURI({ page: pagination.current });
               }}
             >
               <Table.Column width={35} dataIndex="key" key="key" />
               <Table.Column
-                title={this.props.t('name')}
+                title={t('name')}
                 dataIndex="name"
                 key="name"
                 render={(name, { account }) =>
@@ -100,15 +102,21 @@ class BlockProducers extends PureComponent<Props & Store, *> {
                 }
               />
               <Table.Column
-                title={this.props.t('EOSVotes')}
+                title={t('EOSVotes')}
                 dataIndex="totalVotes"
                 key="totalVotes"
-                render={voteCount => (
+                render={totalVotes => (
                   <span>
-                    {toUpper(numeral(voteCount).format('(0,0a)'))}
+                    {toUpper(numeral(totalVotes).format('(0,0a)'))}
                     <strong>
-                      {this.props.totalProducerVoteWeight > 0
-                        ? ` (${numeral(Number(voteCount) / this.props.totalProducerVoteWeight).format('0.00%')})`
+                      {totalProducerVoteWeight > 0
+                        ? ` (${
+                            totalVotes / totalProducerVoteWeight > 0.001
+                              ? numeral(totalVotes)
+                                  .divide(totalProducerVoteWeight)
+                                  .format('0.00%')
+                              : '0%'
+                          })`
                         : ''}
                     </strong>
                   </span>
@@ -163,7 +171,10 @@ class BlockProducers extends PureComponent<Props & Store, *> {
   }
 }
 
-const mapState = ({ account: { producerAccountList, producerInfoList, loading }, aggregation: { totalProducerVoteWeight } }): Store => ({
+const mapState = ({
+  account: { producerAccountList, producerInfoList, loading },
+  aggregation: { totalProducerVoteWeight },
+}): Store => ({
   loading,
   producerAccountList,
   producerInfoList,

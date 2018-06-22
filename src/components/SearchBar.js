@@ -75,7 +75,6 @@ class SearchBar extends Component<Props & Store & Dispatch, State> {
     return (
       <SearchContainer active={this.state.keyWord} affixed={this.props.affixed}>
         <Input.Search
-          size="middle"
           enterButton={this.props.loading ? <Icon type="loading" /> : <Icon type="search" />}
           placeholder={this.props.t('cansearch')}
           value={this.state.keyWord}
