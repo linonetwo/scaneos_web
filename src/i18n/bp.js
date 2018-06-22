@@ -5,6 +5,8 @@ export const zh = {
   account: '账户',
   latitude: '纬度',
   longitude: '经度',
+  slogan: '口号',
+  key: '公钥',
 
   China: '中国',
   Asia: '亚洲',
@@ -31,6 +33,8 @@ export const en = {
   country: 'Location',
   name: 'Name',
   account: 'Account',
+  slogan: 'Slogan',
+  key: 'PublicKey',
 
   China: 'China',
   Asia: 'Asia',
