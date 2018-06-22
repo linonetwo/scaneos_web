@@ -10,7 +10,7 @@ import { frontloadConnect } from 'react-frontload';
 import { getBreadcrumb } from '../../components/Layout';
 import type { AccountData } from '../../store/account';
 import { LongListContainer, DetailTabsContainer } from '../../components/Table';
-import AccountDashboard from './AccountDashboard';
+import AccountDashboard from '../../components/AccountDashboard';
 
 type Props = {
   t: Function,

@@ -16,7 +16,7 @@ import Loadable from 'react-loadable';
 import { Title } from '../Home/styles';
 import type { AccountData } from '../../store/account';
 import Loading from '../../components/Loading';
-import AccountDashboard from '../Account/AccountDashboard';
+import AccountDashboard from '../../components/AccountDashboard';
 
 const BlockProducersMap = Loadable({
   loader: () =>

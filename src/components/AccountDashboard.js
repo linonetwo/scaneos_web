@@ -4,8 +4,8 @@ import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import { translate } from 'react-i18next';
 
-import type { AccountData } from '../../store/account';
-import getListValueRendering from '../../components/getListValueRendering';
+import type { AccountData } from '../store/account';
+import getListValueRendering from './getListValueRendering';
 
 type Props = {
   t: Function,
