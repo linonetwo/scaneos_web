@@ -22,6 +22,7 @@
     "core-js": "^2.5.7",
     "cross-fetch": "^2.2.1",
     "date-fns": "^1.29.0",
+    "directus-sdk-javascript": "^2.11.1",
     "echarts": "^4.1.0",
     "ethereumjs-abi": "^0.6.5",
     "flow-bin": "^0.74.0",
@@ -90,6 +91,7 @@
     "react-cosmos-fetch-proxy": "^4.4.0",
     "react-cosmos-redux-proxy": "^4.4.0",
     "react-cosmos-router-proxy": "^4.5.0",
+    "socks5-node-fetch": "^0.0.4",
     "stats-webpack-plugin": "^0.6.2"
   },
   "browserslist": {
