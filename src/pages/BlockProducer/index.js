@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is, { isNot } from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
-import { Spin, Avatar } from 'antd';
+import { Spin, Avatar, Table } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
@@ -134,6 +134,12 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                     </article>
                   </IntroContainer>
                   <DetailContainer>
+                    {producerInfo.contact && (
+                      <DetailFieldContainer column>
+                        <h3>{t('contact')}</h3>
+                        {producerInfo.contact.split('\n').map(text => <AutoLinkText key={text} text={text} />)}
+                      </DetailFieldContainer>
+                    )}
                     {t('locale') === 'en' &&
                       producerInfo.slogan && (
                         <DetailFieldContainer column>
@@ -148,12 +154,6 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                           <span>{producerInfo.sloganZh}</span>
                         </DetailFieldContainer>
                       )}
-                    {producerInfo.contact && (
-                      <DetailFieldContainer column>
-                        <h3>{t('contact')}</h3>
-                        {producerInfo.contact.split('\n').map(text => <AutoLinkText key={text} text={text} />)}
-                      </DetailFieldContainer>
-                    )}
                     {producerInfo.location && (
                       <DetailFieldContainer column>
                         <h3>{t('location')}</h3>
@@ -167,10 +167,35 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                       </DetailFieldContainer>
                     )}
                   </DetailContainer>
+
                   <BlockProducersMapContainer desktop>
                     <BlockProducersMap points={[producerInfo]} />
                   </BlockProducersMapContainer>
                 </BPInfoContainer>
+                {producerInfo.nodes && (
+                  <BPInfoContainer>
+                    <DetailContainer column>
+                      <h3>{t('nodes')}</h3>
+                      <Table scroll={{ x: 500 }} size="middle" pagination={false} dataSource={producerInfo.nodes}>
+                        <Table.Column
+                          title={t('location')}
+                          dataIndex="location"
+                          key="location"
+                          render={({ name }) => name}
+                        />
+                        <Table.Column
+                          title={t('isProducer')}
+                          dataIndex="isProducer"
+                          key="isProducer"
+                          render={isProducer => t(String(isProducer))}
+                        />
+                        <Table.Column title={t('apiEndpoint')} dataIndex="apiEndpoint" key="apiEndpoint" />
+                        <Table.Column title={t('sslEndpoint')} dataIndex="sslEndpoint" key="sslEndpoint" />
+                        <Table.Column title={t('p2pEndpoint')} dataIndex="p2pEndpoint" key="p2pEndpoint" />
+                      </Table>
+                    </DetailContainer>
+                  </BPInfoContainer>
+                )}
               </Fragment>
             )}
             <BPInfoContainer>

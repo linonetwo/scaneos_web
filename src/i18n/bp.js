@@ -16,8 +16,10 @@ export const zh = {
   Africa: '非洲',
   prerequisites: '条件',
   location: '位置',
-  nodeLocation: '节点位置',
-  server: '服务器配置',
+  nodes: '节点服务器信息',
+  apiEndpoint: 'API地址',
+  sslEndpoint: 'SSL地址',
+  p2pEndpoint: 'P2P地址',
   index: '序号',
   homepage: '主页',
   contact: '联系方式',
@@ -27,6 +29,10 @@ export const zh = {
   EOSVotes: 'EOS投票量',
   MinimumVotesRequired: '主网启动所需最小投票量',
   EOSVotesIntroduction: '每质押 1 EOS 可投出约 373757 票，此数值会随时间变化。',
+
+  isProducer: '是否在出块',
+  true: '是',
+  false: '否',
 };
 
 export const en = {
@@ -35,6 +41,8 @@ export const en = {
   account: 'Account',
   slogan: 'Slogan',
   key: 'PublicKey',
+  nodes: 'Node Server',
+  isProducer: 'Is Producing',
 
   China: 'China',
   Asia: 'Asia',
@@ -44,8 +52,6 @@ export const en = {
   Africa: 'Africa',
   prerequisites: 'Checks',
   location: 'Location',
-  nodeLocation: 'NodeLocation',
-  server: 'Server',
   index: 'Index',
   homepage: 'Home',
   contact: 'Contact',

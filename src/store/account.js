@@ -1,5 +1,6 @@
 // @flow
 import { find, size } from 'lodash';
+import camelize from 'camelize';
 import type { Pagination } from './block';
 import get, { postEOS, getCMS, CMS_BASE } from '../API.config';
 
@@ -283,6 +284,7 @@ export default (initialState?: Object = {}) => ({
             longitude: producerInfo.longitude && Number(producerInfo.longitude),
             image: producerInfo.image && `${CMS_BASE}${producerInfo.image.data.url}`,
             logo: producerInfo.logo && `${CMS_BASE}${producerInfo.logo.data.url}`,
+            nodes: producerInfo.nodes && JSON.parse(camelize(producerInfo.nodes)),
           });
           history.replace(`/producer/${accountName}`, { isFromEffect: true });
         } else {
