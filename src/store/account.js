@@ -113,6 +113,7 @@ export type Store = {
   data: AccountData,
   bidingData: NameBidingData,
   producerInfo: Object | null,
+  producerInfoList: Object[],
   producerAccountList: BPAccount[],
   list: CreatedAccountData[],
   nameBidingList: NameBidingData[],
@@ -198,6 +199,7 @@ export const defaultState = {
   },
   producerInfo: null,
   producerAccountList: [],
+  producerInfoList: [],
   pagination: { current: 0, total: 1 },
 };
 export default (initialState?: Object = {}) => ({
@@ -224,6 +226,10 @@ export default (initialState?: Object = {}) => ({
     },
     initProducerList(state: Store, producerAccountList: BPAccount[]) {
       state.producerAccountList = producerAccountList;
+      return state;
+    },
+    initProducerInfoList(state: Store, producerInfoList: Object[]) {
+      state.producerInfoList = producerInfoList;
       return state;
     },
     initAccountData(state: Store, data: AccountData) {
@@ -268,7 +274,7 @@ export default (initialState?: Object = {}) => ({
         this.initAccountData({ ...data, tokenBalance: balanceData.join(', ') });
 
         // 看看它是不是个 bp
-        const { data: blockProducersList } = await getCMS(`/tables/bp/rows?filters[account][eq]=${accountName}`);
+        const { data: blockProducersList } = await getCMS(`tables/bp/rows?filters[account][eq]=${accountName}`);
         const producerInfo = find(blockProducersList, { account: data.accountName });
         if (size(producerInfo) > 0) {
           this.initProducerInfo({
@@ -296,6 +302,30 @@ export default (initialState?: Object = {}) => ({
       } finally {
         dispatch.account.toggleLoading();
         dispatch.info.toggleLoading();
+      }
+    },
+    async getBPInfoList() {
+      const {
+        store: { dispatch },
+      } = await import('./');
+      dispatch.account.toggleLoading();
+      dispatch.info.toggleLoading();
+      try {
+        const { data } = await getCMS('tables/bp/rows');
+        this.initProducerInfoList(data);
+      } catch (error) {
+        console.error(error);
+        const errorString = error.toString();
+        let notificationString = errorString;
+        if (errorString.match(/^SyntaxError: Unexpected token/)) {
+          notificationString = 'Connection lost, maybe due to some Network error.';
+        } else if (errorString.match(/^TypeError/)) {
+          notificationString = 'Failed to fetch list from server.';
+        }
+        dispatch.info.displayNotification(notificationString);
+      } finally {
+        dispatch.info.toggleLoading();
+        dispatch.account.toggleLoading();
       }
     },
     async getBPAccountsList() {

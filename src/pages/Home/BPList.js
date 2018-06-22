@@ -1,5 +1,5 @@
 // @flow
-import { toUpper } from 'lodash';
+import { toUpper, find } from 'lodash';
 import React from 'react';
 import { Table, Icon, Spin } from 'antd';
 import { connect } from 'react-redux';
@@ -17,15 +17,17 @@ type Props = {
 type Store = {
   loading: boolean,
   producerAccountList: BPAccount[],
+  producerInfoList: Object[],
   totalProducerVoteWeight: number,
 };
 type Dispatch = {
   getBPAccountsList: () => void,
+  getBPInfoList: () => void,
   getVoting: () => void,
 };
 
 function BPList(props: Props & Store) {
-  const { t, loading, producerAccountList, totalProducerVoteWeight } = props;
+  const { t, loading, producerAccountList, producerInfoList, totalProducerVoteWeight } = props;
   return (
     <Spin tip="Connecting" spinning={producerAccountList.length === 0 && loading} size="large">
       <ListContainer large>
@@ -42,11 +44,11 @@ function BPList(props: Props & Store) {
             pageSize: 21,
           }}
           size="small"
-          dataSource={producerAccountList.map(({ url, ...rest }, index) => ({
-            account: rest.owner,
-            ...rest,
-            key: index + 1,
-          }))}
+          dataSource={producerAccountList.map(({ url, ...rest }, index) => {
+            const account = rest.owner;
+            const details = find(producerInfoList, { account }) || {};
+            return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
+          })}
           scroll={{ x: 450 }}
         >
           <Table.Column width={5} title={t('rank')} dataIndex="key" key="key" />
@@ -87,19 +89,21 @@ function BPList(props: Props & Store) {
   );
 }
 
-const mapState = ({ account: { loading, producerAccountList }, aggregation: { totalProducerVoteWeight } }): Store => ({
+const mapState = ({ account: { loading, producerAccountList, producerInfoList }, aggregation: { totalProducerVoteWeight } }): Store => ({
   producerAccountList,
+  producerInfoList,
   totalProducerVoteWeight,
   loading,
 });
-const mapDispatch = ({ account: { getBPAccountsList }, aggregation: { getVoting } }): Dispatch => ({
+const mapDispatch = ({ account: { getBPAccountsList, getBPInfoList }, aggregation: { getVoting } }): Dispatch => ({
   getBPAccountsList,
+  getBPInfoList,
   getVoting,
 });
 
 const frontload = (props: Dispatch & Store) =>
   Promise.all([
-    props.producerAccountList.length === 0 && props.getBPAccountsList(),
+    ...(props.producerAccountList.length === 0 ? [props.getBPAccountsList(), props.getBPInfoList()] : []),
     props.totalProducerVoteWeight === 0 && props.getVoting(),
   ]);
 

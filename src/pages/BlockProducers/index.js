@@ -1,5 +1,5 @@
 // @flow
-import { toUpper } from 'lodash';
+import { toUpper, find } from 'lodash';
 import numeral from 'numeral';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
@@ -55,6 +55,7 @@ type Props = {
 };
 type Store = {
   producerAccountList: BPAccount[],
+  producerInfoList: Object[],
   totalProducerVoteWeight: number,
   loading: boolean,
 };
@@ -72,8 +73,8 @@ class BlockProducers extends PureComponent<Props & Store, *> {
             <Table
               size="small"
               dataSource={this.props.producerAccountList.map(({ url, ...rest }, index) => {
-                const hostName = url.match(reURLInformation)?.[3];
-                const details = hostName ? blockProducersByUrl[hostName] : {};
+                const account = rest.owner;
+                const details = find(this.props.producerInfoList, { account }) || {};
                 return { account: rest.owner, homepage: url, ...rest, ...details, key: index + 1 };
               })}
               pagination={{
@@ -162,23 +163,25 @@ class BlockProducers extends PureComponent<Props & Store, *> {
   }
 }
 
-const mapState = ({ account: { producerAccountList, loading }, aggregation: { totalProducerVoteWeight } }): Store => ({
+const mapState = ({ account: { producerAccountList, producerInfoList, loading }, aggregation: { totalProducerVoteWeight } }): Store => ({
   loading,
   producerAccountList,
+  producerInfoList,
   totalProducerVoteWeight,
 });
 const mapDispatch = ({
   history: { updateURI },
-  account: { getBPAccountsList },
+  account: { getBPAccountsList, getBPInfoList },
   aggregation: { getVoting },
 }): Dispatch => ({
   updateURI,
   getBPAccountsList,
+  getBPInfoList,
   getVoting,
 });
 const frontload = (props: Dispatch & Store) =>
   Promise.all([
-    props.producerAccountList.length === 0 && props.getBPAccountsList(),
+    ...(props.producerAccountList.length === 0 ? [props.getBPAccountsList(), props.getBPInfoList()] : []),
     props.totalProducerVoteWeight === 0 && props.getVoting(),
   ]);
 
