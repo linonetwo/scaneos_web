@@ -12,11 +12,15 @@ export const Title = styled(Flex)`
   & a {
     margin-left: auto;
   }
+  span {
+    white-space: nowrap;
+  }
 `;
 
 export const ListContainer = styled.div`
   width: 90vw;
   margin: 15px auto 0;
+  overflow-y: hidden;
   ${breakpoint('desktop')`
     width: calc((1200px - 24px) / 2);
     margin: 24px 0 0;
@@ -94,6 +98,7 @@ export const ViewAll = styled(Flex)`
   border: 1px solid gray;
   padding: 5px 13px;
   font-size: 12px;
+  white-space: nowrap;
 
   cursor: pointer;
   color: gray;

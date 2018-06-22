@@ -3,6 +3,7 @@ import { take } from 'lodash';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
+import is from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
 import { Table, Icon, Input, Spin } from 'antd';
 import { connect } from 'react-redux';
@@ -13,16 +14,25 @@ import { frontloadConnect } from 'react-frontload';
 import { formatTimeStamp } from '../../store/utils';
 import type { NameBidingData } from '../../store/account';
 
-import { Title, ListContainer, ViewAll, ActionPreview } from './styles';
+import { Title, ListContainer, ViewAll } from './styles';
 
 const SearchContainer = styled(Flex)`
-  padding-top: 10px;
   width: 100%;
+  margin-top: 10px;
   ${breakpoint('desktop')`
+    display: none;
+    margin-top: 0px;
+    margin-left: 20px;
     .ant-input-search {
       width: 260px;
-      margin-right: 10px;
     }
+  `};
+
+  ${is('desktop')`
+    display: none;
+    ${breakpoint('desktop')`
+      display: block;
+    `};
   `};
 `;
 
@@ -63,11 +73,20 @@ class NameBidingList extends PureComponent<Props & Store, *> {
             <span>
               <Icon type="database" /> {t('Biding')}
             </span>
+            <SearchContainer desktop>
+              <Input.Search
+                size="small"
+                placeholder={t('tryName')}
+                onSearch={name => {
+                  this.props.searchIfNameIsInBiding(name);
+                  this.setState({ keyWord: name });
+                }}
+              />
+            </SearchContainer>
             <Link to="/bidings/">
               <ViewAll>{t('ViewAll')}</ViewAll>
             </Link>
           </Title>
-
           <SearchContainer>
             <Input.Search
               size="small"
@@ -84,7 +103,7 @@ class NameBidingList extends PureComponent<Props & Store, *> {
               pageSize: 21,
             }}
             size="small"
-            dataSource={take(list, 20)}
+            dataSource={take(list, 21)}
             scroll={{ x: 450 }}
           >
             <Table.Column
