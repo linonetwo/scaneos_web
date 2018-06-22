@@ -18,7 +18,7 @@ export const postEOS = (path: string, body: Object) =>
 
 export const MAPBOX_TOKEN =
   'pk.eyJ1IjoibGlub25ldHdvMDEyIiwiYSI6ImNqaHhjcHhmcjBhZDkzcXBxejh3a3RrOGUifQ.EOAmFP8NJxRc_iLce8VCVw';
-export const CMS_TOKEN = 'Xkq1omGlsXxyvXfIY87TahqIcyQyhdxY';
+export const CMS_TOKEN = 'aQVetMaDdbxSPORiloeWjNYBgkaIyggs';
 
 export const CMS_BASE = 'https://scaneos.io/cmsapi/';
 export const CMS_API = `${CMS_BASE}api/1.1/`;
@@ -26,6 +26,7 @@ export const CMS_API = `${CMS_BASE}api/1.1/`;
 export const getCMS = (path: string) =>
   fetch(
     new Request(`${CMS_API}${path}`, {
+      mode: 'cors',
       headers: new Headers({ Authorization: `Bearer ${CMS_TOKEN}`, 'Content-Type': 'application/json' }),
     }),
   )
