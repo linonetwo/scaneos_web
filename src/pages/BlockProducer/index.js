@@ -74,6 +74,7 @@ const DetailFieldContainer = styled(Flex)`
   }
   span {
     color: #333;
+    word-wrap: break-word;
   }
 `;
 const BlockProducersMapContainer = styled.div`
