@@ -149,7 +149,7 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                     {producerInfo.contact && (
                       <DetailFieldContainer column>
                         <h3>{t('contact')}</h3>
-                        {producerInfo.contact.split('\n').map(text => <AutoLinkText text={text} />)}
+                        {producerInfo.contact.split('\n').map(text => <AutoLinkText key={text} text={text} />)}
                       </DetailFieldContainer>
                     )}
                     {producerInfo.location && (

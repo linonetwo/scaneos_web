@@ -1,5 +1,5 @@
 // @flow
-import { toPairs } from 'lodash';
+import { toPairs, initial } from 'lodash';
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import { translate } from 'react-i18next';
@@ -22,7 +22,7 @@ class AccountDashboard extends PureComponent<Props> {
         pagination={false}
         dataSource={[
           { field: 'tokenBalance', value: data.tokenBalance, key: 'tokenBalance' },
-          ...toPairs(data).map(([field, value]) => ({ field, value, key: field })),
+          ...initial(toPairs(data)).map(([field, value]) => ({ field, value, key: field })),
         ]}
       >
         <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />

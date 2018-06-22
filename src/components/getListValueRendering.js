@@ -38,11 +38,17 @@ export default function getListValueRendering(field: string, value: any, t: Func
           {actor} ({t('permission')}: {permission})
         </Link>
       ));
-    
+
     case 'voterInfo':
     case 'selfDelegatedBandwidth':
     case 'totalResources':
-      return <div>{toPairs(value).map(([subField, subValue]) => (<div>{getListValueRendering(subField, subValue, t)}</div>))}</div>
+      return (
+        <div>
+          {toPairs(value).map(([subField, subValue]) => (
+            <div key={subField}>{getListValueRendering(subField, subValue, t)}</div>
+          ))}
+        </div>
+      );
     case 'owner':
     case 'proxy':
     case 'lastVoteWeight':
@@ -56,11 +62,23 @@ export default function getListValueRendering(field: string, value: any, t: Func
     case 'netWeight':
     case 'cpuWeight':
     case 'ramBytes':
-      return <span>{t(field)}: {value}</span>
+      return (
+        <span>
+          {t(field)}: {value}
+        </span>
+      );
     case 'producers':
-      return <span>{t(field)}: {value.join(', ')}</span>
+      return (
+        <span>
+          {t(field)}: {value.join(', ')}
+        </span>
+      );
     case 'staked':
-      return <span>{t(field)}: {(value / 10000).toFixed(4)} EOS</span>
+      return (
+        <span>
+          {t(field)}: {(value / 10000).toFixed(4)} EOS
+        </span>
+      );
 
     case 'transactionId':
       return <Link to={`/transaction/${value}/`}>{value}</Link>;
