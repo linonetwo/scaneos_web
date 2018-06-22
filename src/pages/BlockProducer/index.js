@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is, { isNot } from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
-import { Spin, Icon } from 'antd';
+import { Spin, Avatar } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
@@ -68,7 +68,10 @@ const DetailFieldContainer = styled(Flex)`
   ${breakpoint('desktop')`
     width: calc((1200px - 20px * 2) / 3);
   `};
-  padding: 10px 0;
+  padding: 10px 0 20px;
+  h3 {
+    margin: 0;
+  }
   span {
     color: #333;
   }
@@ -116,7 +119,7 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                 <BPInfoContainer>
                   <Title justifyBetween alignCenter>
                     <span>
-                      <Icon type="solution" /> {t('BlockProducers')}{' '}
+                      <Avatar src={producerInfo.logo} /> {t('BlockProducers')}{' '}
                       <a href={producerInfo.homepage} target="_black" rel="noopener noreferrer">
                         {producerInfo.name}
                       </a>
