@@ -143,7 +143,7 @@ export async function followURI(location: { pathname: string, search?: string, s
       console.log('aaa')
       if (nextAccountName !== state.account.data.accountName) return dispatch.account.getAccountData(nextAccountName);
     }
-    if (/\/producer\//g.test(location.pathname) && !state.account.loading && state.account.producerInfo && !(size(state.account.producerInfo) > 0)) {
+    if (/\/producer\//g.test(location.pathname) && !state.account.loading && state.account.producerInfo) {
       const nextBPName = location.pathname
         .split('/producer/')
         .pop()
