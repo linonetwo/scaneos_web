@@ -275,8 +275,8 @@ export default (initialState?: Object = {}) => ({
             ...producerInfo,
             latitude: producerInfo.latitude && Number(producerInfo.latitude),
             longitude: producerInfo.longitude && Number(producerInfo.longitude),
-            image: producerInfo?.image?.data?.url && `${CMS_BASE}${producerInfo.image.data.url}`,
-            logo: producerInfo?.logo?.data?.url && `${CMS_BASE}${producerInfo.logo.data.url}`,
+            image: producerInfo.image && `${CMS_BASE}${producerInfo.image.data.url}`,
+            logo: producerInfo.logo && `${CMS_BASE}${producerInfo.logo.data.url}`,
           });
           history.replace(`/producer/${accountName}`, { isFromEffect: true });
         } else {
