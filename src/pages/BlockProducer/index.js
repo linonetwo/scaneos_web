@@ -160,6 +160,12 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                         <span>{producerInfo.location}</span>
                       </DetailFieldContainer>
                     )}
+                    {producerInfo.organization && (
+                      <DetailFieldContainer column>
+                        <h3>{t('organization')}</h3>
+                        <span>{producerInfo.organization}</span>
+                      </DetailFieldContainer>
+                    )}
                     {producerInfo.key && (
                       <DetailFieldContainer column>
                         <h3>{t('key')}</h3>

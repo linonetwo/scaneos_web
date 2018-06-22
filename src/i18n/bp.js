@@ -22,6 +22,7 @@ export const zh = {
   p2pEndpoint: 'P2P地址',
   index: '序号',
   homepage: '主页',
+  organization: '所属组织',
   contact: '联系方式',
   bpcontactus: '如果您是该BP的所有者，请联系 support@scaneos.io 更新关于该BP的信息。',
 
@@ -54,6 +55,7 @@ export const en = {
   location: 'Location',
   index: 'Index',
   homepage: 'Home',
+  organization: 'Organization',
   contact: 'Contact',
   bpcontactus: 'If you are the owner of this BP, please contact support@scaneos.io to update the info here.',
 
