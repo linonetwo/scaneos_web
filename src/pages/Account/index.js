@@ -113,8 +113,11 @@ type LoaderProps = Dispatch & {
   },
 };
 const frontload = async (props: LoaderProps) => {
-  const currentAccountName = String(props.match.params.accountId);
-  return props.getAccountData(currentAccountName);
+  if (!props.loading && !props.loading && !props.data.accountName) {
+    const currentAccountName = String(props.match.params.accountId);
+    return props.getAccountData(currentAccountName);
+  }
+  return Promise.resolve();
 };
 
 export default withRouter(

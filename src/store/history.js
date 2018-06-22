@@ -135,21 +135,20 @@ export async function followURI(location: { pathname: string, search?: string, s
       if (nextTransactionId !== state.transaction.data.transactionId)
         return dispatch.transaction.getTransactionData(nextTransactionId);
     }
-    if (/\/account\//g.test(location.pathname)) {
-      return dispatch.account.getAccountData(
-        location.pathname
-          .split('/account/')
-          .pop()
-          .replace('/', ''),
-      );
+    if (/\/account\//g.test(location.pathname) && !state.account.loading && state.account.data.accountName) {
+      const nextAccountName = location.pathname
+        .split('/account/')
+        .pop()
+        .replace('/', '');
+      console.log('aaa')
+      if (nextAccountName !== state.account.data.accountName) return dispatch.account.getAccountData(nextAccountName);
     }
-    if (/\/producer\//g.test(location.pathname) && !state.account.loading && !(size(state.account.producerInfo) > 0)) {
-      return dispatch.account.getAccountData(
-        location.pathname
-          .split('/producer/')
-          .pop()
-          .replace('/', ''),
-      );
+    if (/\/producer\//g.test(location.pathname) && !state.account.loading && state.account.producerInfo && !(size(state.account.producerInfo) > 0)) {
+      const nextBPName = location.pathname
+        .split('/producer/')
+        .pop()
+        .replace('/', '');
+      if (nextBPName !== state.account.producerInfo?.account) return dispatch.account.getAccountData(nextBPName);
     }
     if (/\/action\//g.test(location.pathname)) {
       return dispatch.action.getActionData(
