@@ -1,7 +1,7 @@
 // @flow
 import { find, size } from 'lodash';
 import type { Pagination } from './block';
-import get, { postEOS, getCMS } from '../API.config';
+import get, { postEOS, getCMS, CMS_BASE } from '../API.config';
 
 type Permission = {
   actor: string,
@@ -258,7 +258,6 @@ export default (initialState?: Object = {}) => ({
       dispatch.history.updateURI();
 
       try {
-        // const data = await get(`/accounts?name=${accountName}`);
         const [data, balanceData] = await Promise.all([
           postEOS('/chain/get_account', { account_name: accountName }),
           postEOS('/chain/get_currency_balance', { account: accountName, code: 'eosio.token' }),
@@ -276,6 +275,8 @@ export default (initialState?: Object = {}) => ({
             ...producerInfo,
             latitude: producerInfo.latitude && Number(producerInfo.latitude),
             longitude: producerInfo.longitude && Number(producerInfo.longitude),
+            image: producerInfo?.image?.data?.url && `${CMS_BASE}${producerInfo.image.data.url}`,
+            logo: producerInfo?.logo?.data?.url && `${CMS_BASE}${producerInfo.logo.data.url}`,
           });
           history.replace(`/producer/${accountName}`, { isFromEffect: true });
         } else {

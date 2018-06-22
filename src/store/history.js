@@ -34,6 +34,8 @@ export default (initialState: Object = {}) => ({
         this.changeNavTab('tokens');
       } else if (miscPath.includes(mainPath)) {
         this.changeNavTab('misc');
+      } else if (mainPath === 'producer') {
+        this.changeNavTab('producers');
       } else {
         this.changeNavTab(mainPath || 'home');
       }
@@ -141,7 +143,7 @@ export async function followURI(location: { pathname: string, search?: string, s
           .replace('/', ''),
       );
     }
-    if (/\/producer\//g.test(location.pathname) && !size(state.account.producerInfo) > 0) {
+    if (/\/producer\//g.test(location.pathname) && !(size(state.account.producerInfo) > 0)) {
       return dispatch.account.getAccountData(
         location.pathname
           .split('/producer/')
