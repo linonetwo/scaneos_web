@@ -12,7 +12,6 @@ import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { frontloadConnect } from 'react-frontload';
 
-import blockProducersByUrl from './blockProducersList';
 import { ProducerListContainer } from '../../components/Table';
 import { locationBelongsToArea, reURLInformation } from '../../store/utils';
 import type { BPAccount } from '../../store/account';
@@ -66,11 +65,6 @@ type Dispatch = {
 
 class BlockProducers extends PureComponent<Props & Store, *> {
   render() {
-    // console.log(this.props.producerAccountList.map(({ url, ...rest }) => {
-    //   const hostName = url.match(reURLInformation)?.[3];
-    //   const details = hostName ? blockProducersByUrl[hostName] : {};
-    //   return { account: rest.owner, homepage: url,...rest, ...details };
-    // }).filter(({ name }) => !name).map(({ account, homepage }) => `账号： ${account} 网址： ${homepage}`).join('\n'))
     return (
       <Container column>
         <Spin tip="Connecting" spinning={this.props.loading} size="large">

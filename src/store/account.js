@@ -1,7 +1,7 @@
 // @flow
 import { find, size } from 'lodash';
 import type { Pagination } from './block';
-import get, { postEOS } from '../API.config';
+import get, { postEOS, getCMS } from '../API.config';
 
 type Permission = {
   actor: string,
@@ -265,13 +265,19 @@ export default (initialState?: Object = {}) => ({
         ]);
 
         if (!data) throw new Error('No data.');
-        console.log(data);
+
         this.initAccountData({ ...data, tokenBalance: balanceData.join(', ') });
-        const { default: blockProducersList } = await import('../pages/BlockProducers/blockProducersList');
+
+        // 看看它是不是个 bp
+        const { data: blockProducersList } = await getCMS(`/tables/bp/rows?filters[account][eq]=${accountName}`);
         const producerInfo = find(blockProducersList, { account: data.accountName });
         if (size(producerInfo) > 0) {
-          this.initProducerInfo(producerInfo);
-          history.replace(`/producer/${accountName}`, { isFromEffect: true }) ;
+          this.initProducerInfo({
+            ...producerInfo,
+            latitude: producerInfo.latitude && Number(producerInfo.latitude),
+            longitude: producerInfo.longitude && Number(producerInfo.longitude),
+          });
+          history.replace(`/producer/${accountName}`, { isFromEffect: true });
         } else {
           this.initProducerInfo(null);
           history.replace(`/account/${accountName}`, { isFromEffect: true });
