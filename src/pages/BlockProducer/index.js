@@ -36,7 +36,9 @@ const Container = styled(Flex)`
 `;
 const MainImage = styled.img`
   width: 100%;
-  height: 500px;
+  ${breakpoint('desktop')`
+    height: 500px;
+  `};
 
   object-fit: contain;
   object-position: center;
