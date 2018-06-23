@@ -174,9 +174,13 @@ class BlockProducer extends PureComponent<Props & Store, *> {
                     )}
                   </DetailContainer>
 
-                  <BlockProducersMapContainer desktop>
-                    <BlockProducersMap points={[producerInfo]} />
-                  </BlockProducersMapContainer>
+                  {producerInfo &&
+                    typeof producerInfo.longitude === 'number' &&
+                    typeof producerInfo.latitude === 'number' && (
+                      <BlockProducersMapContainer desktop>
+                        <BlockProducersMap points={[producerInfo]} />
+                      </BlockProducersMapContainer>
+                    )}
                 </BPInfoContainer>
                 {producerInfo.nodes && (
                   <BPInfoContainer>
@@ -207,13 +211,15 @@ class BlockProducer extends PureComponent<Props & Store, *> {
             <BPInfoContainer>
               <AccountDashboard data={data} />
             </BPInfoContainer>
-            {producerInfo && (
-              <BlockProducersMapContainer>
-                <BPInfoContainer>
-                  <BlockProducersMap points={[producerInfo]} />
-                </BPInfoContainer>
-              </BlockProducersMapContainer>
-            )}
+            {producerInfo &&
+              typeof producerInfo.longitude === 'number' &&
+              typeof producerInfo.latitude === 'number' && (
+                <BlockProducersMapContainer>
+                  <BPInfoContainer>
+                    <BlockProducersMap points={[producerInfo]} />
+                  </BPInfoContainer>
+                </BlockProducersMapContainer>
+              )}
           </Container>
         </Spin>
       </Fragment>
