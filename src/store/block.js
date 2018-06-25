@@ -14,8 +14,8 @@ export type BlockData = {
   createdAt: string,
   updatedAt: string | null,
 };
-export type ListResponse = {
-  content: BlockData[],
+export type ListResponse<T> = {
+  content: T[],
   page: {
     size: number,
     totalElements: number,
@@ -136,7 +136,7 @@ export default (initialState?: Object = {}) => ({
       try {
         const dataPage = gotoPage ? gotoPage - 1 : 0;
         const { getPageSize } = await import('./utils');
-        const data: ListResponse = await get(`/blocks?page=${dataPage}&size=${getPageSize()}`);
+        const data: ListResponse<BlockData> = await get(`/blocks?page=${dataPage}&size=${getPageSize()}`);
         const {
           content,
           page: { totalElements },

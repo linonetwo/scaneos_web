@@ -8,6 +8,7 @@ import blockModel from './block';
 import transactionModel from './transaction';
 import accountModel from './account';
 import actionModel from './action';
+import tokenModel from './token';
 import aggregationModel from './aggregation';
 import historyModel from './history';
 import { isServer, getInitialStateFromServer } from './utils';
@@ -25,6 +26,7 @@ const configureStore = (initialState = {}) => {
     account: accountInitialState,
     url = '/',
     action: actionInitialState,
+    token: tokenInitialState,
     aggregation: aggregationInitialState,
     history: historyInitialState,
     price: priceInitialState,
@@ -46,6 +48,7 @@ const configureStore = (initialState = {}) => {
         transaction: transactionModel(transactionInitialState),
         account: accountModel(accountInitialState),
         action: actionModel(actionInitialState),
+        token: tokenModel(tokenInitialState),
         aggregation: aggregationModel(aggregationInitialState),
         history: historyModel(historyInitialState),
         price: priceModel(priceInitialState),

@@ -28,7 +28,7 @@ export type VoteData = {
   maxAuthorityDepth: number,
   maxRamSize: string,
   totalRamBytesReserved: string,
-  totalRamStake: number,
+  totalRamStake: number | string,
   lastProducerScheduleUpdate: string,
   lastPervoteBucketFill: string,
   pervoteBucket: number,

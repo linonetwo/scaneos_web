@@ -204,6 +204,7 @@ export const blockChainPaths: RouteData[] = [
   { route: 'bidings', display: 'Bidings' },
   {},
   { route: 'actions', display: 'Actions' },
+  { route: 'tokens', display: 'Tokens' },
   { route: 'charts', display: 'Charts' },
 ];
 // single data
@@ -213,6 +214,7 @@ export const blockChainDetailPaths: RouteData[] = [
   { route: 'account', display: 'Accounts' },
   { route: 'biding', display: 'Bidings' },
   { route: 'action', display: 'Actions' },
+  { route: 'token', display: 'Tokens' },
   { route: 'chart', display: 'Charts' },
 ];
 

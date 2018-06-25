@@ -69,6 +69,11 @@ const Actions = Loadable({
   loading: Loading,
   modules: ['Actions'],
 });
+const Tokens = Loadable({
+  loader: () => import(/* webpackChunkName: "Tokens" */ './pages/Tokens'),
+  loading: Loading,
+  modules: ['Tokens'],
+});
 const NameBidings = Loadable({
   loader: () => import(/* webpackChunkName: "NameBidings" */ './pages/NameBidings'),
   loading: Loading,
@@ -110,6 +115,7 @@ export default class App extends Component<{}> {
     store.dispatch.history.updateURI();
     store.dispatch.history.updateNavTab();
   }
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -127,6 +133,7 @@ export default class App extends Component<{}> {
               <Route exact path="/accounts" component={Accounts} />
               <Route exact path="/action/:transactionId" component={Action} />
               <Route exact path="/actions" component={Actions} />
+              <Route exact path="/tokens" component={Tokens} />
               <Route exact path="/bidings" component={NameBidings} />
               <Route exact path="/biding/:accountName" component={NameBiding} />
               <Route exact path="/producers" component={BlockProducers} />

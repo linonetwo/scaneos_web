@@ -52,7 +52,7 @@ export const zh = {
     netWeight: '带宽权重',
     cpuWeight: 'CPU权重',
     totalResources: '拥有的资源总量',
-    
+
     tokenBalance: '余额',
     stakedBalance: '锁定的余额',
     unstakingBalance: '未锁定的余额',
@@ -78,6 +78,11 @@ export const zh = {
     name: '操作类型',
     handlerAccountName: '处理本操作的账户',
     authorization: '授权',
+  },
+  token: {
+    issuer: '发行方',
+    maximumSupply: '发行量',
+    createdAt: '发行时间',
   },
 };
 
@@ -138,5 +143,10 @@ export const en = {
     handlerAccountName: 'Handler',
     name: 'ActionName',
     authorization: 'Authorization',
+  },
+  token: {
+    issuer: 'Issuer',
+    maximumSupply: 'MaximumSupply',
+    createdAt: 'CreatedAt',
   },
 };

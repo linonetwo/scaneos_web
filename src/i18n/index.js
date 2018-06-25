@@ -25,6 +25,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
       transaction: blockChain.zh.transaction,
       account: blockChain.zh.account,
       action: blockChain.zh.action,
+      token: blockChain.zh.token,
       bp: bp.zh,
       translation: {
         locale: 'zh',
@@ -39,6 +40,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
       transaction: blockChain.en.transaction,
       account: blockChain.en.account,
       action: blockChain.en.action,
+      token: blockChain.en.token,
       bp: bp.en,
       translation: {
         locale: 'en',
