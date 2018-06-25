@@ -30,7 +30,7 @@ class Tokens extends Component<Props & Store, *> {
       <Spin tip="Connecting" spinning={loading} size="large">
         <ProducerListContainer column>
           <Table
-            scroll={{ x: 1000 }}
+            scroll={{ x: 500 }}
             size="middle"
             dataSource={list}
             rowKey="id"
