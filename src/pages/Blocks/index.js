@@ -26,36 +26,37 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
   state = {};
 
   render() {
+    const { t, loading, list, pagination, getBlocksList } = this.props;
     return (
-      <Spin tip="Connecting" spinning={this.props.loading} size="large">
+      <Spin tip="Connecting" spinning={loading} size="large">
         <ListContainer column>
           <Table
             scroll={{ x: 1000 }}
             size="middle"
-            dataSource={this.props.list}
+            dataSource={list}
             rowKey="id"
             pagination={{
               pageSize: getPageSize(),
-              ...this.props.pagination,
+              ...pagination,
             }}
-            onChange={pagination => {
-              this.props.getBlocksList(pagination.current);
+            onChange={page => {
+              getBlocksList(page.current);
             }}
           >
             <Table.Column
-              title={this.props.t('blockNum')}
+              title={t('blockNum')}
               dataIndex="blockNum"
               key="blockNum"
               render={blockNum => <Link to={`/block/${blockNum}/`}>{blockNum}</Link>}
             />
             <Table.Column
-              title={this.props.t('createdAt')}
+              title={t('createdAt')}
               dataIndex="createdAt"
               key="createdAt"
-              render={timeStamp => formatTimeStamp(timeStamp, this.props.t('locale'))}
+              render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
             />
             {/* <Table.Column
-              title={this.props.t('transactions')}
+              title={t('transactions')}
               dataIndex="transactions"
               key="transactions"
               render={transactions =>
@@ -63,7 +64,7 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
               }
             /> */}
             <Table.Column
-              title={this.props.t('producerAccountId')}
+              title={t('producerAccountId')}
               dataIndex="producerAccountId"
               key="producerAccountId"
               render={producerAccountId => <Link to={`/account/${producerAccountId}/`}>{producerAccountId}</Link>}
@@ -83,10 +84,10 @@ const mapState = ({ block: { list, pagination }, info: { loading } }): Store => 
 const mapDispatch = ({ block: { getBlocksList } }): Dispatch => ({
   getBlocksList,
 });
-const frontload = async (props: Store & Dispatch) => {
+const frontload = async ({ loading, list, getBlocksList }: Store & Dispatch) => {
   // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
-  if (!props.loading && props.list.length === 0) {
-    return props.getBlocksList();
+  if (!loading && list.length === 0) {
+    return getBlocksList();
   }
   return Promise.resolve();
 };
