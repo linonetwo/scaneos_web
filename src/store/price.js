@@ -1,6 +1,6 @@
 // @flow
 import camelize from 'camelize';
-import {} from 'lodash';
+import { postEOS } from '../API.config';
 
 export type CurrentPriceData = {
   name: string,
@@ -22,6 +22,16 @@ export type Store = {
   loading: boolean,
   currentPriceData: CurrentPriceData,
   priceChartData: number[][],
+
+  resourcePrice: {
+    supply: number,
+    ramVolumn: number,
+    ramMarketcap: number,
+    ramPrice: number,
+    netPrice: number,
+    cpuPrice: number,
+  },
+  ramPriceChartData: number[][],
 };
 
 const defaultState = {
@@ -43,6 +53,16 @@ const defaultState = {
     lastUpdated: '',
   },
   priceChartData: [],
+
+  resourcePrice: {
+    supply: -1,
+    ramVolumn: -1,
+    ramMarketcap: -1,
+    ramPrice: -1,
+    netPrice: -1,
+    cpuPrice: -1,
+  },
+  ramPriceChartData: [],
 };
 export default (initialState?: Object = {}) => ({
   state: {
@@ -60,6 +80,25 @@ export default (initialState?: Object = {}) => ({
     },
     initPriceChartData(state: Store, data: number[][]) {
       state.priceChartData = data;
+      return state;
+    },
+
+    initResourcePrice(
+      state: Store,
+      [{ supply, ramVolumn, ramMarketcap, ramPrice }, { netPrice, cpuPrice }]: [Object, Object],
+    ) {
+      state.resourcePrice = {
+        supply,
+        ramVolumn,
+        ramMarketcap,
+        ramPrice,
+        netPrice,
+        cpuPrice,
+      };
+      return state;
+    },
+    initRamPriceChartData(state: Store, data: number[][]) {
+      state.ramPriceChartData = data;
       return state;
     },
   },
@@ -101,6 +140,52 @@ export default (initialState?: Object = {}) => ({
         data: [{ data: priceChartData }],
       } = await fetch('https://api.tiy.io/price-query/v1/analytics?coin=eos').then(res => res.json());
       this.initPriceChartData(priceChartData);
+    },
+
+    async getResourcePrice() {
+      const resourcePriceData = await Promise.all([
+        postEOS('/chain/get_table_rows', {
+          json: true,
+          code: 'eosio',
+          scope: 'eosio',
+          table: 'rammarket',
+          limit: 1,
+        }).then(({ rows: [{ supply, base, quote }] }) => {
+          const totalSupply = Number(supply.substr(0, supply.indexOf(' ')));
+          const ramVolumn = Number(base.balance.substr(0, base.balance.indexOf(' ')));
+          const ramMarketcap = Number(quote.balance.substr(0, quote.balance.indexOf(' ')));
+          return {
+            supply: totalSupply,
+            ramVolumn,
+            ramMarketcap,
+            ramPrice: (ramMarketcap / ramVolumn) * 1024, // price in kB
+          };
+        }),
+        postEOS('/chain/get_account', { account_name: 'eoshuobipool' }).then(
+          ({
+            totalResources: { netWeight, cpuWeight },
+            netLimit: { max: netMaxLimit },
+            cpuLimit: { max: cpuMaxLimit },
+          }) => {
+            const netStaked = netWeight.replace(' EOS', '');
+            const cpuStaked = cpuWeight.replace(' EOS', '');
+            const netAvailable = netMaxLimit / 1024; // byte to kB
+            const cpuAvailable = cpuMaxLimit / 1000; // microseconds to milliseconds
+            return {
+              netPrice: netStaked / netAvailable,
+              cpuPrice: cpuStaked / cpuAvailable,
+            };
+          },
+        ),
+      ]);
+
+      this.initResourcePrice(resourcePriceData);
+    },
+    async getRamPriceChart() {
+      const data = await fetch('https://www.feexplorer.io/json/EOSramPrice.php?start=1529401320000&end=1530159002000')
+        .then(res => res.text())
+        .then(text => JSON.parse(text.replace('(', '').replace(')', '')));
+      this.initRamPriceChartData(data);
     },
   },
 });

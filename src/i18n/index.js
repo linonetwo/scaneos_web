@@ -9,7 +9,7 @@ import * as price from './price';
 import * as about from './about';
 import * as layout from './layout';
 import * as bp from './bp';
-import * as mappingChecker from '../../src/components/MappingChecking/i18n';
+import * as mappingChecker from '../components/MappingChecking/i18n';
 
 export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).init({
   preload: ['en', 'zh-CN'],

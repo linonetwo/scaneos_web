@@ -89,6 +89,11 @@ const UnderDevelopment = Loadable({
   loading: Loading,
   modules: ['UnderDevelopment'],
 });
+const Charts = Loadable({
+  loader: () => import(/* webpackChunkName: "Charts" */ './pages/Charts'),
+  loading: Loading,
+  modules: ['Charts'],
+});
 const About = Loadable({
   loader: () => import(/* webpackChunkName: "About" */ './pages/About'),
   loading: Loading,
@@ -138,6 +143,7 @@ export default class App extends Component<{}> {
               <Route exact path="/biding/:accountName" component={NameBiding} />
               <Route exact path="/producers" component={BlockProducers} />
               <Route exact path="/producer/:accountId" component={BlockProducer} />
+              <Route exact path="/charts" component={Charts} />
               <Route exact path="/about" component={About} />
               <Route exact path="/" component={Home} />
               <Route component={UnderDevelopment} />

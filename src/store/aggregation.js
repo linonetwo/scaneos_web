@@ -39,7 +39,7 @@ export type VoteData = {
   lastProducerScheduleSize: number,
   totalProducerVoteWeight: string,
   lastNameClose: string,
-}
+};
 type AggregationTable = {
   rows: VoteData[],
   more: boolean,
