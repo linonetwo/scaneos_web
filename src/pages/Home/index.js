@@ -10,7 +10,7 @@ import TransactionList from './TransactionList';
 import BlockList from './BlockList';
 import AggregationList from './AggregationList';
 import BPList from './BPList';
-import NameBidingList from './NameBidingList';
+import NameBidingList from './NameAuctionList';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);

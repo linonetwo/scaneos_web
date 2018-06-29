@@ -20,6 +20,7 @@ import 'cross-fetch/polyfill';
 import createStore from '../src/store/configureStore';
 import App from '../src/App';
 import manifest from '../build/asset-manifest.json';
+import client from '../src/graphql/ssr';
 
 // LOADER
 export default (req: $Request, res: $Response) => {
@@ -87,15 +88,17 @@ export default (req: $Request, res: $Response) => {
       const body = renderToString(
         <Loadable.Capture report={m => modules.push(m)}>
           <StyleSheetManager sheet={sheet.instance}>
-            <I18nextProvider i18n={req.i18n}>
-              <Provider store={store}>
-                <StaticRouter location={req.url} context={context}>
-                  <Frontload isServer>
-                    <App />
-                  </Frontload>
-                </StaticRouter>
-              </Provider>
-            </I18nextProvider>
+            <ApolloProvider client={client}>
+              <I18nextProvider i18n={req.i18n}>
+                <Provider store={store}>
+                  <StaticRouter location={req.url} context={context}>
+                    <Frontload isServer>
+                      <App />
+                    </Frontload>
+                  </StaticRouter>
+                </Provider>
+              </I18nextProvider>
+            </ApolloProvider>
           </StyleSheetManager>
         </Loadable.Capture>,
       );
