@@ -9,18 +9,19 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import Helmet from 'react-helmet';
+import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
-import { Frontload, frontloadServerRender } from 'react-frontload';
+import { Frontload } from 'react-frontload';
 import Loadable from 'react-loadable';
 import { I18nextProvider } from 'react-i18next';
 import 'cross-fetch/polyfill';
 
 // Our store, entrypoint, and manifest
 import createStore from '../src/store/configureStore';
-import App from '../src/App';
+import AppRoutes from '../src/Routes';
 import manifest from '../build/asset-manifest.json';
-import client from '../src/graphql/ssr';
+import apolloClient from '../src/graphql/ssr';
 
 // LOADER
 export default (req: $Request, res: $Response) => {
@@ -34,7 +35,7 @@ export default (req: $Request, res: $Response) => {
       - Preloaded state (for Redux) depending on the current route
       - Code-split script tags depending on the current route
   */
-  const injectHTML = (data, { html, title, meta, style, body, scripts, state }) => {
+  const injectHTML = (data, { html, title, meta, style, body, scripts, state, graphQLState }) => {
     data = data.replace('<html>', `<html ${html}>`);
     data = data.replace(/<title>.*?<\/title>/g, title);
     data = data.replace('</head>', `${meta}</head>`);
@@ -47,8 +48,11 @@ export default (req: $Request, res: $Response) => {
     );
     data = data.replace(
       '<div id="root"></div>',
-      `<div id="root">${body}</div>
-      <script>window.__PRELOADED_STATE__ = ${state}</script>`,
+      `
+        <div id="root">${body}</div>
+        <script>window.__PRELOADED_STATE__ = ${state}</script>
+        <script>window.__APOLLO_STATE__=${JSON.stringify(graphQLState).replace(/</g, '\\u003c')};</script>
+      `,
     );
     data = data.replace('</body>', `${scripts.join('')}</body>`);
 
@@ -83,70 +87,75 @@ export default (req: $Request, res: $Response) => {
         data for that page. We take all that information and compute the appropriate state to send to the user. This is
         then loaded into the correct components and sent as a Promise to be handled below.
       */
-    frontloadServerRender(() => {
-      const sheet = new ServerStyleSheet();
-      const body = renderToString(
-        <Loadable.Capture report={m => modules.push(m)}>
-          <StyleSheetManager sheet={sheet.instance}>
-            <ApolloProvider client={client}>
-              <I18nextProvider i18n={req.i18n}>
-                <Provider store={store}>
-                  <StaticRouter location={req.url} context={context}>
-                    <Frontload isServer>
-                      <App />
-                    </Frontload>
-                  </StaticRouter>
-                </Provider>
-              </I18nextProvider>
-            </ApolloProvider>
-          </StyleSheetManager>
-        </Loadable.Capture>,
-      );
-      const style = sheet.getStyleTags();
-      return { body, style };
-    }).then(({ body, style }) => {
-      if (context.url) {
-        // If context has a url property, then we need to handle a redirection in Redux Router
-        res.writeHead(302, {
-          Location: context.url,
-        });
+    const sheet = new ServerStyleSheet();
+    const App = (
+      <Loadable.Capture report={m => modules.push(m)}>
+        <StyleSheetManager sheet={sheet.instance}>
+          <ApolloProvider client={apolloClient}>
+            <I18nextProvider i18n={req.i18n}>
+              <Provider store={store}>
+                <StaticRouter location={req.url} context={context}>
+                  <Frontload isServer>
+                    <AppRoutes />
+                  </Frontload>
+                </StaticRouter>
+              </Provider>
+            </I18nextProvider>
+          </ApolloProvider>
+        </StyleSheetManager>
+      </Loadable.Capture>
+    );
+    getDataFromTree(App)
+      .then(() => {
+        const body = renderToString(App);
+        const style = sheet.getStyleTags();
+        const initialGraphQLState = apolloClient.extract();
+        return { body, style, initialGraphQLState };
+      })
+      .then(({ body, style, initialGraphQLState }) => {
+        if (context.url) {
+          // If context has a url property, then we need to handle a redirection in Redux Router
+          res.writeHead(302, {
+            Location: context.url,
+          });
 
-        res.end();
-      } else {
-        // Otherwise, we carry on...
+          res.end();
+        } else {
+          // Otherwise, we carry on...
 
-        // Let's give ourself a function to load all our page-specific JS assets for code splitting
-        const extractAssets = (assets, chunks) =>
-          Object.keys(assets)
-            .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
-            .map(k => assets[k]);
+          // Let's give ourself a function to load all our page-specific JS assets for code splitting
+          const extractAssets = (assets, chunks) =>
+            Object.keys(assets)
+              .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
+              .map(k => assets[k]);
 
-        // Let's format those assets into pretty <script> tags
-        const extraChunks = extractAssets(manifest, modules).map(
-          c => `<script type="text/javascript" src="${c}"></script>`,
-        );
+          // Let's format those assets into pretty <script> tags
+          const extraChunks = extractAssets(manifest, modules).map(
+            c => `<script type="text/javascript" src="${c}"></script>`,
+          );
 
-        // We need to tell Helmet to compute the right meta tags, title, and such
-        const helmet = Helmet.renderStatic();
+          // We need to tell Helmet to compute the right meta tags, title, and such
+          const helmet = Helmet.renderStatic();
 
-        // NOTE: Disable if you desire
-        // Let's output the title, just to see SSR is working as intended
-        console.log('THE TITLE', helmet.title.toString());
+          // NOTE: Disable if you desire
+          // Let's output the title, just to see SSR is working as intended
+          console.log('THE TITLE', helmet.title.toString());
 
-        // Pass all this nonsense into our HTML formatting function above
-        const html = injectHTML(htmlData, {
-          html: helmet.htmlAttributes.toString(),
-          title: helmet.title.toString(),
-          meta: helmet.meta.toString(),
-          body,
-          style,
-          scripts: extraChunks,
-          state: JSON.stringify(store.getState()).replace(/</g, '\\u003c'),
-        });
+          // Pass all this nonsense into our HTML formatting function above
+          const html = injectHTML(htmlData, {
+            html: helmet.htmlAttributes.toString(),
+            title: helmet.title.toString(),
+            meta: helmet.meta.toString(),
+            body,
+            style,
+            scripts: extraChunks,
+            graphQLState: initialGraphQLState,
+            state: JSON.stringify(store.getState()).replace(/</g, '\\u003c'),
+          });
 
-        // We have all the final HTML, let's send it to the user already!
-        res.send(html);
-      }
-    });
+          // We have all the final HTML, let's send it to the user already!
+          res.send(html);
+        }
+      });
   });
 };

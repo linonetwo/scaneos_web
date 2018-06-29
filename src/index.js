@@ -12,7 +12,7 @@ import { store, history } from './store';
 import client from './graphql';
 import i18n from './i18n';
 
-import AppRoutes from './App';
+import AppRoutes from './Routes';
 
 import { unregister } from './registerServiceWorker';
 import './polyfills';
