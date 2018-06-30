@@ -49,6 +49,8 @@ export const zh = {
   Overview: '概览',
   Raw: '原始信息',
   About: '关于我们',
+
+  Connecting: '连接中',
 };
 
 export const en = {

@@ -2,6 +2,7 @@
 import camelize from 'camelize';
 
 export const API = 'https://scaneos.io/api';
+export const GRAPHQL_API = 'https://scaneos.io/gqapi/graphql';
 export const EOS_API = 'https://scaneos.io/eosapi/v1';
 export default (path: string) =>
   fetch(`${API}${path}`)

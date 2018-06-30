@@ -19,6 +19,7 @@ export const Title = styled(Flex)`
 
 export const ListContainer = styled.div`
   width: 90vw;
+  min-height: 500px;
   margin: 15px auto 0;
   overflow-y: hidden;
   ${breakpoint('desktop')`
