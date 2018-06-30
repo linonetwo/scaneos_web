@@ -218,21 +218,21 @@ export const blockChainDetailPaths: RouteData[] = [
   { route: 'chart', display: 'Charts' },
 ];
 
-export const tokenPaths: RouteData[] = [
-  { route: 'tokens', display: 'Tokens' },
+export const ecosystemPaths: RouteData[] = [
+  { route: 'dictionary', display: 'Dictionary' },
   {},
-  { route: 'tokenTransfers', display: 'TokenTransfers' },
+  { route: 'about', display: 'About' },
 ];
-export const tokenDetailPaths: RouteData[] = [
-  { route: 'token', display: 'Token' },
-  { route: 'tokenTransfer', display: 'TokenTransfer' },
+export const ecosystemDetailPaths: RouteData[] = [
+  { route: 'dictionary-entry', display: 'DictionaryEntry' },
+  { route: 'about', display: 'About' },
 ];
-export const miscPaths: RouteData[] = [{ route: 'about', display: 'About' }];
 class Header extends Component<Props & Store & Dispatch, *> {
   state = {
     sideMenuOpened: false,
     headerAffixed: false,
   };
+
   toggleSideMenu = () => {
     this.setState({ sideMenuOpened: !this.state.sideMenuOpened });
     noScroll.toggle();
@@ -258,6 +258,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
       )}
     </Menu>
   );
+
   tokensMenu = () => (
     <Menu>
       {tokenPaths.map(
@@ -272,12 +273,13 @@ class Header extends Component<Props & Store & Dispatch, *> {
       )}
     </Menu>
   );
-  miscMenu = () => (
+
+  ecosystemMenu = () => (
     <Menu>
-      {miscPaths.map(
+      {ecosystemPaths.map(
         ({ route, display }, index) =>
           route && display ? (
-            <Menu.Item key={route} onClick={() => this.props.changeNavTab('misc')}>
+            <Menu.Item key={route} onClick={() => this.props.changeNavTab('ecosystem')}>
               <Link to={`/${route}/`}>{this.props.t(display)}</Link>
             </Menu.Item>
           ) : (
@@ -286,6 +288,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
       )}
     </Menu>
   );
+
   localeMenu = (
     <Menu>
       <Menu.Item key="0" onClick={() => this.props.changeLanguage('zh-CN')}>
@@ -326,29 +329,13 @@ class Header extends Component<Props & Store & Dispatch, *> {
             ),
         )}
       </Menu.SubMenu>
-      {/* <Menu.SubMenu
-        title={
-          <NavDropDownsButton selected={this.props.navTab === 'tokens'}>{this.props.t('Tokens')}</NavDropDownsButton>
-        }
-      >
-        {tokenPaths.map(
-          ({ route, display }, index) =>
-            route && display ? (
-              <Menu.Item key={route} onClick={() => this.props.changeNavTab('tokens')}>
-                <Link to={`/${route}/`}>{this.props.t(display)}</Link>
-              </Menu.Item>
-            ) : (
-              <Menu.Divider key={index} />
-            ),
-        )}
-      </Menu.SubMenu> */}
       <Menu.SubMenu
-        title={<NavDropDownsButton selected={this.props.navTab === 'misc'}>{this.props.t('Misc')}</NavDropDownsButton>}
+        title={<NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>{this.props.t('Ecosystem')}</NavDropDownsButton>}
       >
-        {miscPaths.map(
+        {ecosystemPaths.map(
           ({ route, display }, index) =>
             route && display ? (
-              <Menu.Item key={route} onClick={() => this.props.changeNavTab('misc')}>
+              <Menu.Item key={route} onClick={() => this.props.changeNavTab('ecosystem')}>
                 <Link to={`/${route}/`}>{this.props.t(display)}</Link>
               </Menu.Item>
             ) : (
@@ -427,17 +414,10 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     </NavDropDownsButton>
                   </Dropdown>
 
-                  {/* <Dropdown overlay={this.tokensMenu()}>
-                    <NavDropDownsButton selected={this.props.navTab === 'tokens'}>
-                      {this.props.t('Tokens')} <Icon type="down" />
-                      {this.getSelectedIndicator('tokens')}
-                    </NavDropDownsButton>
-                  </Dropdown> */}
-
-                  <Dropdown overlay={this.miscMenu()}>
-                    <NavDropDownsButton selected={this.props.navTab === 'misc'}>
-                      {this.props.t('Misc')} <Icon type="down" />
-                      {this.getSelectedIndicator('misc')}
+                  <Dropdown overlay={this.ecosystemMenu()}>
+                    <NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>
+                      {this.props.t('Ecosystem')} <Icon type="down" />
+                      {this.getSelectedIndicator('ecosystem')}
                     </NavDropDownsButton>
                   </Dropdown>
 
@@ -498,7 +478,6 @@ export default withRouter(
     )(Header),
   ),
 );
-
 
 export { default as Footer } from './Footer';
 export { default as getBreadcrumb } from './getBreadcrumb';

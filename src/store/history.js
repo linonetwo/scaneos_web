@@ -1,13 +1,12 @@
 // @flow
-import { map, size } from 'lodash';
+import { map } from 'lodash';
 import queryString from 'query-string';
 
-import { blockChainPaths, blockChainDetailPaths, tokenPaths, tokenDetailPaths, miscPaths } from '../components/Layout';
+import { blockChainPaths, blockChainDetailPaths, ecosystemPaths ,ecosystemDetailPaths } from '../components/Layout';
 
 // 不同导航 Tab 的路径名
 const blockChainPath = map([...blockChainPaths, ...blockChainDetailPaths], 'route');
-const tokenPath = map([...tokenPaths, ...tokenDetailPaths], 'route');
-const miscPath = map(miscPaths, 'route');
+const ecosystemPath = map([...ecosystemPaths, ...ecosystemDetailPaths], 'route');
 
 type Store = {
   navTab: string,
@@ -30,10 +29,8 @@ export default (initialState: Object = {}) => ({
       const mainPath = history.location.pathname.split('/')?.[1];
       if (blockChainPath.includes(mainPath)) {
         this.changeNavTab('blockChain');
-      } else if (tokenPath.includes(mainPath)) {
-        this.changeNavTab('tokens');
-      } else if (miscPath.includes(mainPath)) {
-        this.changeNavTab('misc');
+      } else if (ecosystemPath.includes(mainPath)) {
+        this.changeNavTab('ecosystem');
       } else if (mainPath === 'producer') {
         this.changeNavTab('producers');
       } else {

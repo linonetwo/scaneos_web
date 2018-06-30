@@ -69,6 +69,11 @@ const Actions = Loadable({
   loading: Loading,
   modules: ['Actions'],
 });
+const Dictionary = Loadable({
+  loader: () => import(/* webpackChunkName: "Dictionary" */ './pages/Dictionary'),
+  loading: Loading,
+  modules: ['Dictionary'],
+});
 const Tokens = Loadable({
   loader: () => import(/* webpackChunkName: "Tokens" */ './pages/Tokens'),
   loading: Loading,
@@ -100,11 +105,11 @@ const About = Loadable({
   modules: ['About'],
 });
 
-function Title(props: { t: Function }) {
+function Title({ t }: { t: Function }) {
   return (
     <Helmet>
-      <title>{props.t('webSiteTitle')}</title>
-      <meta name="description" content={props.t('webSiteIntroduction')} />
+      <title>{t('webSiteTitle')}</title>
+      <meta name="description" content={t('webSiteIntroduction')} />
     </Helmet>
   );
 }
@@ -138,6 +143,7 @@ export default class App extends Component<{}> {
               <Route exact path="/accounts" component={Accounts} />
               <Route exact path="/action/:transactionId" component={Action} />
               <Route exact path="/actions" component={Actions} />
+              <Route exact path="/dictionary" component={Dictionary} />
               <Route exact path="/tokens" component={Tokens} />
               <Route exact path="/bidings" component={NameBidings} />
               <Route exact path="/biding/:accountName" component={NameBiding} />

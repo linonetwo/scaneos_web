@@ -25,6 +25,7 @@ const adjustAntdTable = css`
 `;
 export const ListContainer = styled.div`
   ${adjustAntdTable};
+  min-height: calc(100vh - 64px);
 `;
 export const LongListContainer = styled.div`
   ${adjustAntdTable};
