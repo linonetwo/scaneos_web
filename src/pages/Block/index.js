@@ -11,7 +11,7 @@ import { frontloadConnect } from 'react-frontload';
 import { getBreadcrumb } from '../../components/Layout';
 import type { BlockData } from '../../store/block';
 import type { TransactionData } from '../../store/transaction';
-import { DetailTabsContainer } from '../../components/Layout/Containers';
+import { DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 

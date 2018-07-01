@@ -9,7 +9,7 @@ import { frontloadConnect } from 'react-frontload';
 
 import { getBreadcrumb } from '../../components/Layout';
 import type { ActionData } from '../../store/action';
-import { DetailTabsContainer } from '../../components/Layout/Containers';
+import { DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 

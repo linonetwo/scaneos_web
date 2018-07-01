@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
+import { isNot } from 'styled-is';
 
 export const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -24,6 +25,25 @@ export const DetailTabsContainer = styled(Container)`
   ${breakpoint('desktop')`
     .ant-tabs {
       margin: 0 calc((100vw - 1200px) / 2);
+      width: 100%;
+    }
+  `};
+`;
+
+export const BPInfoContainer = styled.div`
+  height: min-content;
+  background-color: white;
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
+  ${isNot('image')`
+    padding: 20px;
+  `};
+  width: 90vw;
+  margin: 15px auto 0;
+  ${breakpoint('desktop')`
+    width: 1200px;
+    margin: 24px 0 0;
+
+    .ant-tabs {
       width: 100%;
     }
   `};

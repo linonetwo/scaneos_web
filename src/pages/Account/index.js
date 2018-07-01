@@ -1,5 +1,4 @@
 // @flow
-import { omit } from 'lodash';
 import React, { Fragment } from 'react';
 import { Spin, Tabs, Icon } from 'antd';
 import gql from 'graphql-tag';
@@ -8,10 +7,9 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { Container, DetailTabsContainer } from '../../components/Layout/Containers';
+import { Container, DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer } from '../../components/Table';
 import { AccountDataOverview, AccountDashboard, ACCOUNT_DASHBOARD_FRAGMENT } from '../../components/AccountDashboard';
-import { PRODUCER_INFO_FRAGMENT } from '../BlockProducer';
 
 type Props = {
   t: Function,
@@ -21,7 +19,46 @@ type Props = {
     },
   },
 };
-const GET_ACCOUNT_DETAIL = gql`
+export const PRODUCER_INFO_FRAGMENT = gql`
+  fragment PRODUCER_INFO_FRAGMENT on BPInfo {
+    rank
+    image
+    logo
+    totalVotes
+    isActive
+    unpaidBlocks
+    lastClaimTime
+    nameZh
+    name
+    homepage
+    contact
+    account
+    introductionZh
+    introduction
+    slogan
+    sloganZh
+    key
+    organization
+    nodes {
+      location {
+        name
+      }
+      isProducer
+      p2pEndpoint
+      apiEndpoint
+      sslEndpoint
+    }
+    location
+    locationZh
+    latitude
+    longitude
+    organizationIntroduction
+    organizationIntroductionZh
+    coreteam
+    others
+  }
+`;
+export const GET_ACCOUNT_DETAIL = gql`
   query GET_ACCOUNT_DETAIL($name: String!) {
     account(name: $name) {
       ...ACCOUNT_DASHBOARD_FRAGMENT
@@ -36,11 +73,81 @@ const GET_ACCOUNT_DETAIL = gql`
       producerInfo {
         ...PRODUCER_INFO_FRAGMENT
       }
+      permissions {
+        ...ACCOUNT_PERMISSION_FRAGMENT
+      }
     }
   }
   ${ACCOUNT_DASHBOARD_FRAGMENT}
   ${PRODUCER_INFO_FRAGMENT}
+  fragment ACCOUNT_PERMISSION_FRAGMENT on Permissions {
+    permName
+    parent
+    requiredAuth {
+      threshold
+      keys {
+        key
+        weight
+      }
+      accounts {
+        permission {
+          actor
+          permission
+        }
+        weight
+      }
+      waits
+    }
+  }
 `;
+
+export function getAccountDetails(accountData: Object, t: Function) {
+  return (
+    <Tabs defaultActiveKey="dashboard">
+      <Tabs.TabPane
+        tab={
+          <span>
+            <Icon type="solution" />
+            {t('Dashboard')}
+          </span>
+        }
+        key="dashboard"
+      >
+        <LongListContainer column>
+          <AccountDashboard data={accountData} />
+        </LongListContainer>
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        tab={
+          <span>
+            <Icon type="database" />
+            {t('Overview')}
+          </span>
+        }
+        key="overview"
+      >
+        <LongListContainer>
+          <AccountDataOverview data={accountData} />
+        </LongListContainer>
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        tab={
+          <span>
+            <Icon type="file-text" />
+            {t('Raw')}
+          </span>
+        }
+        key="raw"
+      >
+        <pre>
+          <code>{JSON.stringify(accountData, null, '  ')}</code>
+        </pre>
+      </Tabs.TabPane>
+    </Tabs>
+  );
+}
 
 function Account({ t, match }: Props) {
   const { accountName } = match.params;
@@ -55,57 +162,14 @@ function Account({ t, match }: Props) {
             </Spin>
           );
         if (!data.account) return <Container>{t('noResult')}</Container>;
-        const { account, actions, producerInfo } = data;
+        const {
+          account: { actions, producerInfo, ...account },
+        } = data;
         if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
-        const rawAccountData = omit(account, ['actions', 'producerInfo']);
         return (
           <Fragment>
             {getBreadcrumb('account', t)}
-            <DetailTabsContainer>
-              <Tabs defaultActiveKey="dashboard">
-                <Tabs.TabPane
-                  tab={
-                    <span>
-                      <Icon type="solution" />
-                      {t('Dashboard')}
-                    </span>
-                  }
-                  key="dashboard"
-                >
-                  <LongListContainer column>
-                    <AccountDashboard data={rawAccountData} />
-                  </LongListContainer>
-                </Tabs.TabPane>
-
-                <Tabs.TabPane
-                  tab={
-                    <span>
-                      <Icon type="database" />
-                      {t('Overview')}
-                    </span>
-                  }
-                  key="overview"
-                >
-                  <LongListContainer>
-                    <AccountDataOverview data={rawAccountData} />
-                  </LongListContainer>
-                </Tabs.TabPane>
-
-                <Tabs.TabPane
-                  tab={
-                    <span>
-                      <Icon type="file-text" />
-                      {t('Raw')}
-                    </span>
-                  }
-                  key="raw"
-                >
-                  <pre>
-                    <code>{JSON.stringify(rawAccountData, null, '  ')}</code>
-                  </pre>
-                </Tabs.TabPane>
-              </Tabs>
-            </DetailTabsContainer>
+            <DetailTabsContainer>{getAccountDetails(account, t)}</DetailTabsContainer>
           </Fragment>
         );
       }}

@@ -27,7 +27,6 @@ export const ListContainer = styled.div`
   ${adjustAntdTable};
 `;
 export const LongListContainer = styled.div`
-  ${adjustAntdTable};
   .ant-table {
     height: unset;
     margin-bottom: 50px;
