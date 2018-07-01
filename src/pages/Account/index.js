@@ -1,134 +1,115 @@
 // @flow
-import { toPairs } from 'lodash';
-import React, { PureComponent, Fragment } from 'react';
-import { Spin, Table, Tabs, Icon } from 'antd';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { omit } from 'lodash';
+import React, { Fragment } from 'react';
+import { Spin, Tabs, Icon } from 'antd';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import { withRouter, Redirect } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import { frontloadConnect } from 'react-frontload';
 
 import { getBreadcrumb } from '../../components/Layout';
-import type { AccountData } from '../../store/account';
-import { LongListContainer, DetailTabsContainer } from '../../components/Table';
-import AccountDashboard from '../../components/AccountDashboard';
+import { Container, DetailTabsContainer } from '../../components/Layout/Containers';
+import { LongListContainer } from '../../components/Table';
+import { AccountDataOverview, AccountDashboard, ACCOUNT_DASHBOARD_FRAGMENT } from '../../components/AccountDashboard';
+import { PRODUCER_INFO_FRAGMENT } from '../BlockProducer';
 
 type Props = {
   t: Function,
+  match: {
+    params: {
+      accountName: string,
+    },
+  },
 };
-type Store = {
-  data: AccountData,
-  producerInfo: Object | null,
-  loading: boolean,
-};
-type Dispatch = {
-  getAccountData: (accountName: string) => void,
-};
+const GET_ACCOUNT_DETAIL = gql`
+  query GET_ACCOUNT_DETAIL($name: String!) {
+    account(name: $name) {
+      ...ACCOUNT_DASHBOARD_FRAGMENT
+      actions {
+        actions {
+          name
+          data
+          transactionID
+          createdAt
+        }
+      }
+      producerInfo {
+        ...PRODUCER_INFO_FRAGMENT
+      }
+    }
+  }
+  ${ACCOUNT_DASHBOARD_FRAGMENT}
+  ${PRODUCER_INFO_FRAGMENT}
+`;
 
-class Account extends PureComponent<Props & Store, *> {
-  state = {};
-
-  render() {
-    const { t, loading, data, producerInfo } = this.props;
-    return (
-      <Fragment>
-        {getBreadcrumb('account', t)}
-        <Spin tip="Connecting" spinning={loading} size="large">
-          <DetailTabsContainer>
-            <Tabs defaultActiveKey="2">
-              {producerInfo && (
+function Account({ t, match }: Props) {
+  const { accountName } = match.params;
+  return (
+    <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
+      {({ loading, error, data }) => {
+        if (error) return <Container>{error.message}</Container>;
+        if (loading)
+          return (
+            <Spin tip={t('Connecting')} spinning={loading} size="large">
+              <Container />
+            </Spin>
+          );
+        const { account, actions, producerInfo } = data;
+        if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
+        const rawAccountData = omit(account, ['actions', 'producerInfo']);
+        return (
+          <Fragment>
+            {getBreadcrumb('account', t)}
+            <DetailTabsContainer>
+              <Tabs defaultActiveKey="dashboard">
                 <Tabs.TabPane
                   tab={
                     <span>
                       <Icon type="solution" />
-                      {t('BlockProducer')}
+                      {t('Dashboard')}
                     </span>
                   }
-                  key="1"
+                  key="dashboard"
                 >
                   <LongListContainer column>
-                    <small>{t('bp:bpcontactus')}</small>
-                    <Table
-                      scroll={{ x: 1000 }}
-                      size="middle"
-                      pagination={false}
-                      dataSource={toPairs(producerInfo).map(([field, value]) => ({
-                        field,
-                        value,
-                        key: field,
-                      }))}
-                    >
-                      <Table.Column
-                        width={200}
-                        dataIndex="field"
-                        key="field"
-                        render={str => t(`bp:${str}`)}
-                      />
-                      <Table.Column dataIndex="value" key="value" />
-                    </Table>
+                    <AccountDashboard data={rawAccountData} />
                   </LongListContainer>
                 </Tabs.TabPane>
-              )}
 
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="database" />
-                    {t('Overview')}
-                  </span>
-                }
-                key="2"
-              >
-                <LongListContainer><AccountDashboard data={data} /></LongListContainer>
-              </Tabs.TabPane>
+                <Tabs.TabPane
+                  tab={
+                    <span>
+                      <Icon type="database" />
+                      {t('Overview')}
+                    </span>
+                  }
+                  key="overview"
+                >
+                  <LongListContainer>
+                    <AccountDataOverview data={rawAccountData} />
+                  </LongListContainer>
+                </Tabs.TabPane>
 
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="file-text" />
-                    {t('Raw')}
-                  </span>
-                }
-                key="3"
-              >
-                <pre>
-                  <code>{JSON.stringify(data, null, '  ')}</code>
-                </pre>
-              </Tabs.TabPane>
-            </Tabs>
-          </DetailTabsContainer>
-        </Spin>
-      </Fragment>
-    );
-  }
+                <Tabs.TabPane
+                  tab={
+                    <span>
+                      <Icon type="file-text" />
+                      {t('Raw')}
+                    </span>
+                  }
+                  key="raw"
+                >
+                  <pre>
+                    <code>{JSON.stringify(rawAccountData, null, '  ')}</code>
+                  </pre>
+                </Tabs.TabPane>
+              </Tabs>
+            </DetailTabsContainer>
+          </Fragment>
+        );
+      }}
+    </Query>
+  );
 }
 
-const mapState = ({ account: { data, producerInfo }, info: { loading } }): Store => ({ data, producerInfo, loading });
-const mapDispatch = ({ account: { getAccountData } }): Dispatch => ({ getAccountData });
-
-type LoaderProps = Dispatch & {
-  match: {
-    params: {
-      accountId: string,
-    },
-  },
-};
-const frontload = async ({ loading, data, getAccountData, match }: Store & LoaderProps) => {
-  if (!loading && !loading && !data.accountName) {
-    const currentAccountName = String(match.params.accountId);
-    return getAccountData(currentAccountName);
-  }
-  return Promise.resolve();
-};
-
-export default withRouter(
-  translate('account')(
-    connect(
-      mapState,
-      mapDispatch,
-    )(
-      frontloadConnect(frontload, {
-        onUpdate: false,
-      })(Account),
-    ),
-  ),
-);
+export default withRouter(translate('account')(Account));

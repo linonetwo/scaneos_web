@@ -134,7 +134,7 @@ export default class App extends Component<{}> {
               <Route exact path="/block/:blockNum" component={Block} />
               <Route exact path="/transaction/:transactionId" component={Transaction} />
               <Route exact path="/transactions" component={Transactions} />
-              <Route exact path="/account/:accountId" component={Account} />
+              <Route exact path="/account/:accountName" component={Account} />
               <Route exact path="/accounts" component={Accounts} />
               <Route exact path="/action/:transactionId" component={Action} />
               <Route exact path="/actions" component={Actions} />
@@ -142,7 +142,7 @@ export default class App extends Component<{}> {
               <Route exact path="/bidings" component={NameBidings} />
               <Route exact path="/biding/:accountName" component={NameBiding} />
               <Route exact path="/producers" component={BlockProducers} />
-              <Route exact path="/producer/:accountId" component={BlockProducer} />
+              <Route exact path="/producer/:accountName" component={BlockProducer} />
               <Route exact path="/charts" component={Charts} />
               <Route exact path="/about" component={About} />
               <Route exact path="/" component={Home} />

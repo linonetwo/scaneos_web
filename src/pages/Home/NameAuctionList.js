@@ -7,7 +7,7 @@ import breakpoint from 'styled-components-breakpoint';
 import { Table, Icon, Input, Spin, Modal } from 'antd';
 import gql from 'graphql-tag';
 import { Query, ApolloConsumer } from 'react-apollo';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
 import { formatTimeStamp } from '../../store/utils';

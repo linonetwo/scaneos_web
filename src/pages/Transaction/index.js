@@ -9,8 +9,8 @@ import { frontloadConnect } from 'react-frontload';
 
 import { getBreadcrumb } from '../../components/Layout';
 import type { TransactionData } from '../../store/transaction';
-import type { ActionData } from '../../store/action';
-import { LongListContainer, DetailTabsContainer, NoData } from '../../components/Table';
+import { DetailTabsContainer } from '../../components/Layout/Containers';
+import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {

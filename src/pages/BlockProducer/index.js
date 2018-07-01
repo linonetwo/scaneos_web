@@ -7,6 +7,7 @@ import is, { isNot } from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
 import { Spin, Avatar, Table } from 'antd';
 import { connect } from 'react-redux';
+import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { frontloadConnect } from 'react-frontload';
@@ -16,7 +17,49 @@ import Loadable from 'react-loadable';
 import { Title } from '../Home/styles';
 import type { AccountData } from '../../store/account';
 import Loading from '../../components/Loading';
-import AccountDashboard from '../../components/AccountDashboard';
+import { AccountDashboard } from '../../components/AccountDashboard';
+
+export const PRODUCER_INFO_FRAGMENT = gql`
+  fragment PRODUCER_INFO_FRAGMENT on BPInfo {
+    rank
+    image {
+      title
+      url
+    }
+    totalVotes
+    isActive
+    unpaidBlocks
+    lastClaimTime
+    nameZh
+    name
+    homepage
+    contact
+    account
+    introductionZh
+    introduction
+    slogan
+    sloganZh
+    key
+    organization
+    nodes {
+      location {
+        name
+      }
+      isProducer
+      p2pEndpoint
+      apiEndpoint
+      sslEndpoint
+    }
+    location
+    locationZh
+    latitude
+    longitude
+    organizationIntroduction
+    organizationIntroductionZh
+    coreteam
+    others
+  }
+`;
 
 const BlockProducersMap = Loadable({
   loader: () =>
