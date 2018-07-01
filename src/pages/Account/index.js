@@ -54,6 +54,7 @@ function Account({ t, match }: Props) {
               <Container />
             </Spin>
           );
+        if (!data.account) return <Container>{t('noResult')}</Container>;
         const { account, actions, producerInfo } = data;
         if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
         const rawAccountData = omit(account, ['actions', 'producerInfo']);
