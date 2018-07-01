@@ -1,12 +1,14 @@
 // @flow
 import { toPairs } from 'lodash';
 import React, { PureComponent } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { Table, Progress } from 'antd';
 import gql from 'graphql-tag';
 import { translate } from 'react-i18next';
+import numeral from 'numeral';
+import prettySize from 'prettysize';
 
 import getListValueRendering from './getListValueRendering';
 
@@ -52,11 +54,21 @@ export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
 
 const DashboardContainer = styled(Flex)`
   width: 100%;
+
+  h3 {
+    margin: 30px;
+    text-align: center;
+    width: 100%;
+    color: #08668e;
+  }
 `;
 const progressBackground = '#2B95D6';
 const progressColor = '#0E5A8A';
 const ProgressContainer = styled.div`
-  width: calc((100% - 20px) / 2);
+  width: 100%;
+  ${breakpoint('tablet')`
+    width: calc((100% - 20px) / 2);
+  `};
   padding-top: 20px;
 
   .ant-progress-inner {
@@ -72,10 +84,10 @@ const ProgressContainer = styled.div`
 
   h4 {
     span:first-child {
-      color: ${progressColor};
+      color: ${({ progress }) => progress || progressColor};
     }
     span:nth-child(2) {
-      color: ${progressBackground};
+      color: ${({ bg }) => bg || progressBackground};
       float: right;
     }
   }
@@ -95,53 +107,57 @@ export class AccountDashboard extends PureComponent<Props> {
     const ramLiquidPercent = data.ram.max > 0 ? (data.ram.available / data.ram.max) * 100 : 0;
     return (
       <DashboardContainer wrap="true" justifyBetween>
+        <h3>
+          {t('eosTotal')}: {numeral(eosTotal).format('0,0.0000')} EOS
+        </h3>
         {/* 余额 */}
-        <ProgressContainer column center>
+        <ProgressContainer column center progress="#1AA2DB" bg="#08668E">
           <h4>
             <span>
               {t('eosBalance')}: {data.eosBalance} EOS
             </span>
+
             <span>
               {t('eosStaked')}: {data.eosStaked} EOS
             </span>
           </h4>
-          <Progress showInfo={false} percent={eosLiquidPercent} strokeWidth={20} />
+          <Progress showInfo={false} status="active" percent={eosLiquidPercent} strokeWidth={20} />
         </ProgressContainer>
         {/* 内存 */}
-        <ProgressContainer column center>
+        <ProgressContainer column center progress="#1AA1DB" bg="#08668E">
           <h4>
             <span>
-              {t('ramAvailable')}: {data.ram.available} EOS
+              {t('ramAvailable')}: {prettySize(data.ram.available, true, true, 3)}Byte
             </span>
             <span>
-              {t('ramMax')}: {data.ram.max} EOS
+              {t('ramMax')}: {prettySize(data.ram.max, true, true, 3)}Byte
             </span>
           </h4>
-          <Progress showInfo={false} percent={ramLiquidPercent} strokeWidth={20} />
+          <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
         </ProgressContainer>
         {/* 算力 */}
-        <ProgressContainer column center>
+        <ProgressContainer column center progress="#50BEED" bg="#08668E">
           <h4>
             <span>
-              {t('cpuAvailable')}: {data.cpu.available} EOS
+              {t('cpuAvailable')}: {prettySize(data.cpu.available, true, true, 3)}ms
             </span>
             <span>
-              {t('cpuMax')}: {data.cpu.max} EOS
+              {t('cpuMax')}: {prettySize(data.cpu.max, true, true, 3)}ms
             </span>
           </h4>
-          <Progress showInfo={false} percent={ramLiquidPercent} strokeWidth={20} />
+          <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
         </ProgressContainer>
         {/* 带宽 */}
-        <ProgressContainer column center>
+        <ProgressContainer column center progress="#50BEED" bg="#08668E">
           <h4>
             <span>
-              {t('netAvailable')}: {data.net.available} EOS
+              {t('netAvailable')}: {prettySize(data.net.available, true, true, 3)}Byte
             </span>
             <span>
-              {t('netMax')}: {data.net.max} EOS
+              {t('netMax')}: {prettySize(data.net.max, true, true, 3)}Byte
             </span>
           </h4>
-          <Progress showInfo={false} percent={ramLiquidPercent} strokeWidth={20} />
+          <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
         </ProgressContainer>
       </DashboardContainer>
     );

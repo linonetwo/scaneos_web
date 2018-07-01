@@ -40,6 +40,7 @@
     "numeral": "^2.0.6",
     "object-assign": "^4.1.1",
     "object-fit-images": "^3.2.3",
+    "prettysize": "^1.1.0",
     "preval.macro": "^1.0.2",
     "react": "^16.4.1",
     "react-apollo": "^2.1.8",
