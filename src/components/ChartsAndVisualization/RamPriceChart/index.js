@@ -6,8 +6,8 @@ import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
 import { Icon, Spin } from 'antd';
 import { format } from 'date-fns';
-import { connect } from 'react-redux';
-import { frontloadConnect } from 'react-frontload';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 import numeral from 'numeral';
 import IEcharts from 'react-echarts-v3/src/lite';
 import echarts from 'echarts/lib/echarts';
@@ -114,98 +114,95 @@ const chartOption = {
 type Props = {
   t: Function,
 };
-type Store = {
-  ramPriceChartData: number[][],
-  resourcePrice: Object,
-  loading: boolean,
-};
-type Dispatch = {
-  getResourcePrice: () => void,
-  getRamPriceChart: () => void,
-};
-function PriceChart(props: Props & Store) {
-  const { loading, resourcePrice, ramPriceChartData, t } = props;
-  const series = [
-    {
-      name: 'EOS',
-      data: ramPriceChartData.map(([, EOSPrice]) => EOSPrice),
-      type: 'line',
-      showSymbol: false,
-      hoverAnimation: false,
-    },
-  ];
-  const xAxis = [
-    {
-      type: 'category',
-      boundaryGap: false,
-      splitLine: {
-        show: false,
-      },
-      data: ramPriceChartData.map(([timeStamp]) => timeStamp),
-      axisLabel: {
-        formatter: value => format(Number(value), 'MM-DD HH:mm:ss'),
-      },
-      axisPointer: {
-        label: {
-          formatter: ({ value }) => format(Number(value), 'MM-DD HH:mm:ss'),
-        },
-      },
-    },
-  ];
-  if (typeof window === 'undefined') {
-    global.window = {};
+const GET_RAM_PRICE_CHART = gql`
+  query GET_RAM_PRICE_CHART {
+    resourcePriceChart {
+      ramPrice {
+        time
+        value
+      }
+    }
+    resourcePrice {
+      ramPrice
+      netPrice
+      cpuPrice
+    }
   }
+`;
+function RamPriceChart({ t }: Props) {
   return (
-    <Spin spinning={loading}>
-      <PriceChartContainer column justifyBetween>
-        <Title>
-          <span>
-            <Icon type="bar-chart" /> {t('RamPriceHistory')}
-          </span>
-        </Title>
-        <AggregationContainer justifyBetween wrap="true">
-          <AggregationItem column center>
-            <h4>{t('ramPrice')}</h4>
-            {resourcePrice.ramPrice.toFixed(3)} EOS/KB
-          </AggregationItem>
-          <AggregationItem column center>
-            <h4>{t('netPrice')}</h4>
-            {resourcePrice.netPrice.toFixed(3)} EOS/KB
-          </AggregationItem>
-          <AggregationItem column center>
-            <h4>{t('cpuPrice')}</h4>
-            {resourcePrice.cpuPrice.toFixed(3)} EOS/ms
-          </AggregationItem>
-        </AggregationContainer>
-        <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
-      </PriceChartContainer>
-    </Spin>
+    <Query query={GET_RAM_PRICE_CHART}>
+      {({ loading, error, data }) => {
+        if (error) return <PriceChartContainer>{error.message}</PriceChartContainer>;
+        if (loading)
+          return (
+            <Spin tip={t('Connecting')} spinning={loading} size="large">
+              <PriceChartContainer />
+            </Spin>
+          );
+
+        const {
+          resourcePriceChart: { ramPrice },
+          resourcePrice,
+        } = data;
+
+        const series = [
+          {
+            name: 'EOS',
+            data: ramPrice.map(({ value }) => value),
+            type: 'line',
+            showSymbol: false,
+            hoverAnimation: false,
+          },
+        ];
+        const xAxis = [
+          {
+            type: 'category',
+            boundaryGap: false,
+            splitLine: {
+              show: false,
+            },
+            data: ramPrice.map(({ time }) => time),
+            axisLabel: {
+              formatter: value => format(value, 'MM-DD HH:mm:ss'),
+            },
+            axisPointer: {
+              label: {
+                formatter: ({ value }) => format(value, 'MM-DD HH:mm:ss'),
+              },
+            },
+          },
+        ];
+        if (typeof window === 'undefined') {
+          global.window = {};
+        }
+        return (
+          <PriceChartContainer column justifyBetween>
+            <Title>
+              <span>
+                <Icon type="bar-chart" /> {t('RamPriceHistory')}
+              </span>
+            </Title>
+            <AggregationContainer justifyBetween wrap="true">
+              <AggregationItem column center>
+                <h4>{t('ramPrice')}</h4>
+                {resourcePrice.ramPrice.toFixed(3)} EOS/KB
+              </AggregationItem>
+              <AggregationItem column center>
+                <h4>{t('netPrice')}</h4>
+                {resourcePrice.netPrice.toFixed(3)} EOS/KB
+              </AggregationItem>
+              <AggregationItem column center>
+                <h4>{t('cpuPrice')}</h4>
+                {resourcePrice.cpuPrice.toFixed(3)} EOS/ms
+              </AggregationItem>
+            </AggregationContainer>
+            <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
+          </PriceChartContainer>
+        );
+      }}
+    </Query>
   );
 }
 
-const mapState = ({ price: { loading, ramPriceChartData, resourcePrice } }): Store => ({
-  loading,
-  ramPriceChartData,
-  resourcePrice,
-});
-const mapDispatch = ({ price: { getRamPriceChart, getResourcePrice } }): Dispatch => ({
-  getRamPriceChart,
-  getResourcePrice,
-});
-const frontload = ({ resourcePrice, getResourcePrice, ramPriceChartData, getRamPriceChart }: Dispatch & Store) =>
-  Promise.all([
-    resourcePrice.supply === -1 && getResourcePrice(),
-    ramPriceChartData.length === 0 && getRamPriceChart(),
-  ]);
-
-export default translate()(
-  connect(
-    mapState,
-    mapDispatch,
-  )(
-    frontloadConnect(frontload, {
-      onUpdate: false,
-      onMount: true,
-    })(PriceChart),
-  ),
-);
+export default translate()(RamPriceChart);
