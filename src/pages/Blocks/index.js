@@ -1,4 +1,5 @@
 // @flow
+import { truncate } from 'lodash';
 import React, { Component } from 'react';
 import { Spin, Table } from 'antd';
 import { translate } from 'react-i18next';
@@ -78,6 +79,14 @@ class Blocks extends Component<Props> {
                     render={blockNum => <Link to={`/block/${blockNum}/`}>{blockNum}</Link>}
                   />
                   <Table.Column
+                    title={t('blockID')}
+                    dataIndex="blockID"
+                    key="blockID"
+                    render={blockID => (
+                      <Link to={`/transaction/${blockID}/`}>{truncate(blockID, { length: 14, omission: '..' })}</Link>
+                    )}
+                  />
+                  <Table.Column
                     title={t('timestamp')}
                     dataIndex="timestamp"
                     key="timestamp"
@@ -89,6 +98,12 @@ class Blocks extends Component<Props> {
                     dataIndex="producerAccountID"
                     key="producerAccountID"
                     render={producerAccountID => <Link to={`/account/${producerAccountID}/`}>{producerAccountID}</Link>}
+                  />
+                  <Table.Column
+                    title={t('pending')}
+                    dataIndex="pending"
+                    key="pending"
+                    render={value => t(String(value))}
                   />
                 </Table>
               </ListContainer>
