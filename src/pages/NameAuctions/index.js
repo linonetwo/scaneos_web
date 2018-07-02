@@ -1,4 +1,5 @@
 // @flow
+import { truncate } from 'lodash';
 import React, { PureComponent } from 'react';
 import { Spin, Table } from 'antd';
 import { translate } from 'react-i18next';
@@ -12,12 +13,14 @@ import { ListContainer } from '../../components/Table';
 type Props = {
   t: Function,
 };
-const GET_ACCOUNT_LIST = gql`
-  query GET_ACCOUNT_LIST($page: Int) {
-    accounts(page: $page, size: ${getPageSize()}) {
-      accounts {
-        accountName
-        createdAt
+const GET_NAME_AUCTION_LIST = gql`
+  query GET_NAME_AUCTION_LIST($page: Int) {
+    nameAuctions(page: $page, size: ${getPageSize()}) {
+      nameAuctions {
+        highBidder
+        highBid
+        lastBidTime
+        newName
       }
       pageInfo {
         page
@@ -27,11 +30,11 @@ const GET_ACCOUNT_LIST = gql`
   }
 `;
 
-class Accounts extends PureComponent<Props> {
+class NameAuctions extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_ACCOUNT_LIST} notifyOnNetworkStatusChange>
+      <Query query={GET_NAME_AUCTION_LIST} notifyOnNetworkStatusChange>
         {({ loading, error, data, fetchMore }) => {
           if (error) return <ListContainer column>{error.message}</ListContainer>;
           if (loading)
@@ -41,17 +44,17 @@ class Accounts extends PureComponent<Props> {
               </Spin>
             );
           const {
-            accounts: {
-              accounts,
+            nameAuctions: {
+              nameAuctions,
               pageInfo: { page, totalElements },
             },
           } = data;
           return (
             <ListContainer column>
               <Table
-                scroll={{ x: 500 }}
+                scroll={{ x: 1000 }}
                 size="middle"
-                dataSource={accounts}
+                dataSource={nameAuctions}
                 rowKey="id"
                 pagination={{
                   pageSize: getPageSize(),
@@ -67,16 +70,28 @@ class Accounts extends PureComponent<Props> {
                 }}
               >
                 <Table.Column
-                  title={t('name')}
-                  dataIndex="accountName"
-                  key="accountName"
-                  render={accountName => <Link to={`/account/${accountName}/`}>{accountName}</Link>}
+                  title={t('newName')}
+                  dataIndex="newName"
+                  key="newName"
+                  render={newName => (
+                    <Link to={`/auction/${newName}/`}>{truncate(newName, { length: 14, omission: '..' })}</Link>
+                  )}
                 />
                 <Table.Column
-                  title={t('createdAt')}
-                  dataIndex="createdAt"
-                  key="createdAt"
-                  render={createdAt => formatTimeStamp(createdAt, t('locale'))}
+                  title={t('highBidder')}
+                  dataIndex="highBidder"
+                  key="highBidder"
+                  render={(highBidder, { highBid }) => (
+                    <Link to={`/account/${highBidder}/`}>
+                      {highBidder} {t('offerBid')} {highBid}EOS
+                    </Link>
+                  )}
+                />
+                <Table.Column
+                  title={t('updatedAt')}
+                  dataIndex="lastBidTime"
+                  key="lastBidTime"
+                  render={lastBidTime => formatTimeStamp(lastBidTime, t('locale'))}
                 />
               </Table>
             </ListContainer>
@@ -87,4 +102,4 @@ class Accounts extends PureComponent<Props> {
   }
 }
 
-export default translate('account')(Accounts);
+export default translate('account')(NameAuctions);

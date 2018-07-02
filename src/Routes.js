@@ -79,15 +79,15 @@ const Tokens = Loadable({
   loading: Loading,
   modules: ['Tokens'],
 });
-const NameBidings = Loadable({
-  loader: () => import(/* webpackChunkName: "NameBidings" */ './pages/NameBidings'),
+const NameAuctions = Loadable({
+  loader: () => import(/* webpackChunkName: "NameAuctions" */ './pages/NameAuctions'),
   loading: Loading,
-  modules: ['NameBidings'],
+  modules: ['NameAuctions'],
 });
-const NameBiding = Loadable({
-  loader: () => import(/* webpackChunkName: "NameBiding" */ './pages/NameBiding'),
+const NameAuction = Loadable({
+  loader: () => import(/* webpackChunkName: "NameAuction" */ './pages/NameAuction'),
   loading: Loading,
-  modules: ['NameBiding'],
+  modules: ['NameAuction'],
 });
 const UnderDevelopment = Loadable({
   loader: () => import(/* webpackChunkName: "UnderDevelopment" */ './pages/UnderDevelopment'),
@@ -146,8 +146,8 @@ export default class App extends Component<{}> {
               <Route exact path="/actions" component={Actions} />
               <Route exact path="/dictionary" component={Dictionary} />
               <Route exact path="/tokens" component={Tokens} />
-              <Route exact path="/bidings" component={NameBidings} />
-              <Route exact path="/biding/:accountName" component={NameBiding} />
+              <Route exact path="/auctions" component={NameAuctions} />
+              <Route exact path="/auction/:accountName" component={NameAuction} />
               <Route exact path="/producers" component={BlockProducers} />
               <Route exact path="/producer/:accountName" component={BlockProducer} />
               <Route exact path="/charts" component={Charts} />

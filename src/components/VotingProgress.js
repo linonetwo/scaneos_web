@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
-import { Icon, Tooltip, Progress } from 'antd';
+import { Icon, Tooltip, Progress, Spin } from 'antd';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { frontloadConnect } from 'react-frontload';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 import { Title as ATitle } from '../pages/Home/styles';
 
@@ -56,66 +56,64 @@ const Content = styled.div`
 type Props = {
   t: Function,
 };
-type Store = {
-  totalActivatedStake: number,
-};
-type Dispatch = {
-  getVoting: () => void,
-};
 
-function VotingProgress(props: Props & Store) {
-  const votingPercentage = ((Number(props.totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
+function VotingProgress({ t }: Props) {
   return (
-    <Container column justifyBetween>
-      <Link to="/producers/">
-        <Title>
-          <span>
-            <Icon type="check-square-o" /> {props.t('VotingProgress')}
-          </span>
-        </Title>
-      </Link>
-      <h3>{votingPercentage.toFixed(2)}%</h3>
-      <Tooltip title={`${props.t('EOSVotes')}: ${votingPercentage}%`}>
-        <Progress showInfo={false} status="active" percent={votingPercentage} strokeWidth={20} successPercent={15} />
-      </Tooltip>
-      <Content>
-        <div>
-          <div>{props.t('EOSVotesIntroduction')}</div>
-        </div>
-        <div>
-          <div>
-            {props.t('EOSVotes')}:{' '}
-            <strong>{props.totalActivatedStake}</strong> ({votingPercentage.toFixed(4)}%)
-          </div>
-        </div>
-      </Content>
-    </Container>
+    <Query
+      query={gql`
+        query {
+          status {
+            totalActivatedStake
+          }
+        }
+      `}
+    >
+      {({ loading, error, data }) => {
+        if (error) return <Container>{error.message}</Container>;
+        if (loading)
+          return (
+            <Spin tip={t('Connecting')} spinning={loading} size="large">
+              <Container />
+            </Spin>
+          );
+        const {
+          status: { totalActivatedStake },
+        } = data;
+        const votingPercentage = ((Number(totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
+        return (
+          <Container column justifyBetween>
+            <Link to="/producers/">
+              <Title>
+                <span>
+                  <Icon type="check-square-o" /> {t('VotingProgress')}
+                </span>
+              </Title>
+            </Link>
+            <h3>{votingPercentage.toFixed(2)}%</h3>
+            <Tooltip title={`${t('EOSVotes')}: ${votingPercentage}%`}>
+              <Progress
+                showInfo={false}
+                status="active"
+                percent={votingPercentage}
+                strokeWidth={20}
+                successPercent={15}
+              />
+            </Tooltip>
+            <Content>
+              <div>
+                <div>{t('EOSVotesIntroduction')}</div>
+              </div>
+              <div>
+                <div>
+                  {t('EOSVotes')}: <strong>{totalActivatedStake}</strong> ({votingPercentage.toFixed(4)}%)
+                </div>
+              </div>
+            </Content>
+          </Container>
+        );
+      }}
+    </Query>
   );
 }
 
-const mapState = ({
-  action: { loading: actionLoading, listByTime: actionData },
-  aggregation: { totalActivatedStake },
-}): Store => ({
-  actionData,
-  actionLoading,
-  totalActivatedStake,
-});
-const mapDispatch = ({ action: { getActionsList }, aggregation: { getVoting } }): Dispatch => ({
-  getActionsList,
-  getVoting,
-});
-
-const frontload = (props: Dispatch & Store) => props.totalActivatedStake || props.getVoting();
-
-export default translate('bp')(
-  connect(
-    mapState,
-    mapDispatch,
-  )(
-    frontloadConnect(frontload, {
-      onUpdate: false,
-      onMount: true,
-    })(VotingProgress),
-  ),
-);
+export default translate('bp')(VotingProgress);

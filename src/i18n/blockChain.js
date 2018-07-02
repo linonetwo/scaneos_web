@@ -71,7 +71,7 @@ export const zh = {
     scope: 'scope',
     readScope: 'readScope',
 
-    Biding: '靓号竞拍',
+    Auction: '靓号竞拍',
     newName: '靓号',
     offerBid: '出价',
     highBidder: '最高出价者',

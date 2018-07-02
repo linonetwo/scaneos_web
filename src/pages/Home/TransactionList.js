@@ -67,7 +67,7 @@ function TransactionList({ t }: Props) {
                     </Link>
                     <div style={{ textAlign: 'left' }}>
                       <div>
-                        <Link to={`/block/${item.blockID}/?tab=transactions`}>
+                        <Link to={`/block/${item.blockID}/`}>
                           {t('blockID')}: {truncate(item.blockID, { length: 15, omission: '...' })}
                         </Link>
                       </div>

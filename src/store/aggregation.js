@@ -91,7 +91,6 @@ export default (initialState?: Object = {}) => ({
       } = await import('./');
       dispatch.info.toggleLoading();
       dispatch.aggregation.toggleLoading();
-      dispatch.history.updateURI();
 
       try {
         const { blockNumber, transactionNumber, accountNumber, actionNumber } = await get('/stats');

@@ -30,7 +30,6 @@ export default (initialState: Object = {}) => ({
         store: { dispatch },
       } = await import('./');
       dispatch.info.toggleLoading();
-      dispatch.action.toggleLoading();
 
       try {
         const listResponse = await get('/actions?requiredata=true&type=create');
@@ -48,7 +47,6 @@ export default (initialState: Object = {}) => ({
         dispatch.info.displayNotification(notificationString);
       } finally {
         dispatch.info.toggleLoading();
-        dispatch.action.toggleLoading();
       }
     },
   },

@@ -64,7 +64,7 @@ const SEARCH_AUCTION = gql`
 function SearchResult({ nameAuction, t }: Object) {
   return (
     <Flex column>
-      <h4><a href={`/biding/${nameAuction.newName}/`}>{nameAuction.newName}</a></h4>
+      <h4><a href={`/auction/${nameAuction.newName}/`}>{nameAuction.newName}</a></h4>
       <p>{t('highBidder')}: <a href={`/account/${nameAuction.highBidder}/`}>{nameAuction.highBidder}</a></p>
       <p>{t('offerBid')}: <span>{nameAuction.highBid} EOS</span></p>
       <p>{formatTimeStamp(nameAuction.lastBidTime, t('locale'), { distance: false })}</p>
@@ -121,7 +121,7 @@ class NameAuctionList extends PureComponent<Props> {
                   <Fragment>
                     <Title justifyBetween alignCenter>
                       <span>
-                        <Icon type="database" /> {t('Biding')}
+                        <Icon type="database" /> {t('Auction')}
                       </span>
                       <SearchContainer desktop>
                         <Input.Search
@@ -130,7 +130,7 @@ class NameAuctionList extends PureComponent<Props> {
                           onSearch={name => this.search(name, client)}
                         />
                       </SearchContainer>
-                      <Link to="/bidings/">
+                      <Link to="/auctions/">
                         <ViewAll>{t('ViewAll')}</ViewAll>
                       </Link>
                     </Title>
@@ -161,7 +161,7 @@ class NameAuctionList extends PureComponent<Props> {
                   title={t('newName')}
                   dataIndex="newName"
                   key="newName"
-                  render={newName => <Link to={`/biding/${newName}/`}>{newName}</Link>}
+                  render={newName => <Link to={`/auction/${newName}/`}>{newName}</Link>}
                 />
                 <Table.Column
                   title={t('highBidder')}
