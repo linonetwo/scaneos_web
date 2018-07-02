@@ -1,6 +1,5 @@
 // @flow
 import get from '../API.config';
-import type { Pagination } from './block';
 
 type Authorization = {
   permission: string,

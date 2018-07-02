@@ -1,176 +1,123 @@
 // @flow
 import { toPairs } from 'lodash';
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import queryString from 'query-string';
-import { frontloadConnect } from 'react-frontload';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 import { getBreadcrumb } from '../../components/Layout';
-import type { BlockData } from '../../store/block';
 import { DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
-  location: Object,
-  history: Object,
+  match: {
+    params: {
+      blockNumOrID: string,
+    },
+  },
   t: Function,
 };
-type Store = {
-  data: BlockData,
-  transactions: TransactionData[],
-  blockLoading: boolean,
-  transactionLoading: boolean,
-};
-type Dispatch = {
-  getBlockData: (blockNumOrID: number | string) => void,
-  getTransactionsListInBlock: (blockID: string) => void,
-};
+const GET_BLOCK_DETAIL = gql`
+  query GET_BLOCK_DETAIL($blockNumOrID: String!) {
+    block(blockNumOrID: $blockNumOrID) {
+      blockID
+      blockNum
+      transactionNum
+      producerAccountID
+      timestamp
+      pending
+      transactionMerkleRoot
+      transactions {
+        transactions {
+          transactionID
+          actionNum
+          status
+          expiration
+          pending
+          createdAt
+        }
+      }
+    }
+  }
+`;
 
-class Block extends Component<Props & Store, *> {
-  state = {};
-
+class Block extends PureComponent<Props> {
   render() {
-    const { tab = 'data' } = queryString.parse(this.props.location.search);
+    const { t, match } = this.props;
+    const { blockNumOrID } = match.params;
     return (
-      <Fragment>
-        {getBreadcrumb('block', this.props.t)}
-        <DetailTabsContainer>
-          <Tabs
-            defaultActiveKey="data"
-            activeKey={tab}
-            onChange={activeKey => this.props.history.push(`${this.props.location.pathname}?tab=${activeKey}`)}
-          >
-            <Tabs.TabPane
-              tab={
-                <span>
-                  <Icon type="sync" />
-                  {this.props.t('Transactions')}
-                </span>
-              }
-              key="transactions"
-            >
-              <Spin tip="Connecting" spinning={this.props.blockLoading || this.props.transactionLoading} size="large">
-                {this.props.transactions.length > 0 ? (
-                  this.props.transactions.map(data => (
+      <Query query={GET_BLOCK_DETAIL} variables={{ blockNumOrID }}>
+        {({ loading, error, data }) => {
+          if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
+          if (loading)
+            return (
+              <Spin tip={t('Connecting')} spinning={loading} size="large">
+                <DetailTabsContainer />
+              </Spin>
+            );
+          if (!data.block) return <NoData>{t('noResult')}</NoData>;
+          const {
+            block: {
+              transactions: { transactions },
+              ...block
+            },
+          } = data;
+          return (
+            <Fragment>
+              {getBreadcrumb('block', t)}
+              <DetailTabsContainer>
+                <Tabs defaultActiveKey="data">
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="database" />
+                        {t('Overview')}
+                      </span>
+                    }
+                    key="data"
+                  >
                     <LongListContainer column>
                       <Table
                         scroll={{ x: 800 }}
                         size="middle"
                         pagination={false}
-                        dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+                        dataSource={toPairs(block).map(([field, value]) => ({ field, value, key: field }))}
                       >
+                        <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
                         <Table.Column
-                          title={this.props.t('field')}
-                          width={70}
-                          dataIndex="field"
-                          key="field"
-                          render={field => this.props.t(`transaction:${field}`)}
-                        />
-                        <Table.Column
-                          title={this.props.t('value')}
+                          title={t('value')}
                           dataIndex="value"
                           key="value"
-                          render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
+                          render={(value, { field }) => getListValueRendering(field, value, t)}
                         />
                       </Table>
                     </LongListContainer>
-                  ))
-                ) : (
-                  <NoData>No Transactions.</NoData>
-                )}
-              </Spin>
-            </Tabs.TabPane>
+                  </Tabs.TabPane>
 
-            <Tabs.TabPane
-              tab={
-                <span>
-                  <Icon type="database" />
-                  {this.props.t('Overview')}
-                </span>
-              }
-              key="data"
-            >
-              <Spin tip="Connecting" spinning={this.props.blockLoading} size="large">
-                <LongListContainer column>
-                  <Table
-                    scroll={{ x: 800 }}
-                    size="middle"
-                    pagination={false}
-                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field }))}
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="file-text" />
+                        {t('Raw')}
+                      </span>
+                    }
+                    key="raw"
                   >
-                    <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                    <Table.Column
-                      title={this.props.t('value')}
-                      dataIndex="value"
-                      key="value"
-                      render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
-                    />
-                  </Table>
-                </LongListContainer>
-              </Spin>
-            </Tabs.TabPane>
-
-            <Tabs.TabPane
-              tab={
-                <span>
-                  <Icon type="file-text" />
-                  {this.props.t('Raw')}
-                </span>
-              }
-              key="raw"
-            >
-              <Spin tip="Connecting" spinning={this.props.blockLoading} size="large">
-                <pre>
-                  <code>{JSON.stringify(this.props.data, null, '  ')}</code>
-                </pre>
-              </Spin>
-            </Tabs.TabPane>
-          </Tabs>
-        </DetailTabsContainer>
-      </Fragment>
+                    <pre>
+                      <code>{JSON.stringify(block, null, '  ')}</code>
+                    </pre>
+                  </Tabs.TabPane>
+                </Tabs>
+              </DetailTabsContainer>
+            </Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }
 
-const mapState = ({
-  block: { loading: blockLoading, data },
-  transaction: { loading: transactionLoading, listByBlock },
-}): Store => ({
-  data,
-  transactions: listByBlock,
-  blockLoading,
-  transactionLoading,
-});
-const mapDispatch = ({ block: { getBlockData }, transaction: { getTransactionsListInBlock } }): Dispatch => ({
-  getBlockData,
-  getTransactionsListInBlock,
-});
-
-type LoaderProps = Dispatch & {
-  match: {
-    params: {
-      blockNum: string,
-    },
-  },
-};
-const frontload = async (props: LoaderProps) => {
-  const currentBlockNumberOrID = props.match.params.blockNum;
-  return props.getBlockData(currentBlockNumberOrID);
-};
-
-export default withRouter(
-  translate(['block', 'transaction'])(
-    connect(
-      mapState,
-      mapDispatch,
-    )(
-      frontloadConnect(frontload, {
-        onUpdate: false,
-      })(Block),
-    ),
-  ),
-);
+export default withRouter(translate(['block', 'transaction'])(Block));

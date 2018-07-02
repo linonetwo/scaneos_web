@@ -138,7 +138,7 @@ export default class App extends Component<{}> {
             <Header />
             <Switch>
               <Route exact path="/blocks" component={Blocks} />
-              <Route exact path="/block/:blockNum" component={Block} />
+              <Route exact path="/block/:blockNumOrID" component={Block} />
               <Route exact path="/transaction/:transactionID" component={Transaction} />
               <Route exact path="/transactions" component={Transactions} />
               <Route exact path="/account/:accountName" component={Account} />

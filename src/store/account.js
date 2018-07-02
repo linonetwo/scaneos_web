@@ -1,7 +1,6 @@
 // @flow
 import { find, size } from 'lodash';
 import camelize from 'camelize';
-import type { Pagination } from './block';
 import get, { postEOS, getCMS, CMS_BASE } from '../API.config';
 
 type Permission = {

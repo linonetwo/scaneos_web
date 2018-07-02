@@ -9,7 +9,6 @@ import { frontloadConnect } from 'react-frontload';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
 import type { ActionData } from '../../store/action';
-import type { Pagination } from '../../store/block';
 import { ListContainer } from '../../components/Table';
 
 type Props = {

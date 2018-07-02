@@ -44,13 +44,7 @@ export default (initialState: Object = {}) => ({
         history,
       } = await import('./');
       const state = getState();
-      if (history.location.pathname === '/blocks/') {
-        const query = queryString.stringify({
-          ...queryString.parse(history.location.search),
-          page: state.block.pagination.current,
-        });
-        history.replace(`/blocks/?${query}`, { isFromEffect: true });
-      } else if (history.location.pathname === '/accounts/') {
+      if (history.location.pathname === '/accounts/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
           page: state.account.pagination.current,
@@ -84,12 +78,6 @@ export async function followURI(location: { pathname: string, search?: string, s
     const state = await getState();
     // 只有相应的 store 里没有数据，或者是翻页了(应该没有这种情况)，才加载数据
     if (
-      location.pathname === '/blocks/' &&
-      (state.block.list.length === 0 || state.block.pagination.current + 1 !== page)
-    ) {
-      return dispatch.block.getBlocksList(page);
-    }
-    if (
       location.pathname === '/accounts/' &&
       (state.account.list.length === 0 || state.account.pagination.current + 1 !== page)
     ) {
@@ -100,17 +88,6 @@ export async function followURI(location: { pathname: string, search?: string, s
       (state.action.listByTime.length === 0 || state.action.pagination.current + 1 !== page)
     ) {
       return dispatch.action.getActionsList(page);
-    }
-
-    if (/\/block\//g.test(location.pathname)) {
-      const nextBlockNumOrId = location.pathname
-        .split('/block/')
-        .pop()
-        .replace('/', '');
-      if (nextBlockNumOrId !== state.block.data.blockId && Number(nextBlockNumOrId) !== state.block.data.blockNum) {
-        return dispatch.block.getBlockData(nextBlockNumOrId);
-      }
-      return null;
     }
     if (/\/account\//g.test(location.pathname) && !state.account.loading && state.account.data.accountName) {
       const nextAccountName = location.pathname

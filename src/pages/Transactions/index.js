@@ -13,8 +13,8 @@ import { ListContainer } from '../../components/Table';
 type Props = {
   t: Function,
 };
-const GET_TRANSACTION_LIST = gql`
-  query GET_TRANSACTION_LIST($page: Int) {
+const GET_TRANSACTIONS_LIST = gql`
+  query GET_TRANSACTIONS_LIST($page: Int) {
     transactions(page: $page, size: ${getPageSize()}) {
       transactions {
         transactionID
@@ -37,7 +37,7 @@ class Transactions extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_TRANSACTION_LIST} notifyOnNetworkStatusChange>
+      <Query query={GET_TRANSACTIONS_LIST} notifyOnNetworkStatusChange>
         {({ loading, error, data, fetchMore }) => {
           if (error) return <ListContainer column>{error.message}</ListContainer>;
           if (loading)
