@@ -50,12 +50,6 @@ export default (initialState: Object = {}) => ({
           page: state.block.pagination.current,
         });
         history.replace(`/blocks/?${query}`, { isFromEffect: true });
-      } else if (history.location.pathname === '/transactions/') {
-        const query = queryString.stringify({
-          ...queryString.parse(history.location.search),
-          page: state.transaction.pagination.current,
-        });
-        history.replace(`/transactions/?${query}`, { isFromEffect: true });
       } else if (history.location.pathname === '/accounts/') {
         const query = queryString.stringify({
           ...queryString.parse(history.location.search),
@@ -94,12 +88,6 @@ export async function followURI(location: { pathname: string, search?: string, s
       (state.block.list.length === 0 || state.block.pagination.current + 1 !== page)
     ) {
       return dispatch.block.getBlocksList(page);
-    }
-    if (
-      location.pathname === '/transactions/' &&
-      (state.transaction.list.length === 0 || state.transaction.pagination.current + 1 !== page)
-    ) {
-      return dispatch.transaction.getTransactionsList(page);
     }
     if (
       location.pathname === '/accounts/' &&

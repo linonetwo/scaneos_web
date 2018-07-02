@@ -2,13 +2,13 @@
 import { toPairs } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { DetailTabsContainer, ActionsContainer } from '../../components/Containers';
+import { DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 import { ACTIONS_FRAGMENT } from '../Action';
@@ -35,7 +35,6 @@ const GET_TRANSACTION_DETAIL = gql`
       expiration
       pending
       createdAt
-      type
       sequenceNum
       refBlockNum
       refBlockPrefix

@@ -1,107 +1,114 @@
 // @flow
 import { truncate } from 'lodash';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Spin, Table } from 'antd';
-import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { frontloadConnect } from 'react-frontload';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
-import { getPageSize, formatTimeStamp } from '../../store/utils';
-import type { Pagination } from '../../store/block';
+import { formatTimeStamp } from '../../store/utils';
 import { ListContainer } from '../../components/Table';
 
 type Props = {
   t: Function,
 };
-type Store = {
-  list: TransactionData[],
-  pagination: Pagination,
-  loading: boolean,
-};
-type Dispatch = {
-  getTransactionsList: (gotoPage?: number) => void,
-};
+const GET_TRANSACTION_LIST = gql`
+  query GET_TRANSACTION_LIST($page: Int) {
+    transactions(page: $page) {
+      transactions {
+        transactionID
+        blockID
+        actionNum
+        status
+        expiration
+        pending
+        createdAt
+      }
+      pageInfo {
+        totalPages
+      }
+    }
+  }
+`;
 
-class Transactions extends Component<Props & Store & Dispatch, *> {
-  state = {};
-
+class Transactions extends PureComponent<Props> {
   render() {
+    const { t } = this.props;
     return (
-      <Spin tip="Connecting" spinning={this.props.loading} size="large">
-        <ListContainer column>
-          <Table
-            scroll={{ x: 1000 }}
-            size="middle"
-            dataSource={this.props.list}
-            rowKey="id"
-            pagination={{
-              pageSize: getPageSize(),
-              ...this.props.pagination,
-            }}
-            onChange={pagination => {
-              this.props.getTransactionsList(pagination.current);
-            }}
-          >
-            <Table.Column
-              title={this.props.t('transactionId')}
-              dataIndex="transactionId"
-              key="transactionId"
-              render={transactionId => (
-                <Link to={`/transaction/${transactionId}/`}>
-                  {truncate(transactionId, { length: 14, omission: '..' })}
-                </Link>
-              )}
-            />
-            <Table.Column
-              title={this.props.t('createdAt')}
-              dataIndex="createdAt"
-              key="createdAt"
-              render={timeStamp => formatTimeStamp(timeStamp, this.props.t('locale'))}
-            />
-            <Table.Column
-              title={this.props.t('blockId')}
-              dataIndex="blockId"
-              key="blockId"
-              render={blockId => (
-                <Link to={`/block/${blockId}/`}>{truncate(blockId, { length: 14, omission: '..' })}</Link>
-              )}
-            />
-            {/* <Table.Column
-              title={this.props.t('actions')}
-              dataIndex="actions"
-              key="actions"
-              render={actions => actions.map(({ id }) => <Link to={`/action/${id}/`}>{id}</Link>)}
-            /> */}
-          </Table>
-        </ListContainer>
-      </Spin>
+      <Query query={GET_TRANSACTION_LIST}>
+        {({ loading, error, data, fetchMore }) => {
+          if (error) return <ListContainer column>{error.message}</ListContainer>;
+          if (loading)
+            return (
+              <Spin tip={t('Connecting')} spinning={loading} size="large">
+                <ListContainer />
+              </Spin>
+            );
+          const {
+            transactions: {
+              transactions,
+              pageInfo: { totalPages },
+            },
+          } = data;
+          return (
+            <ListContainer column>
+              <Table
+                scroll={{ x: 1000 }}
+                size="middle"
+                dataSource={transactions}
+                rowKey="id"
+                pagination={{
+                  pageSize: totalPages,
+                }}
+                onChange={page =>
+                  fetchMore({
+                    variables: {
+                      page: page - 1,
+                    },
+                    updateQuery: (prev, { fetchMoreResult }) => {
+                      if (!fetchMoreResult) return prev;
+                      return fetchMoreResult;
+                    },
+                  })
+                }
+              >
+                <Table.Column
+                  title={t('transactionID')}
+                  dataIndex="transactionID"
+                  key="transactionID"
+                  render={transactionID => (
+                    <Link to={`/transaction/${transactionID}/`}>
+                      {truncate(transactionID, { length: 14, omission: '..' })}
+                    </Link>
+                  )}
+                />
+                <Table.Column
+                  title={t('createdAt')}
+                  dataIndex="createdAt"
+                  key="createdAt"
+                  render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
+                />
+                <Table.Column
+                  title={t('actionNum')}
+                  dataIndex="actionNum"
+                  key="actionNum"
+                />
+                <Table.Column
+                  title={t('blockID')}
+                  dataIndex="blockID"
+                  key="blockID"
+                  render={blockID => (
+                    <Link to={`/block/${blockID}/`}>{truncate(blockID, { length: 14, omission: '..' })}</Link>
+                  )}
+                />
+              </Table>
+            </ListContainer>
+          );
+        }}
+      </Query>
     );
   }
 }
 
-const mapState = ({ transaction: { list, pagination }, info: { loading } }): Store => ({
-  list,
-  pagination,
-  loading,
-});
-const mapDispatch = ({ transaction: { getTransactionsList } }): Dispatch => ({
-  getTransactionsList,
-});
-const frontload = async (props: Store & Dispatch) => {
-  // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
-  if (!props.loading && props.list.length === 0) {
-    return props.getTransactionsList();
-  }
-  return Promise.resolve();
-};
-export default translate('transaction')(
-  connect(
-    mapState,
-    mapDispatch,
-  )(
-    frontloadConnect(frontload, {
-      onUpdate: false,
-    })(Transactions),
-  ),
-);
+export default translate('transaction')(Transactions);
