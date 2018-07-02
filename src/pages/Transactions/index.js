@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import { formatTimeStamp } from '../../store/utils';
+import { formatTimeStamp, getPageSize } from '../../store/utils';
 import { ListContainer } from '../../components/Table';
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 };
 const GET_TRANSACTION_LIST = gql`
   query GET_TRANSACTION_LIST($page: Int) {
-    transactions(page: $page) {
+    transactions(page: $page, size: ${getPageSize()}) {
       transactions {
         transactionID
         blockID
@@ -26,7 +26,8 @@ const GET_TRANSACTION_LIST = gql`
         createdAt
       }
       pageInfo {
-        totalPages
+        page
+        totalElements
       }
     }
   }
@@ -36,7 +37,7 @@ class Transactions extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_TRANSACTION_LIST}>
+      <Query query={GET_TRANSACTION_LIST} notifyOnNetworkStatusChange>
         {({ loading, error, data, fetchMore }) => {
           if (error) return <ListContainer column>{error.message}</ListContainer>;
           if (loading)
@@ -48,7 +49,7 @@ class Transactions extends PureComponent<Props> {
           const {
             transactions: {
               transactions,
-              pageInfo: { totalPages },
+              pageInfo: { page, totalElements },
             },
           } = data;
           return (
@@ -59,19 +60,17 @@ class Transactions extends PureComponent<Props> {
                 dataSource={transactions}
                 rowKey="id"
                 pagination={{
-                  pageSize: totalPages,
+                  pageSize: getPageSize(),
+                  current: page + 1,
+                  total: totalElements,
+                  onChange: nextPageInPagination =>
+                    fetchMore({
+                      variables: {
+                        page: nextPageInPagination - 1,
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
+                    }),
                 }}
-                onChange={page =>
-                  fetchMore({
-                    variables: {
-                      page: page - 1,
-                    },
-                    updateQuery: (prev, { fetchMoreResult }) => {
-                      if (!fetchMoreResult) return prev;
-                      return fetchMoreResult;
-                    },
-                  })
-                }
               >
                 <Table.Column
                   title={t('transactionID')}
@@ -89,11 +88,7 @@ class Transactions extends PureComponent<Props> {
                   key="createdAt"
                   render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
                 />
-                <Table.Column
-                  title={t('actionNum')}
-                  dataIndex="actionNum"
-                  key="actionNum"
-                />
+                <Table.Column title={t('actionNum')} dataIndex="actionNum" key="actionNum" />
                 <Table.Column
                   title={t('blockID')}
                   dataIndex="blockID"
