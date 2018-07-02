@@ -1,22 +1,21 @@
 // @flow
-import { size } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import is, { isNot } from 'styled-is';
+import is from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
 import { Spin, Avatar, Table } from 'antd';
-import { connect } from 'react-redux';
+import { Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import { frontloadConnect } from 'react-frontload';
 import AutoLinkText from 'react-autolink-text2';
 import Loadable from 'react-loadable';
 
 import { Title } from '../Home/styles';
-import type { AccountData } from '../../store/account';
 import Loading from '../../components/Loading';
-import AccountDashboard from '../../components/AccountDashboard';
+import { BPInfoContainer } from '../../components/Containers';
+import { GET_ACCOUNT_DETAIL, getAccountDetails } from '../Account/index';
+import AccountActions from '../Account/AccountActions';
 
 const BlockProducersMap = Loadable({
   loader: () =>
@@ -43,20 +42,6 @@ const MainImage = styled.img`
   object-fit: contain;
   object-position: center;
   font-family: 'object-fit: contain; object-position: center;';
-`;
-const BPInfoContainer = styled.div`
-  height: min-content;
-  background-color: white;
-  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
-  ${isNot('image')`
-    padding: 20px;
-  `};
-  width: 90vw;
-  margin: 15px auto 0;
-  ${breakpoint('desktop')`
-    width: 1200px;
-    margin: 24px 0 0;
-  `};
 `;
 const IntroContainer = styled.div`
   padding: 20px 0;
@@ -93,167 +78,153 @@ const BlockProducersMapContainer = styled.div`
 
 type Props = {
   t: Function,
+  match: {
+    params: {
+      accountName: string,
+    },
+  },
 };
-type Store = {
-  data: AccountData,
-  producerInfo: Object | null,
-  loading: boolean,
-};
-type Dispatch = {
-  getAccountData: (accountName: string) => void,
-};
-
-class BlockProducer extends PureComponent<Props & Store, *> {
-  state = {};
-
+class BlockProducer extends PureComponent<Props> {
   render() {
-    const { t, loading, data, producerInfo } = this.props;
+    const { t, match } = this.props;
+    const { accountName } = match.params;
     return (
-      <Fragment>
-        <Spin tip="Connecting" spinning={loading} size="large">
-          <Container justifyBetween wrap="true">
-            {producerInfo && (
-              <Fragment>
-                {producerInfo.image && (
-                  <BPInfoContainer image>
-                    <MainImage src={producerInfo.image} alt={producerInfo.name} />
-                  </BPInfoContainer>
+      <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
+        {({ loading, error, data }) => {
+          if (error) return <Container>{error.message}</Container>;
+          if (loading)
+            return (
+              <Spin tip={t('Connecting')} spinning={loading} size="large">
+                <Container />
+              </Spin>
+            );
+          if (!data.account) return <Container>{t('noResult')}</Container>;
+          const {
+            account: {
+              actions: { actions },
+              producerInfo,
+              ...account
+            },
+          } = data;
+          return (
+            <Fragment>
+              <Container justifyBetween wrap="true">
+                {producerInfo && (
+                  <Fragment>
+                    {producerInfo.image && (
+                      <BPInfoContainer image>
+                        <MainImage src={producerInfo.image} alt={producerInfo.name} />
+                      </BPInfoContainer>
+                    )}
+                    <BPInfoContainer>
+                      <Title justifyBetween alignCenter>
+                        <span>
+                          <Avatar src={producerInfo.logo} /> {t('BlockProducers')}{' '}
+                          <a href={producerInfo.homepage} target="_black" rel="noopener noreferrer">
+                            {producerInfo.name}
+                          </a>
+                        </span>
+                      </Title>
+                      <IntroContainer>
+                        <article>
+                          {(t('locale') === 'en' ? producerInfo.introduction : producerInfo.introductionZh) || ''}
+                        </article>
+                      </IntroContainer>
+                      <DetailContainer>
+                        {producerInfo.contact && (
+                          <DetailFieldContainer column>
+                            <h3>{t('contact')}</h3>
+                            {producerInfo.contact.split('\n').map(text => <AutoLinkText key={text} text={text} />)}
+                          </DetailFieldContainer>
+                        )}
+                        {t('locale') === 'en' &&
+                          producerInfo.slogan && (
+                            <DetailFieldContainer column>
+                              <h3>{t('slogan')}</h3>
+                              <span>{producerInfo.slogan}</span>
+                            </DetailFieldContainer>
+                          )}
+                        {t('locale') === 'zh' &&
+                          producerInfo.sloganZh && (
+                            <DetailFieldContainer column>
+                              <h3>{t('slogan')}</h3>
+                              <span>{producerInfo.sloganZh}</span>
+                            </DetailFieldContainer>
+                          )}
+                        {producerInfo.location && (
+                          <DetailFieldContainer column>
+                            <h3>{t('location')}</h3>
+                            <span>{producerInfo.location}</span>
+                          </DetailFieldContainer>
+                        )}
+                        {producerInfo.organization && (
+                          <DetailFieldContainer column>
+                            <h3>{t('organization')}</h3>
+                            <span>{producerInfo.organization}</span>
+                          </DetailFieldContainer>
+                        )}
+                        {producerInfo.key && (
+                          <DetailFieldContainer column>
+                            <h3>{t('key')}</h3>
+                            <span>{producerInfo.key}</span>
+                          </DetailFieldContainer>
+                        )}
+                      </DetailContainer>
+
+                      {producerInfo &&
+                        typeof producerInfo.longitude === 'number' &&
+                        typeof producerInfo.latitude === 'number' && (
+                          <BlockProducersMapContainer desktop>
+                            <BlockProducersMap points={[producerInfo]} />
+                          </BlockProducersMapContainer>
+                        )}
+                    </BPInfoContainer>
+                    {producerInfo.nodes && (
+                      <BPInfoContainer>
+                        <DetailContainer column>
+                          <h3>{t('nodes')}</h3>
+                          <Table scroll={{ x: 500 }} size="middle" pagination={false} dataSource={producerInfo.nodes}>
+                            <Table.Column
+                              title={t('location')}
+                              dataIndex="location"
+                              key="location"
+                              render={({ name }) => name}
+                            />
+                            <Table.Column
+                              title={t('isProducer')}
+                              dataIndex="isProducer"
+                              key="isProducer"
+                              render={isProducer => t(String(isProducer))}
+                            />
+                            <Table.Column title={t('apiEndpoint')} dataIndex="apiEndpoint" key="apiEndpoint" />
+                            <Table.Column title={t('sslEndpoint')} dataIndex="sslEndpoint" key="sslEndpoint" />
+                            <Table.Column title={t('p2pEndpoint')} dataIndex="p2pEndpoint" key="p2pEndpoint" />
+                          </Table>
+                        </DetailContainer>
+                      </BPInfoContainer>
+                    )}
+                  </Fragment>
                 )}
                 <BPInfoContainer>
-                  <Title justifyBetween alignCenter>
-                    <span>
-                      <Avatar src={producerInfo.logo} /> {t('BlockProducers')}{' '}
-                      <a href={producerInfo.homepage} target="_black" rel="noopener noreferrer">
-                        {producerInfo.name}
-                      </a>
-                    </span>
-                  </Title>
-                  <IntroContainer>
-                    <article>
-                      {(t('locale') === 'en' ? producerInfo.introduction : producerInfo.introductionZh) || ''}
-                    </article>
-                  </IntroContainer>
-                  <DetailContainer>
-                    {producerInfo.contact && (
-                      <DetailFieldContainer column>
-                        <h3>{t('contact')}</h3>
-                        {producerInfo.contact.split('\n').map(text => <AutoLinkText key={text} text={text} />)}
-                      </DetailFieldContainer>
-                    )}
-                    {t('locale') === 'en' &&
-                      producerInfo.slogan && (
-                        <DetailFieldContainer column>
-                          <h3>{t('slogan')}</h3>
-                          <span>{producerInfo.slogan}</span>
-                        </DetailFieldContainer>
-                      )}
-                    {t('locale') === 'zh' &&
-                      producerInfo.sloganZh && (
-                        <DetailFieldContainer column>
-                          <h3>{t('slogan')}</h3>
-                          <span>{producerInfo.sloganZh}</span>
-                        </DetailFieldContainer>
-                      )}
-                    {producerInfo.location && (
-                      <DetailFieldContainer column>
-                        <h3>{t('location')}</h3>
-                        <span>{producerInfo.location}</span>
-                      </DetailFieldContainer>
-                    )}
-                    {producerInfo.organization && (
-                      <DetailFieldContainer column>
-                        <h3>{t('organization')}</h3>
-                        <span>{producerInfo.organization}</span>
-                      </DetailFieldContainer>
-                    )}
-                    {producerInfo.key && (
-                      <DetailFieldContainer column>
-                        <h3>{t('key')}</h3>
-                        <span>{producerInfo.key}</span>
-                      </DetailFieldContainer>
-                    )}
-                  </DetailContainer>
-
-                  {producerInfo &&
-                    typeof producerInfo.longitude === 'number' &&
-                    typeof producerInfo.latitude === 'number' && (
-                      <BlockProducersMapContainer desktop>
-                        <BlockProducersMap points={[producerInfo]} />
-                      </BlockProducersMapContainer>
-                    )}
+                  {getAccountDetails(account, t)}
+                  <AccountActions actions={actions} />
                 </BPInfoContainer>
-                {producerInfo.nodes && (
-                  <BPInfoContainer>
-                    <DetailContainer column>
-                      <h3>{t('nodes')}</h3>
-                      <Table scroll={{ x: 500 }} size="middle" pagination={false} dataSource={producerInfo.nodes}>
-                        <Table.Column
-                          title={t('location')}
-                          dataIndex="location"
-                          key="location"
-                          render={({ name }) => name}
-                        />
-                        <Table.Column
-                          title={t('isProducer')}
-                          dataIndex="isProducer"
-                          key="isProducer"
-                          render={isProducer => t(String(isProducer))}
-                        />
-                        <Table.Column title={t('apiEndpoint')} dataIndex="apiEndpoint" key="apiEndpoint" />
-                        <Table.Column title={t('sslEndpoint')} dataIndex="sslEndpoint" key="sslEndpoint" />
-                        <Table.Column title={t('p2pEndpoint')} dataIndex="p2pEndpoint" key="p2pEndpoint" />
-                      </Table>
-                    </DetailContainer>
-                  </BPInfoContainer>
-                )}
-              </Fragment>
-            )}
-            <BPInfoContainer>
-              <AccountDashboard data={data} />
-            </BPInfoContainer>
-            {producerInfo &&
-              typeof producerInfo.longitude === 'number' &&
-              typeof producerInfo.latitude === 'number' && (
-                <BlockProducersMapContainer>
-                  <BPInfoContainer>
-                    <BlockProducersMap points={[producerInfo]} />
-                  </BPInfoContainer>
-                </BlockProducersMapContainer>
-              )}
-          </Container>
-        </Spin>
-      </Fragment>
+                {producerInfo &&
+                  typeof producerInfo.longitude === 'number' &&
+                  typeof producerInfo.latitude === 'number' && (
+                    <BlockProducersMapContainer>
+                      <BPInfoContainer>
+                        <BlockProducersMap points={[producerInfo]} />
+                      </BPInfoContainer>
+                    </BlockProducersMapContainer>
+                  )}
+              </Container>
+            </Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }
 
-const mapState = ({ account: { data, producerInfo }, info: { loading } }): Store => ({ data, producerInfo, loading });
-const mapDispatch = ({ account: { getAccountData } }): Dispatch => ({ getAccountData });
-
-type LoaderProps = Dispatch & {
-  match: {
-    params: {
-      accountId: string,
-    },
-  },
-};
-const frontload = async ({ loading, producerInfo, getAccountData, match }: LoaderProps & Store) => {
-  if (!loading && !(size(producerInfo) > 0)) {
-    const currentAccountName = String(match.params.accountId);
-    return getAccountData(currentAccountName);
-  }
-  return Promise.resolve();
-};
-
-export default withRouter(
-  translate('bp')(
-    connect(
-      mapState,
-      mapDispatch,
-    )(
-      frontloadConnect(frontload, {
-        onUpdate: false,
-      })(BlockProducer),
-    ),
-  ),
-);
+export default withRouter(translate('bp')(BlockProducer));

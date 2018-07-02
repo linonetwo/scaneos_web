@@ -4,7 +4,12 @@ import breakpoint from 'styled-components-breakpoint';
 
 import { getTableHeight } from '../store/utils';
 
-const adjustAntdTable = css`
+export const adjustAntdTablePagination = css`
+  .ant-table-pagination.ant-pagination {
+    float: unset;
+  }
+`;
+export const adjustAntdTable = css`
   .ant-spin-container {
     display: flex;
     flex-direction: column;
@@ -17,10 +22,7 @@ const adjustAntdTable = css`
       height: ${getTableHeight()}px;
       padding: 0 calc((100vw - 1200px) / 2);
     `};
-
-  }
-  .ant-table-pagination.ant-pagination {
-    float: unset;
+    ${adjustAntdTablePagination};
   }
 `;
 export const ListContainer = styled.div`
@@ -28,25 +30,12 @@ export const ListContainer = styled.div`
   min-height: calc(100vh - 64px);
 `;
 export const LongListContainer = styled.div`
-  ${adjustAntdTable};
   .ant-table {
     height: unset;
     margin-bottom: 50px;
   }
 `;
-export const DetailTabsContainer = styled.div`
-  .ant-table {
-    padding: 0;
-  }
-  .ant-tabs {
-    margin: 0 5vw;
-  }
-  ${breakpoint('desktop')`
-    .ant-tabs {
-      margin: 0 calc((100vw - 1200px) / 2);
-    }
-  `};
-`;
+
 export const ProducerListContainer = styled.div`
   ${adjustAntdTable};
   .ant-table {

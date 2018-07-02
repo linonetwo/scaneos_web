@@ -64,10 +64,10 @@ class Blocks extends Component<Props & Store & Dispatch, *> {
               }
             /> */}
             <Table.Column
-              title={t('producerAccountId')}
-              dataIndex="producerAccountId"
-              key="producerAccountId"
-              render={producerAccountId => <Link to={`/account/${producerAccountId}/`}>{producerAccountId}</Link>}
+              title={t('producerAccountID')}
+              dataIndex="producerAccountID"
+              key="producerAccountID"
+              render={producerAccountID => <Link to={`/account/${producerAccountID}/`}>{producerAccountID}</Link>}
             />
           </Table>
         </ListContainer>
