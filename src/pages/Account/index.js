@@ -7,7 +7,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { translate } from 'react-i18next';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { Container, DetailTabsContainer } from '../../components/Containers';
+import { Container, DetailTabsContainer, ActionsContainer } from '../../components/Containers';
 import { LongListContainer } from '../../components/Table';
 import { AccountDataOverview, AccountDashboard, ACCOUNT_DASHBOARD_FRAGMENT } from './AccountDashboard';
 import AccountActions, { ACTIONS_FRAGMENT } from './AccountActions';
@@ -174,7 +174,9 @@ function Account({ t, match }: Props) {
             {getBreadcrumb('account', t)}
             <DetailTabsContainer column>
               {getAccountDetails(account, t)}
-              <AccountActions actions={actions} />
+              <ActionsContainer column>
+                <AccountActions actions={actions} />
+              </ActionsContainer>
             </DetailTabsContainer>
           </Fragment>
         );

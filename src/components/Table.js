@@ -4,7 +4,12 @@ import breakpoint from 'styled-components-breakpoint';
 
 import { getTableHeight } from '../store/utils';
 
-const adjustAntdTable = css`
+export const adjustAntdTablePagination = css`
+  .ant-table-pagination.ant-pagination {
+    float: unset;
+  }
+`;
+export const adjustAntdTable = css`
   .ant-spin-container {
     display: flex;
     flex-direction: column;
@@ -17,10 +22,7 @@ const adjustAntdTable = css`
       height: ${getTableHeight()}px;
       padding: 0 calc((100vw - 1200px) / 2);
     `};
-
-  }
-  .ant-table-pagination.ant-pagination {
-    float: unset;
+    ${adjustAntdTablePagination};
   }
 `;
 export const ListContainer = styled.div`

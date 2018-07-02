@@ -1,6 +1,6 @@
 // @flow
 import { truncate, flatten } from 'lodash';
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Table } from 'antd';
@@ -9,7 +9,6 @@ import { translate } from 'react-i18next';
 import randomColor from 'randomcolor';
 
 import { formatTimeStamp } from '../../store/utils';
-import { ActionsContainer } from '../../components/Containers';
 import { getActionListValueRendering } from '../../components/getListValueRendering';
 
 const Title = styled.h3`
@@ -42,7 +41,7 @@ export const ACTIONS_FRAGMENT = gql`
 
 function AccountActions({ t, actions }: Props) {
   return (
-    <ActionsContainer column>
+    <Fragment>
       <Title>{t('Actions')}</Title>
       <Table scroll={{ x: 1200 }} size="middle" dataSource={actions} rowKey="id">
         <Table.Column
@@ -99,7 +98,7 @@ function AccountActions({ t, actions }: Props) {
           }
         />
       </Table>
-    </ActionsContainer>
+    </Fragment>
   );
 }
 export default translate('action')(AccountActions);

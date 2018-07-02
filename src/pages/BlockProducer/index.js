@@ -13,8 +13,9 @@ import Loadable from 'react-loadable';
 
 import { Title } from '../Home/styles';
 import Loading from '../../components/Loading';
-import { BPInfoContainer } from '../../components/Containers'
+import { BPInfoContainer } from '../../components/Containers';
 import { GET_ACCOUNT_DETAIL, getAccountDetails } from '../Account/index';
+import AccountActions from '../Account/AccountActions';
 
 const BlockProducersMap = Loadable({
   loader: () =>
@@ -99,7 +100,11 @@ class BlockProducer extends PureComponent<Props> {
             );
           if (!data.account) return <Container>{t('noResult')}</Container>;
           const {
-            account: { actions, producerInfo, ...account },
+            account: {
+              actions: { actions },
+              producerInfo,
+              ...account
+            },
           } = data;
           return (
             <Fragment>
@@ -200,7 +205,10 @@ class BlockProducer extends PureComponent<Props> {
                     )}
                   </Fragment>
                 )}
-                <BPInfoContainer>{getAccountDetails(account, t)}</BPInfoContainer>
+                <BPInfoContainer>
+                  {getAccountDetails(account, t)}
+                  <AccountActions actions={actions} />
+                </BPInfoContainer>
                 {producerInfo &&
                   typeof producerInfo.longitude === 'number' &&
                   typeof producerInfo.latitude === 'number' && (
