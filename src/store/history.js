@@ -124,14 +124,6 @@ export async function followURI(location: { pathname: string, search?: string, s
       }
       return null;
     }
-    if (/\/transaction\//g.test(location.pathname)) {
-      const nextTransactionId = location.pathname
-        .split('/transaction/')
-        .pop()
-        .replace('/', '');
-      if (nextTransactionId !== state.transaction.data.transactionId)
-        return dispatch.transaction.getTransactionData(nextTransactionId);
-    }
     if (/\/account\//g.test(location.pathname) && !state.account.loading && state.account.data.accountName) {
       const nextAccountName = location.pathname
         .split('/account/')

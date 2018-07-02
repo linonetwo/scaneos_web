@@ -4,7 +4,6 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Table } from 'antd';
-import gql from 'graphql-tag';
 import { translate } from 'react-i18next';
 import randomColor from 'randomcolor';
 
@@ -26,20 +25,8 @@ const ActionName = styled.div`
 `;
 
 type Props = { t: Function, actions: Object[] };
-export const ACTIONS_FRAGMENT = gql`
-  fragment ACTIONS_FRAGMENT on Action {
-    name
-    data
-    transactionID
-    createdAt
-    authorization {
-      permission
-      actor
-    }
-  }
-`;
 
-function AccountActions({ t, actions }: Props) {
+function ActionsList({ t, actions }: Props) {
   return (
     <Fragment>
       <Title>{t('Actions')}</Title>
@@ -101,4 +88,4 @@ function AccountActions({ t, actions }: Props) {
     </Fragment>
   );
 }
-export default translate('action')(AccountActions);
+export default translate('action')(ActionsList);

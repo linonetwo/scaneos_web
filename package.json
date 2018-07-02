@@ -6,7 +6,7 @@
   "scripts": {
     "clear:babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
     "start": "yarn clear:babel-cache && react-app-rewired start",
-    "build": "yarn clear:babel-cache && react-app-rewired build",
+    "build": "yarn clear:babel-cache && NODE_ENV=production react-app-rewired build",
     "serve": "NODE_ENV=production node ./ssr/index.js",
     "test": "yarn clear:babel-cache && react-app-rewired test --env=jsdom",
     "docker-build": "docker build . -t scaneos_web",

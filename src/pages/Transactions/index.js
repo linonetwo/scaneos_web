@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { frontloadConnect } from 'react-frontload';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
-import type { TransactionData } from '../../store/transaction';
 import type { Pagination } from '../../store/block';
 import { ListContainer } from '../../components/Table';
 

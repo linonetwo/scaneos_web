@@ -10,7 +10,8 @@ import { getBreadcrumb } from '../../components/Layout';
 import { Container, DetailTabsContainer, ActionsContainer } from '../../components/Containers';
 import { LongListContainer } from '../../components/Table';
 import { AccountDataOverview, AccountDashboard, ACCOUNT_DASHBOARD_FRAGMENT } from './AccountDashboard';
-import AccountActions, { ACTIONS_FRAGMENT } from './AccountActions';
+import ActionsList from '../Action/ActionsList';
+import { ACTIONS_FRAGMENT } from '../Action';
 
 type Props = {
   t: Function,
@@ -175,7 +176,7 @@ function Account({ t, match }: Props) {
             <DetailTabsContainer column>
               {getAccountDetails(account, t)}
               <ActionsContainer column>
-                <AccountActions actions={actions} />
+                <ActionsList actions={actions} />
               </ActionsContainer>
             </DetailTabsContainer>
           </Fragment>

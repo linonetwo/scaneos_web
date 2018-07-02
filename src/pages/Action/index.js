@@ -3,6 +3,7 @@ import { toPairs } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
+import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { frontloadConnect } from 'react-frontload';
@@ -23,6 +24,19 @@ type Store = {
 type Dispatch = {
   getActionData: (transactionID: string) => void,
 };
+
+export const ACTIONS_FRAGMENT = gql`
+  fragment ACTIONS_FRAGMENT on Action {
+    name
+    data
+    transactionID
+    createdAt
+    authorization {
+      permission
+      actor
+    }
+  }
+`;
 
 class Action extends PureComponent<Props & Store, *> {
   state = {};

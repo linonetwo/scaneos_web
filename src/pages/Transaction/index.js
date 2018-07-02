@@ -1,142 +1,123 @@
 // @flow
 import { toPairs } from 'lodash';
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
-import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import { frontloadConnect } from 'react-frontload';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 import { getBreadcrumb } from '../../components/Layout';
-import type { TransactionData } from '../../store/transaction';
-import { DetailTabsContainer } from '../../components/Containers';
+import { DetailTabsContainer, ActionsContainer } from '../../components/Containers';
 import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
+import { ACTIONS_FRAGMENT } from '../Action';
+import ActionsList from '../Action/ActionsList';
 
 type Props = {
   t: Function,
+  match: {
+    params: {
+      transactionID: string,
+    },
+  },
 };
-type Store = {
-  data: TransactionData,
-  transactionLoading: boolean,
-};
-type Dispatch = {
-  getTransactionData: (transactionId: string) => void,
-};
-
-class Transaction extends Component<Props & Store, *> {
-  state = {};
-
+const GET_TRANSACTION_DETAIL = gql`
+  query GET_TRANSACTION_DETAIL($id: String!) {
+    transaction(id: $id) {
+      actions {
+        actions {
+          ...ACTIONS_FRAGMENT
+        }
+      }
+      blockID
+      status
+      expiration
+      pending
+      createdAt
+      type
+      sequenceNum
+      refBlockNum
+      refBlockPrefix
+    }
+  }
+  ${ACTIONS_FRAGMENT}
+`;
+class Transaction extends PureComponent<Props, *> {
   render() {
+    const { t, match } = this.props;
+    const { transactionID } = match.params;
     return (
-      <Fragment>
-        {getBreadcrumb('transaction', this.props.t)}
-
-        <DetailTabsContainer>
-          <Tabs defaultActiveKey="2">
-            <Tabs.TabPane
-              tab={
-                <span>
-                  <Icon type="solution" />
-                  {this.props.t('Actions')}
-                </span>
-              }
-              key="1"
-            >
-              <Spin tip="Connecting" spinning={this.props.transactionLoading} size="large">
-                <LongListContainer column>
-                  {this.props.data.actions.length > 0 ? (
-                    this.props.data.actions.map(actionId => (
-                      <div>
-                        <Link to={`/action/${actionId}`}>{actionId}</Link>
-                      </div>
-                    ))
-                  ) : (
-                    <NoData>No Actions.</NoData>
-                  )}
-                </LongListContainer>
+      <Query query={GET_TRANSACTION_DETAIL} variables={{ id: transactionID }}>
+        {({ loading, error, data }) => {
+          if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
+          if (loading)
+            return (
+              <Spin tip={t('Connecting')} spinning={loading} size="large">
+                <DetailTabsContainer />
               </Spin>
-            </Tabs.TabPane>
+            );
+          if (!data.transaction) return <NoData>{t('noResult')}</NoData>;
+          const {
+            transaction: {
+              actions: { actions },
+              ...transaction
+            },
+          } = data;
+          return (
+            <Fragment>
+              {getBreadcrumb('transaction', t)}
 
-            <Tabs.TabPane
-              tab={
-                <span>
-                  <Icon type="database" />
-                  {this.props.t('Overview')}
-                </span>
-              }
-              key="2"
-            >
-              <Spin tip="Connecting" spinning={this.props.transactionLoading} size="large">
-                <LongListContainer column>
-                  <Table
-                    size="middle"
-                    pagination={false}
-                    dataSource={toPairs(this.props.data).map(([field, value]) => ({ field, value, key: field }))}
+              <DetailTabsContainer>
+                <Tabs defaultActiveKey="overview">
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="database" />
+                        {t('Overview')}
+                      </span>
+                    }
+                    key="overview"
                   >
-                    <Table.Column title={this.props.t('field')} dataIndex="field" key="field" render={this.props.t} />
-                    <Table.Column
-                      title={this.props.t('value')}
-                      dataIndex="value"
-                      key="value"
-                      render={(value, { field }) => getListValueRendering(field, value, this.props.t)}
-                    />
-                  </Table>
-                </LongListContainer>
-              </Spin>
-            </Tabs.TabPane>
+                    <LongListContainer column>
+                      <Table
+                        size="middle"
+                        pagination={false}
+                        dataSource={toPairs(transaction).map(([field, value]) => ({ field, value, key: field }))}
+                      >
+                        <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
+                        <Table.Column
+                          title={t('value')}
+                          dataIndex="value"
+                          key="value"
+                          render={(value, { field }) => getListValueRendering(field, value, t)}
+                        />
+                      </Table>
+                      <ActionsList actions={actions || []} t={t} />
+                    </LongListContainer>
+                  </Tabs.TabPane>
 
-            <Tabs.TabPane
-              tab={
-                <span>
-                  <Icon type="file-text" />
-                  {this.props.t('Raw')}
-                </span>
-              }
-              key="3"
-            >
-              <Spin tip="Connecting" spinning={this.props.transactionLoading} size="large">
-                <pre>
-                  <code>{JSON.stringify(this.props.data, null, '  ')}</code>
-                </pre>
-              </Spin>
-            </Tabs.TabPane>
-          </Tabs>
-        </DetailTabsContainer>
-      </Fragment>
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="file-text" />
+                        {t('Raw')}
+                      </span>
+                    }
+                    key="raw"
+                  >
+                    <pre>
+                      <code>{JSON.stringify(transaction, null, '  ')}</code>
+                    </pre>
+                  </Tabs.TabPane>
+                </Tabs>
+              </DetailTabsContainer>
+            </Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }
 
-const mapState = ({ transaction: { loading: transactionLoading, data } }): Store => ({
-  data,
-  transactionLoading,
-});
-const mapDispatch = ({ transaction: { getTransactionData } }): Dispatch => ({
-  getTransactionData,
-});
-
-type LoaderProps = Dispatch & {
-  match: {
-    params: {
-      transactionId: string,
-    },
-  },
-};
-const frontload = async (props: LoaderProps) => {
-  const currentTransactionId = String(props.match.params.transactionId);
-  return props.getTransactionData(currentTransactionId);
-};
-
-export default withRouter(
-  translate(['transaction', 'action'])(
-    connect(
-      mapState,
-      mapDispatch,
-    )(
-      frontloadConnect(frontload, {
-        onUpdate: false,
-      })(Transaction),
-    ),
-  ),
-);
+export default withRouter(translate(['transaction', 'action'])(Transaction));

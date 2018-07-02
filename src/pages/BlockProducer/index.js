@@ -15,7 +15,7 @@ import { Title } from '../Home/styles';
 import Loading from '../../components/Loading';
 import { BPInfoContainer } from '../../components/Containers';
 import { GET_ACCOUNT_DETAIL, getAccountDetails } from '../Account/index';
-import AccountActions from '../Account/AccountActions';
+import ActionsList from '../Action/ActionsList';
 
 const BlockProducersMap = Loadable({
   loader: () =>
@@ -207,7 +207,7 @@ class BlockProducer extends PureComponent<Props> {
                 )}
                 <BPInfoContainer>
                   {getAccountDetails(account, t)}
-                  <AccountActions actions={actions} />
+                  <ActionsList actions={actions} />
                 </BPInfoContainer>
                 {producerInfo &&
                   typeof producerInfo.longitude === 'number' &&

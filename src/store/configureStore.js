@@ -5,7 +5,6 @@ import { createBrowserHistory, createMemoryHistory } from 'history';
 import searchModel from './search';
 import infoModel from './info';
 import blockModel from './block';
-import transactionModel from './transaction';
 import accountModel from './account';
 import actionModel from './action';
 import tokenModel from './token';
@@ -22,7 +21,6 @@ const configureStore = (initialState = {}) => {
     search: searchInitialState,
     info: infoInitialState,
     block: blockInitialState,
-    transaction: transactionInitialState,
     account: accountInitialState,
     url = '/',
     action: actionInitialState,
@@ -45,7 +43,6 @@ const configureStore = (initialState = {}) => {
         search: searchModel(searchInitialState),
         info: infoModel(infoInitialState),
         block: blockModel(blockInitialState),
-        transaction: transactionModel(transactionInitialState),
         account: accountModel(accountInitialState),
         action: actionModel(actionInitialState),
         token: tokenModel(tokenInitialState),
