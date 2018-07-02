@@ -15,11 +15,13 @@ type Props = {
 };
 const GET_BP_LIST = gql`
   {
-    producers {
-      rank
-      name
-      account
-      totalVotes
+    producers(size: 21) {
+      producers {
+        rank
+        name
+        account
+        totalVotes
+      }
     }
     status {
       totalProducerVoteWeight
@@ -38,7 +40,7 @@ function BPList({ t }: Props) {
             </Spin>
           );
         const {
-          producers,
+          producers: { producers },
           status: { totalProducerVoteWeight },
         } = data;
         return (
