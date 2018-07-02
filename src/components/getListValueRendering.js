@@ -1,6 +1,8 @@
 // @flow
 import { toPairs } from 'lodash';
 import React from 'react';
+import Flex from 'styled-flex-component';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import { formatTimeStamp } from '../store/utils';
@@ -82,6 +84,46 @@ export default function getListValueRendering(field: string, value: any, t: Func
 
     case 'transactionId':
       return <Link to={`/transaction/${value}/`}>{value}</Link>;
+    default: {
+      if (typeof value === 'string' || typeof value === 'number') {
+        return value;
+      }
+      return (
+        <pre>
+          <code>{JSON.stringify(value, null, '  ')}</code>
+        </pre>
+      );
+    }
+  }
+}
+
+const ActionDataContainer = styled(Flex)`
+  mark {
+    font-size: 16px;
+  }
+`;
+export function getActionListValueRendering(actionName: string, value: any, t: Function) {
+  switch (actionName) {
+    case 'transfer': {
+      const { from, to, memo, quantity } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${from}/`}>
+              <mark>{from}</mark>
+            </Link>{' '}
+            {t('transferTo')}{' '}
+            <Link to={`/account/${to}/`}>
+              <mark>{to}</mark>
+            </Link>{' '}
+            <mark>{quantity}</mark>
+          </div>
+          <div>
+            <em>{memo}</em>
+          </div>
+        </ActionDataContainer>
+      );
+    }
     default: {
       if (typeof value === 'string' || typeof value === 'number') {
         return value;

@@ -2536,7 +2536,7 @@ babel-plugin-macros@2.0.0:
   dependencies:
     cosmiconfig "3.1.0"
 
-babel-plugin-macros@^2.0.0:
+babel-plugin-macros@^2.0.0, babel-plugin-macros@^2.2.2:
   version "2.2.2"
   resolved "http://registry.npm.taobao.org/babel-plugin-macros/download/babel-plugin-macros-2.2.2.tgz#049c93f4b934453688a6ec38bba529c55bf0fa1f"
   dependencies:
@@ -9134,6 +9134,12 @@ param-case@2.1.x:
   dependencies:
     no-case "^2.2.0"
 
+param.macro@^2.1.0:
+  version "2.1.0"
+  resolved "http://registry.npm.taobao.org/param.macro/download/param.macro-2.1.0.tgz#b99a0b30cb75a788ac148d6e87f9896c69f57ab5"
+  dependencies:
+    babel-plugin-macros "^2.2.2"
+
 parse-asn1@^5.0.0:
   version "5.1.1"
   resolved "http://registry.npm.taobao.org/parse-asn1/download/parse-asn1-5.1.1.tgz#f6bf293818332bd0dab54efb16087724745e6ca8"
@@ -9917,6 +9923,10 @@ randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   resolved "http://registry.npm.taobao.org/randombytes/download/randombytes-2.0.6.tgz#d302c522948588848a8d300c932b44c24231da80"
   dependencies:
     safe-buffer "^5.1.0"
+
+randomcolor@^0.5.3:
+  version "0.5.3"
+  resolved "http://registry.npm.taobao.org/randomcolor/download/randomcolor-0.5.3.tgz#7f90f2f2a7f6d5a52232161eeaeeaea9ac3b5815"
 
 randomfill@^1.0.3:
   version "1.0.4"

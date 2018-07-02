@@ -25,8 +25,17 @@ export const DetailTabsContainer = styled(Container)`
   ${breakpoint('desktop')`
     .ant-tabs {
       margin: 0 calc((100vw - 1200px) / 2);
-      width: 100%;
+      width: 1200px;
     }
+  `};
+`;
+
+export const ActionsContainer = styled(Flex)`
+  width: 100%;
+  padding-top: 20px;
+  ${breakpoint('desktop')`
+    width: 1200px;
+    margin: 0 calc((100vw - 1200px) / 2);
   `};
 `;
 

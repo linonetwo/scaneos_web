@@ -87,6 +87,9 @@ export const zh = {
     name: '操作类型',
     handlerAccountName: '处理本操作的账户',
     authorization: '授权',
+
+    transfer: '转账',
+    transferTo: '转账给',
   },
   token: {
     issuer: '发行方',
@@ -161,6 +164,9 @@ export const en = {
     handlerAccountName: 'Handler',
     name: 'ActionName',
     authorization: 'Authorization',
+
+    transfer: 'Transfer',
+    transferTo: 'TransferTo',
   },
   token: {
     issuer: 'Issuer',

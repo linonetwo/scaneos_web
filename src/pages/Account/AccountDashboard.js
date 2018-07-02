@@ -10,7 +10,7 @@ import { translate } from 'react-i18next';
 import numeral from 'numeral';
 import prettySize from 'prettysize';
 
-import getListValueRendering from './getListValueRendering';
+import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
   t?: Function,

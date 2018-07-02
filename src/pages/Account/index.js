@@ -9,7 +9,8 @@ import { translate } from 'react-i18next';
 import { getBreadcrumb } from '../../components/Layout';
 import { Container, DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer } from '../../components/Table';
-import { AccountDataOverview, AccountDashboard, ACCOUNT_DASHBOARD_FRAGMENT } from '../../components/AccountDashboard';
+import { AccountDataOverview, AccountDashboard, ACCOUNT_DASHBOARD_FRAGMENT } from './AccountDashboard';
+import AccountActions, { ACTIONS_FRAGMENT } from './AccountActions';
 
 type Props = {
   t: Function,
@@ -64,10 +65,7 @@ export const GET_ACCOUNT_DETAIL = gql`
       ...ACCOUNT_DASHBOARD_FRAGMENT
       actions {
         actions {
-          name
-          data
-          transactionID
-          createdAt
+          ...ACTIONS_FRAGMENT
         }
       }
       producerInfo {
@@ -79,6 +77,7 @@ export const GET_ACCOUNT_DETAIL = gql`
     }
   }
   ${ACCOUNT_DASHBOARD_FRAGMENT}
+  ${ACTIONS_FRAGMENT}
   ${PRODUCER_INFO_FRAGMENT}
   fragment ACCOUNT_PERMISSION_FRAGMENT on Permissions {
     permName
@@ -163,13 +162,20 @@ function Account({ t, match }: Props) {
           );
         if (!data.account) return <Container>{t('noResult')}</Container>;
         const {
-          account: { actions, producerInfo, ...account },
+          account: {
+            actions: { actions },
+            producerInfo,
+            ...account
+          },
         } = data;
         if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
         return (
           <Fragment>
             {getBreadcrumb('account', t)}
-            <DetailTabsContainer>{getAccountDetails(account, t)}</DetailTabsContainer>
+            <DetailTabsContainer column>
+              {getAccountDetails(account, t)}
+              <AccountActions actions={actions} />
+            </DetailTabsContainer>
           </Fragment>
         );
       }}
