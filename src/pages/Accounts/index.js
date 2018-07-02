@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { frontloadConnect } from 'react-frontload';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
-import type { CreatedAccountData } from '../../store/account';
 import { ListContainer } from '../../components/Table';
 
 type Props = {

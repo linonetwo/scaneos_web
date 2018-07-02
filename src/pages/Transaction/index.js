@@ -47,26 +47,25 @@ class Transaction extends PureComponent<Props, *> {
     const { t, match } = this.props;
     const { transactionID } = match.params;
     return (
-      <Query query={GET_TRANSACTION_DETAIL} variables={{ id: transactionID }}>
-        {({ loading, error, data }) => {
-          if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
-          if (loading)
+      <Fragment>
+        {getBreadcrumb('transaction', t)}
+        <Query query={GET_TRANSACTION_DETAIL} variables={{ id: transactionID }}>
+          {({ loading, error, data }) => {
+            if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
+            if (loading)
+              return (
+                <Spin tip={t('Connecting')} spinning={loading} size="large">
+                  <DetailTabsContainer />
+                </Spin>
+              );
+            if (!data.transaction) return <NoData>{t('noResult')}</NoData>;
+            const {
+              transaction: {
+                actions: { actions },
+                ...transaction
+              },
+            } = data;
             return (
-              <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <DetailTabsContainer />
-              </Spin>
-            );
-          if (!data.transaction) return <NoData>{t('noResult')}</NoData>;
-          const {
-            transaction: {
-              actions: { actions },
-              ...transaction
-            },
-          } = data;
-          return (
-            <Fragment>
-              {getBreadcrumb('transaction', t)}
-
               <DetailTabsContainer>
                 <Tabs defaultActiveKey="overview">
                   <Tabs.TabPane
@@ -111,10 +110,10 @@ class Transaction extends PureComponent<Props, *> {
                   </Tabs.TabPane>
                 </Tabs>
               </DetailTabsContainer>
-            </Fragment>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </Fragment>
     );
   }
 }

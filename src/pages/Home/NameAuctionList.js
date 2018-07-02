@@ -36,7 +36,6 @@ const SearchContainer = styled(Flex)`
 
 type Props = {
   t: Function,
-  searchIfNameIsInBiding: (name: string) => void,
 };
 const GET_AUCEIONS = gql`
   {

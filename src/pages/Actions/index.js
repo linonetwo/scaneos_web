@@ -1,119 +1,126 @@
 // @flow
 import { flatten, truncate } from 'lodash';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Spin, Table } from 'antd';
-import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { frontloadConnect } from 'react-frontload';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
-import type { ActionData } from '../../store/action';
 import { ListContainer } from '../../components/Table';
+import { ACTIONS_FRAGMENT } from '../Action';
+import { renderActionName } from '../Action/ActionsList';
 
 type Props = {
   t: Function,
 };
-type Store = {
-  listByTime: ActionData[],
-  pagination: Pagination,
-  loading: boolean,
-};
-type Dispatch = {
-  getActionsList: (gotoPage?: number) => void,
-};
+const GET_ACTIONS_LIST = gql`
+  query GET_ACTIONS_LIST($page: Int) {
+    actions(page: $page, size: ${getPageSize()}) {
+      actions {
+        ...ACTIONS_FRAGMENT
+        id
+      }
+      pageInfo {
+        page
+        totalElements
+      }
+    }
+  }
+  ${ACTIONS_FRAGMENT}
+`;
 
-class Actions extends Component<Props & Store & Dispatch, *> {
-  state = {};
-
+class Actions extends PureComponent<Props> {
   render() {
-    const { loading, listByTime, t } = this.props;
+    const { t } = this.props;
     return (
-      <Spin tip="Connecting" spinning={loading} size="large">
-        <ListContainer column>
-          <Table
-            scroll={{ x: 1000 }}
-            size="middle"
-            dataSource={listByTime}
-            rowKey="id"
-            pagination={{
-              pageSize: getPageSize(),
-              ...this.props.pagination,
-            }}
-            onChange={pagination => {
-              this.props.getActionsList(pagination.current);
-            }}
-          >
-            <Table.Column
-              dataIndex="id"
-              key="id"
-              render={id => <Link to={`/action/${id}/`}>{t('ViewIt')}</Link>}
-            />
-            <Table.Column
-              title={t('transactionId')}
-              dataIndex="transactionId"
-              render={transactionId => (
-                <Link to={`/transaction/${transactionId}/`}>
-                  {truncate(transactionId, { length: 10, omission: '...' })}
-                </Link>
-              )}
-            />
-            <Table.Column
-              title={t('createdAt')}
-              dataIndex="createdAt"
-              key="createdAt"
-              render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
-            />
-            <Table.Column
-              title={t('authorization')}
-              dataIndex="authorization"
-              key="authorization"
-              render={authorization =>
-                flatten(
-                  authorization.map(({ actor, permission }) => (
-                    <Link to={`/account/${actor}/`}>
-                      {actor} ({t('permission')}: {permission})
+      <Query query={GET_ACTIONS_LIST} notifyOnNetworkStatusChange>
+        {({ loading, error, data, fetchMore }) => {
+          if (error) return <ListContainer column>{error.message}</ListContainer>;
+          if (loading)
+            return (
+              <Spin tip={t('Connecting')} spinning={loading} size="large">
+                <ListContainer />
+              </Spin>
+            );
+          const {
+            actions: {
+              actions,
+              pageInfo: { page, totalElements },
+            },
+          } = data;
+          return (
+            <ListContainer column>
+              <Table
+                scroll={{ x: 1000 }}
+                size="middle"
+                dataSource={actions}
+                rowKey="id"
+                pagination={{
+                  pageSize: getPageSize(),
+                  current: page + 1,
+                  total: totalElements,
+                  onChange: nextPageInPagination =>
+                    fetchMore({
+                      variables: {
+                        page: nextPageInPagination - 1,
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
+                    }),
+                }}
+              >
+                <Table.Column dataIndex="id" key="id" render={id => <Link to={`/action/${id}/`}>{t('ViewIt')}</Link>} />
+                <Table.Column
+                  title={t('name')}
+                  dataIndex="name"
+                  key="name"
+                  render={name => renderActionName(name, t)}
+                />
+                <Table.Column
+                  title={t('transactionID')}
+                  dataIndex="transactionID"
+                  render={transactionID => (
+                    <Link to={`/transaction/${transactionID}/`}>
+                      {truncate(transactionID, { length: 10, omission: '...' })}
                     </Link>
-                  )),
-                )
-              }
-            />
-            <Table.Column
-              title={t('handlerAccountName')}
-              dataIndex="handlerAccountName"
-              key="handlerAccountName"
-              render={handlerAccountName => <Link to={`/account/${handlerAccountName}/`}>{handlerAccountName}</Link>}
-            />
-            <Table.Column title={t('type')} dataIndex="name" key="name" />
-          </Table>
-        </ListContainer>
-      </Spin>
+                  )}
+                />
+                <Table.Column
+                  title={t('createdAt')}
+                  dataIndex="createdAt"
+                  key="createdAt"
+                  render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
+                />
+                <Table.Column
+                  title={t('authorization')}
+                  dataIndex="authorization"
+                  key="authorization"
+                  render={authorization =>
+                    flatten(
+                      authorization.map(({ actor, permission }) => (
+                        <Link key={actor + permission} to={`/account/${actor}/`}>
+                          {actor} ({t('permission')}: {permission}){' '}
+                        </Link>
+                      )),
+                    )
+                  }
+                />
+                <Table.Column
+                  title={t('handlerAccountName')}
+                  dataIndex="handlerAccountName"
+                  key="handlerAccountName"
+                  render={handlerAccountName => (
+                    <Link to={`/account/${handlerAccountName}/`}>{handlerAccountName}</Link>
+                  )}
+                />
+              </Table>
+            </ListContainer>
+          );
+        }}
+      </Query>
     );
   }
 }
 
-const mapState = ({ action: { listByTime, pagination }, info: { loading } }): Store => ({
-  listByTime,
-  pagination,
-  loading,
-});
-const mapDispatch = ({ action: { getActionsList } }): Dispatch => ({
-  getActionsList,
-});
-const frontload = async (props: Store & Dispatch) => {
-  // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
-  if (!props.loading && props.listByTime.length === 0) {
-    return props.getActionsList();
-  }
-  return Promise.resolve();
-};
-export default translate('action')(
-  connect(
-    mapState,
-    mapDispatch,
-  )(
-    frontloadConnect(frontload, {
-      onUpdate: false,
-    })(Actions),
-  ),
-);
+export default translate('action')(Actions);

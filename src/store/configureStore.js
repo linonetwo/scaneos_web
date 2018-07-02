@@ -4,8 +4,6 @@ import { createBrowserHistory, createMemoryHistory } from 'history';
 
 import searchModel from './search';
 import infoModel from './info';
-import accountModel from './account';
-import actionModel from './action';
 import tokenModel from './token';
 import aggregationModel from './aggregation';
 import historyModel from './history';
@@ -19,9 +17,7 @@ const configureStore = (initialState = {}) => {
   const {
     search: searchInitialState,
     info: infoInitialState,
-    account: accountInitialState,
     url = '/',
-    action: actionInitialState,
     token: tokenInitialState,
     aggregation: aggregationInitialState,
     history: historyInitialState,
@@ -40,8 +36,6 @@ const configureStore = (initialState = {}) => {
       models: {
         search: searchModel(searchInitialState),
         info: infoModel(infoInitialState),
-        account: accountModel(accountInitialState),
-        action: actionModel(actionInitialState),
         token: tokenModel(tokenInitialState),
         aggregation: aggregationModel(aggregationInitialState),
         history: historyModel(historyInitialState),

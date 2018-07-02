@@ -2,27 +2,23 @@
 import { toPairs } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
-import { connect } from 'react-redux';
-import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import { frontloadConnect } from 'react-frontload';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 import { getBreadcrumb } from '../../components/Layout';
-import type { ActionData } from '../../store/action';
 import { DetailTabsContainer } from '../../components/Containers';
-import { LongListContainer } from '../../components/Table';
+import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {
   t: Function,
-};
-type Store = {
-  data: ActionData,
-  loading: boolean,
-};
-type Dispatch = {
-  getActionData: (transactionID: string) => void,
+  match: {
+    params: {
+      actionID: string,
+    },
+  },
 };
 
 export const ACTIONS_FRAGMENT = gql`
@@ -35,91 +31,86 @@ export const ACTIONS_FRAGMENT = gql`
       permission
       actor
     }
+    handlerAccountName
   }
 `;
+const GET_ACTION_DETAIL = gql`
+  query GET_ACTION_DETAIL($id: String!) {
+    action(id: $id) {
+      ...ACTIONS_FRAGMENT
+    }
+  }
+  ${ACTIONS_FRAGMENT}
+`;
 
-class Action extends PureComponent<Props & Store, *> {
-  state = {};
-
+class Action extends PureComponent<Props> {
   render() {
-    const { data, loading, t } = this.props;
+    const { t, match } = this.props;
+    const { actionID } = match.params;
     return (
       <Fragment>
         {getBreadcrumb('action', t)}
-        <Spin tip="Connecting" spinning={loading} size="large">
-          <DetailTabsContainer>
-            <Tabs defaultActiveKey="2">
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="database" />
-                    {t('Overview')}
-                  </span>
-                }
-                key="2"
-              >
-                <LongListContainer column>
-                  <Table
-                    size="middle"
-                    pagination={false}
-                    dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
+        <Query query={GET_ACTION_DETAIL} variables={{ id: actionID }}>
+          {({ loading, error, data }) => {
+            if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
+            if (loading)
+              return (
+                <Spin tip={t('Connecting')} spinning={loading} size="large">
+                  <DetailTabsContainer />
+                </Spin>
+              );
+            const { action } = data;
+            if (!action) return <NoData>{t('noResult')}</NoData>;
+            return (
+              <DetailTabsContainer>
+                <Tabs defaultActiveKey="overview">
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="database" />
+                        {t('Overview')}
+                      </span>
+                    }
+                    key="overview"
                   >
-                    <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
-                    <Table.Column
-                      title={t('value')}
-                      dataIndex="value"
-                      key="value"
-                      render={(value, { field }) => getListValueRendering(field, value, t)}
-                    />
-                  </Table>
-                </LongListContainer>
-              </Tabs.TabPane>
+                    <LongListContainer column>
+                      <Table
+                        size="middle"
+                        pagination={false}
+                        dataSource={toPairs(action).map(([field, value]) => ({ field, value, key: field }))}
+                      >
+                        <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
+                        <Table.Column
+                          title={t('value')}
+                          dataIndex="value"
+                          key="value"
+                          render={(value, { field }) => getListValueRendering(field, value, t)}
+                        />
+                      </Table>
+                    </LongListContainer>
+                  </Tabs.TabPane>
 
-              <Tabs.TabPane
-                tab={
-                  <span>
-                    <Icon type="file-text" />
-                    {t('Raw')}
-                  </span>
-                }
-                key="3"
-              >
-                <pre>
-                  <code>{JSON.stringify(data, null, '  ')}</code>
-                </pre>
-              </Tabs.TabPane>
-            </Tabs>
-          </DetailTabsContainer>
-        </Spin>
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="file-text" />
+                        {t('Raw')}
+                      </span>
+                    }
+                    key="raw"
+                  >
+                    <pre>
+                      <code>{JSON.stringify(action, null, '  ')}</code>
+                    </pre>
+                  </Tabs.TabPane>
+                </Tabs>
+              </DetailTabsContainer>
+            );
+          }}
+        </Query>
       </Fragment>
     );
   }
 }
 
-const mapState = ({ action: { data }, info: { loading } }): Store => ({ data, loading });
-const mapDispatch = ({ action: { getActionData } }): Dispatch => ({ getActionData });
-
-type LoaderProps = Dispatch & {
-  match: {
-    params: {
-      transactionId: string,
-    },
-  },
-};
-const frontload = async (props: LoaderProps) => {
-  const currentTransactionID = String(props.match.params.transactionId);
-  return props.getActionData(currentTransactionID);
-};
-
-export default withRouter(
-  translate('action')(
-    connect(
-      mapState,
-      mapDispatch,
-    )(
-      frontloadConnect(frontload, {
-        onUpdate: false,
-      })(Action),
-    ),
-  ),
-);
+export default withRouter(translate('action')(Action));

@@ -2,7 +2,7 @@
 import { map } from 'lodash';
 import queryString from 'query-string';
 
-import { blockChainPaths, blockChainDetailPaths, ecosystemPaths ,ecosystemDetailPaths } from '../components/Layout';
+import { blockChainPaths, blockChainDetailPaths, ecosystemPaths, ecosystemDetailPaths } from '../components/Layout';
 
 // 不同导航 Tab 的路径名
 const blockChainPath = map([...blockChainPaths, ...blockChainDetailPaths], 'route');
@@ -37,80 +37,5 @@ export default (initialState: Object = {}) => ({
         this.changeNavTab(mainPath || 'home');
       }
     },
-    /** set URI query string */
-    async updateURI(queryOverride?: Object) {
-      const {
-        store: { getState },
-        history,
-      } = await import('./');
-      const state = getState();
-      if (history.location.pathname === '/accounts/') {
-        const query = queryString.stringify({
-          ...queryString.parse(history.location.search),
-          page: state.account.pagination.current,
-        });
-        history.replace(`/accounts/?${query}`, { isFromEffect: true });
-      } else if (history.location.pathname === '/actions/') {
-        const query = queryString.stringify({
-          ...queryString.parse(history.location.search),
-          page: state.action.pagination.current,
-        });
-        history.replace(`/actions/?${query}`, { isFromEffect: true });
-      } else if (history.location.pathname === '/producers/') {
-        const query = queryString.stringify({
-          ...queryString.parse(history.location.search),
-          ...queryOverride,
-        });
-        history.replace(`/producers/?${query}`, { isFromEffect: true });
-      }
-    },
   },
 });
-
-export async function followURI(location: { pathname: string, search?: string, state: any }) {
-  const {
-    store: { dispatch, getState },
-  } = await import('./');
-  // 如果不是从 store 发出的 push 导致的路由变动，而是用户刷新浏览器，我们才加载数据
-  if (location?.state?.isFromEffect !== true) {
-    const { page: pageString } = queryString.parse(location.search);
-    const page = Number.isInteger(Number(pageString)) && Number(pageString) >= 1 ? Number(pageString) : 1;
-    const state = await getState();
-    // 只有相应的 store 里没有数据，或者是翻页了(应该没有这种情况)，才加载数据
-    if (
-      location.pathname === '/accounts/' &&
-      (state.account.list.length === 0 || state.account.pagination.current + 1 !== page)
-    ) {
-      return dispatch.account.getAccountsList(page);
-    }
-    if (
-      location.pathname === '/actions/' &&
-      (state.action.listByTime.length === 0 || state.action.pagination.current + 1 !== page)
-    ) {
-      return dispatch.action.getActionsList(page);
-    }
-    if (/\/account\//g.test(location.pathname) && !state.account.loading && state.account.data.accountName) {
-      const nextAccountName = location.pathname
-        .split('/account/')
-        .pop()
-        .replace('/', '');
-      console.log('aaa')
-      if (nextAccountName !== state.account.data.accountName) return dispatch.account.getAccountData(nextAccountName);
-    }
-    if (/\/producer\//g.test(location.pathname) && !state.account.loading && state.account.producerInfo) {
-      const nextBPName = location.pathname
-        .split('/producer/')
-        .pop()
-        .replace('/', '');
-      if (nextBPName !== state.account.producerInfo?.account) return dispatch.account.getAccountData(nextBPName);
-    }
-    if (/\/action\//g.test(location.pathname)) {
-      return dispatch.action.getActionData(
-        location.pathname
-          .split('/action/')
-          .pop()
-          .replace('/', ''),
-      );
-    }
-  }
-}

@@ -124,7 +124,6 @@ const theme = {
 };
 export default class App extends Component<{}> {
   componentDidMount() {
-    store.dispatch.history.updateURI();
     store.dispatch.history.updateNavTab();
   }
 
@@ -143,7 +142,7 @@ export default class App extends Component<{}> {
               <Route exact path="/transactions" component={Transactions} />
               <Route exact path="/account/:accountName" component={Account} />
               <Route exact path="/accounts" component={Accounts} />
-              <Route exact path="/action/:transactionID" component={Action} />
+              <Route exact path="/action/:actionID" component={Action} />
               <Route exact path="/actions" component={Actions} />
               <Route exact path="/dictionary" component={Dictionary} />
               <Route exact path="/tokens" component={Tokens} />

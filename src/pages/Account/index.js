@@ -152,37 +152,37 @@ export function getAccountDetails(accountData: Object, t: Function) {
 function Account({ t, match }: Props) {
   const { accountName } = match.params;
   return (
-    <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
-      {({ loading, error, data }) => {
-        if (error) return <Container>{error.message}</Container>;
-        if (loading)
+    <Fragment>
+      {getBreadcrumb('account', t)}
+      <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
+        {({ loading, error, data }) => {
+          if (error) return <Container>{error.message}</Container>;
+          if (loading)
+            return (
+              <Spin tip={t('Connecting')} spinning={loading} size="large">
+                <Container />
+              </Spin>
+            );
+          if (!data.account) return <Container>{t('noResult')}</Container>;
+          const {
+            account: {
+              actions: { actions },
+              producerInfo,
+              ...account
+            },
+          } = data;
+          if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
           return (
-            <Spin tip={t('Connecting')} spinning={loading} size="large">
-              <Container />
-            </Spin>
-          );
-        if (!data.account) return <Container>{t('noResult')}</Container>;
-        const {
-          account: {
-            actions: { actions },
-            producerInfo,
-            ...account
-          },
-        } = data;
-        if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
-        return (
-          <Fragment>
-            {getBreadcrumb('account', t)}
             <DetailTabsContainer column>
               {getAccountDetails(account, t)}
               <ActionsContainer column>
                 <ActionsList actions={actions} />
               </ActionsContainer>
             </DetailTabsContainer>
-          </Fragment>
-        );
-      }}
-    </Query>
+          );
+        }}
+      </Query>
+    </Fragment>
   );
 }
 

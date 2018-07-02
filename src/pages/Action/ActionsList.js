@@ -26,29 +26,26 @@ const ActionName = styled.div`
 
 type Props = { t: Function, actions: Object[] };
 
+export const renderActionName = (actionName: string, t: Function) => (
+  <ActionName
+    color={randomColor({
+      luminosity: 'dark',
+      format: 'rgba',
+      alpha: 0.7,
+      hue: 'blue',
+      seed: actionName,
+    })}
+  >
+    {t(actionName)}
+  </ActionName>
+);
+
 function ActionsList({ t, actions }: Props) {
   return (
     <Fragment>
       <Title>{t('Actions')}</Title>
       <Table scroll={{ x: 1200 }} size="middle" dataSource={actions} rowKey="id">
-        <Table.Column
-          title={t('name')}
-          dataIndex="name"
-          key="name"
-          render={actionName => (
-            <ActionName
-              color={randomColor({
-                luminosity: 'dark',
-                format: 'rgba',
-                alpha: 0.7,
-                hue: 'blue',
-                seed: actionName,
-              })}
-            >
-              {t(actionName)}
-            </ActionName>
-          )}
-        />
+        <Table.Column title={t('name')} dataIndex="name" key="name" render={name => renderActionName(name, t)} />
         <Table.Column
           title={t('data')}
           dataIndex="data"
@@ -77,8 +74,8 @@ function ActionsList({ t, actions }: Props) {
           render={authorization =>
             flatten(
               authorization.map(({ actor, permission }) => (
-                <Link to={`/account/${actor}/`}>
-                  {actor} ({t('permission')}: {permission})
+                <Link key={actor + permission} to={`/account/${actor}/`}>
+                  {actor} ({t('permission')}: {permission}){' '}
                 </Link>
               )),
             )

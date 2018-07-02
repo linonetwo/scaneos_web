@@ -19,7 +19,6 @@ export const adjustAntdTable = css`
     width: 100%;
     padding: 0 5vw;
     ${breakpoint('desktop')`
-      height: ${getTableHeight()}px;
       padding: 0 calc((100vw - 1200px) / 2);
     `};
     ${adjustAntdTablePagination};

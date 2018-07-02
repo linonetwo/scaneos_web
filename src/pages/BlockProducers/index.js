@@ -14,7 +14,6 @@ import { frontloadConnect } from 'react-frontload';
 
 import { ProducerListContainer } from '../../components/Table';
 import { locationBelongsToArea } from '../../store/utils';
-import type { BPAccount } from '../../store/account';
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);

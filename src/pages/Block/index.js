@@ -49,25 +49,25 @@ class Block extends PureComponent<Props> {
     const { t, match } = this.props;
     const { blockNumOrID } = match.params;
     return (
-      <Query query={GET_BLOCK_DETAIL} variables={{ blockNumOrID }}>
-        {({ loading, error, data }) => {
-          if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
-          if (loading)
+      <Fragment>
+        {getBreadcrumb('block', t)}
+        <Query query={GET_BLOCK_DETAIL} variables={{ blockNumOrID }}>
+          {({ loading, error, data }) => {
+            if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
+            if (loading)
+              return (
+                <Spin tip={t('Connecting')} spinning={loading} size="large">
+                  <DetailTabsContainer />
+                </Spin>
+              );
+            if (!data.block) return <NoData>{t('noResult')}</NoData>;
+            const {
+              block: {
+                transactions: { transactions },
+                ...block
+              },
+            } = data;
             return (
-              <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <DetailTabsContainer />
-              </Spin>
-            );
-          if (!data.block) return <NoData>{t('noResult')}</NoData>;
-          const {
-            block: {
-              transactions: { transactions },
-              ...block
-            },
-          } = data;
-          return (
-            <Fragment>
-              {getBreadcrumb('block', t)}
               <DetailTabsContainer>
                 <Tabs defaultActiveKey="data">
                   <Tabs.TabPane
@@ -112,10 +112,10 @@ class Block extends PureComponent<Props> {
                   </Tabs.TabPane>
                 </Tabs>
               </DetailTabsContainer>
-            </Fragment>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </Fragment>
     );
   }
 }

@@ -11,7 +11,6 @@ import web3 from 'web3';
 import { Link } from 'react-router-dom';
 
 import { postEOS } from '../../API.config';
-import type { AccountData } from '../../store/account';
 
 const InputGroup = styled(Flex)`
   height: 80px;

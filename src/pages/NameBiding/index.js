@@ -9,7 +9,6 @@ import { frontloadConnect } from 'react-frontload';
 import { Helmet } from 'react-helmet';
 
 import { getBreadcrumb } from '../../components/Layout';
-import type { NameBidingData } from '../../store/account';
 import { LongListContainer } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 
