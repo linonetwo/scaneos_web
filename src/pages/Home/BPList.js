@@ -13,8 +13,8 @@ import { Title, ListContainer, ViewAll } from './styles';
 type Props = {
   t: Function,
 };
-const GET_BP_LIST = gql`
-  {
+const GET_BP_LIST_HOME_PAGE = gql`
+  query GET_BP_LIST_HOME_PAGE {
     producers(size: 21) {
       producers {
         rank
@@ -30,7 +30,7 @@ const GET_BP_LIST = gql`
 `;
 function BPList({ t }: Props) {
   return (
-    <Query query={GET_BP_LIST}>
+    <Query query={GET_BP_LIST_HOME_PAGE}>
       {({ loading, error, data }) => {
         if (error) return <ListContainer large>{error.message}</ListContainer>;
         if (loading)

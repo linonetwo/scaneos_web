@@ -13,8 +13,8 @@ import { Title, ListContainer, ViewAll, KeyInfoItemContainer, KeyInfoContainer }
 type Props = {
   t: Function,
 };
-const GET_BLOCKS = gql`
-  {
+const GET_BLOCKS_HOME_PAGE = gql`
+  query GET_BLOCKS_HOME_PAGE {
     blocks(size: 5) {
       blocks {
         blockNum
@@ -26,7 +26,7 @@ const GET_BLOCKS = gql`
 `;
 function BlockList({ t }: Props) {
   return (
-    <Query query={GET_BLOCKS} pollInterval={3000}>
+    <Query query={GET_BLOCKS_HOME_PAGE} pollInterval={3000}>
       {({ loading, error, data }) => {
         if (error) return <ListContainer>{error.message}</ListContainer>;
         if (loading)

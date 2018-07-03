@@ -37,8 +37,8 @@ const SearchContainer = styled(Flex)`
 type Props = {
   t: Function,
 };
-const GET_AUCEIONS = gql`
-  {
+const GET_AUCTIONS_HOME_PAGE = gql`
+  query GET_AUCTIONS_HOME_PAGE {
     nameAuctions(size: 21) {
       nameAuctions {
         notInAuction
@@ -102,7 +102,7 @@ class NameAuctionList extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_AUCEIONS}>
+      <Query query={GET_AUCTIONS_HOME_PAGE}>
         {({ loading, error, data }) => {
           if (error) return <ListContainer large>{error.message}</ListContainer>;
           if (loading)

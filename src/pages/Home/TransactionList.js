@@ -13,8 +13,8 @@ import { Title, ListContainer, ViewAll, KeyInfoItemContainer, KeyInfoContainer }
 type Props = {
   t: Function,
 };
-const GET_TRANSACTIONS = gql`
-  {
+const GET_TRANSACTIONS_HOME_PAGE = gql`
+  query GET_TRANSACTIONS_HOME_PAGE {
     transactions(size: 5) {
       transactions {
         transactionID
@@ -28,7 +28,7 @@ const GET_TRANSACTIONS = gql`
 `
 function TransactionList({ t }: Props) {
   return (
-    <Query query={GET_TRANSACTIONS} pollInterval={3000}>
+    <Query query={GET_TRANSACTIONS_HOME_PAGE} pollInterval={3000}>
       {({ loading, error, data }) => {
         if (error) return <ListContainer>{error.message}</ListContainer>;
         if (loading)
