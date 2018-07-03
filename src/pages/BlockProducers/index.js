@@ -111,7 +111,7 @@ class BlockProducers extends PureComponent<Props> {
                       }),
                   }}
                 >
-                  <Table.Column width={35} dataIndex="key" key="key" />
+                  <Table.Column width={15} title={t('rank')} dataIndex="rank" key="rank" />
                   <Table.Column
                     title={t('name')}
                     dataIndex="name"
