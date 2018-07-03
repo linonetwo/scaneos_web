@@ -93,8 +93,6 @@ const chartOption = {
     {
       id: 'dataZoomX',
       type: 'slider',
-      start: 50,
-      end: 99,
       xAxisIndex: [0],
     },
   ],
