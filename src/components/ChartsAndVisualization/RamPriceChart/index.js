@@ -186,15 +186,15 @@ function RamPriceChart({ t }: Props) {
             <AggregationContainer justifyBetween wrap="true">
               <AggregationItem column center>
                 <h4>{t('ramPrice')}</h4>
-                {resourcePrice.ramPrice.toFixed(3)} EOS/KB
+                {resourcePrice.ramPrice.toFixed(3)} EOS/KB/Day
               </AggregationItem>
               <AggregationItem column center>
                 <h4>{t('netPrice')}</h4>
-                {resourcePrice.netPrice.toFixed(3)} EOS/KB
+                {resourcePrice.netPrice.toFixed(3)} EOS/KB/Day
               </AggregationItem>
               <AggregationItem column center>
                 <h4>{t('cpuPrice')}</h4>
-                {resourcePrice.cpuPrice.toFixed(3)} EOS/ms
+                {resourcePrice.cpuPrice.toFixed(3)} EOS/ms/Day
               </AggregationItem>
             </AggregationContainer>
             <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
