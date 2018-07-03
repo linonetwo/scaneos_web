@@ -1,4 +1,5 @@
 // @flow
+import { size } from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -138,7 +139,6 @@ const GET_RAM_PRICE_CHART = gql`
     status {
       maxRamSize
       totalRamBytesReserved
-      totalRamStake
     }
   }
 `;
@@ -160,10 +160,10 @@ const ProgressContainer = styled.div`
 
 function RamPriceChart({ t }: Props) {
   return (
-    <Query query={GET_RAM_PRICE_CHART}>
+    <Query query={GET_RAM_PRICE_CHART} pollInterval={6000} notifyOnNetworkStatusChange>
       {({ loading, error, data }) => {
         if (error) return <PriceChartContainer>{error.message}</PriceChartContainer>;
-        if (loading)
+        if (loading && size(data) === 0)
           return (
             <Spin tip={t('Connecting')} spinning={loading} size="large">
               <PriceChartContainer />
@@ -173,7 +173,7 @@ function RamPriceChart({ t }: Props) {
         const {
           resourcePriceChart: { ramPrice },
           resourcePrice,
-          status: { maxRamSize, totalRamBytesReserved, totalRamStake },
+          status: { maxRamSize, totalRamBytesReserved },
         } = data;
 
         const ramReservedPercent = (totalRamBytesReserved / maxRamSize) * 100;
@@ -212,7 +212,8 @@ function RamPriceChart({ t }: Props) {
           <PriceChartContainer column justifyBetween>
             <Title>
               <span>
-                <Icon type="bar-chart" /> {t('ResourcePriceHistory')}
+                <Icon type="bar-chart" /> {t('ResourcePriceHistory')}{' '}
+                {loading && <Spin indicator={<Icon type="loading" style={{ fontSize: 16 }} spin />} />}
               </span>
             </Title>
             <AggregationContainer justifyBetween wrap="true">
