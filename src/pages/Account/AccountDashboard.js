@@ -17,41 +17,6 @@ type Props = {
   data: Object,
 };
 
-export const RESOURCE_STATUS_FRAGMENT = gql`
-  fragment RESOURCE_STATUS_FRAGMENT on ResourceStatus {
-    weight
-    max
-    available
-    used
-    selfDelegatedWeight
-  }
-`;
-export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
-  fragment ACCOUNT_DASHBOARD_FRAGMENT on Account {
-    tokenBalance
-    createdAt
-    privileged
-    eosBalance
-    eosStaked
-    net {
-      ...RESOURCE_STATUS_FRAGMENT
-    }
-    cpu {
-      ...RESOURCE_STATUS_FRAGMENT
-    }
-    ram {
-      ...RESOURCE_STATUS_FRAGMENT
-    }
-    refundRequest
-    voterInfo {
-      owner
-      producers
-      staked
-    }
-  }
-  ${RESOURCE_STATUS_FRAGMENT}
-`;
-
 const DashboardContainer = styled(Flex)`
   width: 100%;
 
@@ -92,6 +57,50 @@ const ProgressContainer = styled.div`
     }
   }
 `;
+
+export const RESOURCE_STATUS_FRAGMENT = gql`
+  fragment RESOURCE_STATUS_FRAGMENT on ResourceStatus {
+    weight
+    max
+    available
+    used
+    selfDelegatedWeight
+  }
+`;
+export const RESOURCE_PRICE_FRAGMENT = gql`
+  fragment RESOURCE_PRICE_FRAGMENT on ResourcePrice {
+    ramPrice
+    netPrice
+    cpuPrice
+  }
+`;
+export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
+  fragment ACCOUNT_DASHBOARD_FRAGMENT on Account {
+    tokenBalance
+    createdAt
+    privileged
+    eosBalance
+    eosStaked
+    net {
+      ...RESOURCE_STATUS_FRAGMENT
+    }
+    cpu {
+      ...RESOURCE_STATUS_FRAGMENT
+    }
+    ram {
+      ...RESOURCE_STATUS_FRAGMENT
+    }
+
+    refundRequest
+    voterInfo {
+      owner
+      producers
+      staked
+    }
+  }
+  ${RESOURCE_STATUS_FRAGMENT}
+`;
+
 @translate('account')
 export class AccountDashboard extends PureComponent<Props> {
   static defaultProps = {
@@ -105,10 +114,18 @@ export class AccountDashboard extends PureComponent<Props> {
     const eosLiquidPercent = eosTotal > 0 ? (data.eosBalance / eosTotal) * 100 : 0;
     // 内存
     const ramLiquidPercent = data.ram.max > 0 ? (data.ram.available / data.ram.max) * 100 : 0;
+    // 资产价值
+    const ramValue = (data.ram.max * data.ramPrice) / 1024;
+    const netValue = (data.net.max * data.netPrice) / 1024;
+    const cpuValue = (data.cpu.max * data.cpuPrice) / 1000;
+    const totalAssets = eosTotal + ramValue + netValue + cpuValue;
     return (
       <DashboardContainer wrap="true" justifyBetween>
         <h3>
-          {t('eosTotal')}: {numeral(eosTotal).format('0,0.0000')} EOS
+          {t('totalAssets')}: {numeral(totalAssets).format('0,0.0000')} EOS{' '}
+          <small>
+            ({t('eosTotal')}: {numeral(eosTotal).format('0,0.0000')} EOS)
+          </small>
         </h3>
         {/* 余额 */}
         <ProgressContainer column center progress="#1AA2DB" bg="#08668E">

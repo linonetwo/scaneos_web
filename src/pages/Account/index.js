@@ -9,7 +9,12 @@ import { translate } from 'react-i18next';
 import { getBreadcrumb } from '../../components/Layout';
 import { Container, DetailTabsContainer, ActionsContainer } from '../../components/Containers';
 import { LongListContainer } from '../../components/Table';
-import { AccountDataOverview, AccountDashboard, ACCOUNT_DASHBOARD_FRAGMENT } from './AccountDashboard';
+import {
+  AccountDataOverview,
+  AccountDashboard,
+  ACCOUNT_DASHBOARD_FRAGMENT,
+  RESOURCE_PRICE_FRAGMENT,
+} from './AccountDashboard';
 import ActionsList from '../Action/ActionsList';
 import { ACTIONS_FRAGMENT } from '../Action';
 
@@ -76,10 +81,14 @@ export const GET_ACCOUNT_DETAIL = gql`
         ...ACCOUNT_PERMISSION_FRAGMENT
       }
     }
+    resourcePrice {
+      ...RESOURCE_PRICE_FRAGMENT
+    }
   }
   ${ACCOUNT_DASHBOARD_FRAGMENT}
   ${ACTIONS_FRAGMENT}
   ${PRODUCER_INFO_FRAGMENT}
+  ${RESOURCE_PRICE_FRAGMENT}
   fragment ACCOUNT_PERMISSION_FRAGMENT on Permissions {
     permName
     parent
@@ -170,11 +179,12 @@ function Account({ t, match }: Props) {
               producerInfo,
               ...account
             },
+            resourcePrice,
           } = data;
           if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
           return (
             <DetailTabsContainer column>
-              {getAccountDetails(account, t)}
+              {getAccountDetails({ ...account, ...resourcePrice }, t)}
               <ActionsContainer column>
                 <ActionsList actions={actions} />
               </ActionsContainer>
