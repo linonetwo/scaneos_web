@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 // @flow
 // Express requirements
 import path from 'path';
@@ -21,7 +22,7 @@ import 'cross-fetch/polyfill';
 import createStore from '../src/store/configureStore';
 import AppRoutes from '../src/Routes';
 import manifest from '../build/asset-manifest.json';
-import apolloClient from '../src/graphql/ssr';
+import getApolloClient from '../src/graphql/ssr';
 
 // LOADER
 export default (req: $Request, res: $Response) => {
@@ -88,6 +89,7 @@ export default (req: $Request, res: $Response) => {
         then loaded into the correct components and sent as a Promise to be handled below.
       */
     const sheet = new ServerStyleSheet();
+    const apolloClient = getApolloClient();
     const App = (
       <Loadable.Capture report={m => modules.push(m)}>
         <StyleSheetManager sheet={sheet.instance}>
