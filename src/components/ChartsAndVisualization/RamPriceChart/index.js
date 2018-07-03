@@ -13,6 +13,7 @@ import prettySize from 'prettysize';
 import IEcharts from 'react-echarts-v3/src/lite';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/dataZoom';
 import 'echarts/lib/chart/line';
 
 import { Title } from '../../../pages/Home/styles';
@@ -87,6 +88,15 @@ const chartOption = {
       type: 'cross',
     },
   },
+  dataZoom: [
+    {
+      id: 'dataZoomX',
+      type: 'slider',
+      start: 50,
+      end: 99,
+      xAxisIndex: [0],
+    },
+  ],
   legend: {
     data: ['EOSPrice'],
     bottom: 10,
