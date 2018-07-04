@@ -116,9 +116,8 @@ export class AccountDashboard extends PureComponent<Props> {
     const ramLiquidPercent = data.ram.max > 0 ? (data.ram.available / data.ram.max) * 100 : 0;
     // 资产价值
     const ramValue = (data.ram.max * data.ramPrice) / 1024;
-    const netValue = (data.net.max * data.netPrice) / 1024;
-    const cpuValue = (data.cpu.max * data.cpuPrice) / 1000;
-    const totalAssets = eosTotal + ramValue + netValue + cpuValue;
+    // data.eosStaked === netValue + cpuValue
+    const totalAssets = eosTotal + ramValue;
     return (
       <DashboardContainer wrap="true" justifyBetween>
         <h3>
