@@ -28,7 +28,7 @@ const GET_TRANSACTIONS_HOME_PAGE = gql`
 `
 function TransactionList({ t }: Props) {
   return (
-    <Query query={GET_TRANSACTIONS_HOME_PAGE} pollInterval={3000}>
+    <Query query={GET_TRANSACTIONS_HOME_PAGE} pollInterval={6000}>
       {({ loading, error, data }) => {
         if (error) return <ListContainer>{error.message}</ListContainer>;
         if (loading)

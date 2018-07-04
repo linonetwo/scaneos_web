@@ -26,7 +26,7 @@ const GET_BLOCKS_HOME_PAGE = gql`
 `;
 function BlockList({ t }: Props) {
   return (
-    <Query query={GET_BLOCKS_HOME_PAGE} pollInterval={3000}>
+    <Query query={GET_BLOCKS_HOME_PAGE} pollInterval={6000}>
       {({ loading, error, data }) => {
         if (error) return <ListContainer>{error.message}</ListContainer>;
         if (loading)
