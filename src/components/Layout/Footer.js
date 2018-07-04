@@ -86,6 +86,7 @@ const friendLinks = [
   { name: 'EOS UK', homepage: 'https://eosuk.io/' },
   { name: 'EOSeoul', homepage: 'http://eoseoul.io/' },
   { name: 'EOS TEA', homepage: 'https://node.eosfans.io/' },
+  { name: 'IMEOS', homepage: 'https://www.imeos.one/' },
 ];
 
 class Footer extends Component<{ t: Function }, *> {
