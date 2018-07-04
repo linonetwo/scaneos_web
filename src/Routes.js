@@ -104,6 +104,11 @@ const About = Loadable({
   loading: Loading,
   modules: ['About'],
 });
+const Tools = Loadable({
+  loader: () => import(/* webpackChunkName: "Tools" */ './pages/Tools'),
+  loading: Loading,
+  modules: ['Tools'],
+});
 
 function Title({ t }: { t: Function }) {
   return (
@@ -137,6 +142,7 @@ export default class App extends Component<{}> {
             <Header />
             <Switch>
               <Route exact path="/blocks" component={Blocks} />
+              <Route exact path="/tools" component={Tools} />
               <Route exact path="/block/:blockNumOrID" component={Block} />
               <Route exact path="/transaction/:transactionID" component={Transaction} />
               <Route exact path="/transactions" component={Transactions} />

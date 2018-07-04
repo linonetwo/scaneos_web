@@ -21,6 +21,7 @@ const ContentTitle = styled.h2`
 
 class About extends Component<{ t: Function }, *> {
   state = {};
+
   render() {
     const { t } = this.props;
     return (

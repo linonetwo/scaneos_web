@@ -58,10 +58,7 @@ class Tokens extends Component<Props & Store, *> {
   }
 }
 
-const mapState = ({
-  token: { list },
-  info: { loading },
-}): Store => ({
+const mapState = ({ token: { list }, info: { loading } }): Store => ({
   list,
   loading,
 });

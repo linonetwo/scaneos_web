@@ -8,6 +8,7 @@ import * as blockChain from './blockChain';
 import * as price from './price';
 import * as about from './about';
 import * as layout from './layout';
+import * as tools from './tools';
 import * as bp from './bp';
 import * as mappingChecker from '../components/MappingChecking/i18n';
 
@@ -33,6 +34,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...about.zh,
         ...layout.zh,
         ...mappingChecker.zh,
+        ...tools.zh,
       },
     },
     en: {
@@ -48,6 +50,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...about.en,
         ...layout.en,
         ...mappingChecker.en,
+        ...tools.en,
       },
     },
   },

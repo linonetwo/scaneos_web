@@ -9,6 +9,7 @@ import aggregationModel from './aggregation';
 import historyModel from './history';
 import { isServer, getInitialStateFromServer } from './utils';
 import priceModel from './price';
+import toolsModel from './tools';
 
 const immer = immerPlugin();
 const configureStore = (initialState = {}) => {
@@ -40,6 +41,7 @@ const configureStore = (initialState = {}) => {
         aggregation: aggregationModel(aggregationInitialState),
         history: historyModel(historyInitialState),
         price: priceModel(priceInitialState),
+        tools: toolsModel(),
       },
       plugins: [immer],
     }),
