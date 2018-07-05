@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, Switch } from 'antd';
 import { translate } from 'react-i18next';
-import { postEOS } from '../../API.config';
 
 const FormItem = Form.Item;
 
 type Props = {
   t: Function,
   form: Object,
+  eosAccount: Object,
 };
 
 const FormItemLayout = {
@@ -29,40 +29,46 @@ class CreateAccount extends Component<Props> {
         const {
           eosAccount: { name: eosAccount, authority: eosAuth },
         } = this.props;
-        console.log(values);
-        window.eosClient.transaction(tr => {
-          tr.newaccount(
-            {
-              creator: eosAccount,
-              name: values.name,
-              owner: values.ownerKey,
-              active: values.activeKey,
-            },
-            { authorization: [{ actor: eosAccount, permission: eosAuth }] },
-          );
-          tr.buyrambytes(
-            {
-              payer: eosAccount,
-              receiver: values.name,
-              bytes: Number(values.ram),
-            },
-            { authorization: [{ actor: eosAccount, permission: eosAuth }] },
-          );
-          tr.delegatebw(
-            {
-              from: eosAccount,
-              receiver: values.name,
-              stake_net_quantity: `${Number(values.net)
-                .toFixed(4)
-                .toString()} EOS`,
-              stake_cpu_quantity: `${Number(values.cpu)
-                .toFixed(4)
-                .toString()} EOS`,
-              transfer: values.transfer ? 1 : 0,
-            },
-            { authorization: [{ actor: eosAccount, permission: eosAuth }] },
-          );
-        });
+        const {
+          store: { dispatch },
+        } = await import('../../store');
+        try {
+          window.eosClient.transaction(tr => {
+            tr.newaccount(
+              {
+                creator: eosAccount,
+                name: values.name,
+                owner: values.ownerKey,
+                active: values.activeKey,
+              },
+              { authorization: [{ actor: eosAccount, permission: eosAuth }] },
+            );
+            tr.buyrambytes(
+              {
+                payer: eosAccount,
+                receiver: values.name,
+                bytes: Number(values.ram),
+              },
+              { authorization: [{ actor: eosAccount, permission: eosAuth }] },
+            );
+            tr.delegatebw(
+              {
+                from: eosAccount,
+                receiver: values.name,
+                stake_net_quantity: `${Number(values.net)
+                  .toFixed(4)
+                  .toString()} EOS`,
+                stake_cpu_quantity: `${Number(values.cpu)
+                  .toFixed(4)
+                  .toString()} EOS`,
+                transfer: values.transfer ? 1 : 0,
+              },
+              { authorization: [{ actor: eosAccount, permission: eosAuth }] },
+            );
+          });
+        } catch (error) {
+          dispatch.info.displayNotification(JSON.stringify(error));
+        }
       }
     });
   };
@@ -75,13 +81,12 @@ class CreateAccount extends Component<Props> {
 
     return (
       <Form onSubmit={this.handelSubmit}>
-        <FormItem label={t('accountLabel')} {...FormItemLayout}>
+        <FormItem label={t('createAccount.accountLabel')} {...FormItemLayout}>
           {getFieldDecorator('name', {
             rules: [
               {
                 required: true,
                 whitespace: true,
-                message: 'Please input your account',
               },
               {
                 min: 12,
@@ -92,18 +97,17 @@ class CreateAccount extends Component<Props> {
                 message: t('accountPlaceholder'),
               },
             ],
-          })(<Input placeholder={t('accountPlaceholder')} id="name" />)}
+          })(<Input placeholder={t('createAccount.accountPlaceholder')} id="name" />)}
         </FormItem>
-        <FormItem label="Creator" {...FormItemLayout}>
+        <FormItem label={t('createAccount.creatorLabel')} {...FormItemLayout}>
           {getFieldDecorator('creator', {
             rules: [
               {
                 required: true,
                 whitespace: true,
-                message: 'Creator name is required',
               },
             ],
-          })(<Input placeholder="Scatter account" id="creator" />)}
+          })(<Input placeholder={t('createAccount.creatorPlaceholder')} id="creator" />)}
         </FormItem>
         <FormItem label="Owner Public Key" {...FormItemLayout}>
           {getFieldDecorator('ownerKey', {
@@ -111,7 +115,6 @@ class CreateAccount extends Component<Props> {
               {
                 required: true,
                 whitespace: true,
-                message: 'Owner Public Key is required',
               },
             ],
           })(<Input placeholder="Enter public key" id="ownerKey" />)}
@@ -122,7 +125,6 @@ class CreateAccount extends Component<Props> {
               {
                 required: true,
                 whitespace: true,
-                message: 'Active Public Key is required',
               },
             ],
           })(<Input placeholder="Enter public key" id="activeKey" />)}

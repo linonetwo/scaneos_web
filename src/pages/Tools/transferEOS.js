@@ -9,6 +9,7 @@ const FormItem = Form.Item;
 type Props = {
   t: Function,
   form: Object,
+  eosAccount: Object,
 };
 
 const FormItemLayout = {
@@ -26,11 +27,30 @@ class CreateAccount extends Component<Props> {
 
     validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        await postEOS('/', values);
         const {
           store: { dispatch },
         } = await import('../../store');
-        dispatch.info.displayNotification('创建成功');
+        const {
+          eosAccount: { name: eosAccount, authority: eosAuth },
+        } = this.props;
+        try {
+          const res = await window.eosClient.transfer(
+            {
+              account: 'eosio.token',
+              from: eosAccount,
+              to: values.name,
+              quantity: `${Number(values.quantity)
+                .toFixed(4)
+                .toString()} EOS`,
+              memo: values.memo,
+            },
+            { authorization: [{ actor: eosAccount, permission: eosAuth }] },
+          );
+
+          dispatch.info.displayNotification('Transfer Successd');
+        } catch (error) {
+          dispatch.info.displayNotification(JSON.stringify(error));
+        }
       }
     });
   };
@@ -51,17 +71,17 @@ class CreateAccount extends Component<Props> {
                 whitespace: true,
               },
             ],
-          })(<Input placeholder="The account that receives the EOS" id="recepient" />)}
+          })(<Input placeholder="The account that receives the EOS" id="name" />)}
         </FormItem>
         <FormItem label="Sender" {...FormItemLayout}>
-          {getFieldDecorator('Sender', {
+          {getFieldDecorator('creator', {
             rules: [
               {
                 required: true,
                 whitespace: true,
               },
             ],
-          })(<Input placeholder="Attach an Account" id="sender" />)}
+          })(<Input placeholder="Attach an Account" id="creator" />)}
         </FormItem>
         <FormItem label="Quantity (in EOS)" {...FormItemLayout}>
           {getFieldDecorator('quantity', {

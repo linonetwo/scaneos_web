@@ -8,9 +8,9 @@ import styled from 'styled-components';
 
 import { DetailTabsContainer } from '../../components/Containers';
 import CreateAccount from './createAccount';
-// import ManageAccount from './manageAccount';
+import ManageAccount from './manageAccount';
 // import ManageVoting from './manageVoting';
-// import TransferEOS from './transferEOS';
+import TransferEOS from './transferEOS';
 import BlockProducer from './blockProducer';
 import type { ToolsInfo } from '../../store/tools';
 import { scatterConfig } from '../../API.config';
@@ -75,17 +75,11 @@ class Tools extends Component<Props & Store & Dispatch, *> {
     } = this.props;
     const { key } = event;
     if (key === '1') {
+      this.props.getEosAccount();
+    } else if (key === '2') {
       if (scatter.identity) {
         await scatter.forgetIdentity();
       }
-      await scatter.getIdentity({
-        accounts: [
-          {
-            chainId: scatterConfig.chainId,
-            blockchain: scatterConfig.blockchain,
-          },
-        ],
-      });
     }
   };
 
@@ -99,28 +93,27 @@ class Tools extends Component<Props & Store & Dispatch, *> {
   render() {
     const {
       t,
-      tools: { eosClient, eosAccount },
+      tools: { eosAccount },
     } = this.props;
-    console.log(this.props.tools);
 
     return (
       <DetailTabsContainer>
         <Tabs defaultActiveKey="createAccount">
-          <TabPane tab={t('createAccount')} key="createAccount">
-            <CreateAccount eosClient={eosClient} eosAccount={eosAccount} />
+          <TabPane tab={t('createAccount.tab')} key="createAccount">
+            <CreateAccount eosAccount={eosAccount} />
           </TabPane>
-          {/* <TabPane tab={t('transferEOS')} key="transferEOS">
-            <TransferEOS />
+          <TabPane tab={t('transferEOS.tab')} key="transferEOS">
+            <TransferEOS eosAccount={eosAccount} />
           </TabPane>
-          <TabPane tab={t('manageAccount')} key="manageAccount">
-            <ManageAccount />
+          <TabPane tab={t('manageAccount.tab')} key="manageAccount">
+            <ManageAccount eosAccount={eosAccount} />
           </TabPane>
-          <TabPane tab={t('manageVoting')} key="manageVoting">
+          {/* <TabPane tab={t('manageVoting.tab')} key="manageVoting">
             <ManageVoting />
           </TabPane> */}
-          <TabPane tab={t('blockProducer')} key="blockProducer">
+          {/* <TabPane tab={t('blockProducer.tab')} key="blockProducer">
             <BlockProducer />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
         <Dropdown overlay={this.menu} placement="topRight">
           <ScatterMenu>
