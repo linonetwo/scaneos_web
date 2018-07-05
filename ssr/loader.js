@@ -88,6 +88,7 @@ export default (req: $Request, res: $Response) => {
         data for that page. We take all that information and compute the appropriate state to send to the user. This is
         then loaded into the correct components and sent as a Promise to be handled below.
       */
+    res.startTime('parsingReactTree', 'Server side React Parsing');
     const sheet = new ServerStyleSheet();
     const apolloClient = getApolloClient();
     const App = (
@@ -107,9 +108,14 @@ export default (req: $Request, res: $Response) => {
         </StyleSheetManager>
       </Loadable.Capture>
     );
+    res.endTime('parsingReactTree');
+    res.startTime('getDataFromTree', 'Loading Data From GraphQL');
     getDataFromTree(App)
       .then(() => {
+        res.endTime('getDataFromTree');
+        res.startTime('renderToString', 'Render React App to HTML String');
         const body = renderToString(App);
+        res.endTime('renderToString');
         const style = sheet.getStyleTags();
         const initialGraphQLState = apolloClient.extract();
         return { body, style, initialGraphQLState };

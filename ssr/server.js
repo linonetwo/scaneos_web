@@ -5,6 +5,7 @@ import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
 import i18nextExpressMiddleware from 'i18next-express-middleware';
+import serverTimingMiddleware from 'server-timing';
 import path from 'path';
 // import forceDomain from 'forcedomain';
 import Loadable from 'react-loadable';
@@ -19,9 +20,10 @@ const PORT = process.env.PORT || 3000;
 
 // Compress, parse, log, and the i18n
 app.use(compression());
+app.use(serverTimingMiddleware());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(morgan('dev'));
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'tiny' : 'dev'));
 app.use(
   i18nextExpressMiddleware.handle(i18n, {
     removeLngFromUrl: false,
