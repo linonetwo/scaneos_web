@@ -142,7 +142,13 @@ function EOSPriceChart({ t }: Props) {
           <PriceChartContainer column justifyBetween>
             <Title>
               <span>
-                <Icon type="bar-chart" /> {t('PriceHistory')}
+                <Icon type="bar-chart" /> {t('PriceHistory')}{' '}
+                {loading && (
+                  <span>
+                    <Spin indicator={<Icon type="loading" style={{ fontSize: 16 }} spin />} />
+                    {t('Syncing')}
+                  </span>
+                )}
               </span>
             </Title>
             <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />

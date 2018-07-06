@@ -53,6 +53,7 @@ export const zh = {
   About: '关于我们',
 
   Connecting: '连接中',
+  Syncing: '刷新数据中',
 };
 
 export const en = {

@@ -216,7 +216,12 @@ function RamPriceChart({ t }: Props) {
             <Title>
               <span>
                 <Icon type="bar-chart" /> {t('RamPriceChart')}{' '}
-                {loading && <Spin indicator={<Icon type="loading" style={{ fontSize: 16 }} spin />} />}
+                {loading && (
+                  <span>
+                    <Spin indicator={<Icon type="loading" style={{ fontSize: 16 }} spin />} />
+                    {t('Syncing')}
+                  </span>
+                )}
               </span>
             </Title>
             <AggregationContainer justifyBetween wrap="true">
