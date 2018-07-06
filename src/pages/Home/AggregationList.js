@@ -83,7 +83,7 @@ const GET_AGGREGATION_DATA = gql`
       maxRamSize
       totalRamBytesReserved
       maxTransactionNetUsage
-      maxTransactionCpuUsage
+      totalActivatedStake
     }
     price {
       marketCapUsd
@@ -121,12 +121,14 @@ class AggregationList extends PureComponent<Props> {
               maxRamSize,
               maxTransactionNetUsage,
               maxTransactionCpuUsage,
+              totalActivatedStake,
             },
             price: { marketCapUsd, priceUsd, percentChange24h },
             resourcePrice: { ramPrice, netPrice, cpuPrice },
           } = data;
           const priceUp = percentChange24h > 0;
           const ramReservedPercent = (totalRamBytesReserved / maxRamSize) * 100;
+          const votingPercentage = ((Number(totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
           return (
             <AggregationContainer wrap="true">
               <Link to="/blocks/">
@@ -214,10 +216,10 @@ class AggregationList extends PureComponent<Props> {
                   {prettySize(maxTransactionNetUsage)}
                 </AggregationItem>
               </Link>
-              <Link to="/charts/ram/">
+              <Link to="/charts/voting/">
                 <AggregationItem column center>
-                  <h4>{t('maxTransactionCpuUsage')}</h4>
-                  {numeral(maxTransactionCpuUsage / 1000).format('(0.00 a)')}s
+                  <h4>{t('bp:VotingProgress')}</h4>
+                  {votingPercentage.toFixed(2)}%
                 </AggregationItem>
               </Link>
             </AggregationContainer>
@@ -228,4 +230,4 @@ class AggregationList extends PureComponent<Props> {
   }
 }
 
-export default translate()(AggregationList);
+export default translate(['bp'])(AggregationList);
