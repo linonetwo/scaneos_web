@@ -5,7 +5,6 @@ import { createBrowserHistory, createMemoryHistory } from 'history';
 import searchModel from './search';
 import infoModel from './info';
 import tokenModel from './token';
-import aggregationModel from './aggregation';
 import historyModel from './history';
 import { isServer, getInitialStateFromServer } from './utils';
 import priceModel from './price';
@@ -19,7 +18,6 @@ const configureStore = (initialState = {}) => {
     info: infoInitialState,
     url = '/',
     token: tokenInitialState,
-    aggregation: aggregationInitialState,
     history: historyInitialState,
     price: priceInitialState,
   } = { initialState, ...initialStateFromServer };
@@ -37,7 +35,6 @@ const configureStore = (initialState = {}) => {
         search: searchModel(searchInitialState),
         info: infoModel(infoInitialState),
         token: tokenModel(tokenInitialState),
-        aggregation: aggregationModel(aggregationInitialState),
         history: historyModel(historyInitialState),
         price: priceModel(priceInitialState),
       },
