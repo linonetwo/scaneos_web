@@ -24,6 +24,7 @@
     "cross-fetch": "^2.2.1",
     "date-fns": "^1.29.0",
     "echarts": "^4.1.0",
+    "eosjs": "^15.0.3",
     "ethereumjs-abi": "^0.6.5",
     "flow-bin": "^0.75.0",
     "flow-runtime": "^0.17.0",
