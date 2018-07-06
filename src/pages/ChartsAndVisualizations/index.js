@@ -21,6 +21,12 @@ const RamPriceChart = Loadable({
   loading: Loading,
   modules: ['RamPriceChart'],
 });
+const VotingProgress = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "VotingProgress" */ '../../components/ChartsAndVisualization/VotingProgress'),
+  loading: Loading,
+  modules: ['VotingProgress'],
+});
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -47,6 +53,7 @@ export default class ChartsAndVisualizations extends PureComponent<Props & Store
           <Route exact path={`${url}/`} component={ChartList} />
           <Route path={`${url}/eos`} component={EOSPriceChart} />
           <Route path={`${url}/ram`} component={RamPriceChart} />
+          <Route path={`${url}/voting`} component={VotingProgress} />
         </Switch>
       </Container>
     );

@@ -10,17 +10,17 @@ import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import { Title as ATitle } from '../pages/Home/styles';
+import { Title as ATitle } from '../../../pages/Home/styles';
 
 const Container = styled(Flex)`
-  height: 220px;
+  height: 500px;
   padding: 20px;
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
 
   width: 90vw;
-  margin: 20px auto 0;
+  margin: 24px auto 0;
   ${breakpoint('desktop')`
-    width: calc((1200px - 24px) / 2);
-    margin: 24px 0 0;
+    width: calc(1200px - 24px);
   `};
 
   background-color: white;
@@ -35,9 +35,10 @@ const Container = styled(Flex)`
   }
 
   text-align: center;
+  font-size: 16px;
   h3 {
     margin-top: 25px;
-    font-size: 12px;
+    font-size: 18px;
   }
 `;
 const Title = styled(ATitle)``;
@@ -72,9 +73,9 @@ function VotingProgress({ t }: Props) {
         if (error) return <Container>{error.message}</Container>;
         if (loading)
           return (
-            <Spin tip={t('Connecting')} spinning={loading} size="large">
-              <Container />
-            </Spin>
+            <Container>
+              <Spin tip={t('Connecting')} spinning={loading} size="large" />
+            </Container>
           );
         const {
           status: { totalActivatedStake },
@@ -95,7 +96,7 @@ function VotingProgress({ t }: Props) {
                 showInfo={false}
                 status="active"
                 percent={votingPercentage}
-                strokeWidth={20}
+                strokeWidth={40}
                 successPercent={15}
               />
             </Tooltip>

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import ramPriceChart from './ramPriceChart.png';
 import eosPriceChart from './eosPriceChart.png';
+import votingProgress from './votingProgress.png';
 
 const getList = t => [
   {
@@ -19,6 +20,11 @@ const getList = t => [
     title: t('PriceHistory'),
     image: eosPriceChart,
     route: 'eos',
+  },
+  {
+    title: t('VotingProgress'),
+    image: votingProgress,
+    route: 'voting',
   },
 ];
 
@@ -82,4 +88,4 @@ class ChartList extends PureComponent<*> {
     );
   }
 }
-export default translate()(ChartList);
+export default translate(['bp'])(ChartList);
