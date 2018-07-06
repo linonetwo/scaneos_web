@@ -3,7 +3,7 @@ export const zh = {
   marketCap: '市值',
   PriceHistory: '价格走势',
 
-  ResourcePriceHistory: '资源价格曲线',
+  RamPriceChart: '内存资源价格曲线',
   ramPrice: '内存价格',
   netPrice: '带宽价格',
   cpuPrice: '算力价格',

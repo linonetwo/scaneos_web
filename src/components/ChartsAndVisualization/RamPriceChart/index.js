@@ -16,6 +16,7 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/dataZoom';
 import 'echarts/lib/chart/line';
+import { it, _ } from 'param.macro';
 
 import { Title } from '../../../pages/Home/styles';
 
@@ -27,8 +28,7 @@ const PriceChartContainer = styled(Flex)`
   width: 90vw;
   margin: 24px auto 0;
   ${breakpoint('desktop')`
-    width: calc((1200px - 24px) / 2);
-    margin: 24px 0 0;
+    width: calc(1200px - 24px);
   `};
 
   background-color: white;
@@ -160,12 +160,17 @@ function RamPriceChart({ t }: Props) {
   return (
     <Query query={GET_RAM_PRICE_CHART} pollInterval={6000} notifyOnNetworkStatusChange>
       {({ loading, error, data }) => {
-        if (error) return <PriceChartContainer>{error.message}</PriceChartContainer>;
+        if (error)
+          return (
+            <PriceChartContainer column justifyBetween>
+              {error.message}
+            </PriceChartContainer>
+          );
         if (loading && size(data) === 0)
           return (
-            <Spin tip={t('Connecting')} spinning={loading} size="large">
-              <PriceChartContainer />
-            </Spin>
+            <PriceChartContainer column justifyBetween>
+              <Spin tip={t('Connecting')} spinning={loading} size="large" />
+            </PriceChartContainer>
           );
 
         const {
@@ -179,7 +184,7 @@ function RamPriceChart({ t }: Props) {
         const series = [
           {
             name: 'EOS',
-            data: ramPrice.map(({ value }) => value),
+            data: ramPrice.map(it.value),
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
@@ -192,13 +197,13 @@ function RamPriceChart({ t }: Props) {
             splitLine: {
               show: false,
             },
-            data: ramPrice.map(({ time }) => time),
+            data: ramPrice.map(it.time),
             axisLabel: {
-              formatter: value => format(value, 'MM-DD HH:mm:ss'),
+              formatter: format(_, 'MM-DD HH:mm:ss'),
             },
             axisPointer: {
               label: {
-                formatter: ({ value }) => format(value, 'MM-DD HH:mm:ss'),
+                formatter: format(_.value, 'MM-DD HH:mm:ss'),
               },
             },
           },
@@ -210,7 +215,7 @@ function RamPriceChart({ t }: Props) {
           <PriceChartContainer column justifyBetween>
             <Title>
               <span>
-                <Icon type="bar-chart" /> {t('ResourcePriceHistory')}{' '}
+                <Icon type="bar-chart" /> {t('RamPriceChart')}{' '}
                 {loading && <Spin indicator={<Icon type="loading" style={{ fontSize: 16 }} spin />} />}
               </span>
             </Title>
