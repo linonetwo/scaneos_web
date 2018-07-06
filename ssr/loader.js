@@ -116,8 +116,12 @@ export default (req: $Request, res: $Response) => {
         res.startTime('renderToString', 'Render React App to HTML String');
         const body = renderToString(App);
         res.endTime('renderToString');
+        res.startTime('getStyleTagsAndExtractData', 'StyledComponents to style tag');
         const style = sheet.getStyleTags();
+        res.endTime('getStyleTagsAndExtractData');
+        res.startTime('apolloClientExtract', 'GraphQL state to script tag');
         const initialGraphQLState = apolloClient.extract();
+        res.endTime('apolloClientExtract');
         return { body, style, initialGraphQLState };
       })
       .then(({ body, style, initialGraphQLState }) => {
@@ -131,6 +135,7 @@ export default (req: $Request, res: $Response) => {
         } else {
           // Otherwise, we carry on...
 
+          res.startTime('extractAssets', 'Code splitting');
           // Let's give ourself a function to load all our page-specific JS assets for code splitting
           const extractAssets = (assets, chunks) =>
             Object.keys(assets)
@@ -141,7 +146,9 @@ export default (req: $Request, res: $Response) => {
           const extraChunks = extractAssets(manifest, modules).map(
             c => `<script type="text/javascript" src="${c}"></script>`,
           );
+          res.endTime('extractAssets');
 
+          res.startTime('assembleHTML', 'Putting things into HTML');
           // We need to tell Helmet to compute the right meta tags, title, and such
           const helmet = Helmet.renderStatic();
 
@@ -161,6 +168,7 @@ export default (req: $Request, res: $Response) => {
             state: JSON.stringify(store.getState()).replace(/</g, '\\u003c'),
           });
 
+          res.endTime('assembleHTML');
           // We have all the final HTML, let's send it to the user already!
           res.send(html);
         }
