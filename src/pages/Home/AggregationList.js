@@ -120,7 +120,6 @@ class AggregationList extends PureComponent<Props> {
               totalRamBytesReserved,
               maxRamSize,
               maxTransactionNetUsage,
-              maxTransactionCpuUsage,
               totalActivatedStake,
             },
             price: { marketCapUsd, priceUsd, percentChange24h },

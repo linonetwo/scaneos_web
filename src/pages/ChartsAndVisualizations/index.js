@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { Route, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
+import { translate } from 'react-i18next';
 import Loading from '../../components/Loading';
+import { getBreadcrumb } from '../../components/Layout';
 
 const ChartList = Loadable({
   loader: () => import(/* webpackChunkName: "ChartList" */ './ChartList'),
@@ -38,17 +40,18 @@ type Props = {
   match: {
     url: string,
   },
+  t: Function,
 };
-type Store = {};
-type Dispatch = {};
 
-export default class ChartsAndVisualizations extends PureComponent<Props & Store & Dispatch, *> {
+class ChartsAndVisualizations extends PureComponent<Props> {
   render() {
     const {
       match: { url },
+      t,
     } = this.props;
     return (
-      <Container>
+      <Container column>
+        {getBreadcrumb('chart', t, true)}
         <Switch>
           <Route exact path={`${url}/`} component={ChartList} />
           <Route path={`${url}/eos`} component={EOSPriceChart} />
@@ -59,3 +62,4 @@ export default class ChartsAndVisualizations extends PureComponent<Props & Store
     );
   }
 }
+export default translate()(ChartsAndVisualizations);

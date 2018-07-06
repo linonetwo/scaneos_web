@@ -26,7 +26,7 @@ const PriceChartContainer = styled(Flex)`
   width: 90vw;
   margin: 24px auto 0;
   ${breakpoint('desktop')`
-    width: calc(1200px - 24px);
+    width: 1200px;
   `};
 
   background-color: white;
