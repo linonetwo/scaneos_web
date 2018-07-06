@@ -242,7 +242,7 @@ function RamPriceChart({ t }: Props) {
               <AggregationItem column center>
                 <h4>
                   {t('cpuPrice')}
-                  <small>(EOS/ms/Day)</small>
+                  <small>(EOS/s/Day)</small>
                 </h4>
                 {resourcePrice.cpuPrice.toFixed(3)}
               </AggregationItem>

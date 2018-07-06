@@ -203,25 +203,21 @@ class AggregationList extends PureComponent<Props> {
                 <AggregationItem column center>
                   <h4>
                     {t('cpuPrice')}
-                    <small>(ms/Day)</small>
+                    <small>(s/Day)</small>
                   </h4>
-                  {numeral(cpuPrice).format('(0.000000 a)')} EOS
+                  {numeral(cpuPrice).format('(0.0000 a)')} EOS
                 </AggregationItem>
               </Link>
               <Link to="/charts/ram/">
                 <AggregationItem column center>
-                  <h4>
-                    {t('maxTransactionNetUsage')}
-                  </h4>
+                  <h4>{t('maxTransactionNetUsage')}</h4>
                   {prettySize(maxTransactionNetUsage)}
                 </AggregationItem>
               </Link>
               <Link to="/charts/ram/">
                 <AggregationItem column center>
-                  <h4>
-                    {t('maxTransactionCpuUsage')}
-                  </h4>
-                  {prettySize(maxTransactionCpuUsage)}
+                  <h4>{t('maxTransactionCpuUsage')}</h4>
+                  {numeral(maxTransactionCpuUsage / 1000).format('(0.00 a)')}s
                 </AggregationItem>
               </Link>
             </AggregationContainer>

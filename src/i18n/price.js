@@ -6,7 +6,7 @@ export const zh = {
   RamPriceChart: '内存资源价格曲线',
   ramPrice: '内存价格',
   netPrice: '带宽价格',
-  cpuPrice: '算力价格',
+  cpuPrice: 'CPU每秒费用',
 
   totalRamBytesReserved: '已被购买',
   maxRamSize: '内存总量',
