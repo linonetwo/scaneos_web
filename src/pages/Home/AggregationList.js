@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import breakpoint from 'styled-components-breakpoint';
 import numeral from 'numeral';
+import prettySize from 'prettysize';
 
 const AggregationContainer = styled(Flex)`
   width: 90vw;
@@ -79,11 +80,20 @@ const GET_AGGREGATION_DATA = gql`
       transactionNumber
       accountNumber
       actionNumber
+      maxRamSize
+      totalRamBytesReserved
+      maxTransactionNetUsage
+      maxTransactionCpuUsage
     }
     price {
       marketCapUsd
       priceUsd
       percentChange24h
+    }
+    resourcePrice {
+      ramPrice
+      netPrice
+      cpuPrice
     }
   }
 `;
@@ -102,10 +112,21 @@ class AggregationList extends PureComponent<Props> {
               </AggregationContainer>
             );
           const {
-            status: { blockNumber, transactionNumber, accountNumber, actionNumber },
+            status: {
+              blockNumber,
+              transactionNumber,
+              accountNumber,
+              actionNumber,
+              totalRamBytesReserved,
+              maxRamSize,
+              maxTransactionNetUsage,
+              maxTransactionCpuUsage,
+            },
             price: { marketCapUsd, priceUsd, percentChange24h },
+            resourcePrice: { ramPrice, netPrice, cpuPrice },
           } = data;
           const priceUp = percentChange24h > 0;
+          const ramReservedPercent = (totalRamBytesReserved / maxRamSize) * 100;
           return (
             <AggregationContainer wrap="true">
               <Link to="/blocks/">
@@ -120,7 +141,7 @@ class AggregationList extends PureComponent<Props> {
                   {transactionNumber}
                 </AggregationItem>
               </Link>
-              <Link to="/price/">
+              <Link to="/charts/eos/">
                 <AggregationItem column center>
                   <h4>
                     {t('price')}
@@ -134,7 +155,7 @@ class AggregationList extends PureComponent<Props> {
                     .replace('b', 'B')}
                 </AggregationItem>
               </Link>
-              <Link to="/price/">
+              <Link to="/charts/eos/">
                 <AggregationItem column center>
                   <h4>{t('marketCap')}</h4>
                   {numeral(marketCapUsd)
@@ -152,6 +173,55 @@ class AggregationList extends PureComponent<Props> {
                 <AggregationItem column center>
                   <h4>{t('actionNum')}</h4>
                   {actionNumber}
+                </AggregationItem>
+              </Link>
+              <Link to="/charts/ram/">
+                <AggregationItem column center>
+                  <h4>
+                    {t('ramPrice')}
+                    <small>(KB/Day)</small>
+                  </h4>
+                  {numeral(ramPrice).format('(0.000000 a)')} EOS
+                </AggregationItem>
+              </Link>
+              <Link to="/charts/ram/">
+                <AggregationItem column center>
+                  <h4>{t('ramReservedPercent')}</h4>
+                  {ramReservedPercent.toFixed(4)}%
+                </AggregationItem>
+              </Link>
+              <Link to="/charts/ram/">
+                <AggregationItem column center>
+                  <h4>
+                    {t('netPrice')}
+                    <small>(KB/Day)</small>
+                  </h4>
+                  {numeral(netPrice).format('(0.000000 a)')} EOS
+                </AggregationItem>
+              </Link>
+              <Link to="/charts/ram/">
+                <AggregationItem column center>
+                  <h4>
+                    {t('cpuPrice')}
+                    <small>(ms/Day)</small>
+                  </h4>
+                  {numeral(cpuPrice).format('(0.000000 a)')} EOS
+                </AggregationItem>
+              </Link>
+              <Link to="/charts/ram/">
+                <AggregationItem column center>
+                  <h4>
+                    {t('maxTransactionNetUsage')}
+                  </h4>
+                  {prettySize(maxTransactionNetUsage)}
+                </AggregationItem>
+              </Link>
+              <Link to="/charts/ram/">
+                <AggregationItem column center>
+                  <h4>
+                    {t('maxTransactionCpuUsage')}
+                  </h4>
+                  {prettySize(maxTransactionCpuUsage)}
                 </AggregationItem>
               </Link>
             </AggregationContainer>

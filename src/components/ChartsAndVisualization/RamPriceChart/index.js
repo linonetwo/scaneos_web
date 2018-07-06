@@ -242,9 +242,7 @@ function RamPriceChart({ t }: Props) {
                 {resourcePrice.cpuPrice.toFixed(3)}
               </AggregationItem>
             </AggregationContainer>
-            <ChartContainer>
-              <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
-            </ChartContainer>
+
             <ProgressContainer>
               <h4>
                 {t('maxRamSize')} <mark>{prettySize(maxRamSize)}</mark> {t('totalRamBytesReserved')}{' '}
@@ -255,6 +253,10 @@ function RamPriceChart({ t }: Props) {
               </h4>
               <Progress showInfo={false} status="active" percent={ramReservedPercent} strokeWidth={20} />
             </ProgressContainer>
+
+            <ChartContainer>
+              <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
+            </ChartContainer>
           </PriceChartContainer>
         );
       }}

@@ -10,7 +10,7 @@ export const zh = {
 
   totalRamBytesReserved: '已被购买',
   maxRamSize: '内存总量',
-  ramReservedPercent: '已购比例',
+  ramReservedPercent: '内存已购比例',
 };
 
 export const en = {
@@ -22,7 +22,7 @@ export const en = {
   netPrice: 'NetPrice',
   cpuPrice: 'CPUPrice',
 
-  RamReserved: '已被购买',
-  MaxRamSize: '内存总量',
-  RamReserveRate: '已购比例',
+  totalRamBytesReserved: 'RamReserved',
+  maxRamSize: 'MaxRamSize',
+  ramReservedPercent: 'RamReserveRate',
 };
