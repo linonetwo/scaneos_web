@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Tabs, Dropdown, Menu } from 'antd';
 import { translate } from 'react-i18next';
-import { frontloadConnect } from 'react-frontload';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -11,9 +10,7 @@ import CreateAccount from './createAccount';
 import ManageAccount from './manageAccount';
 // import ManageVoting from './manageVoting';
 import TransferEOS from './transferEOS';
-import BlockProducer from './blockProducer';
 import type { ToolsInfo } from '../../store/tools';
-import { scatterConfig } from '../../API.config';
 
 import scatterLogo from './chart-scatter.png';
 
@@ -46,9 +43,7 @@ type Dispatch = {
   getEosAccount: Function,
 };
 
-class Tools extends Component<Props & Store & Dispatch, *> {
-  state = {};
-
+class Tools extends Component<Props & Store & Dispatch> {
   async componentWillMount() {
     if (window.scatter) {
       this.props.onScatterLoaded(window.scatter);
