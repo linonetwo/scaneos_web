@@ -17,6 +17,7 @@ module.exports = function override(config, env) {
   config = injectBabelPlugin('date-fns', config);
   config = rewireLess.withLoaderOptions({
     modifyVars: { '@primary-color': '#1aa2db' },
+    javascriptEnabled: true,
   })(config, env);
 
   if (env === 'production') {

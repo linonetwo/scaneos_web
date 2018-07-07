@@ -20,16 +20,21 @@ type Props = {
   },
   t: Function,
 };
+export const BLOCK_DETAIL_FRAGMENT = gql`
+  fragment BLOCK_DETAIL_FRAGMENT on Block {
+    blockID
+    blockNum
+    transactionNum
+    producerAccountID
+    timestamp
+    pending
+    transactionMerkleRoot
+  }
+`;
 const GET_BLOCK_DETAIL = gql`
   query GET_BLOCK_DETAIL($blockNumOrID: String!) {
     block(blockNumOrID: $blockNumOrID) {
-      blockID
-      blockNum
-      transactionNum
-      producerAccountID
-      timestamp
-      pending
-      transactionMerkleRoot
+      ...BLOCK_DETAIL_FRAGMENT
       transactions {
         transactions {
           transactionID
@@ -42,6 +47,7 @@ const GET_BLOCK_DETAIL = gql`
       }
     }
   }
+  ${BLOCK_DETAIL_FRAGMENT}
 `;
 
 class Block extends PureComponent<Props> {

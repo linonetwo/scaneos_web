@@ -1,106 +1,96 @@
 // @flow
-import { debounce } from 'lodash';
-import React, { Component } from 'react';
-import { Input, Icon } from 'antd';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import breakpoint from 'styled-components-breakpoint';
+import React, { PureComponent } from 'react';
+import { Input, Icon, Modal } from 'antd';
 import { translate } from 'react-i18next';
-import is from 'styled-is';
+import gql from 'graphql-tag';
+import { ApolloConsumer } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
-const SearchContainer = styled.div`
-  width: 200px;
-  transition: width 0.3s;
+import { SearchContainer } from './Containers';
+import { ACCOUNT_DASHBOARD_FRAGMENT } from '../pages/Account/AccountDashboard';
+import { BLOCK_DETAIL_FRAGMENT } from '../pages/Block';
+import { TRANSACTION_DETAIL_FRAGMENT } from '../pages/Transaction';
 
-  margin: auto;
-  width: 90vw;
-  ${breakpoint('desktop')`
-    margin: 0 30px;
-    max-width: 420px;
-  `};
-  ${is('affixed')`
-    width: calc(90vw - 48px);
-  `};
-
-  .ant-input-suffix > button {
-    line-height: 1 !important;
-  }
-  input {
-    font-size: 12px;
-  }
-  .ant-input {
-    border-bottom: 1px solid #eeeeee;
-  }
-`;
-
-type Store = {
-  keyWord: string,
-  loading: boolean,
-};
 type Props = {
   t: Function,
+  history: Object,
   affixed?: boolean,
 };
-type Dispatch = {
-  changeKeyWord: (keyWord: string) => void,
-  search: () => void,
-};
-type State = {
-  keyWord: string,
-};
 
-class SearchBar extends Component<Props & Store & Dispatch, State> {
-  static getDerivedStateFromProps(nextProps: Store, prevState: State) {
-    if (nextProps.keyWord !== prevState.keyWord) {
-      return { keyWord: nextProps.keyWord };
+const SEARCH_BAR = gql`
+  query SEARCH_BAR($keyWord: String!) {
+    search(keyWord: $keyWord) {
+      __typename
+      ... on Account {
+        ...ACCOUNT_DASHBOARD_FRAGMENT
+      }
+      ... on Block {
+        ...BLOCK_DETAIL_FRAGMENT
+      }
+      ... on Transaction {
+        ...TRANSACTION_DETAIL_FRAGMENT
+      }
     }
-    return null;
   }
+  ${ACCOUNT_DASHBOARD_FRAGMENT}
+  ${BLOCK_DETAIL_FRAGMENT}
+  ${TRANSACTION_DETAIL_FRAGMENT}
+`;
 
+class SearchBar extends PureComponent<Props, { loading: boolean }> {
   static defaultProps = {
     affixed: false,
   };
 
   state = {
-    keyWord: '',
+    loading: false,
   };
 
-  onSearchInputChange = (event: SyntheticInputEvent<*>) => {
-    const keyWord = event.target.value;
-    this.setState({ keyWord });
-    this.props.changeKeyWord(keyWord);
+  search = async (keyWord, client) => {
+    if (!keyWord) return;
+    this.setState({ loading: true });
+    const { data } = await client.query({
+      query: SEARCH_BAR,
+      variables: { keyWord },
+    });
+    this.setState({ loading: false });
+    const { t, history } = this.props;
+    if (data && data.search && data.search.__typename) {
+      const { __typename, accountName, blockNum, transactionID } = data.search;
+      switch (__typename) {
+        case 'Account':
+          return history.push(`/account/${accountName}`);
+        case 'Block':
+          return history.push(`/block/${blockNum}`);
+        case 'Transaction':
+          return history.push(`/transaction/${transactionID}`);
+        default:
+      }
+    }
+
+    Modal.info({
+      title: t('noResult'),
+      onOk() {},
+    });
   };
 
   render() {
+    const { t, affixed } = this.props;
+    const { loading } = this.state;
     return (
-      <SearchContainer active={this.state.keyWord} affixed={this.props.affixed}>
-        <Input.Search
-          enterButton={this.props.loading ? <Icon type="loading" /> : <Icon type="search" />}
-          placeholder={this.props.t('cansearch')}
-          value={this.state.keyWord}
-          onChange={this.onSearchInputChange}
-          onSearch={keyWord => {
-            if (!keyWord) return;
-            this.props.changeKeyWord(keyWord);
-            this.props.search();
-          }}
-        />
-      </SearchContainer>
+      <ApolloConsumer>
+        {client => (
+          <SearchContainer affixed={affixed}>
+            <Input.Search
+              enterButton={loading ? <Icon type="loading" /> : <Icon type="search" />}
+              placeholder={t('cansearch')}
+              onSearch={keyWord => this.search(keyWord, client)}
+            />
+          </SearchContainer>
+        )}
+      </ApolloConsumer>
     );
   }
 }
 
-const mapState = ({ search: { keyWord, loading } }): Store => ({
-  keyWord,
-  loading,
-});
-const mapDispatch = ({ search: { changeKeyWord, search } }): Dispatch => ({
-  changeKeyWord,
-  search: debounce(search, 100),
-});
-export default translate()(
-  connect(
-    mapState,
-    mapDispatch,
-  )(SearchBar),
-);
+export default translate()(withRouter(SearchBar));

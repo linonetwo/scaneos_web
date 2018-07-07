@@ -10,9 +10,20 @@ import { translate } from 'react-i18next';
 import { withRouter, Link } from 'react-router-dom';
 import breakpoint from 'styled-components-breakpoint';
 import noScroll from 'no-scroll';
-
-import SearchBar from '../SearchBar';
+import Loadable from 'react-loadable';
+import { SearchContainer } from '../Containers';
 import translateLogo from './translate.png';
+
+// avoid cycle importing
+const SearchBar = Loadable({
+  loader: () => import(/* webpackChunkName: "SearchBar" */ '../SearchBar'),
+  loading: () => (
+    <SearchContainer>
+      <Icon type="loading" />
+    </SearchContainer>
+  ),
+  modules: ['SearchBar'],
+});
 
 const lang = {
   zh: '中文',
@@ -330,7 +341,11 @@ class Header extends Component<Props & Store & Dispatch, *> {
         )}
       </Menu.SubMenu>
       <Menu.SubMenu
-        title={<NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>{this.props.t('Ecosystem')}</NavDropDownsButton>}
+        title={
+          <NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>
+            {this.props.t('Ecosystem')}
+          </NavDropDownsButton>
+        }
       >
         {ecosystemPaths.map(
           ({ route, display }, index) =>

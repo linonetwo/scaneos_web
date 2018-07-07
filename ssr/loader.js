@@ -13,7 +13,6 @@ import Helmet from 'react-helmet';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
-import { Frontload } from 'react-frontload';
 import Loadable from 'react-loadable';
 import { I18nextProvider } from 'react-i18next';
 import 'cross-fetch/polyfill';
@@ -98,9 +97,7 @@ export default (req: $Request, res: $Response) => {
             <I18nextProvider i18n={req.i18n}>
               <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
-                  <Frontload isServer>
-                    <AppRoutes />
-                  </Frontload>
+                  <AppRoutes />
                 </StaticRouter>
               </Provider>
             </I18nextProvider>

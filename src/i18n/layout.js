@@ -54,6 +54,7 @@ export const zh = {
 
   Connecting: '连接中',
   Syncing: '刷新数据中',
+  noResult: ' 暂无结果，请再试试？',
 };
 
 export const en = {
@@ -78,4 +79,6 @@ export const en = {
   accountNum: 'Accounts',
   actionNum: 'Actions',
   blocksNum: 'Blocks',
+
+  noResult: 'No Result...Try another.',
 };

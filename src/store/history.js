@@ -1,6 +1,5 @@
 // @flow
 import { map } from 'lodash';
-import queryString from 'query-string';
 
 import { blockChainPaths, blockChainDetailPaths, ecosystemPaths, ecosystemDetailPaths } from '../components/Layout';
 

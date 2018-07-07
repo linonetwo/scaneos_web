@@ -76,6 +76,7 @@ export const RESOURCE_PRICE_FRAGMENT = gql`
 `;
 export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
   fragment ACCOUNT_DASHBOARD_FRAGMENT on Account {
+    accountName
     tokenBalance
     createdAt
     privileged
