@@ -180,7 +180,7 @@ class AggregationList extends PureComponent<Props> {
                 <AggregationItem column center>
                   <h4>
                     {t('ramPrice')}
-                    <small>(KB/Day)</small>
+                    <small>(KB)</small>
                   </h4>
                   {numeral(ramPrice).format('(0.000000 a)')} EOS
                 </AggregationItem>
