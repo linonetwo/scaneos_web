@@ -1,7 +1,6 @@
 // @flow
 // Express requirements
 import bodyParser from 'body-parser';
-import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
 import i18nextExpressMiddleware from 'i18next-express-middleware';
@@ -19,7 +18,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Compress, parse, log, and the i18n
-app.use(compression());
 app.use(serverTimingMiddleware());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,7 +30,6 @@ app.use(
 
 // Set up homepage, static assets, and capture everything else
 app.use(express.Router().get('/', loader));
-app.use(express.static(path.resolve(__dirname, '../build')));
 app.use(express.static(path.resolve(__dirname, '../build'), {
   maxAge: 86400000,
 }));
