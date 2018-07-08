@@ -1,4 +1,4 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-array-index-key, react/destructuring-assignment */
 // @flow
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
@@ -245,7 +245,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
   };
 
   toggleSideMenu = () => {
-    this.setState({ sideMenuOpened: !this.state.sideMenuOpened });
+    this.setState(prevState => ({ sideMenuOpened: !prevState.sideMenuOpened }));
     noScroll.toggle();
   };
 
@@ -261,21 +261,6 @@ class Header extends Component<Props & Store & Dispatch, *> {
         ({ route, display }, index) =>
           route && display ? (
             <Menu.Item key={route} onClick={() => this.props.changeNavTab('blockChain')}>
-              <Link to={`/${route}/`}>{this.props.t(display)}</Link>
-            </Menu.Item>
-          ) : (
-            <Menu.Divider key={index} />
-          ),
-      )}
-    </Menu>
-  );
-
-  tokensMenu = () => (
-    <Menu>
-      {tokenPaths.map(
-        ({ route, display }, index) =>
-          route && display ? (
-            <Menu.Item key={route} onClick={() => this.props.changeNavTab('tokens')}>
               <Link to={`/${route}/`}>{this.props.t(display)}</Link>
             </Menu.Item>
           ) : (
@@ -392,20 +377,22 @@ class Header extends Component<Props & Store & Dispatch, *> {
   getSelectedIndicator = tabName => <NavButtonSelectedIndicator visible={this.props.navTab === tabName} />;
 
   render() {
+    const { t, changeNavTab, navTab } = this.props;
+    const { sideMenuOpened, headerAffixed } = this.state;
     return (
       <Fragment>
         <HeaderAffix onChange={this.onHeaderChanged}>
-          <Fixed opened={this.state.sideMenuOpened} onClick={this.toggleSideMenu} />
-          <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
-          <HeaderContainer affixed={this.state.headerAffixed}>
+          <Fixed opened={sideMenuOpened} onClick={this.toggleSideMenu} />
+          <MobileMenuContainer opened={sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
+          <HeaderContainer affixed={headerAffixed}>
             <Layout.Header>
-              <Link to="/" onClick={() => this.props.changeNavTab('home')}>
+              <Link to="/" onClick={() => changeNavTab('home')}>
                 <LogoContainer center>
-                  <LogoIcon src={this.props.t('logoIcon')} affixed={this.state.headerAffixed} />
+                  <LogoIcon src={t('logoIcon')} affixed={headerAffixed} />
                 </LogoContainer>
               </Link>
               <MenuOpenIconContainer center>
-                <Icon onClick={this.toggleSideMenu} type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
+                <Icon onClick={this.toggleSideMenu} type={sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
               </MenuOpenIconContainer>
 
               <DesktopSearchBarContainer>
@@ -413,36 +400,37 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </DesktopSearchBarContainer>
               <DropDownsContainer>
                 <NavDropDowns justifyEnd>
-                  <NavDropDownsButtonLink
-                    selected={this.props.navTab === 'home'}
-                    onClick={() => this.props.changeNavTab('home')}
-                    to="/"
-                  >
-                    {this.props.t('Home')}
+                  <NavDropDownsButtonLink selected={navTab === 'home'} onClick={() => changeNavTab('home')} to="/">
+                    {t('Home')}
                     {this.getSelectedIndicator('home')}
                   </NavDropDownsButtonLink>
 
                   <Dropdown overlay={this.getBlockChainMenu()}>
-                    <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
-                      {this.props.t('BlockChain')} <Icon type="down" />
+                    <NavDropDownsButton selected={navTab === 'blockChain'}>
+                      {t('BlockChain')} <Icon type="down" />
                       {this.getSelectedIndicator('blockChain')}
                     </NavDropDownsButton>
                   </Dropdown>
 
                   <Dropdown overlay={this.ecosystemMenu()}>
-                    <NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>
-                      {this.props.t('Ecosystem')} <Icon type="down" />
+                    <NavDropDownsButton selected={navTab === 'ecosystem'}>
+                      {t('Ecosystem')} <Icon type="down" />
                       {this.getSelectedIndicator('ecosystem')}
                     </NavDropDownsButton>
                   </Dropdown>
 
                   <NavDropDownsButtonLink
-                    selected={this.props.navTab === 'producers'}
-                    onClick={() => this.props.changeNavTab('producers')}
+                    selected={navTab === 'producers'}
+                    onClick={() => changeNavTab('producers')}
                     to="/producers/"
                   >
-                    {this.props.t('BlockProducers')}
+                    {t('BlockProducers')}
                     {this.getSelectedIndicator('producers')}
+                  </NavDropDownsButtonLink>
+
+                  <NavDropDownsButtonLink selected={navTab === 'wiki'} onClick={() => changeNavTab('wiki')} to="/wiki">
+                    {t('Wiki')}
+                    {this.getSelectedIndicator('wiki')}
                   </NavDropDownsButtonLink>
 
                   <Dropdown overlay={this.localeMenu}>
@@ -453,10 +441,10 @@ class Header extends Component<Props & Store & Dispatch, *> {
                           height: '20px',
                           marginRight: '5px',
                         }}
-                        alt={this.props.t('Locale')}
+                        alt={t('Locale')}
                         src={translateLogo}
                       />
-                      {lang[this.props.t('locale')]}
+                      {lang[t('locale')]}
                       <Icon type="down" />
                       {this.getSelectedIndicator('locale')}
                     </NavDropDownsButton>
@@ -465,13 +453,13 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </DropDownsContainer>
             </Layout.Header>
           </HeaderContainer>
-          {this.state.headerAffixed && (
-            <MobileSearchBarContainer center affixed={this.state.headerAffixed}>
-              <SearchBar affixed={this.state.headerAffixed} />
+          {headerAffixed && (
+            <MobileSearchBarContainer center affixed={headerAffixed}>
+              <SearchBar affixed={headerAffixed} />
             </MobileSearchBarContainer>
           )}
         </HeaderAffix>
-        <HeaderAffixSpace affixed={this.state.headerAffixed} />
+        <HeaderAffixSpace affixed={headerAffixed} />
         <MobileSearchBarContainer center>
           <SearchBar />
         </MobileSearchBarContainer>

@@ -104,6 +104,11 @@ const About = Loadable({
   loading: Loading,
   modules: ['About'],
 });
+const Wikis = Loadable({
+  loader: () => import(/* webpackChunkName: "Wikis" */ './pages/Wikis'),
+  loading: Loading,
+  modules: ['Wikis'],
+});
 
 function Title({ t }: { t: Function }) {
   return (
@@ -152,6 +157,7 @@ export default class App extends Component<{}> {
               <Route exact path="/producer/:accountName" component={BlockProducer} />
               <Route path="/charts" component={ChartsAndVisualizations} />
               <Route exact path="/about" component={About} />
+              <Route exact path="/wiki" component={Wikis} />
               <Route exact path="/" component={Home} />
               <Route component={UnderDevelopment} />
             </Switch>
