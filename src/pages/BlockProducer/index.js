@@ -101,6 +101,7 @@ class BlockProducer extends PureComponent<Props> {
           if (!data.account) return <Container>{t('noResult')}</Container>;
           const {
             account: { producerInfo, ...account },
+            resourcePrice,
           } = data;
           return (
             <Fragment>
@@ -202,7 +203,7 @@ class BlockProducer extends PureComponent<Props> {
                   </Fragment>
                 )}
                 <BPInfoContainer>
-                  {getAccountDetails(account, t)}
+                  {getAccountDetails({ ...account, ...resourcePrice }, t)}
                   <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
                     {({ loading: actionsLoading, error: actionsError, data: actionsData }) => {
                       if (error) return actionsError.message;

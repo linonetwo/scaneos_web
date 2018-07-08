@@ -92,8 +92,6 @@ export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
     ram {
       ...RESOURCE_STATUS_FRAGMENT
     }
-
-    refundRequest
     voterInfo {
       owner
       producers
