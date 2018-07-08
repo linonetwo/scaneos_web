@@ -69,11 +69,6 @@ export const GET_ACCOUNT_DETAIL = gql`
   query GET_ACCOUNT_DETAIL($name: String!) {
     account(name: $name) {
       ...ACCOUNT_DASHBOARD_FRAGMENT
-      actions {
-        actions {
-          ...ACTIONS_FRAGMENT
-        }
-      }
       producerInfo {
         ...PRODUCER_INFO_FRAGMENT
       }
@@ -86,7 +81,6 @@ export const GET_ACCOUNT_DETAIL = gql`
     }
   }
   ${ACCOUNT_DASHBOARD_FRAGMENT}
-  ${ACTIONS_FRAGMENT}
   ${PRODUCER_INFO_FRAGMENT}
   ${RESOURCE_PRICE_FRAGMENT}
   fragment ACCOUNT_PERMISSION_FRAGMENT on Permissions {
@@ -108,6 +102,19 @@ export const GET_ACCOUNT_DETAIL = gql`
       waits
     }
   }
+`;
+
+export const GET_ACCOUNT_ACTIONS = gql`
+  query GET_ACCOUNT_ACTIONS($name: String!) {
+    account(name: $name) {
+      actions {
+        actions {
+          ...ACTIONS_FRAGMENT
+        }
+      }
+    }
+  }
+  ${ACTIONS_FRAGMENT}
 `;
 
 export function getAccountDetails(accountData: Object, t: Function) {
@@ -174,20 +181,34 @@ function Account({ t, match }: Props) {
             );
           if (!data.account) return <Container>{t('noResult')}</Container>;
           const {
-            account: {
-              actions: { actions },
-              producerInfo,
-              ...account
-            },
+            account: { producerInfo, ...account },
             resourcePrice,
           } = data;
           if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
           return (
             <DetailTabsContainer column>
               {getAccountDetails({ ...account, ...resourcePrice }, t)}
-              <ActionsContainer column>
-                <ActionsList actions={actions} />
-              </ActionsContainer>
+              <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
+                {({ loading: actionsLoading, error: actionsError, data: actionsData }) => {
+                  if (error) return <ActionsContainer center>{actionsError.message}</ActionsContainer>;
+                  if (actionsLoading)
+                    return (
+                      <ActionsContainer center>
+                        <Spin tip={t('Connecting')} spinning={actionsLoading} size="large" />
+                      </ActionsContainer>
+                    );
+                  const {
+                    account: {
+                      actions: { actions },
+                    },
+                  } = actionsData;
+                  return (
+                    <ActionsContainer column>
+                      <ActionsList actions={actions} />
+                    </ActionsContainer>
+                  );
+                }}
+              </Query>
             </DetailTabsContainer>
           );
         }}

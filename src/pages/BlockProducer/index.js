@@ -14,7 +14,7 @@ import Loadable from 'react-loadable';
 import { Title } from '../Home/styles';
 import Loading from '../../components/Loading';
 import { BPInfoContainer } from '../../components/Containers';
-import { GET_ACCOUNT_DETAIL, getAccountDetails } from '../Account/index';
+import { GET_ACCOUNT_DETAIL, GET_ACCOUNT_ACTIONS, getAccountDetails } from '../Account/index';
 import ActionsList from '../Action/ActionsList';
 
 const BlockProducersMap = Loadable({
@@ -100,11 +100,7 @@ class BlockProducer extends PureComponent<Props> {
             );
           if (!data.account) return <Container>{t('noResult')}</Container>;
           const {
-            account: {
-              actions: { actions },
-              producerInfo,
-              ...account
-            },
+            account: { producerInfo, ...account },
           } = data;
           return (
             <Fragment>
@@ -207,7 +203,18 @@ class BlockProducer extends PureComponent<Props> {
                 )}
                 <BPInfoContainer>
                   {getAccountDetails(account, t)}
-                  <ActionsList actions={actions} />
+                  <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
+                    {({ loading: actionsLoading, error: actionsError, data: actionsData }) => {
+                      if (error) return actionsError.message;
+                      if (actionsLoading) return <Flex center><Spin tip={t('Connecting')} spinning={actionsLoading} size="large" /></Flex>;
+                      const {
+                        account: {
+                          actions: { actions },
+                        },
+                      } = actionsData;
+                      return <ActionsList actions={actions} />;
+                    }}
+                  </Query>
                 </BPInfoContainer>
                 {producerInfo &&
                   typeof producerInfo.longitude === 'number' &&
