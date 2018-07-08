@@ -65,6 +65,7 @@ export const RESOURCE_STATUS_FRAGMENT = gql`
     available
     used
     selfDelegatedWeight
+    refund
   }
 `;
 export const RESOURCE_PRICE_FRAGMENT = gql`
@@ -117,14 +118,18 @@ export class AccountDashboard extends PureComponent<Props> {
     const ramLiquidPercent = data.ram.max > 0 ? (data.ram.available / data.ram.max) * 100 : 0;
     // 资产价值
     const ramValue = (data.ram.max * data.ramPrice) / 1024;
+    // 反抵押退款
+    const refund = data.net.refund + data.cpu.refund;
     // data.eosStaked === netValue + cpuValue
-    const totalAssets = eosTotal + ramValue;
+    const totalAssets = eosTotal + ramValue + refund;
     return (
       <DashboardContainer wrap="true" justifyBetween>
         <h3>
-          {t('totalAssets')}: {numeral(totalAssets).format('0,0.0000')} EOS{' '}
+          {t('totalAssets')}: {numeral(totalAssets).format('0,0.0000')} EOS<br />
           <small>
-            ({t('eosTotal')}: {numeral(eosTotal).format('0,0.0000')} EOS)
+            ({t('eosTotal')}: {numeral(eosTotal).format('0,0.0000')} EOS{ramValue > 0 &&
+              `, ${t('ramValue')}: ${numeral(ramValue).format('0,0.0000')} EOS`}
+            {refund > 0 && `, ${t('refund')}: ${numeral(refund).format('0,0.0000')} EOS`})
           </small>
         </h3>
         {/* 余额 */}
@@ -163,6 +168,14 @@ export class AccountDashboard extends PureComponent<Props> {
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
+          {data.cpu.refund > 0 && (
+            <h4>
+              <span />
+              <span>
+                {t('cpuRefund')}: {data.cpu.refund} EOS
+              </span>
+            </h4>
+          )}
         </ProgressContainer>
         {/* 带宽 */}
         <ProgressContainer column center progress="#50BEED" bg="#08668E">
@@ -175,6 +188,14 @@ export class AccountDashboard extends PureComponent<Props> {
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
+          {data.net.refund > 0 && (
+            <h4>
+              <span />
+              <span>
+                {t('netRefund')}: {data.net.refund} EOS
+              </span>
+            </h4>
+          )}
         </ProgressContainer>
       </DashboardContainer>
     );

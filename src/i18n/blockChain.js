@@ -47,6 +47,7 @@ export const zh = {
     ramMax: '总内存',
     netMax: '总带宽',
     cpuMax: '总算力',
+    ramValue: '内存价值',
 
     voterInfo: '投票质押信息',
     proxy: '代理',
@@ -61,7 +62,10 @@ export const zh = {
     ramBytes: '内存大小(Byte)',
     netWeight: '带宽权重',
     cpuWeight: 'CPU权重',
+    netRefund: '取消带宽抵押的退款',
+    cpuRefund: '取消CPU抵押的退款',
     totalResources: '拥有的资源总量',
+    refund: '取消抵押的退款',
 
     tokenBalance: '余额',
     unstakingBalance: '未锁定的余额',
@@ -142,6 +146,8 @@ export const en = {
     ramMax: 'Max Ram',
     netMax: 'Max Net',
     cpuMax: 'Max CPU',
+    ramValue: 'RamValue',
+    refund: 'Refund',
 
     unstakingBalance: 'Unstaking',
     transactionMerkleRoot: 'Transaction Merkle Root',
