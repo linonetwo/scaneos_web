@@ -85,6 +85,13 @@ export const zh = {
     tryName: '搜索靓号是否正在竞拍',
     notInAuction: '此账户名尚未参与竞拍，',
     nearestResult: '为您展示最相似的一个靓号',
+
+    weight: '权重',
+    permName: '权限组名',
+    parent: '上级账号',
+    threshold: '动用账户所需的最小权限',
+    keys: '公钥列表',
+    subAccounts: '子账户列表',
   },
   action: {
     ...zhShared,

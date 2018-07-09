@@ -1,5 +1,5 @@
 // @flow
-import { toPairs } from 'lodash';
+import { toPairs, sortBy } from 'lodash';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -56,6 +56,18 @@ const ProgressContainer = styled.div`
       float: right;
     }
   }
+`;
+
+const AuthContainer = styled.div`
+  width: 100%;
+  margin: 20px 0;
+`;
+const KeyContainer = styled(Flex)`
+  padding: 5px;
+  background-color: #50beed;
+  color: white;
+  width: 450px;
+  border-radius: 2px;
 `;
 
 export const RESOURCE_STATUS_FRAGMENT = gql`
@@ -195,6 +207,40 @@ export class AccountDashboard extends PureComponent<Props> {
             </h4>
           )}
         </ProgressContainer>
+        <AuthContainer>
+          <Table
+            scroll={{ x: 1200 }}
+            size="middle"
+            pagination={false}
+            dataSource={data.permissions.map(({ requiredAuth, ...rest }) => ({ ...requiredAuth, ...rest }))}
+          >
+            <Table.Column title={t('permName')} dataIndex="permName" key="permName" />
+            <Table.Column title={t('parent')} dataIndex="parent" key="parent" />
+            <Table.Column title={t('threshold')} dataIndex="threshold" key="threshold" />
+            <Table.Column
+              title={t('keys')}
+              dataIndex="keys"
+              key="keys"
+              render={keys =>
+                sortBy(keys, ['weight']).map(({ key, weight }) => (
+                  <KeyContainer justifyBetween>
+                    <span>
+                      {t('weight')}:{weight}
+                    </span>
+                    <span>{key}</span>
+                  </KeyContainer>
+                ))
+              }
+            />
+            <Table.Column
+              title={t('subAccounts')}
+              dataIndex="accounts"
+              key="accounts"
+              render={accounts => JSON.stringify(accounts)}
+            />
+            <Table.Column title={t('waits')} dataIndex="waits" key="waits" render={waits => JSON.stringify(waits)} />
+          </Table>
+        </AuthContainer>
       </DashboardContainer>
     );
   }
