@@ -29,7 +29,8 @@ type Props = {
   },
   t: Function,
 };
-export const GET_DICTIONARY_ENTRY = gql`
+
+const GET_DICTIONARY_ENTRY = gql`
   query GET_DICTIONARY_ENTRY($field: String!) {
     dictionaryEntry(field: $field) {
       field

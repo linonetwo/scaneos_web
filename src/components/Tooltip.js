@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { translate } from 'react-i18next';
 import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import { NoData } from './Table';
-import { GET_DICTIONARY_ENTRY } from '../pages/DictionaryEntry';
 
 const Container = styled(Flex)`
   width: 300px;
@@ -26,6 +26,17 @@ const Article = styled.article`
   color: #666;
 `;
 
+const GET_DICTIONARY_ENTRY = gql`
+  query GET_DICTIONARY_ENTRY($field: String!) {
+    dictionaryEntry(field: $field) {
+      field
+      title
+      titleZh
+      brief
+      briefZh
+    }
+  }
+`;
 function Tooltip({ t, field: dictionaryField }: { t: Function, field: string }) {
   return (
     <Query ssr={false} query={GET_DICTIONARY_ENTRY} variables={{ field: dictionaryField }}>
