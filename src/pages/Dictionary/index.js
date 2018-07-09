@@ -12,8 +12,8 @@ import { ListContainer } from '../../components/Table';
 type Props = {
   t: Function,
 };
-const GET_WIKIS_LIST = gql`
-  query GET_WIKIS_LIST($page: Int) {
+const GET_DICTIONARY = gql`
+  query GET_DICTIONARY($page: Int) {
     wikis(page: $page) {
       wikis {
         field
@@ -29,11 +29,11 @@ const GET_WIKIS_LIST = gql`
   }
 `;
 
-class Wikis extends PureComponent<Props> {
+class Dictionary extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_WIKIS_LIST} notifyOnNetworkStatusChange>
+      <Query query={GET_DICTIONARY} notifyOnNetworkStatusChange>
         {({ loading, error, data, fetchMore }) => {
           if (error) return <ListContainer column>{error.message}</ListContainer>;
           if (loading)
@@ -97,4 +97,4 @@ class Wikis extends PureComponent<Props> {
   }
 }
 
-export default translate('wiki')(Wikis);
+export default translate()(Dictionary);

@@ -99,15 +99,15 @@ const About = Loadable({
   loading: Loading,
   modules: ['About'],
 });
-const Wikis = Loadable({
-  loader: () => import(/* webpackChunkName: "Wikis" */ './pages/Wikis'),
+const Dictionary = Loadable({
+  loader: () => import(/* webpackChunkName: "Dictionary" */ './pages/Dictionary'),
   loading: Loading,
-  modules: ['Wikis'],
+  modules: ['Dictionary'],
 });
-const Wiki = Loadable({
-  loader: () => import(/* webpackChunkName: "Wiki" */ './pages/Wiki'),
+const DictionaryEntry = Loadable({
+  loader: () => import(/* webpackChunkName: "DictionaryEntry" */ './pages/DictionaryEntry'),
   loading: Loading,
-  modules: ['Wiki'],
+  modules: ['DictionaryEntry'],
 });
 
 function Title({ t }: { t: Function }) {
@@ -156,8 +156,8 @@ export default class App extends Component<{}> {
               <Route exact path="/producer/:accountName" component={BlockProducer} />
               <Route path="/charts" component={ChartsAndVisualizations} />
               <Route exact path="/about" component={About} />
-              <Route exact path="/dictionary" component={Wikis} />
-              <Route exact path="/dictionary/:dictionaryField" component={Wiki} />
+              <Route exact path="/dictionary" component={Dictionary} />
+              <Route exact path="/dictionary/:dictionaryField" component={DictionaryEntry} />
               <Route exact path="/" component={Home} />
               <Route component={UnderDevelopment} />
             </Switch>

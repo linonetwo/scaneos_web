@@ -29,8 +29,8 @@ type Props = {
   },
   t: Function,
 };
-const GET_WIKI_DETAIL = gql`
-  query GET_WIKI_DETAIL($field: String!) {
+const GET_DICTIONARY_ENTRY = gql`
+  query GET_DICTIONARY_ENTRY($field: String!) {
     wiki(field: $field) {
       field
       title
@@ -41,14 +41,14 @@ const GET_WIKI_DETAIL = gql`
   }
 `;
 
-class Wiki extends PureComponent<Props> {
+class DictionaryEntry extends PureComponent<Props> {
   render() {
     const { t, match } = this.props;
     const { dictionaryField } = match.params;
     return (
       <Fragment>
         {getBreadcrumb('dictionary', t, true, true)}
-        <Query query={GET_WIKI_DETAIL} variables={{ field: dictionaryField }}>
+        <Query query={GET_DICTIONARY_ENTRY} variables={{ field: dictionaryField }}>
           {({ loading, error, data }) => {
             if (error) return <Container>{error.message}</Container>;
             if (loading)
@@ -76,4 +76,4 @@ class Wiki extends PureComponent<Props> {
   }
 }
 
-export default withRouter(translate('wiki')(Wiki));
+export default withRouter(translate()(DictionaryEntry));
