@@ -29,9 +29,9 @@ type Props = {
   },
   t: Function,
 };
-const GET_DICTIONARY_ENTRY = gql`
+export const GET_DICTIONARY_ENTRY = gql`
   query GET_DICTIONARY_ENTRY($field: String!) {
-    wiki(field: $field) {
+    dictionaryEntry(field: $field) {
       field
       title
       titleZh
@@ -57,9 +57,9 @@ class DictionaryEntry extends PureComponent<Props> {
                   <Container />
                 </Spin>
               );
-            if (!data.wiki) return <NoData>{t('noResult')}</NoData>;
+            if (!data.dictionaryEntry) return <NoData>{t('noResult')}</NoData>;
             const {
-              wiki: { field, title, titleZh, content, contentZh },
+              dictionaryEntry: { field, title, titleZh, content, contentZh },
             } = data;
             return (
               <Container column>

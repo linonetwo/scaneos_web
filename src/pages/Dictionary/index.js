@@ -14,8 +14,8 @@ type Props = {
 };
 const GET_DICTIONARY = gql`
   query GET_DICTIONARY($page: Int) {
-    wikis(page: $page) {
-      wikis {
+    dictionaryEntries(page: $page) {
+      dictionaryEntries {
         field
         title
         titleZh
@@ -38,13 +38,13 @@ class Dictionary extends PureComponent<Props> {
           if (error) return <ListContainer column>{error.message}</ListContainer>;
           if (loading)
             return (
-              <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <ListContainer />
-              </Spin>
+              <ListContainer>
+                <Spin tip={t('Connecting')} spinning={loading} size="large" />
+              </ListContainer>
             );
           const {
-            wikis: {
-              wikis,
+            dictionaryEntries: {
+              dictionaryEntries,
               pageInfo: { page, totalElements },
             },
           } = data;
@@ -54,7 +54,7 @@ class Dictionary extends PureComponent<Props> {
                 <Table
                   scroll={{ x: 1000 }}
                   size="middle"
-                  dataSource={wikis}
+                  dataSource={dictionaryEntries}
                   rowKey="id"
                   pagination={{
                     pageSize: getPageSize(),
