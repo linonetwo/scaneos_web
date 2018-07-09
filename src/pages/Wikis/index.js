@@ -1,5 +1,4 @@
 // @flow
-import { truncate } from 'lodash';
 import React, { PureComponent } from 'react';
 import { Spin, Table } from 'antd';
 import { translate } from 'react-i18next';
@@ -74,19 +73,19 @@ class Wikis extends PureComponent<Props> {
                     title={t('field')}
                     dataIndex="field"
                     key="field"
-                    render={field => <Link to={`/wiki/${field}/`}>{field}</Link>}
+                    render={field => <Link to={`/dictionary/${field}/`}>{field}</Link>}
                   />
                   <Table.Column
                     title={t('titleZh')}
                     dataIndex="titleZh"
                     key="titleZh"
-                    render={(titleZh, { field }) => <Link to={`/wiki/${field}/`}>{titleZh}</Link>}
+                    render={(titleZh, { field }) => <Link to={`/dictionary/${field}/`}>{titleZh}</Link>}
                   />
                   <Table.Column
                     title={t('title')}
                     dataIndex="title"
                     key="title"
-                    render={(title, { field }) => <Link to={`/wiki/${field}/`}>{title}</Link>}
+                    render={(title, { field }) => <Link to={`/dictionary/${field}/`}>{title}</Link>}
                   />
                 </Table>
               </ListContainer>

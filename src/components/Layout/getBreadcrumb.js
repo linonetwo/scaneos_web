@@ -18,7 +18,7 @@ const BreadCrumbContainer = styled.nav`
   display: flex;
   align-items: center;
 `;
-export default function getBreadcrumb(route: string, t: Function, noSub?: boolean) {
+export default function getBreadcrumb(route: string, t: Function, noSub?: boolean, noS?: boolean) {
   return (
     <BreadCrumbContainer>
       <Breadcrumb>
@@ -26,7 +26,7 @@ export default function getBreadcrumb(route: string, t: Function, noSub?: boolea
           <Link to="/">{t('Home')}</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Link to={`/${route}s/`}>{t(capitalize(`${route}s`))}</Link>
+          <Link to={`/${route}${noS ? '' : 's'}/`}>{t(capitalize(`${route}${noS ? '' : 's'}`))}</Link>
         </Breadcrumb.Item>
         {noSub !== true && <Breadcrumb.Item>{t(capitalize(route))}</Breadcrumb.Item>}
       </Breadcrumb>

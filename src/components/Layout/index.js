@@ -230,12 +230,9 @@ export const blockChainDetailPaths: RouteData[] = [
 ];
 
 export const ecosystemPaths: RouteData[] = [
-  { route: 'dictionary', display: 'Dictionary' },
-  {},
   { route: 'about', display: 'About' },
 ];
 export const ecosystemDetailPaths: RouteData[] = [
-  { route: 'dictionary-entry', display: 'DictionaryEntry' },
   { route: 'about', display: 'About' },
 ];
 class Header extends Component<Props & Store & Dispatch, *> {
@@ -428,9 +425,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     {this.getSelectedIndicator('producers')}
                   </NavDropDownsButtonLink>
 
-                  <NavDropDownsButtonLink selected={navTab === 'wiki'} onClick={() => changeNavTab('wiki')} to="/wiki">
-                    {t('Wiki')}
-                    {this.getSelectedIndicator('wiki')}
+                  <NavDropDownsButtonLink selected={navTab === 'dictionary'} onClick={() => changeNavTab('dictionary')} to="/dictionary">
+                    {t('Dictionary')}
+                    {this.getSelectedIndicator('dictionary')}
                   </NavDropDownsButtonLink>
 
                   <Dropdown overlay={this.localeMenu}>
