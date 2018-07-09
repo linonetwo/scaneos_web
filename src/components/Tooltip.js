@@ -1,9 +1,8 @@
 // @flow
-import React from 'react';
-import { Spin, Icon } from 'antd';
+import React, { Fragment } from 'react';
+import { Spin } from 'antd';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import { translate } from 'react-i18next';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -14,6 +13,13 @@ const Container = styled(Flex)`
   height: 150px;
   text-align: center;
   padding: 10px;
+
+  display: none;
+
+  &:hover,
+  & .tooltip-field:hover {
+    display: flex;
+  }
 `;
 const Title = styled.h3`
   padding: 10px;
@@ -37,31 +43,42 @@ const GET_DICTIONARY_ENTRY = gql`
     }
   }
 `;
-function Tooltip({ t, field: dictionaryField }: { t: Function, field: string }) {
+export default function Tooltip({ t, field }: { t: Function, field: string }) {
   return (
-    <Query ssr={false} query={GET_DICTIONARY_ENTRY} variables={{ field: dictionaryField }}>
+    <Query ssr={false} query={GET_DICTIONARY_ENTRY} variables={{ field }}>
       {({ loading, error, data }) => {
-        if (error) return <Container>{error.message}</Container>;
+        if (error)
+          return (
+            <Fragment>
+              <Container>{error.message}</Container>
+              <span className="tooltip-field">{t(field)}</span>
+            </Fragment>
+          );
         if (loading)
           return (
-            <Spin tip={t('Connecting')} spinning={loading} size="large">
-              <Container />
-            </Spin>
+            <Fragment>
+              <Container>
+                <Spin tip={t('Connecting')} spinning={loading} size="large" />
+              </Container>
+              <span className="tooltip-field">{t(field)}</span>
+            </Fragment>
           );
         if (!data.wiki) return <NoData>{t('noResult')}</NoData>;
         const {
-          wiki: { field, title, titleZh, content, contentZh },
+          wiki: { title, titleZh, content, contentZh },
         } = data;
         return (
-          <Container center column>
-            <Title>
-              {t('locale') === 'zh' ? titleZh : title} ({field})
-            </Title>
-            <Article dangerouslySetInnerHTML={{ __html: t('locale') === 'zh' ? contentZh : content }} />
-          </Container>
+          <Fragment>
+            <Container center column>
+              <Title>
+                {t('locale') === 'zh' ? titleZh : title} ({field})
+              </Title>
+              <Article dangerouslySetInnerHTML={{ __html: t('locale') === 'zh' ? contentZh : content }} />
+            </Container>
+            <span className="tooltip-field">{t(field)}</span>
+          </Fragment>
         );
       }}
     </Query>
   );
 }
-export default translate()(Tooltip);
