@@ -8,7 +8,7 @@ export const zh = {
   Home: '首页',
   Block: '区块',
   Transaction: '交易',
-  BlockChain: '区块链',
+  BlockChain: '区块数据',
   Tokens: '通证',
   Token: '通证',
   TokenTransfers: '通证转移',

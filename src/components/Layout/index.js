@@ -229,12 +229,6 @@ export const blockChainDetailPaths: RouteData[] = [
   { route: 'chart', display: 'Charts' },
 ];
 
-export const ecosystemPaths: RouteData[] = [
-  { route: 'about', display: 'About' },
-];
-export const ecosystemDetailPaths: RouteData[] = [
-  { route: 'about', display: 'About' },
-];
 class Header extends Component<Props & Store & Dispatch, *> {
   state = {
     sideMenuOpened: false,
@@ -295,15 +289,6 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
   getMobileMenu = () => (
     <Menu mode="inline" style={{ width: 256 }}>
-      <Menu.Item>
-        <NavDropDownsButtonLink
-          selected={this.props.navTab === 'home'}
-          onClick={() => this.props.changeNavTab('home')}
-          to="/"
-        >
-          {this.props.t('Home')}
-        </NavDropDownsButtonLink>
-      </Menu.Item>
       <Menu.SubMenu
         title={
           <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
@@ -322,24 +307,6 @@ class Header extends Component<Props & Store & Dispatch, *> {
             ),
         )}
       </Menu.SubMenu>
-      <Menu.SubMenu
-        title={
-          <NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>
-            {this.props.t('Ecosystem')}
-          </NavDropDownsButton>
-        }
-      >
-        {ecosystemPaths.map(
-          ({ route, display }, index) =>
-            route && display ? (
-              <Menu.Item key={route} onClick={() => this.props.changeNavTab('ecosystem')}>
-                <Link to={`/${route}/`}>{this.props.t(display)}</Link>
-              </Menu.Item>
-            ) : (
-              <Menu.Divider key={index} />
-            ),
-        )}
-      </Menu.SubMenu>
       <Menu.Item>
         <NavDropDownsButtonLink
           selected={this.props.navTab === 'producers'}
@@ -347,6 +314,15 @@ class Header extends Component<Props & Store & Dispatch, *> {
           to="/producers/"
         >
           {this.props.t('BlockProducers')}
+        </NavDropDownsButtonLink>
+      </Menu.Item>
+      <Menu.Item>
+        <NavDropDownsButtonLink
+          selected={this.props.navTab === 'dictionary'}
+          onClick={() => this.props.changeNavTab('dictionary')}
+          to="/dictionary"
+        >
+          {this.props.t('Dictionary')}
         </NavDropDownsButtonLink>
       </Menu.Item>
       <Menu.SubMenu
@@ -397,22 +373,10 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </DesktopSearchBarContainer>
               <DropDownsContainer>
                 <NavDropDowns justifyEnd>
-                  <NavDropDownsButtonLink selected={navTab === 'home'} onClick={() => changeNavTab('home')} to="/">
-                    {t('Home')}
-                    {this.getSelectedIndicator('home')}
-                  </NavDropDownsButtonLink>
-
                   <Dropdown overlay={this.getBlockChainMenu()}>
                     <NavDropDownsButton selected={navTab === 'blockChain'}>
                       {t('BlockChain')} <Icon type="down" />
                       {this.getSelectedIndicator('blockChain')}
-                    </NavDropDownsButton>
-                  </Dropdown>
-
-                  <Dropdown overlay={this.ecosystemMenu()}>
-                    <NavDropDownsButton selected={navTab === 'ecosystem'}>
-                      {t('Ecosystem')} <Icon type="down" />
-                      {this.getSelectedIndicator('ecosystem')}
                     </NavDropDownsButton>
                   </Dropdown>
 
@@ -425,7 +389,11 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     {this.getSelectedIndicator('producers')}
                   </NavDropDownsButtonLink>
 
-                  <NavDropDownsButtonLink selected={navTab === 'dictionary'} onClick={() => changeNavTab('dictionary')} to="/dictionary">
+                  <NavDropDownsButtonLink
+                    selected={navTab === 'dictionary'}
+                    onClick={() => changeNavTab('dictionary')}
+                    to="/dictionary"
+                  >
                     {t('Dictionary')}
                     {this.getSelectedIndicator('dictionary')}
                   </NavDropDownsButtonLink>
