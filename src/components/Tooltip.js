@@ -1,26 +1,17 @@
 // @flow
-import React, { Fragment } from 'react';
-import { Spin } from 'antd';
+import React from 'react';
+import { Spin, Tooltip as PopUp } from 'antd';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { NoData } from './Table';
-
 const Container = styled(Flex)`
-  width: 300px;
+  min-width: 150px;
   height: 150px;
-  text-align: center;
   padding: 10px;
-
-  display: none;
-
-  &:hover,
-  & .tooltip-field:hover {
-    display: flex;
-  }
 `;
+const Field = styled.span``;
 const Title = styled.h3`
   padding: 10px;
   font-size: 16px;
@@ -49,34 +40,56 @@ export default function Tooltip({ t, field }: { t: Function, field: string }) {
       {({ loading, error, data }) => {
         if (error)
           return (
-            <Fragment>
-              <Container>{error.message}</Container>
-              <span className="tooltip-field">{t(field)}</span>
-            </Fragment>
+            <PopUp
+              title={
+                <Container center column>
+                  {error.message}
+                </Container>
+              }
+            >
+              <Field>{t(field)}</Field>
+            </PopUp>
           );
         if (loading)
           return (
-            <Fragment>
-              <Container>
-                <Spin tip={t('Connecting')} spinning={loading} size="large" />
-              </Container>
-              <span className="tooltip-field">{t(field)}</span>
-            </Fragment>
+            <PopUp
+              title={
+                <Container center column>
+                  <Spin tip={t('Connecting')} spinning={loading} size="large" />
+                </Container>
+              }
+            >
+              <Field>{t(field)}</Field>
+            </PopUp>
           );
-        if (!data.wiki) return <NoData>{t('noResult')}</NoData>;
+        if (!data.wiki)
+          return (
+            <PopUp
+              title={
+                <Container center column>
+                  {t('noDirectionEntry')}
+                </Container>
+              }
+            >
+              <Field>{t(field)}</Field>
+            </PopUp>
+          );
         const {
           wiki: { title, titleZh, content, contentZh },
         } = data;
         return (
-          <Fragment>
-            <Container center column>
-              <Title>
-                {t('locale') === 'zh' ? titleZh : title} ({field})
-              </Title>
-              <Article dangerouslySetInnerHTML={{ __html: t('locale') === 'zh' ? contentZh : content }} />
-            </Container>
-            <span className="tooltip-field">{t(field)}</span>
-          </Fragment>
+          <PopUp
+            title={
+              <Container center column>
+                <Title>
+                  {t('locale') === 'zh' ? titleZh : title} ({field})
+                </Title>
+                <Article dangerouslySetInnerHTML={{ __html: t('locale') === 'zh' ? contentZh : content }} />
+              </Container>
+            }
+          >
+            <Field>{t(field)}</Field>
+          </PopUp>
         );
       }}
     </Query>

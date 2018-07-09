@@ -11,6 +11,7 @@ import numeral from 'numeral';
 import prettySize from 'prettysize';
 
 import getListValueRendering from '../../components/getListValueRendering';
+import Tooltip from '../../components/Tooltip'
 
 type Props = {
   t?: Function,
@@ -48,10 +49,10 @@ const ProgressContainer = styled.div`
   }
 
   h4 {
-    span:first-child {
+    & > span:first-child {
       color: ${({ progress }) => progress || progressColor};
     }
-    span:nth-child(2) {
+    & > span:nth-child(2) {
       color: ${({ bg }) => bg || progressBackground};
       float: right;
     }
@@ -179,7 +180,7 @@ export class AccountDashboard extends PureComponent<Props> {
         <ProgressContainer column center progress="#50BEED" bg="#08668E">
           <h4>
             <span>
-              {t('netAvailable')}: {prettySize(data.net.available, true, true, 3)}Byte
+              <Tooltip t={t} field="netAvailable" />: {prettySize(data.net.available, true, true, 3)}Byte
             </span>
             <span>
               {t('netMax')}: {prettySize(data.net.max, true, true, 3)}Byte
