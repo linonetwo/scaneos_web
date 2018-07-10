@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, Switch } from 'antd';
 import { translate } from 'react-i18next';
+import getEosClient from '../../components/Scatter/eosClient';
+import { formItemFieldConfig } from './constants';
 
 const FormItem = Form.Item;
 
@@ -33,7 +35,8 @@ class CreateAccount extends Component<Props> {
           store: { dispatch },
         } = await import('../../store');
         try {
-          window.eosClient.transaction(tr => {
+          const EosClient = getEosClient();
+          EosClient.transaction(tr => {
             tr.newaccount(
               {
                 creator: eosAccount,
@@ -77,12 +80,14 @@ class CreateAccount extends Component<Props> {
     const {
       t,
       form: { getFieldDecorator },
+      eosAccount: { name },
     } = this.props;
 
     return (
       <Form onSubmit={this.handelSubmit}>
         <FormItem label={t('createAccount.accountLabel')} {...FormItemLayout}>
           {getFieldDecorator('name', {
+            ...formItemFieldConfig(),
             rules: [
               {
                 required: true,
@@ -100,37 +105,23 @@ class CreateAccount extends Component<Props> {
           })(<Input placeholder={t('createAccount.accountPlaceholder')} id="name" />)}
         </FormItem>
         <FormItem label={t('createAccount.creatorLabel')} {...FormItemLayout}>
-          {getFieldDecorator('creator', {
-            rules: [
-              {
-                required: true,
-                whitespace: true,
-              },
-            ],
-          })(<Input placeholder={t('createAccount.creatorPlaceholder')} id="creator" />)}
+          {getFieldDecorator('creator', formItemFieldConfig(name))(
+            <Input placeholder={t('createAccount.creatorPlaceholder')} id="creator" />,
+          )}
         </FormItem>
-        <FormItem label="Owner Public Key" {...FormItemLayout}>
-          {getFieldDecorator('ownerKey', {
-            rules: [
-              {
-                required: true,
-                whitespace: true,
-              },
-            ],
-          })(<Input placeholder="Enter public key" id="ownerKey" />)}
+        <FormItem label={t('createAccount.ownerLabel')} {...FormItemLayout}>
+          {getFieldDecorator('ownerKey', formItemFieldConfig())(
+            <Input placeholder={t('createAccount.ownerPlaceholder')} id="ownerKey" />,
+          )}
         </FormItem>
-        <FormItem label="Active Public Key" {...FormItemLayout}>
-          {getFieldDecorator('activeKey', {
-            rules: [
-              {
-                required: true,
-                whitespace: true,
-              },
-            ],
-          })(<Input placeholder="Enter public key" id="activeKey" />)}
+        <FormItem label={t('createAccount.activeLabel')} {...FormItemLayout}>
+          {getFieldDecorator('activeKey', formItemFieldConfig())(
+            <Input placeholder={t('createAccount.activePlaceholder')} id="activeKey" />,
+          )}
         </FormItem>
         <FormItem label="Net State(in EOS)" {...FormItemLayout}>
           {getFieldDecorator('net', {
+            ...formItemFieldConfig(),
             rules: [
               {
                 required: true,
@@ -142,6 +133,7 @@ class CreateAccount extends Component<Props> {
         </FormItem>
         <FormItem label="CPU State(in EOS)" {...FormItemLayout}>
           {getFieldDecorator('cpu', {
+            ...formItemFieldConfig(),
             rules: [
               {
                 required: true,
@@ -152,14 +144,9 @@ class CreateAccount extends Component<Props> {
           })(<Input placeholder="Required to process transactions" id="cpu" type="number" />)}
         </FormItem>
         <FormItem label="Ram Purchase (in bytes)" {...FormItemLayout}>
-          {getFieldDecorator('ram', {
-            rules: [
-              {
-                required: true,
-                whitespace: true,
-              },
-            ],
-          })(<Input placeholder="Required to store account" id="ram" type="number" />)}
+          {getFieldDecorator('ram', formItemFieldConfig())(
+            <Input placeholder="Required to store account" id="ram" type="number" />,
+          )}
         </FormItem>
         <FormItem label="Transfer" {...FormItemLayout}>
           {getFieldDecorator('transfer')(<Switch id="transfer" />)}

@@ -1,11 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
-import { translate } from 'react-i18next';
-import getEosClient from '../../components/Scatter/eosClient';
-import { formItemFieldConfig } from './constants';
+import { Form, Input, Button, Switch } from 'antd';
+import getEosClient from '../../../components/Scatter/eosClient';
+import { formItemFieldConfig } from '../constants';
 
 const FormItem = Form.Item;
+
+const FormItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 },
+};
 
 type Props = {
   t: Function,
@@ -13,12 +17,7 @@ type Props = {
   eosAccount: Object,
 };
 
-const FormItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 14 },
-};
-
-class CreateAccount extends Component<Props> {
+export default class DelegateAccount extends Component<Props> {
   handelSubmit = e => {
     e.preventDefault();
 
@@ -30,26 +29,29 @@ class CreateAccount extends Component<Props> {
       if (!err) {
         const {
           store: { dispatch },
-        } = await import('../../store');
+        } = await import('../../../store');
         const {
           eosAccount: { name: eosAccount, authority: eosAuth },
         } = this.props;
         try {
           const EosClient = getEosClient();
-          await EosClient.transfer(
-            {
-              account: 'eosio.token',
-              from: eosAccount,
-              to: values.name,
-              quantity: `${Number(values.quantity)
-                .toFixed(4)
-                .toString()} EOS`,
-              memo: values.memo,
-            },
-            { authorization: [{ actor: eosAccount, permission: eosAuth }] },
-          );
-
-          dispatch.info.displayNotification('Transfer Successd');
+          await EosClient.transaction(tr => {
+            tr.delegatebw(
+              {
+                from: eosAccount,
+                receiver: values.name,
+                stake_net_quantity: `${Number(values.net)
+                  .toFixed(4)
+                  .toString()} EOS`,
+                stake_cpu_quantity: `${Number(values.cpu)
+                  .toFixed(4)
+                  .toString()} EOS`,
+                transfer: values.transfer ? 1 : 0,
+              },
+              { authorization: [{ actor: eosAccount, permission: eosAuth }] },
+            );
+          });
+          dispatch.info.displayNotification('创建成功');
         } catch (error) {
           dispatch.info.displayNotification(JSON.stringify(error));
         }
@@ -59,7 +61,6 @@ class CreateAccount extends Component<Props> {
 
   render() {
     const {
-      t,
       form: { getFieldDecorator },
       eosAccount: { name },
     } = this.props;
@@ -76,17 +77,20 @@ class CreateAccount extends Component<Props> {
             <Input placeholder="Attach an Account" id="creator" />,
           )}
         </FormItem>
-        <FormItem label="Quantity (in EOS)" {...FormItemLayout}>
-          {getFieldDecorator('quantity', formItemFieldConfig())(
-            <Input placeholder="How much EOS to send" id="quantity" />,
+        <FormItem label="Net Stake (in EOS)" {...FormItemLayout}>
+          {getFieldDecorator('net', formItemFieldConfig())(
+            <Input placeholder="How much EOS to stake" id="net" type="number" />,
           )}
         </FormItem>
-        <FormItem label="Memo" {...FormItemLayout}>
-          {getFieldDecorator('memo', formItemFieldConfig())(
-            <Input placeholder="A memo to attach to transfer" id="memo" />,
+        <FormItem label="CPU Stake (in EOS)" {...FormItemLayout}>
+          {getFieldDecorator('cpu', formItemFieldConfig())(
+            <Input placeholder="How much EOS to stake" id="cpu" type="number" />,
           )}
         </FormItem>
-        <FormItem wrapperCol={{ span: 12, offset: 4 }}>
+        <FormItem label="Transfer" {...FormItemLayout}>
+          {getFieldDecorator('transfer')(<Switch id="transfer" />)}
+        </FormItem>
+        <FormItem wrapperCol={{ span: 12, offset: 6 }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
@@ -99,5 +103,3 @@ class CreateAccount extends Component<Props> {
     );
   }
 }
-
-export default translate('tools')(Form.create()(CreateAccount));

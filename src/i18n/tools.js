@@ -17,6 +17,10 @@ export const zh = {
     accountLabel: '账户名',
     creatorLabel: '创建者',
     creatorPlaceholder: '确认你的Scatter账户',
+    ownerLabel: 'owner 公钥',
+    ownerPlaceholder: '请输入公钥',
+    activeLabel: 'active 公钥',
+    activePlaceholder: '请输入公钥',
   },
 };
 
@@ -39,5 +43,9 @@ export const en = {
     accountPlaceholder: '12 characters, a-z, 1-5',
     creatorLabel: 'creator',
     creatorPlaceholder: 'Scatter Account',
+    ownerLabel: 'Owner Public Key',
+    ownerPlaceholder: 'Enter public key',
+    activeLabel: 'Active Public Key',
+    activePlaceholder: 'Enter public key',
   },
 };

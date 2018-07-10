@@ -1,6 +1,7 @@
 // @flow
 import Eos from 'eosjs';
 import get, { scatterConfig, scatterEosOptions } from '../API.config';
+import { initEosClient } from '../components/Scatter/eosClient';
 
 const testnet = false;
 export type ToolsInfo = {
@@ -34,13 +35,11 @@ export default (initialState: Object = {}) => ({
       return state;
     },
     onEosClientLoaded(state: Store, eosClient) {
-      console.log(eosClient);
       state.tools.eosClient = eosClient;
       return state;
     },
     attachedAccount(state: Store, eosAccount: Object) {
       state.tools.eosAccount = eosAccount;
-      console.log(eosAccount);
       return state;
     },
     detachedAccount(state: Store) {
@@ -56,7 +55,7 @@ export default (initialState: Object = {}) => ({
         },
       } = rootState;
       const eosClient = scatter.eos(scatterConfig, Eos, scatterEosOptions, testnet ? 'http' : 'https');
-      window.eosClient = eosClient;
+      initEosClient(eosClient);
     },
     async getEosAccount(payload, rootState) {
       const {
@@ -64,7 +63,6 @@ export default (initialState: Object = {}) => ({
           tools: { scatter },
         },
       } = rootState;
-      console.log(rootState);
 
       try {
         if (scatter.identity) {
