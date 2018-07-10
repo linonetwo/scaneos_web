@@ -36,6 +36,10 @@ const Time = styled.time`
 `;
 const Content = styled.article`
   line-height: 2;
+  h4 {
+    border-bottom: 1px solid #ddd;
+    width: min-content;
+  }
   p {
     line-height: 1.5;
   }
