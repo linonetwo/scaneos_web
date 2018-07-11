@@ -8,15 +8,15 @@ import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import { getPageSize, locationBelongsToArea } from '../../store/utils';
+import { getPageSize } from '../../store/utils';
 import { ProducerListContainer } from '../../components/Containers';
 
 type Props = {
   t: Function,
 };
 const GET_PRODUCER_LIST = gql`
-  query GET_PRODUCER_LIST($page: Int) {
-    producers(page: $page, size: ${getPageSize() * 2}) {
+  query GET_PRODUCER_LIST($page: Int, $filterBy: JSON) {
+    producers(page: $page, size: ${getPageSize() * 2}, filterBy: $filterBy) {
       producers {
         rank
         name
@@ -28,6 +28,7 @@ const GET_PRODUCER_LIST = gql`
       pageInfo {
         page
         totalElements
+        filterBy
       }
     }
     status {
@@ -57,7 +58,7 @@ class BlockProducers extends PureComponent<Props> {
           const {
             producers: {
               producers,
-              pageInfo: { page, totalElements },
+              pageInfo: { page, totalElements, filterBy },
             },
             status: { totalProducerVoteWeight },
           } = data;
@@ -71,14 +72,16 @@ class BlockProducers extends PureComponent<Props> {
                   pageSize: getPageSize() * 2,
                   current: page + 1,
                   total: totalElements,
-                  onChange: nextPageInPagination =>
-                    fetchMore({
-                      variables: {
-                        page: nextPageInPagination - 1,
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
-                    }),
                 }}
+                onChange={({ current: nextPageInPagination }, nextFilterBy) =>
+                  fetchMore({
+                    variables: {
+                      page: nextPageInPagination - 1,
+                      filterBy: nextFilterBy,
+                    },
+                    updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
+                  })
+                }
               >
                 <Table.Column width={15} title={t('rank')} dataIndex="rank" key="rank" />
                 <Table.Column
@@ -123,6 +126,7 @@ class BlockProducers extends PureComponent<Props> {
                 <Table.Column
                   title={t('country')}
                   dataIndex="location"
+                  filteredValue={filterBy?.location || []}
                   filters={[
                     {
                       text: t('China'),
@@ -149,10 +153,6 @@ class BlockProducers extends PureComponent<Props> {
                       value: 'Africa',
                     },
                   ]}
-                  onFilter={(area, record) =>
-                    (record.location && String(record.location).indexOf(area) !== -1) ||
-                    locationBelongsToArea(String(record.location), area)
-                  }
                 />
                 <Table.Column title={t('homepage')} dataIndex="homepage" />
               </Table>
