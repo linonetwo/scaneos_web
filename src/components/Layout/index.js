@@ -88,9 +88,9 @@ const MenuOpenIconContainer = styled(Flex)`
   `};
   position: absolute;
   height: inherit;
-  right: 5vw;
-  ${breakpoint('desktop')`
-    right: 50px;
+  right: 10vw;
+  ${is('search')`
+    right: 25vw;
   `};
 `;
 
@@ -386,6 +386,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
                   <LogoIcon src={t('logoIcon')} affixed={headerAffixed} />
                 </LogoContainer>
               </Link>
+              <MenuOpenIconContainer search center>
+                <Icon onClick={() => window && window.scroll(0, 1)} type="search" />
+              </MenuOpenIconContainer>
               <MenuOpenIconContainer center>
                 <Icon onClick={this.toggleSideMenu} type={sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
               </MenuOpenIconContainer>
@@ -453,9 +456,6 @@ class Header extends Component<Props & Store & Dispatch, *> {
           )}
         </HeaderAffix>
         <HeaderAffixSpace affixed={headerAffixed} />
-        <MobileSearchBarContainer center>
-          <SearchBar />
-        </MobileSearchBarContainer>
       </Fragment>
     );
   }
