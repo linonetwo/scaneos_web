@@ -1,6 +1,6 @@
 // @flow
 import React, { Fragment } from 'react';
-import { Spin, Tabs, Icon } from 'antd';
+import { Spin, Tabs, Icon, Select } from 'antd';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { withRouter, Redirect } from 'react-router-dom';
@@ -105,11 +105,18 @@ export const GET_ACCOUNT_DETAIL = gql`
 `;
 
 export const GET_ACCOUNT_ACTIONS = gql`
-  query GET_ACCOUNT_ACTIONS($name: String!) {
+  query GET_ACCOUNT_ACTIONS($name: String!, $filterBy: JSON) {
     account(name: $name) {
-      actions {
+      actions(filterBy: $filterBy, size: 9999) {
         actions {
           ...ACTIONS_FRAGMENT
+        }
+        pageInfo {
+          filterBy
+          totalPages
+          totalElements
+          page
+          size
         }
       }
     }
@@ -189,21 +196,57 @@ function Account({ t, match }: Props) {
             <DetailTabsContainer column>
               {getAccountDetails({ ...account, ...resourcePrice }, t)}
               <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
-                {({ loading: actionsLoading, error: actionsError, data: actionsData }) => {
-                  if (error) return <ActionsContainer center>{actionsError.message}</ActionsContainer>;
+                {({ loading: actionsLoading, error: actionsError, data: actionsData, fetchMore }) => {
+                  if (actionsError) return <ActionsContainer center>{actionsError.message}</ActionsContainer>;
                   if (actionsLoading)
                     return (
                       <ActionsContainer center>
                         <Spin tip={t('Connecting')} spinning={actionsLoading} size="large" />
                       </ActionsContainer>
                     );
+                  if (!actionsData.account) return <Container>{t('noResult')}</Container>;
                   const {
                     account: {
-                      actions: { actions },
+                      actions: {
+                        actions,
+                        pageInfo: { filterBy },
+                      },
                     },
                   } = actionsData;
                   return (
                     <ActionsContainer column>
+                      <Select
+                        mode="tags"
+                        tokenSeparators={[',', ' ']}
+                        defaultValue={filterBy.name}
+                        style={{ width: '100%' }}
+                        placeholder={t('action:name')}
+                        onChange={(actionNameFilter: string[]) =>
+                          fetchMore({
+                            variables: { name: accountName, filterBy: { name: actionNameFilter } },
+                            updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
+                          })
+                        }
+                      >
+                        {[
+                          'transfer',
+                          'setabi',
+                          'newaccount',
+                          'updateauth',
+                          'buyram',
+                          'buyrambytes',
+                          'sellram',
+                          'delegatebw',
+                          'undelegatebw',
+                          'refund',
+                          'regproducer',
+                          'bidname',
+                          'voteproducer',
+                          'claimrewards',
+                          'create',
+                          'issue',
+                        ].map(actionName => <Select.Option key={actionName}>{actionName}</Select.Option>)}
+                      </Select>
                       <ActionsList actions={actions} />
                     </ActionsContainer>
                   );
@@ -217,4 +260,4 @@ function Account({ t, match }: Props) {
   );
 }
 
-export default withRouter(translate('account')(Account));
+export default withRouter(translate(['account', 'action'])(Account));
