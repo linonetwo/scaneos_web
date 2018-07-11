@@ -213,7 +213,9 @@ export const blockChainPaths: RouteData[] = [
   {},
   { route: 'actions', display: 'Actions' },
   { route: 'tokens', display: 'Tokens' },
+  {},
   { route: 'charts', display: 'Charts' },
+  { route: 'report', display: 'Report' },
 ];
 // single data
 export const blockChainDetailPaths: RouteData[] = [
