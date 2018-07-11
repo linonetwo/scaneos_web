@@ -37,7 +37,7 @@ const Title = styled.h3`
 `;
 const Time = styled.time`
   text-align: center;
-  margin-top: 5px;
+  margin: 5px 0 15px;
 `;
 const Content = styled.article`
   line-height: 2;
@@ -73,16 +73,20 @@ function VoteReport({ t }: { t: Function }) {
             <Content>
               <p>
                 截至目前，EOS 主网的投票率为 {votingPercentage.toFixed(2)}%，投票量达到了{' '}
-                {toUpper(numeral(totalProducerVoteWeight).format('(0,0 a)'))}。
+                {toUpper(numeral(totalProducerVoteWeight).format('(0,0 a)'))}，已经有{numeral(totalActivatedStake)
+                  .divide(10000 * 10000 * 10000)
+                  .format('0.0000')}亿个 EOS 经过抵押投入投票当中。
               </p>
               <p>
-                中国的{chineseBPList.length}家超级节点分别是：{chineseBPList.map(({ rank, name, totalVotes }) => (
-                  <span>
-                    第{rank}名的 {name}（投票率{numeral(totalVotes)
-                      .divide(totalProducerVoteWeight)
-                      .format('0.00%')}）、
-                  </span>
-                ))}
+                参与投票并进入前 21 名的中国超级节点共有{chineseBPList.length}家，分别是：{chineseBPList.map(
+                  ({ rank, name, totalVotes }, index) => (
+                    <span>
+                      第{rank}名的 {name}（投票率{numeral(totalVotes)
+                        .divide(totalProducerVoteWeight)
+                        .format('0.00%')}）{index !== chineseBPList.length - 1 ? '、' : '。'}
+                    </span>
+                  ),
+                )}
               </p>
             </Content>
           </Container>

@@ -32,7 +32,7 @@ const Title = styled.h3`
 `;
 const Time = styled.time`
   text-align: center;
-  margin-top: 5px;
+  margin: 5px 0 15px;
 `;
 const Content = styled.article`
   line-height: 2;
