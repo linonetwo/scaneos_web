@@ -1,15 +1,15 @@
 // @flow
-import { truncate, flatten } from 'lodash';
+import { truncate, flatten, size } from 'lodash';
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Table, Select, Spin } from 'antd';
+import { Table, Select, Spin, Icon } from 'antd';
 import { translate } from 'react-i18next';
 import randomColor from 'randomcolor';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import type { ComponentClass } from 'react';
+import type { ComponentType } from 'react';
 
 import { formatTimeStamp } from '../../store/utils';
 import { Title } from '../../components/Table';
@@ -27,18 +27,18 @@ const ActionName = styled.div`
 `;
 
 export const renderActionName = (actionName: string, t: Function) => (
-    <ActionName
-      color={randomColor({
-        luminosity: 'dark',
-        format: 'rgba',
-        alpha: 0.7,
-        hue: 'blue',
-        seed: actionName,
-      })}
-    >
-      {t(actionName)}
-    </ActionName>
-  );
+  <ActionName
+    color={randomColor({
+      luminosity: 'dark',
+      format: 'rgba',
+      alpha: 0.7,
+      hue: 'blue',
+      seed: actionName,
+    })}
+  >
+    {t(actionName)}
+  </ActionName>
+);
 
 /** 针对一些个例，调整 action 的类型名等参数，创造出子类型等 */
 function formatActionList(actions: Object[], accountName): Object[] {
@@ -63,7 +63,7 @@ function ActionsListRaw({ t, actions, accountName }: Props) {
           title={t('name')}
           dataIndex="name"
           key="name"
-          render={(name, { data }) => renderActionName(name, t)}
+          render={(name) => renderActionName(name, t)}
         />
         <Table.Column
           title={t('data')}
@@ -125,9 +125,9 @@ export const GET_ACCOUNT_ACTIONS = gql`
   }
   ${ACTIONS_FRAGMENT}
 `;
-export function getAccountActionsList(Container: ComponentClass<*>, accountName: string, t: Function) {
+export function getAccountActionsList(Container: ComponentType<*>, accountName: string, t: Function) {
   return (
-    <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
+    <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }} notifyOnNetworkStatusChange>
       {({ loading, error, data, fetchMore }) => {
         if (error)
           return (
@@ -138,7 +138,7 @@ export function getAccountActionsList(Container: ComponentClass<*>, accountName:
               {error.message}
             </Container>
           );
-        if (loading)
+        if (loading && size(data) === 0)
           return (
             <Container column center>
               <Title>
@@ -168,6 +168,12 @@ export function getAccountActionsList(Container: ComponentClass<*>, accountName:
           <Container column>
             <Title>
               <Tooltip t={t} field="Actions" />
+              {loading && (
+                <span>
+                  <Spin indicator={<Icon type="loading" style={{ fontSize: 16 }} spin />} />
+                  {t('Syncing')}
+                </span>
+              )}
             </Title>
             <Select
               mode="tags"
