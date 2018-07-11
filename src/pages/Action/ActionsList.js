@@ -9,7 +9,7 @@ import randomColor from 'randomcolor';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import type { ComponentClass } from 'react'
+import type { ComponentClass } from 'react';
 
 import { formatTimeStamp } from '../../store/utils';
 import { Title } from '../../components/Table';
@@ -109,22 +109,22 @@ export const GET_ACCOUNT_ACTIONS = gql`
 export function getAccountActionsList(Container: ComponentClass<*>, accountName: string, t: Function) {
   return (
     <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
-      {({ loading: actionsLoading, error: actionsError, data: actionsData, fetchMore }) => {
-        if (actionsError)
+      {({ loading, error, data, fetchMore }) => {
+        if (error)
           return (
             <Container column center>
               <Title>{t('Actions')}</Title>
-              {actionsError.message}
+              {error.message}
             </Container>
           );
-        if (actionsLoading)
+        if (loading)
           return (
             <Container column center>
               <Title>{t('Actions')}</Title>
-              <Spin tip={t('Connecting')} spinning={actionsLoading} size="large" />
+              <Spin tip={t('Connecting')} spinning={loading} size="large" />
             </Container>
           );
-        if (!actionsData.account)
+        if (!data.account)
           return (
             <Container column>
               <Title>{t('Actions')}</Title>
@@ -138,7 +138,7 @@ export function getAccountActionsList(Container: ComponentClass<*>, accountName:
               pageInfo: { filterBy },
             },
           },
-        } = actionsData;
+        } = data;
         return (
           <Container column>
             <Title>{t('Actions')}</Title>
