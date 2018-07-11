@@ -11,7 +11,9 @@ const Container = styled(Flex)`
   height: 150px;
   padding: 10px;
 `;
-const Field = styled.span``;
+const Field = styled.span`
+  padding: 5px 0;
+`;
 const Title = styled.h3`
   padding: 10px;
   font-size: 16px;
@@ -36,62 +38,44 @@ const GET_DICTIONARY_ENTRY = gql`
 `;
 export default function Tooltip({ t, field }: { t: Function, field: string }) {
   return (
-    <Query ssr={false} query={GET_DICTIONARY_ENTRY} variables={{ field }}>
-      {({ loading, error, data }) => {
-        if (error)
-          return (
-            <PopUp
-              title={
+    <PopUp
+      title={
+        <Query ssr={false} query={GET_DICTIONARY_ENTRY} variables={{ field }}>
+          {({ loading, error, data }) => {
+            if (error)
+              return (
                 <Container center column>
                   {error.message}
                 </Container>
-              }
-            >
-              <Field>{t(field)}</Field>
-            </PopUp>
-          );
-        if (loading)
-          return (
-            <PopUp
-              title={
+              );
+            if (loading)
+              return (
                 <Container center column>
                   <Spin tip={t('Connecting')} spinning={loading} size="large" />
                 </Container>
-              }
-            >
-              <Field>{t(field)}</Field>
-            </PopUp>
-          );
-        if (!data.wiki)
-          return (
-            <PopUp
-              title={
+              );
+            if (!data.wiki)
+              return (
                 <Container center column>
                   {t('noDirectionEntry')}
                 </Container>
-              }
-            >
-              <Field>{t(field)}</Field>
-            </PopUp>
-          );
-        const {
-          wiki: { title, titleZh, content, contentZh },
-        } = data;
-        return (
-          <PopUp
-            title={
+              );
+            const {
+              wiki: { title, titleZh, content, contentZh },
+            } = data;
+            return (
               <Container center column>
                 <Title>
                   {t('locale') === 'zh' ? titleZh : title} ({field})
                 </Title>
                 <Article dangerouslySetInnerHTML={{ __html: t('locale') === 'zh' ? contentZh : content }} />
               </Container>
-            }
-          >
-            <Field>{t(field)}</Field>
-          </PopUp>
-        );
-      }}
-    </Query>
+            );
+          }}
+        </Query>
+      }
+    >
+      <Field>{t(field)}</Field>
+    </PopUp>
   );
 }
