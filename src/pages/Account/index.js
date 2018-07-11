@@ -245,7 +245,9 @@ function Account({ t, match }: Props) {
                           'claimrewards',
                           'create',
                           'issue',
-                        ].map(actionName => <Select.Option key={actionName}>{actionName}</Select.Option>)}
+                        ].map(actionName => (
+                          <Select.Option key={actionName}>{t(`action:${actionName}`)}</Select.Option>
+                        ))}
                       </Select>
                       <ActionsList actions={actions} />
                     </ActionsContainer>
