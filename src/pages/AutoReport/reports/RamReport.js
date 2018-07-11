@@ -43,7 +43,7 @@ const Content = styled.article`
   color: #333;
 `;
 
-function Account({ t }: { t: Function }) {
+function RamReport({ t }: { t: Function }) {
   return (
     <Query query={GET_ACCOUNT_TREND}>
       {({ loading, error, data }) => {
@@ -96,4 +96,4 @@ function Account({ t }: { t: Function }) {
   );
 }
 
-export default translate()(Account);
+export default translate()(RamReport);

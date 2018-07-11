@@ -18,6 +18,11 @@ const RamReport = Loadable({
   loading: Loading,
   modules: ['RamReport'],
 });
+const VotingReport = Loadable({
+  loader: () => import(/* webpackChunkName: "VotingReport" */ './reports/VotingReport'),
+  loading: Loading,
+  modules: ['VotingReport'],
+});
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -44,6 +49,7 @@ class AutoReport extends PureComponent<Props> {
         <Switch>
           <Route exact path={`${url}/`} component={ReportList} />
           <Route path={`${url}/ram`} component={RamReport} />
+          <Route path={`${url}/voting`} component={VotingReport} />
         </Switch>
       </Container>
     );

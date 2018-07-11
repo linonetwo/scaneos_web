@@ -7,12 +7,18 @@ import breakpoint from 'styled-components-breakpoint';
 import { Link } from 'react-router-dom';
 
 import ramReport from './ramReport.png';
+import votingProgress from './votingProgress.png';
 
 const getList = t => [
   {
     title: `Ram${t('Report')}`,
     image: ramReport,
     route: 'ram',
+  },
+  {
+    title: `${t('Voting')}${t('Report')}`,
+    image: votingProgress,
+    route: 'voting',
   },
 ];
 
