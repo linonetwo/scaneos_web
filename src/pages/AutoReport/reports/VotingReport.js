@@ -12,10 +12,20 @@ import numeral from 'numeral';
 import { Container } from '../../../components/Containers';
 
 const GET_VOTING_STATUS = gql`
-  query GET_VOTING_STATUS {
+  query GET_VOTING_STATUS($filterBy: JSON) {
     status {
       totalProducerVoteWeight
       totalActivatedStake
+    }
+    producers(page: 0, size: 21, filterBy: $filterBy) {
+      producers {
+        rank
+        name
+        account
+        totalVotes
+        location
+        homepage
+      }
     }
   }
 `;
@@ -40,7 +50,7 @@ const Content = styled.article`
 
 function VoteReport({ t }: { t: Function }) {
   return (
-    <Query query={GET_VOTING_STATUS}>
+    <Query query={GET_VOTING_STATUS} variables={{ filterBy: { location: ['China'] } }}>
       {({ loading, error, data }) => {
         if (error) return <Container>{error.message}</Container>;
         if (loading)
@@ -51,16 +61,29 @@ function VoteReport({ t }: { t: Function }) {
           );
         const {
           status: { totalActivatedStake, totalProducerVoteWeight },
+          producers: { producers },
         } = data;
 
         const votingPercentage = ((Number(totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
+        const chineseBPList = producers.filter(({ rank }) => rank <= 21);
         return (
           <Container column>
             <Title>EOS超级节点竞选报告</Title>
             <Time>{format(Date.now()).split('T')[0]}</Time>
             <Content>
-              截至目前，EOS 主网的投票率为 {votingPercentage.toFixed(2)}%，投票量达到了{' '}
-              {toUpper(numeral(totalProducerVoteWeight).format('(0,0 a)'))}。
+              <p>
+                截至目前，EOS 主网的投票率为 {votingPercentage.toFixed(2)}%，投票量达到了{' '}
+                {toUpper(numeral(totalProducerVoteWeight).format('(0,0 a)'))}。
+              </p>
+              <p>
+                中国的{chineseBPList.length}家超级节点分别是：{chineseBPList.map(({ rank, name, totalVotes }) => (
+                  <span>
+                    第{rank}名的 {name}（投票率{numeral(totalVotes)
+                      .divide(totalProducerVoteWeight)
+                      .format('0.00%')}）、
+                  </span>
+                ))}
+              </p>
             </Content>
           </Container>
         );
