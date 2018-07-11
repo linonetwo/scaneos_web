@@ -105,6 +105,7 @@ export const zh = {
 
     transferTo: '转账给',
     delegate: '租借',
+    undelegate: '取消租借',
     transferOn: '接收方获得抵押而来的资源和投票权。',
     transferOff: '发送方保留抵押而来的资源和投票权，仅暂时借给接收方。',
 

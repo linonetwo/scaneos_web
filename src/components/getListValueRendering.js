@@ -133,14 +133,57 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
               <mark>{from}</mark>
             </Link>{' '}
             {t('delegate')}{' '}
-            {t('cpu')}: <mark>{stakeCpuQuantity}</mark>{' '}
-            {t('net')}: <mark>{stakeNetQuantity}</mark>
+            {stakeCpuQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('cpu')} {stakeCpuQuantity}
+                </mark>{' '}
+              </span>
+            )}
+            {stakeNetQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('net')} {stakeNetQuantity}
+                </mark>{' '}
+              </span>
+            )}
             {t('to')}
             <Link to={`/account/${receiver}/`}>
               <mark>{receiver}</mark>
             </Link>
           </div>
-          {transfer ? t('transferOn'): t('transferOff')}
+          {transfer ? t('transferOn') : t('transferOff')}
+        </ActionDataContainer>
+      );
+    }
+    case 'undelegatebw': {
+      const { from, receiver, unstakeCpuQuantity, unstakeNetQuantity } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${from}/`}>
+              <mark>{from}</mark>
+            </Link>{' '}
+            {t('undelegate')}{' '}
+            {unstakeCpuQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('cpu')} {unstakeCpuQuantity}
+                </mark>{' '}
+              </span>
+            )}
+            {unstakeNetQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('net')} {unstakeNetQuantity}
+                </mark>{' '}
+              </span>
+            )}
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
         </ActionDataContainer>
       );
     }
