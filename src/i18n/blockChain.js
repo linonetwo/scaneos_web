@@ -16,8 +16,8 @@ const zhShared = {
   net: '带宽',
   ram: '内存',
   to: '给',
-  buy: '购买',
-  sell: '卖出',
+  buy: '买',
+  sell: '卖',
 };
 export const zh = {
   block: {
@@ -107,10 +107,13 @@ export const zh = {
     authorization: '授权',
 
     transferTo: '转账给',
+    transferIn: '转入',
+    transferOut: '转出',
     delegate: '租借',
     undelegate: '取消租借',
     transferOn: '接收方获得抵押而来的资源和投票权。',
     transferOff: '发送方保留抵押而来的资源和投票权，仅暂时借给接收方。',
+    createAccount: '创建了新账户',
 
     transfer: '转账',
     setabi: '部署合约',
@@ -209,8 +212,11 @@ export const en = {
     authorization: 'Authorization',
 
     transferTo: 'TransferTo',
+    transferIn: 'TransferIn',
+    transferOut: 'TransferOut',
     transferOn: 'New account gains staking control and voting rights.',
     transferOff: 'owner retains staking control and voting rights.',
+    createAccount: 'created a new account',
 
     transfer: 'Transfer',
     setabi: 'SetABI',

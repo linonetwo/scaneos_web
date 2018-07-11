@@ -101,11 +101,32 @@ export default function getListValueRendering(field: string, value: any, t: Func
 const ActionDataContainer = styled(Flex)`
   mark {
     font-size: 16px;
+    font-family: Consolas, Monaco, monospace;
   }
 `;
 export function getActionListValueRendering(actionName: string, value: any, t: Function) {
   switch (actionName) {
-    case 'transfer': {
+    case 'transferIn': {
+      const { from, to, memo, quantity } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${to}/`}>
+              <mark>{to}</mark>
+            </Link>{' '}
+            ⬅️{' '}
+            <Link to={`/account/${from}/`}>
+              <mark>{from}</mark>
+            </Link>{' '}
+            <mark>{quantity}</mark>
+          </div>
+          <div>
+            <em>{memo}</em>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'transferOut': {
       const { from, to, memo, quantity } = value;
       return (
         <ActionDataContainer column>
@@ -113,7 +134,7 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
             <Link to={`/account/${from}/`}>
               <mark>{from}</mark>
             </Link>{' '}
-            {t('transferTo')}{' '}
+            ➡️{' '}
             <Link to={`/account/${to}/`}>
               <mark>{to}</mark>
             </Link>{' '}
@@ -246,6 +267,22 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
                 {t('ram')} {prettySize(bytes)}
               </mark>{' '}
             </span>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'newaccount': {
+      const { creator, name, ...permissions } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${creator}/`}>
+              <mark>{creator}</mark>
+            </Link>{' '}
+            {t('createAccount')}{' '}
+            <Link to={`/account/${name}/`}>
+              <mark>{name}</mark>
+            </Link>
           </div>
         </ActionDataContainer>
       );

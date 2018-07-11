@@ -26,27 +26,45 @@ const ActionName = styled.div`
   padding: 5px;
 `;
 
-type Props = { t: Function, actions: Object[] };
-
 export const renderActionName = (actionName: string, t: Function) => (
-  <ActionName
-    color={randomColor({
-      luminosity: 'dark',
-      format: 'rgba',
-      alpha: 0.7,
-      hue: 'blue',
-      seed: actionName,
-    })}
-  >
-    {t(actionName)}
-  </ActionName>
-);
+    <ActionName
+      color={randomColor({
+        luminosity: 'dark',
+        format: 'rgba',
+        alpha: 0.7,
+        hue: 'blue',
+        seed: actionName,
+      })}
+    >
+      {t(actionName)}
+    </ActionName>
+  );
 
-function ActionsListRaw({ t, actions }: Props) {
+/** 针对一些个例，调整 action 的类型名等参数，创造出子类型等 */
+function formatActionList(actions: Object[], accountName): Object[] {
+  return actions.map(action => {
+    if (action.name === 'transfer') {
+      if (action.data.from === accountName) {
+        return { ...action, name: 'transferOut' };
+      }
+      if (action.data.to === accountName) {
+        return { ...action, name: 'transferIn' };
+      }
+    }
+    return action;
+  });
+}
+type Props = { t: Function, actions: Object[], accountName: string };
+function ActionsListRaw({ t, actions, accountName }: Props) {
   return (
     <Fragment>
-      <Table scroll={{ x: 1200 }} size="middle" dataSource={actions} rowKey="id">
-        <Table.Column title={t('name')} dataIndex="name" key="name" render={name => renderActionName(name, t)} />
+      <Table scroll={{ x: 1200 }} size="middle" dataSource={formatActionList(actions, accountName)} rowKey="id">
+        <Table.Column
+          title={t('name')}
+          dataIndex="name"
+          key="name"
+          render={(name, { data }) => renderActionName(name, t)}
+        />
         <Table.Column
           title={t('data')}
           dataIndex="data"
@@ -184,7 +202,7 @@ export function getAccountActionsList(Container: ComponentClass<*>, accountName:
               ].map(actionName => <Select.Option key={actionName}>{t(`action:${actionName}`)}</Select.Option>)}
             </Select>
 
-            <ActionsList actions={actions} />
+            <ActionsList actions={actions} accountName={accountName} />
           </Container>
         );
       }}
