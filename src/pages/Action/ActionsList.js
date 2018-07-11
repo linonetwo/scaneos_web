@@ -3,18 +3,17 @@ import { truncate, flatten } from 'lodash';
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Table } from 'antd';
+import { Table, Select, Spin } from 'antd';
 import { translate } from 'react-i18next';
 import randomColor from 'randomcolor';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import { formatTimeStamp } from '../../store/utils';
+import { Title } from '../../components/Table';
 import { getActionListValueRendering } from '../../components/getListValueRendering';
+import { ACTIONS_FRAGMENT } from './index';
 
-const Title = styled.h3`
-  text-align: center;
-  font-size: 16px;
-  margin: 20px 0 0;
-`;
 const ActionName = styled.div`
   text-align: center;
   font-weight: bold;
@@ -40,10 +39,9 @@ export const renderActionName = (actionName: string, t: Function) => (
   </ActionName>
 );
 
-function ActionsList({ t, actions }: Props) {
+function ActionsListRaw({ t, actions }: Props) {
   return (
     <Fragment>
-      <Title>{t('Actions')}</Title>
       <Table scroll={{ x: 1200 }} size="middle" dataSource={actions} rowKey="id">
         <Table.Column title={t('name')} dataIndex="name" key="name" render={name => renderActionName(name, t)} />
         <Table.Column
@@ -85,4 +83,100 @@ function ActionsList({ t, actions }: Props) {
     </Fragment>
   );
 }
-export default translate('action')(ActionsList);
+export const ActionsList = translate('action')(ActionsListRaw);
+
+export const GET_ACCOUNT_ACTIONS = gql`
+  query GET_ACCOUNT_ACTIONS($name: String!, $filterBy: JSON) {
+    account(name: $name) {
+      actions(filterBy: $filterBy, size: 9999) {
+        actions {
+          ...ACTIONS_FRAGMENT
+        }
+        pageInfo {
+          filterBy
+          totalPages
+          totalElements
+          page
+          size
+        }
+      }
+    }
+  }
+  ${ACTIONS_FRAGMENT}
+`;
+export function getAccountActionsList(Container, accountName: string, t: Function) {
+  return (
+    <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
+      {({ loading: actionsLoading, error: actionsError, data: actionsData, fetchMore }) => {
+        if (actionsError)
+          return (
+            <Container column center>
+              <Title>{t('Actions')}</Title>
+              {actionsError.message}
+            </Container>
+          );
+        if (actionsLoading)
+          return (
+            <Container column center>
+              <Title>{t('Actions')}</Title>
+              <Spin tip={t('Connecting')} spinning={actionsLoading} size="large" />
+            </Container>
+          );
+        if (!actionsData.account)
+          return (
+            <Container column>
+              <Title>{t('Actions')}</Title>
+              {t('noResult')}
+            </Container>
+          );
+        const {
+          account: {
+            actions: {
+              actions,
+              pageInfo: { filterBy },
+            },
+          },
+        } = actionsData;
+        return (
+          <Container column>
+            <Title>{t('Actions')}</Title>
+            <Select
+              mode="tags"
+              tokenSeparators={[',', ' ']}
+              defaultValue={filterBy.name}
+              style={{ width: '100%' }}
+              placeholder={t('action:name')}
+              onChange={(actionNameFilter: string[]) =>
+                fetchMore({
+                  variables: { name: accountName, filterBy: { name: actionNameFilter } },
+                  updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
+                })
+              }
+            >
+              {[
+                'transfer',
+                'setabi',
+                'newaccount',
+                'updateauth',
+                'buyram',
+                'buyrambytes',
+                'sellram',
+                'delegatebw',
+                'undelegatebw',
+                'refund',
+                'regproducer',
+                'bidname',
+                'voteproducer',
+                'claimrewards',
+                'create',
+                'issue',
+              ].map(actionName => <Select.Option key={actionName}>{t(`action:${actionName}`)}</Select.Option>)}
+            </Select>
+
+            <ActionsList actions={actions} />
+          </Container>
+        );
+      }}
+    </Query>
+  );
+}

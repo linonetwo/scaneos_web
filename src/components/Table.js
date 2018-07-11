@@ -2,7 +2,11 @@
 import styled, { css } from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 
-import { getTableHeight } from '../store/utils';
+export const Title = styled.h3`
+  text-align: center;
+  font-size: 16px;
+  margin: 20px 0;
+`;
 
 export const adjustAntdTablePagination = css`
   .ant-table-pagination.ant-pagination {
