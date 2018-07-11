@@ -12,6 +12,9 @@ const zhShared = {
   pending: '等待',
   createdAt: '创建日期',
   updatedAt: '更新日期',
+  cpu: '计算时间',
+  net: '带宽',
+  to: '给',
 };
 export const zh = {
   block: {
@@ -43,10 +46,10 @@ export const zh = {
     eosTotal: '余额共计',
     ramAvailable: '可用内存',
     netAvailable: '可用带宽',
-    cpuAvailable: '可用算力',
+    cpuAvailable: '可用计算时间',
     ramMax: '总内存',
     netMax: '总带宽',
-    cpuMax: '总算力',
+    cpuMax: '总计算时间',
     ramValue: '内存价值',
 
     voterInfo: '投票质押信息',
@@ -100,16 +103,20 @@ export const zh = {
     handlerAccountName: '处理本操作的账户',
     authorization: '授权',
 
-    transfer: '转账',
     transferTo: '转账给',
+    delegate: '租借',
+    transferOn: '接收方获得抵押而来的资源和投票权。',
+    transferOff: '发送方保留抵押而来的资源和投票权，仅暂时借给接收方。',
+
+    transfer: '转账',
     setabi: '部署合约',
     newaccount: '创建账户',
     updateauth: '更新权限',
     buyram: '购买内存',
     buyrambytes: '按字节数购买内存',
     sellram: '卖出内存',
-    delegatebw: '抵押EOS',
-    undelegatebw: '取消EOS抵押',
+    delegatebw: '租借资源',
+    undelegatebw: '取消资源租借',
     refund: '抵押款归还',
     regproducer: '申请成为超级节点',
     bidname: '竞拍靓号',
@@ -134,6 +141,8 @@ const enShared = {
   timestamp: 'Timestamp',
   createdAt: 'Created',
   updatedAt: 'Updated',
+  cpu: 'CPUTime',
+  net: 'NetBandWidth',
 };
 export const en = {
   block: {
@@ -195,8 +204,11 @@ export const en = {
     name: 'ActionName',
     authorization: 'Authorization',
 
-    transfer: 'Transfer',
     transferTo: 'TransferTo',
+    transferOn: 'New account gains staking control and voting rights.',
+    transferOff: 'owner retains staking control and voting rights.',
+
+    transfer: 'Transfer',
     setabi: 'SetABI',
     newaccount: 'NewAccount',
     updateauth: 'UpdateAuth',

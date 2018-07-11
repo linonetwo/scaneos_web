@@ -124,6 +124,26 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
         </ActionDataContainer>
       );
     }
+    case 'delegatebw': {
+      const { from, receiver, stakeCpuQuantity, stakeNetQuantity, transfer } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${from}/`}>
+              <mark>{from}</mark>
+            </Link>{' '}
+            {t('delegate')}{' '}
+            {t('cpu')}: <mark>{stakeCpuQuantity}</mark>{' '}
+            {t('net')}: <mark>{stakeNetQuantity}</mark>
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
+          {transfer ? t('transferOn'): t('transferOff')}
+        </ActionDataContainer>
+      );
+    }
     default: {
       if (typeof value === 'string' || typeof value === 'number') {
         return value;

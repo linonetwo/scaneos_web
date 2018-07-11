@@ -167,7 +167,7 @@ export class AccountDashboard extends PureComponent<Props> {
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
         </ProgressContainer>
-        {/* 算力 */}
+        {/* 计算时间 */}
         <ProgressContainer column center progress="#50BEED" bg="#08668E">
           <h4>
             <span>
