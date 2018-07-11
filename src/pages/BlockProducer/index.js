@@ -14,8 +14,8 @@ import Loadable from 'react-loadable';
 import { Title } from '../Home/styles';
 import Loading from '../../components/Loading';
 import { BPInfoContainer } from '../../components/Containers';
-import { GET_ACCOUNT_DETAIL, GET_ACCOUNT_ACTIONS, getAccountDetails } from '../Account/index';
-import ActionsList from '../Action/ActionsList';
+import { GET_ACCOUNT_DETAIL, getAccountDetails } from '../Account/index';
+import { getAccountActionsList } from '../Action/ActionsList';
 
 const BlockProducersMap = Loadable({
   loader: () =>
@@ -160,12 +160,6 @@ class BlockProducer extends PureComponent<Props> {
                             <span>{producerInfo.organization}</span>
                           </DetailFieldContainer>
                         )}
-                        {producerInfo.key && (
-                          <DetailFieldContainer column>
-                            <h3>{t('key')}</h3>
-                            <span>{producerInfo.key}</span>
-                          </DetailFieldContainer>
-                        )}
                       </DetailContainer>
 
                       {producerInfo &&
@@ -204,18 +198,7 @@ class BlockProducer extends PureComponent<Props> {
                 )}
                 <BPInfoContainer>
                   {getAccountDetails({ ...account, ...resourcePrice }, t)}
-                  <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
-                    {({ loading: actionsLoading, error: actionsError, data: actionsData }) => {
-                      if (error) return actionsError.message;
-                      if (actionsLoading) return <Flex center><Spin tip={t('Connecting')} spinning={actionsLoading} size="large" /></Flex>;
-                      const {
-                        account: {
-                          actions: { actions },
-                        },
-                      } = actionsData;
-                      return <ActionsList actions={actions} />;
-                    }}
-                  </Query>
+                  {getAccountActionsList(Flex, accountName, t)}
                 </BPInfoContainer>
                 {producerInfo &&
                   typeof producerInfo.longitude === 'number' &&

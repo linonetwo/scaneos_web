@@ -12,7 +12,7 @@ import { DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 import { ACTIONS_FRAGMENT } from '../Action';
-import ActionsList from '../Action/ActionsList';
+import { ActionsList } from '../Action/ActionsList';
 
 type Props = {
   t: Function,

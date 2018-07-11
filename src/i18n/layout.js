@@ -33,6 +33,9 @@ export const zh = {
   BlockProducer: '超级节点',
   ViewAll: '查看全部',
   ViewIt: '查看',
+  Report: '报告',
+  Reports: '报告',
+  Voting: '投票',
   VerifiedContracts: '已确认合约',
 
   introduction: '介绍',

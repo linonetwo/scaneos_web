@@ -15,8 +15,7 @@ import {
   ACCOUNT_DASHBOARD_FRAGMENT,
   RESOURCE_PRICE_FRAGMENT,
 } from './AccountDashboard';
-import ActionsList from '../Action/ActionsList';
-import { ACTIONS_FRAGMENT } from '../Action';
+import { getAccountActionsList } from '../Action/ActionsList';
 
 type Props = {
   t: Function,
@@ -44,7 +43,6 @@ export const PRODUCER_INFO_FRAGMENT = gql`
     introduction
     slogan
     sloganZh
-    key
     organization
     nodes {
       location {
@@ -102,19 +100,6 @@ export const GET_ACCOUNT_DETAIL = gql`
       waits
     }
   }
-`;
-
-export const GET_ACCOUNT_ACTIONS = gql`
-  query GET_ACCOUNT_ACTIONS($name: String!) {
-    account(name: $name) {
-      actions {
-        actions {
-          ...ACTIONS_FRAGMENT
-        }
-      }
-    }
-  }
-  ${ACTIONS_FRAGMENT}
 `;
 
 export function getAccountDetails(accountData: Object, t: Function) {
@@ -188,27 +173,7 @@ function Account({ t, match }: Props) {
           return (
             <DetailTabsContainer column>
               {getAccountDetails({ ...account, ...resourcePrice }, t)}
-              <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
-                {({ loading: actionsLoading, error: actionsError, data: actionsData }) => {
-                  if (error) return <ActionsContainer center>{actionsError.message}</ActionsContainer>;
-                  if (actionsLoading)
-                    return (
-                      <ActionsContainer center>
-                        <Spin tip={t('Connecting')} spinning={actionsLoading} size="large" />
-                      </ActionsContainer>
-                    );
-                  const {
-                    account: {
-                      actions: { actions },
-                    },
-                  } = actionsData;
-                  return (
-                    <ActionsContainer column>
-                      <ActionsList actions={actions} />
-                    </ActionsContainer>
-                  );
-                }}
-              </Query>
+              {getAccountActionsList(ActionsContainer, accountName, t)}
             </DetailTabsContainer>
           );
         }}
@@ -217,4 +182,4 @@ function Account({ t, match }: Props) {
   );
 }
 
-export default withRouter(translate('account')(Account));
+export default withRouter(translate(['account', 'action'])(Account));

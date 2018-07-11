@@ -4,6 +4,7 @@ import React from 'react';
 import Flex from 'styled-flex-component';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import prettySize from 'prettysize';
 
 import { formatTimeStamp } from '../store/utils';
 
@@ -120,6 +121,131 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
           </div>
           <div>
             <em>{memo}</em>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'delegatebw': {
+      const { from, receiver, stakeCpuQuantity, stakeNetQuantity, transfer } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${from}/`}>
+              <mark>{from}</mark>
+            </Link>{' '}
+            {t('delegate')}{' '}
+            {stakeCpuQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('cpu')} {stakeCpuQuantity}
+                </mark>{' '}
+              </span>
+            )}
+            {stakeNetQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('net')} {stakeNetQuantity}
+                </mark>{' '}
+              </span>
+            )}
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
+          {transfer ? t('transferOn') : t('transferOff')}
+        </ActionDataContainer>
+      );
+    }
+    case 'undelegatebw': {
+      const { from, receiver, unstakeCpuQuantity, unstakeNetQuantity } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${from}/`}>
+              <mark>{from}</mark>
+            </Link>{' '}
+            {t('undelegate')}{' '}
+            {unstakeCpuQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('cpu')} {unstakeCpuQuantity}
+                </mark>{' '}
+              </span>
+            )}
+            {unstakeNetQuantity !== '0.0000 EOS' && (
+              <span>
+                <mark>
+                  {t('net')} {unstakeNetQuantity}
+                </mark>{' '}
+              </span>
+            )}
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'buyram': {
+      const { payer, receiver, quant } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${payer}/`}>
+              <mark>{payer}</mark>
+            </Link>{' '}
+            {t('buy')}{' '}
+            <span>
+              <mark>
+                {t('ram')} {quant}
+              </mark>{' '}
+            </span>
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'buyrambytes': {
+      const { payer, receiver, bytes } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${payer}/`}>
+              <mark>{payer}</mark>
+            </Link>{' '}
+            {t('buy')}{' '}
+            <span>
+              <mark>
+                {t('ram')} {prettySize(bytes)}
+              </mark>{' '}
+            </span>
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'sellram': {
+      const { account, bytes } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${account}/`}>
+              <mark>{account}</mark>
+            </Link>{' '}
+            {t('sell')}{' '}
+            <span>
+              <mark>
+                {t('ram')} {prettySize(bytes)}
+              </mark>{' '}
+            </span>
           </div>
         </ActionDataContainer>
       );
