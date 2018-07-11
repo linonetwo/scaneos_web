@@ -52,7 +52,7 @@ class NameAuctions extends PureComponent<Props> {
           return (
             <ListContainer column>
               <Table
-                scroll={{ x: 1000 }}
+                scroll={{ x: 1200 }}
                 size="middle"
                 dataSource={nameAuctions}
                 rowKey="id"

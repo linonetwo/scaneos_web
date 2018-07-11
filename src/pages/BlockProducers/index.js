@@ -65,7 +65,7 @@ class BlockProducers extends PureComponent<Props> {
           return (
             <ProducerListContainer>
               <Table
-                scroll={{ x: 1000 }}
+                scroll={{ x: 1200 }}
                 size="small"
                 dataSource={producers}
                 pagination={{
@@ -83,7 +83,7 @@ class BlockProducers extends PureComponent<Props> {
                   })
                 }
               >
-                <Table.Column width={15} title={t('rank')} dataIndex="rank" key="rank" />
+                <Table.Column width={40} title={t('rank')} dataIndex="rank" key="rank" />
                 <Table.Column
                   title={t('name')}
                   dataIndex="name"

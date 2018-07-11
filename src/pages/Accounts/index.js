@@ -61,7 +61,7 @@ class Accounts extends PureComponent<Props> {
           return (
             <ListContainer column>
               <Table
-                scroll={{ x: 500 }}
+                scroll={{ x: 1200 }}
                 size="middle"
                 dataSource={accounts}
                 rowKey="id"
