@@ -11,7 +11,7 @@ import numeral from 'numeral';
 import prettySize from 'prettysize';
 
 import getListValueRendering from '../../components/getListValueRendering';
-import Tooltip from '../../components/Tooltip'
+import Tooltip from '../../components/Tooltip';
 
 type Props = {
   t?: Function,
@@ -147,11 +147,11 @@ export class AccountDashboard extends PureComponent<Props> {
         <ProgressContainer column center progress="#1AA2DB" bg="#08668E">
           <h4>
             <span>
-              {t('eosBalance')}: {data.eosBalance} EOS
+              <Tooltip t={t} field="eosBalance" />: {data.eosBalance} EOS
             </span>
 
             <span>
-              {t('eosStaked')}: {data.eosStaked} EOS
+              <Tooltip t={t} field="eosStaked" />: {data.eosStaked} EOS
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={eosLiquidPercent} strokeWidth={20} />
@@ -160,10 +160,10 @@ export class AccountDashboard extends PureComponent<Props> {
         <ProgressContainer column center progress="#1AA1DB" bg="#08668E">
           <h4>
             <span>
-              {t('ramAvailable')}: {prettySize(data.ram.available, true, true, 3)}Byte
+            <Tooltip t={t} field="ramAvailable" />: {prettySize(data.ram.available, true, true, 3)}Byte
             </span>
             <span>
-              {t('ramMax')}: {prettySize(data.ram.max, true, true, 3)}Byte
+              <Tooltip t={t} field="ramMax" />: {prettySize(data.ram.max, true, true, 3)}Byte
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
@@ -172,10 +172,10 @@ export class AccountDashboard extends PureComponent<Props> {
         <ProgressContainer column center progress="#50BEED" bg="#08668E">
           <h4>
             <span>
-              {t('cpuAvailable')}: {prettySize(data.cpu.available, true, true, 3)}ms
+              <Tooltip t={t} field="cpuAvailable" />: {prettySize(data.cpu.available, true, true, 3)}ms
             </span>
             <span>
-              {t('cpuMax')}: {prettySize(data.cpu.max, true, true, 3)}ms
+              <Tooltip t={t} field="cpuMax" />: {prettySize(data.cpu.max, true, true, 3)}ms
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
@@ -183,7 +183,7 @@ export class AccountDashboard extends PureComponent<Props> {
             <h4>
               <span />
               <span>
-              <Tooltip t={t} field="cpuRefund" />: {data.cpu.refund} EOS
+                <Tooltip t={t} field="cpuRefund" />: {data.cpu.refund} EOS
               </span>
             </h4>
           )}
@@ -195,7 +195,7 @@ export class AccountDashboard extends PureComponent<Props> {
               <Tooltip t={t} field="netAvailable" />: {prettySize(data.net.available, true, true, 3)}Byte
             </span>
             <span>
-              {t('netMax')}: {prettySize(data.net.max, true, true, 3)}Byte
+              <Tooltip t={t} field="netMax" />: {prettySize(data.net.max, true, true, 3)}Byte
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
@@ -203,7 +203,7 @@ export class AccountDashboard extends PureComponent<Props> {
             <h4>
               <span />
               <span>
-                {t('netRefund')}: {data.net.refund} EOS
+                <Tooltip t={t} field="netRefund" />: {data.net.refund} EOS
               </span>
             </h4>
           )}
@@ -215,11 +215,11 @@ export class AccountDashboard extends PureComponent<Props> {
             pagination={false}
             dataSource={data.permissions.map(({ requiredAuth, ...rest }) => ({ ...requiredAuth, ...rest }))}
           >
-            <Table.Column title={t('permName')} dataIndex="permName" key="permName" />
-            <Table.Column title={t('parent')} dataIndex="parent" key="parent" />
-            <Table.Column title={t('threshold')} dataIndex="threshold" key="threshold" />
+            <Table.Column title={<Tooltip t={t} field="permName" />} dataIndex="permName" key="permName" />
+            <Table.Column title={<Tooltip t={t} field="parent" />} dataIndex="parent" key="parent" />
+            <Table.Column title={<Tooltip t={t} field="threshold" />} dataIndex="threshold" key="threshold" />
             <Table.Column
-              title={t('keys')}
+              title={<Tooltip t={t} field="keys" />}
               dataIndex="keys"
               key="keys"
               render={keys =>
@@ -234,13 +234,13 @@ export class AccountDashboard extends PureComponent<Props> {
               }
             />
             <Table.Column
-              title={t('subAccounts')}
+              title={<Tooltip t={t} field="subAccounts" />}
               dataIndex="accounts"
               key="accounts"
               render={accounts => accounts && accounts.length > 0 && JSON.stringify(accounts)}
             />
             <Table.Column
-              title={t('waits')}
+              title={<Tooltip t={t} field="waits" />}
               dataIndex="waits"
               key="waits"
               render={waits => waits && waits.length > 0 && JSON.stringify(waits)}
@@ -267,7 +267,12 @@ export class AccountDataOverview extends PureComponent<Props> {
         pagination={false}
         dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
       >
-        <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
+        <Table.Column
+          title={t('field')}
+          dataIndex="field"
+          key="field"
+          render={field => <Tooltip t={t} field={field} />}
+        />
         <Table.Column
           title={t('value')}
           dataIndex="value"

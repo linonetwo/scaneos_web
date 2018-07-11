@@ -9,5 +9,5 @@ export const en = {
   field: 'EOSDataField',
   titleZh: 'ChineseTranslation',
   title: 'EnglishMeaning',
-  noDirectionEntry: 'No Direction Entry About This Data',
+  noDirectionEntry: 'No Explanation About This Data',
 };

@@ -15,6 +15,7 @@ import { formatTimeStamp } from '../../store/utils';
 import { Title } from '../../components/Table';
 import { getActionListValueRendering } from '../../components/getListValueRendering';
 import { ACTIONS_FRAGMENT } from './index';
+import Tooltip from '../../components/Tooltip';
 
 const ActionName = styled.div`
   text-align: center;
@@ -113,21 +114,27 @@ export function getAccountActionsList(Container: ComponentClass<*>, accountName:
         if (error)
           return (
             <Container column center>
-              <Title>{t('Actions')}</Title>
+              <Title>
+                <Tooltip t={t} field="Actions" />
+              </Title>
               {error.message}
             </Container>
           );
         if (loading)
           return (
             <Container column center>
-              <Title>{t('Actions')}</Title>
+              <Title>
+                <Tooltip t={t} field="Actions" />
+              </Title>
               <Spin tip={t('Connecting')} spinning={loading} size="large" />
             </Container>
           );
         if (!data.account)
           return (
             <Container column>
-              <Title>{t('Actions')}</Title>
+              <Title>
+                <Tooltip t={t} field="Actions" />
+              </Title>
               {t('noResult')}
             </Container>
           );
@@ -141,7 +148,9 @@ export function getAccountActionsList(Container: ComponentClass<*>, accountName:
         } = data;
         return (
           <Container column>
-            <Title>{t('Actions')}</Title>
+            <Title>
+              <Tooltip t={t} field="Actions" />
+            </Title>
             <Select
               mode="tags"
               tokenSeparators={[',', ' ']}
