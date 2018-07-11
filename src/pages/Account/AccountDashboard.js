@@ -236,9 +236,14 @@ export class AccountDashboard extends PureComponent<Props> {
               title={t('subAccounts')}
               dataIndex="accounts"
               key="accounts"
-              render={accounts => JSON.stringify(accounts)}
+              render={accounts => accounts && accounts.length > 0 && JSON.stringify(accounts)}
             />
-            <Table.Column title={t('waits')} dataIndex="waits" key="waits" render={waits => JSON.stringify(waits)} />
+            <Table.Column
+              title={t('waits')}
+              dataIndex="waits"
+              key="waits"
+              render={waits => waits && waits.length > 0 && JSON.stringify(waits)}
+            />
           </Table>
         </AuthContainer>
       </DashboardContainer>
