@@ -10,13 +10,10 @@ import Tooltip from '../../components/Tooltip';
 
 type Props = {
   t: Function,
-  permissions: Object,
+  permissions: Object[],
+  width?: number | string,
 };
 
-const AuthContainer = styled.div`
-  width: 100%;
-  margin: 20px 0;
-`;
 const KeyContainer = styled(Flex)`
   padding: 5px;
   background-color: #50beed;
@@ -25,52 +22,54 @@ const KeyContainer = styled(Flex)`
   border-radius: 2px;
 `;
 
-export class AuthTable extends PureComponent<Props> {
+class AuthTable extends PureComponent<Props> {
+  static defaultProps = {
+    width: '100%',
+  };
 
   render() {
-    const { t, permissions } = this.props
+    const { t, permissions, width } = this.props;
     return (
-        <AuthContainer>
-          <Table
-            scroll={{ x: 1200 }}
-            size="middle"
-            pagination={false}
-            dataSource={permissions.map(({ requiredAuth, ...rest }) => ({ ...requiredAuth, ...rest }))}
-          >
-            <Table.Column title={<Tooltip t={t} field="permName" />} dataIndex="permName" key="permName" />
-            <Table.Column title={<Tooltip t={t} field="parent" />} dataIndex="parent" key="parent" />
-            <Table.Column title={<Tooltip t={t} field="threshold" />} dataIndex="threshold" key="threshold" />
-            <Table.Column
-              title={<Tooltip t={t} field="keys" />}
-              dataIndex="keys"
-              key="keys"
-              render={keys =>
-                sortBy(keys, ['weight']).map(({ key, weight }) => (
-                  <KeyContainer justifyBetween>
-                    <span>
-                      {t('weight')}:{weight}
-                    </span>
-                    <span>{key}</span>
-                  </KeyContainer>
-                ))
-              }
-            />
-            <Table.Column
-              title={<Tooltip t={t} field="subAccounts" />}
-              dataIndex="accounts"
-              key="accounts"
-              render={accounts => accounts && accounts.length > 0 && JSON.stringify(accounts)}
-            />
-            <Table.Column
-              title={<Tooltip t={t} field="waits" />}
-              dataIndex="waits"
-              key="waits"
-              render={waits => waits && waits.length > 0 && JSON.stringify(waits)}
-            />
-          </Table>
-        </AuthContainer>
+      <Table
+        style={{ width, margin: '20px 0' }}
+        scroll={{ x: 1200 }}
+        size="middle"
+        pagination={false}
+        dataSource={permissions}
+      >
+        <Table.Column title={<Tooltip t={t} field="permName" />} dataIndex="permName" key="permName" />
+        <Table.Column title={<Tooltip t={t} field="threshold" />} dataIndex="threshold" key="threshold" />
+        <Table.Column
+          title={<Tooltip t={t} field="keys" />}
+          dataIndex="keys"
+          key="keys"
+          render={keys =>
+            sortBy(keys, ['weight']).map(({ key, weight }) => (
+              <KeyContainer justifyBetween>
+                <span>
+                  {t('weight')}:{weight}
+                </span>
+                <span>{key}</span>
+              </KeyContainer>
+            ))
+          }
+        />
+        <Table.Column
+          title={<Tooltip t={t} field="waits" />}
+          dataIndex="waits"
+          key="waits"
+          render={waits => waits && waits.length > 0 && JSON.stringify(waits)}
+        />
+        <Table.Column title={<Tooltip t={t} field="parent" />} dataIndex="parent" key="parent" />
+        <Table.Column
+          title={<Tooltip t={t} field="subAccounts" />}
+          dataIndex="accounts"
+          key="accounts"
+          render={accounts => accounts && accounts.length > 0 && JSON.stringify(accounts)}
+        />
+      </Table>
     );
   }
 }
 
-export default translate('account')(AuthTable)
+export default translate('account')(AuthTable);

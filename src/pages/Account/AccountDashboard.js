@@ -1,5 +1,5 @@
 // @flow
-import { toPairs, sortBy } from 'lodash';
+import { toPairs } from 'lodash';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
@@ -12,6 +12,7 @@ import prettySize from 'prettysize';
 
 import getListValueRendering from '../../components/getListValueRendering';
 import Tooltip from '../../components/Tooltip';
+import AuthTable from './AuthTable';
 
 type Props = {
   t?: Function,
@@ -57,18 +58,6 @@ const ProgressContainer = styled.div`
       float: right;
     }
   }
-`;
-
-const AuthContainer = styled.div`
-  width: 100%;
-  margin: 20px 0;
-`;
-const KeyContainer = styled(Flex)`
-  padding: 5px;
-  background-color: #50beed;
-  color: white;
-  width: 450px;
-  border-radius: 2px;
 `;
 
 export const RESOURCE_STATUS_FRAGMENT = gql`
@@ -160,7 +149,7 @@ export class AccountDashboard extends PureComponent<Props> {
         <ProgressContainer column center progress="#1AA1DB" bg="#08668E">
           <h4>
             <span>
-            <Tooltip t={t} field="ramAvailable" />: {prettySize(data.ram.available, true, true, 3)}Byte
+              <Tooltip t={t} field="ramAvailable" />: {prettySize(data.ram.available, true, true, 3)}Byte
             </span>
             <span>
               <Tooltip t={t} field="ramMax" />: {prettySize(data.ram.max, true, true, 3)}Byte
@@ -208,45 +197,11 @@ export class AccountDashboard extends PureComponent<Props> {
             </h4>
           )}
         </ProgressContainer>
-        <AuthContainer>
-          <Table
-            scroll={{ x: 1200 }}
-            size="middle"
-            pagination={false}
-            dataSource={data.permissions.map(({ requiredAuth, ...rest }) => ({ ...requiredAuth, ...rest }))}
-          >
-            <Table.Column title={<Tooltip t={t} field="permName" />} dataIndex="permName" key="permName" />
-            <Table.Column title={<Tooltip t={t} field="parent" />} dataIndex="parent" key="parent" />
-            <Table.Column title={<Tooltip t={t} field="threshold" />} dataIndex="threshold" key="threshold" />
-            <Table.Column
-              title={<Tooltip t={t} field="keys" />}
-              dataIndex="keys"
-              key="keys"
-              render={keys =>
-                sortBy(keys, ['weight']).map(({ key, weight }) => (
-                  <KeyContainer justifyBetween>
-                    <span>
-                      {t('weight')}:{weight}
-                    </span>
-                    <span>{key}</span>
-                  </KeyContainer>
-                ))
-              }
-            />
-            <Table.Column
-              title={<Tooltip t={t} field="subAccounts" />}
-              dataIndex="accounts"
-              key="accounts"
-              render={accounts => accounts && accounts.length > 0 && JSON.stringify(accounts)}
-            />
-            <Table.Column
-              title={<Tooltip t={t} field="waits" />}
-              dataIndex="waits"
-              key="waits"
-              render={waits => waits && waits.length > 0 && JSON.stringify(waits)}
-            />
-          </Table>
-        </AuthContainer>
+        <AuthTable
+          t={t}
+          width="100%"
+          permissions={data.permissions.map(({ requiredAuth, ...rest }) => ({ ...requiredAuth, ...rest }))}
+        />
       </DashboardContainer>
     );
   }

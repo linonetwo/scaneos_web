@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import prettySize from 'prettysize';
 
 import { formatTimeStamp } from '../store/utils';
+import AuthTable from '../pages/Account/AuthTable';
 
 export default function getListValueRendering(field: string, value: any, t: Function) {
   switch (field) {
@@ -284,6 +285,29 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
               <mark>{name}</mark>
             </Link>
           </div>
+          <AuthTable
+            t={t}
+            permissions={Object.keys(permissions).map(permName => ({ permName, ...permissions[permName] }))}
+            width={400}
+          />
+        </ActionDataContainer>
+      );
+    }
+    case 'updateauth': {
+      const { account, permission, parent, auth } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${account}/`}>
+              <mark>{account}</mark>
+            </Link>{' '}
+            {t('updateauth')} <mark>{permission}</mark>
+          </div>
+          <AuthTable
+            t={t}
+            permissions={[{ permName: permission, parent, ...auth }]}
+            width={400}
+          />
         </ActionDataContainer>
       );
     }
