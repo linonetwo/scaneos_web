@@ -69,11 +69,6 @@ const Actions = Loadable({
   loading: Loading,
   modules: ['Actions'],
 });
-const Dictionary = Loadable({
-  loader: () => import(/* webpackChunkName: "Dictionary" */ './pages/Dictionary'),
-  loading: Loading,
-  modules: ['Dictionary'],
-});
 const Tokens = Loadable({
   loader: () => import(/* webpackChunkName: "Tokens" */ './pages/Tokens'),
   loading: Loading,
@@ -108,6 +103,16 @@ const About = Loadable({
   loader: () => import(/* webpackChunkName: "About" */ './pages/About'),
   loading: Loading,
   modules: ['About'],
+});
+const Dictionary = Loadable({
+  loader: () => import(/* webpackChunkName: "Dictionary" */ './pages/Dictionary'),
+  loading: Loading,
+  modules: ['Dictionary'],
+});
+const DictionaryEntry = Loadable({
+  loader: () => import(/* webpackChunkName: "DictionaryEntry" */ './pages/DictionaryEntry'),
+  loading: Loading,
+  modules: ['DictionaryEntry'],
 });
 
 function Title({ t }: { t: Function }) {
@@ -149,7 +154,6 @@ export default class App extends Component<{}> {
               <Route exact path="/accounts" component={Accounts} />
               <Route exact path="/action/:actionID" component={Action} />
               <Route exact path="/actions" component={Actions} />
-              <Route exact path="/dictionary" component={Dictionary} />
               <Route exact path="/tokens" component={Tokens} />
               <Route exact path="/auctions" component={NameAuctions} />
               <Route exact path="/auction/:accountName" component={NameAuction} />
@@ -158,6 +162,8 @@ export default class App extends Component<{}> {
               <Route path="/charts" component={ChartsAndVisualizations} />
               <Route path="/report" component={AutoReport} />
               <Route exact path="/about" component={About} />
+              <Route exact path="/dictionary" component={Dictionary} />
+              <Route exact path="/dictionary/:dictionaryField" component={DictionaryEntry} />
               <Route exact path="/" component={Home} />
               <Route component={UnderDevelopment} />
             </Switch>

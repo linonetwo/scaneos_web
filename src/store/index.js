@@ -5,7 +5,7 @@ const { store, history } = configureStore();
 history.listen(async location => {
   const {
     store: { dispatch },
-  } = await import('./');
+  } = await import('.');
   dispatch.history.updateNavTab();
 });
 
