@@ -53,6 +53,8 @@ export const zh = {
   About: '关于我们',
 
   Connecting: '连接中',
+
+  Toolkit: '工具集',
 };
 
 export const en = {
@@ -77,4 +79,5 @@ export const en = {
   accountNum: 'Accounts',
   actionNum: 'Actions',
   blocksNum: 'Blocks',
+  Toolkit: 'toolkit',
 };

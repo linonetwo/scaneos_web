@@ -3,7 +3,7 @@ import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { isNot } from 'styled-is';
 
-import { adjustAntdTablePagination } from './Table'
+import { adjustAntdTablePagination } from './Table';
 
 export const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -31,7 +31,7 @@ export const DetailTabsContainer = styled(Container)`
     }
   `};
 
-  ${adjustAntdTablePagination}
+  ${adjustAntdTablePagination};
 `;
 
 export const ActionsContainer = styled(Flex)`
@@ -42,7 +42,7 @@ export const ActionsContainer = styled(Flex)`
     margin: 0 calc((100vw - 1200px) / 2);
   `};
 
-  ${adjustAntdTablePagination}
+  ${adjustAntdTablePagination};
 `;
 
 export const BPInfoContainer = styled.div`
@@ -63,5 +63,5 @@ export const BPInfoContainer = styled.div`
     }
   `};
 
-  ${adjustAntdTablePagination}
+  ${adjustAntdTablePagination};
 `;

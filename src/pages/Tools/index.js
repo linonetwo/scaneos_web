@@ -13,6 +13,10 @@ import TransferEOS from './transferEOS';
 import type { ToolsInfo } from '../../store/tools';
 import ScatterBtn from '../../components/Scatter';
 
+const TabsContainer = styled(DetailTabsContainer)`
+  flex-direction: column;
+`;
+
 const TabPane = Tabs.TabPane;
 type Props = {
   t: Function,
@@ -30,7 +34,8 @@ class Tools extends Component<Props & Store> {
     } = this.props;
 
     return (
-      <DetailTabsContainer>
+      <TabsContainer>
+        <ScatterBtn />
         <Tabs defaultActiveKey="createAccount">
           <TabPane tab={t('createAccount.tab')} key="createAccount">
             <CreateAccount eosAccount={eosAccount} />
@@ -48,8 +53,7 @@ class Tools extends Component<Props & Store> {
             <BlockProducer />
           </TabPane> */}
         </Tabs>
-        <ScatterBtn />
-      </DetailTabsContainer>
+      </TabsContainer>
     );
   }
 }

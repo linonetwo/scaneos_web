@@ -220,7 +220,7 @@ export const blockChainDetailPaths: RouteData[] = [
 
 export const ecosystemPaths: RouteData[] = [
   { route: 'dictionary', display: 'Dictionary' },
-  {},
+  { route: 'tools', display: 'Toolkit' },
   { route: 'about', display: 'About' },
 ];
 export const ecosystemDetailPaths: RouteData[] = [

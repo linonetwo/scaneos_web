@@ -1,28 +1,42 @@
 import React, { Component } from 'react';
-import { Dropdown, Menu } from 'antd';
+import { Menu } from 'antd';
 import styled from 'styled-components';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { isNot } from 'styled-is';
-
-import scatterLogo from './chart-scatter.png';
+import is from 'styled-is';
 
 const ScatterMenu = styled.div`
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-  width: 50px;
-  height: 50px;
-  border-radius: 4px;
-  background-color: #1565c0;
-  ${isNot('active')`
-    background-image: linear-gradient(#9e9e9e, #9e9e9e);
-    background-blend-mode: lighten;
-    background-size: cover;
-  `} img {
-    width: inherit;
-    height: inherit;
-  }
+  z-index: 1;
+  background: #974df3;
+  width: 100%;
+  border-bottom: 1px solid #eeeeee;
+  padding: 10px;
+  box-sizing: border-box;
+  color: #ffffff;
+  text-align: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1) inset, 0px -2px 4px rgba(0, 0, 0, 0.1) inset;
+
+  ${is('active')`
+    display: none;
+  `};
+`;
+
+const BannerButton = styled.button`
+  display: inline-block;
+  background: #ffffff;
+  height: 32px;
+  line-height: 32px;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 20px;
+  color: #974df3;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  margin: 8px;
+  cursor: pointer;
 `;
 
 type Props = {
@@ -60,18 +74,8 @@ class ScatterTools extends Component<Props & Store & Dispatch> {
     });
   }
 
-  handleAccountClick = async event => {
-    const {
-      tools: { scatter },
-    } = this.props;
-    const { key } = event;
-    if (key === '1') {
-      this.props.getEosAccount();
-    } else if (key === '2') {
-      if (scatter.identity) {
-        await scatter.forgetIdentity();
-      }
-    }
+  handleAccountClick = () => {
+    this.props.getEosAccount();
   };
 
   renderMenu = (
@@ -83,17 +87,17 @@ class ScatterTools extends Component<Props & Store & Dispatch> {
 
   render() {
     const {
+      t,
       tools: {
         eosAccount: { authority },
       },
     } = this.props;
 
     return (
-      <Dropdown overlay={this.renderMenu} placement="topRight">
-        <ScatterMenu active={authority === 'active'}>
-          <img src={scatterLogo} alt="scatter" />
-        </ScatterMenu>
-      </Dropdown>
+      <ScatterMenu active={authority === 'active'}>
+        {t('scatter.loginPrompt')}
+        <BannerButton onClick={this.handleAccountClick}>{t('scatter.login')}</BannerButton>
+      </ScatterMenu>
     );
   }
 }

@@ -22,6 +22,10 @@ export const zh = {
     activeLabel: 'active 公钥',
     activePlaceholder: '请输入公钥',
   },
+  scatter: {
+    loginPrompt: '亲爱的用户, 您还未登录请点击',
+    login: '登录',
+  },
 };
 
 export const en = {
@@ -47,5 +51,9 @@ export const en = {
     ownerPlaceholder: 'Enter public key',
     activeLabel: 'Active Public Key',
     activePlaceholder: 'Enter public key',
+  },
+  scatter: {
+    loginPrompt: 'Dear user, if you are not logged in, please click the',
+    login: 'login',
   },
 };
