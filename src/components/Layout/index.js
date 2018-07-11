@@ -211,9 +211,6 @@ export const blockChainPaths: RouteData[] = [
   {},
   { route: 'blocks', display: 'Blocks' },
   {},
-  { route: 'accounts', display: 'Accounts' },
-  { route: 'auctions', display: 'Auctions' },
-  {},
   { route: 'actions', display: 'Actions' },
   { route: 'tokens', display: 'Tokens' },
   { route: 'charts', display: 'Charts' },
@@ -222,11 +219,20 @@ export const blockChainPaths: RouteData[] = [
 export const blockChainDetailPaths: RouteData[] = [
   { route: 'transaction', display: 'Transactions' },
   { route: 'block', display: 'Blocks' },
-  { route: 'account', display: 'Accounts' },
-  { route: 'auction', display: 'Auctions' },
   { route: 'action', display: 'Actions' },
   { route: 'token', display: 'Tokens' },
   { route: 'chart', display: 'Charts' },
+];
+
+// list
+export const accountPaths: RouteData[] = [
+  { route: 'accounts', display: 'Accounts' },
+  { route: 'auctions', display: 'Auctions' },
+];
+// single data
+export const accountDetailPaths: RouteData[] = [
+  { route: 'account', display: 'Accounts' },
+  { route: 'auction', display: 'Auctions' },
 ];
 
 class Header extends Component<Props & Store & Dispatch, *> {
@@ -261,12 +267,12 @@ class Header extends Component<Props & Store & Dispatch, *> {
     </Menu>
   );
 
-  ecosystemMenu = () => (
+  getAccountMenu = () => (
     <Menu>
-      {ecosystemPaths.map(
+      {accountPaths.map(
         ({ route, display }, index) =>
           route && display ? (
-            <Menu.Item key={route} onClick={() => this.props.changeNavTab('ecosystem')}>
+            <Menu.Item key={route} onClick={() => this.props.changeNavTab('account')}>
               <Link to={`/${route}/`}>{this.props.t(display)}</Link>
             </Menu.Item>
           ) : (
@@ -300,6 +306,22 @@ class Header extends Component<Props & Store & Dispatch, *> {
           ({ route, display }, index) =>
             route && display ? (
               <Menu.Item key={route} onClick={() => this.props.changeNavTab('blockChain')}>
+                <Link to={`/${route}/`}>{this.props.t(display)}</Link>
+              </Menu.Item>
+            ) : (
+              <Menu.Divider key={index} />
+            ),
+        )}
+      </Menu.SubMenu>
+      <Menu.SubMenu
+        title={
+          <NavDropDownsButton selected={this.props.navTab === 'account'}>{this.props.t('Account')}</NavDropDownsButton>
+        }
+      >
+        {accountPaths.map(
+          ({ route, display }, index) =>
+            route && display ? (
+              <Menu.Item key={route} onClick={() => this.props.changeNavTab('account')}>
                 <Link to={`/${route}/`}>{this.props.t(display)}</Link>
               </Menu.Item>
             ) : (
@@ -377,6 +399,12 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     <NavDropDownsButton selected={navTab === 'blockChain'}>
                       {t('BlockChain')} <Icon type="down" />
                       {this.getSelectedIndicator('blockChain')}
+                    </NavDropDownsButton>
+                  </Dropdown>
+                  <Dropdown overlay={this.getAccountMenu()}>
+                    <NavDropDownsButton selected={navTab === 'account'}>
+                      {t('Account')} <Icon type="down" />
+                      {this.getSelectedIndicator('account')}
                     </NavDropDownsButton>
                   </Dropdown>
 
