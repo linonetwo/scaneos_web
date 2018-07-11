@@ -43,7 +43,6 @@ export const PRODUCER_INFO_FRAGMENT = gql`
     introduction
     slogan
     sloganZh
-    key
     organization
     nodes {
       location {

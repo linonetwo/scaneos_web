@@ -14,7 +14,6 @@ import Loadable from 'react-loadable';
 import { Title } from '../Home/styles';
 import Loading from '../../components/Loading';
 import { BPInfoContainer } from '../../components/Containers';
-import { Title as ActionTitle } from '../../components/Table';
 import { GET_ACCOUNT_DETAIL, getAccountDetails } from '../Account/index';
 import { getAccountActionsList } from '../Action/ActionsList';
 
@@ -159,12 +158,6 @@ class BlockProducer extends PureComponent<Props> {
                           <DetailFieldContainer column>
                             <h3>{t('organization')}</h3>
                             <span>{producerInfo.organization}</span>
-                          </DetailFieldContainer>
-                        )}
-                        {producerInfo.key && (
-                          <DetailFieldContainer column>
-                            <h3>{t('key')}</h3>
-                            <span>{producerInfo.key}</span>
                           </DetailFieldContainer>
                         )}
                       </DetailContainer>
