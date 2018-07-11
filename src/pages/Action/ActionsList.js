@@ -9,6 +9,8 @@ import randomColor from 'randomcolor';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import type { ComponentClass } from 'react'
+
 import { formatTimeStamp } from '../../store/utils';
 import { Title } from '../../components/Table';
 import { getActionListValueRendering } from '../../components/getListValueRendering';
@@ -104,7 +106,7 @@ export const GET_ACCOUNT_ACTIONS = gql`
   }
   ${ACTIONS_FRAGMENT}
 `;
-export function getAccountActionsList(Container, accountName: string, t: Function) {
+export function getAccountActionsList(Container: ComponentClass<*>, accountName: string, t: Function) {
   return (
     <Query ssr={false} query={GET_ACCOUNT_ACTIONS} variables={{ name: accountName }}>
       {({ loading: actionsLoading, error: actionsError, data: actionsData, fetchMore }) => {

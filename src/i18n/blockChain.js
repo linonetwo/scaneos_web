@@ -14,7 +14,10 @@ const zhShared = {
   updatedAt: '更新日期',
   cpu: '计算时间',
   net: '带宽',
+  ram: '内存',
   to: '给',
+  buy: '购买',
+  sell: '卖出',
 };
 export const zh = {
   block: {

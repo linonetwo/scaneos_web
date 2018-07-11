@@ -4,6 +4,7 @@ import React from 'react';
 import Flex from 'styled-flex-component';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import prettySize from 'prettysize';
 
 import { formatTimeStamp } from '../store/utils';
 
@@ -183,6 +184,68 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
             <Link to={`/account/${receiver}/`}>
               <mark>{receiver}</mark>
             </Link>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'buyram': {
+      const { payer, receiver, quant } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${payer}/`}>
+              <mark>{payer}</mark>
+            </Link>{' '}
+            {t('buy')}{' '}
+            <span>
+              <mark>
+                {t('ram')} {quant}
+              </mark>{' '}
+            </span>
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'buyrambytes': {
+      const { payer, receiver, bytes } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${payer}/`}>
+              <mark>{payer}</mark>
+            </Link>{' '}
+            {t('buy')}{' '}
+            <span>
+              <mark>
+                {t('ram')} {prettySize(bytes)}
+              </mark>{' '}
+            </span>
+            {t('to')}
+            <Link to={`/account/${receiver}/`}>
+              <mark>{receiver}</mark>
+            </Link>
+          </div>
+        </ActionDataContainer>
+      );
+    }
+    case 'sellram': {
+      const { account, bytes } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${account}/`}>
+              <mark>{account}</mark>
+            </Link>{' '}
+            {t('sell')}{' '}
+            <span>
+              <mark>
+                {t('ram')} {prettySize(bytes)}
+              </mark>{' '}
+            </span>
           </div>
         </ActionDataContainer>
       );
