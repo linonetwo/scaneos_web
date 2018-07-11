@@ -72,8 +72,7 @@ function VoteReport({ t }: { t: Function }) {
             <Time>{format(Date.now()).split('T')[0]}</Time>
             <Content>
               <p>
-                截至目前，EOS 主网的投票率为 {votingPercentage.toFixed(2)}%，投票量达到了{' '}
-                {toUpper(numeral(totalProducerVoteWeight).format('(0,0 a)'))}，已经有{numeral(totalActivatedStake)
+                截至目前，EOS 主网的投票率为 {votingPercentage.toFixed(2)}%，已经有 {numeral(totalActivatedStake)
                   .divide(10000 * 10000 * 10000)
                   .format('0.0000')}亿个 EOS 经过抵押投入投票当中。
               </p>
