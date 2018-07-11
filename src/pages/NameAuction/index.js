@@ -10,7 +10,7 @@ import { Query } from 'react-apollo';
 import styled from 'styled-components';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { ListContainer } from '../../components/Table';
+import { ListContainer } from '../../components/Containers';
 import getListValueRendering from '../../components/getListValueRendering';
 
 type Props = {

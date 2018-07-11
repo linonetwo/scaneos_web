@@ -8,7 +8,7 @@ import { Query } from 'react-apollo';
 import prettySize from 'prettysize';
 
 import { getPageSize } from '../../store/utils';
-import { ListContainer } from '../../components/Table';
+import { ListContainer } from '../../components/Containers';
 
 type Props = {
   t: Function,

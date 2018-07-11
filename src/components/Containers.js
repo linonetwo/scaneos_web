@@ -138,3 +138,7 @@ export const SearchContainer = styled.div`
     border-bottom: 1px solid #eeeeee;
   }
 `;
+export const ListContainer = styled(Flex)`
+  ${adjustAntdTable};
+  min-height: calc(100vh - 64px);
+`;

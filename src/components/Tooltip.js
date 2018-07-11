@@ -18,11 +18,13 @@ const Title = styled.h3`
   padding: 10px;
   font-size: 16px;
   text-align: center;
+  color: white;
+  text-decoration: underline;
 `;
 const Article = styled.article`
   padding: 10px 0;
   font-size: 14px;
-  color: #666;
+  color: white;
 `;
 
 const GET_DICTIONARY_ENTRY = gql`
@@ -54,21 +56,23 @@ export default function Tooltip({ t, field }: { t: Function, field: string }) {
                   <Spin tip={t('Connecting')} spinning={loading} size="large" />
                 </Container>
               );
-            if (!data.wiki)
+            if (!data.dictionaryEntry)
               return (
                 <Container center column>
                   {t('noDirectionEntry')}
                 </Container>
               );
             const {
-              wiki: { title, titleZh, content, contentZh },
+              dictionaryEntry: { title, titleZh, brief, briefZh },
             } = data;
             return (
               <Container center column>
-                <Title>
-                  {t('locale') === 'zh' ? titleZh : title} ({field})
-                </Title>
-                <Article dangerouslySetInnerHTML={{ __html: t('locale') === 'zh' ? contentZh : content }} />
+                <a href={`/dictionary/${field}/`} target="_black" rel="noopener noreferrer">
+                  <Title>
+                    {t('locale') === 'zh' ? titleZh : title} ({field})
+                  </Title>
+                </a>
+                <Article dangerouslySetInnerHTML={{ __html: t('locale') === 'zh' ? briefZh : brief }} />
               </Container>
             );
           }}

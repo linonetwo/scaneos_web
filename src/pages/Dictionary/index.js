@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import { getPageSize } from '../../store/utils';
-import { ListContainer } from '../../components/Table';
+import { ListContainer } from '../../components/Containers';
 
 type Props = {
   t: Function,
@@ -35,10 +35,15 @@ class Dictionary extends PureComponent<Props> {
     return (
       <Query query={GET_DICTIONARY} notifyOnNetworkStatusChange>
         {({ loading, error, data, fetchMore }) => {
-          if (error) return <ListContainer column>{error.message}</ListContainer>;
+          if (error)
+            return (
+              <ListContainer center column>
+                {error.message}
+              </ListContainer>
+            );
           if (loading)
             return (
-              <ListContainer>
+              <ListContainer center column>
                 <Spin tip={t('Connecting')} spinning={loading} size="large" />
               </ListContainer>
             );
@@ -49,47 +54,45 @@ class Dictionary extends PureComponent<Props> {
             },
           } = data;
           return (
-            <Spin tip="Connecting" spinning={loading} size="large">
-              <ListContainer column>
-                <Table
-                  scroll={{ x: 1000 }}
-                  size="middle"
-                  dataSource={dictionaryEntries}
-                  rowKey="id"
-                  pagination={{
-                    pageSize: getPageSize(),
-                    current: page + 1,
-                    total: totalElements,
-                    onChange: nextPageInPagination =>
-                      fetchMore({
-                        variables: {
-                          page: nextPageInPagination - 1,
-                        },
-                        updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
-                      }),
-                  }}
-                >
-                  <Table.Column
-                    title={t('field')}
-                    dataIndex="field"
-                    key="field"
-                    render={field => <Link to={`/dictionary/${field}/`}>{field}</Link>}
-                  />
-                  <Table.Column
-                    title={t('titleZh')}
-                    dataIndex="titleZh"
-                    key="titleZh"
-                    render={(titleZh, { field }) => <Link to={`/dictionary/${field}/`}>{titleZh}</Link>}
-                  />
-                  <Table.Column
-                    title={t('title')}
-                    dataIndex="title"
-                    key="title"
-                    render={(title, { field }) => <Link to={`/dictionary/${field}/`}>{title}</Link>}
-                  />
-                </Table>
-              </ListContainer>
-            </Spin>
+            <ListContainer column>
+              <Table
+                scroll={{ x: 1200 }}
+                size="middle"
+                dataSource={dictionaryEntries}
+                rowKey="id"
+                pagination={{
+                  pageSize: getPageSize(),
+                  current: page + 1,
+                  total: totalElements,
+                  onChange: nextPageInPagination =>
+                    fetchMore({
+                      variables: {
+                        page: nextPageInPagination - 1,
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
+                    }),
+                }}
+              >
+                <Table.Column
+                  title={t('field')}
+                  dataIndex="field"
+                  key="field"
+                  render={field => <Link to={`/dictionary/${field}/`}>{field}</Link>}
+                />
+                <Table.Column
+                  title={t('titleZh')}
+                  dataIndex="titleZh"
+                  key="titleZh"
+                  render={(titleZh, { field }) => <Link to={`/dictionary/${field}/`}>{titleZh}</Link>}
+                />
+                <Table.Column
+                  title={t('title')}
+                  dataIndex="title"
+                  key="title"
+                  render={(title, { field }) => <Link to={`/dictionary/${field}/`}>{title}</Link>}
+                />
+              </Table>
+            </ListContainer>
           );
         }}
       </Query>

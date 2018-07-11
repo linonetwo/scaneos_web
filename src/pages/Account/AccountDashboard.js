@@ -183,7 +183,7 @@ export class AccountDashboard extends PureComponent<Props> {
             <h4>
               <span />
               <span>
-                {t('cpuRefund')}: {data.cpu.refund} EOS
+              <Tooltip t={t} field="cpuRefund" />: {data.cpu.refund} EOS
               </span>
             </h4>
           )}

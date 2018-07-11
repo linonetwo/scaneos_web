@@ -28,10 +28,6 @@ export const adjustAntdTable = css`
     ${adjustAntdTablePagination};
   }
 `;
-export const ListContainer = styled.div`
-  ${adjustAntdTable};
-  min-height: calc(100vh - 64px);
-`;
 export const LongListContainer = styled.div`
   .ant-table {
     height: unset;
