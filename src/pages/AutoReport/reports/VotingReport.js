@@ -1,4 +1,5 @@
 // @flow
+import { toUpper } from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 import { Spin } from 'antd';
@@ -14,6 +15,7 @@ const GET_VOTING_STATUS = gql`
   query GET_VOTING_STATUS {
     status {
       totalProducerVoteWeight
+      totalActivatedStake
     }
   }
 `;
@@ -47,13 +49,19 @@ function VoteReport({ t }: { t: Function }) {
               <Container />
             </Spin>
           );
-        const { status } = data;
+        const {
+          status: { totalActivatedStake, totalProducerVoteWeight },
+        } = data;
 
+        const votingPercentage = ((Number(totalActivatedStake) * 6.6666) / 10000 / 1000011818) * 100 * 0.15;
         return (
           <Container column>
             <Title>EOS超级节点竞选报告</Title>
             <Time>{format(Date.now()).split('T')[0]}</Time>
-            <Content>{status.totalProducerVoteWeight}</Content>
+            <Content>
+              截至目前，EOS 主网的投票率为 {votingPercentage.toFixed(2)}%，投票量达到了{' '}
+              {toUpper(numeral(totalProducerVoteWeight).format('(0,0 a)'))}。
+            </Content>
           </Container>
         );
       }}
