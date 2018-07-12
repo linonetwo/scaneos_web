@@ -112,7 +112,7 @@ const mapDispatch = ({ tools: { onScatterLoaded, getEosClient, getEosAccount } }
   getEosAccount,
 });
 
-export default translate('tools')(
+export default translate()(
   connect(
     mapState,
     mapDispatch,

@@ -165,4 +165,4 @@ class CreateAccount extends Component<Props> {
   }
 }
 
-export default translate('tools')(Form.create()(CreateAccount));
+export default translate()(Form.create()(CreateAccount));

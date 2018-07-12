@@ -4,6 +4,11 @@ export const zh = {
   },
   manageAccount: {
     tab: '账户管理',
+    buyRamSucceed: '内存购买成功',
+    buyRamFailed: '内存购买失败',
+    DelegateAccount: '抵押EOS',
+    UndelegateAccount: '取消抵押EOS',
+    BuyRam: '购买内存',
   },
   manageVoting: {
     tab: '交易管理',
@@ -21,6 +26,8 @@ export const zh = {
     ownerPlaceholder: '请输入公钥',
     activeLabel: 'active 公钥',
     activePlaceholder: '请输入公钥',
+    createAccountSucceed: '账户创建成功',
+    createAccountFailed: '账户创建失败',
   },
   scatter: {
     loginPrompt: '亲爱的用户, 您还未登录请点击',
@@ -34,6 +41,11 @@ export const en = {
   },
   manageAccount: {
     tab: 'Manage Account',
+    buyRamSucceed: 'Buy Ram Succeed',
+    buyRamFailed: 'Buy Ram Failed',
+    DelegateAccount: 'DelegateAccount(Stake)',
+    UndelegateAccount: 'UndelegateAccount(Unstake)',
+    BuyRam: 'BuyRam(EOS)',
   },
   manageVoting: {
     tab: 'Manage Voting',
@@ -51,6 +63,8 @@ export const en = {
     ownerPlaceholder: 'Enter public key',
     activeLabel: 'Active Public Key',
     activePlaceholder: 'Enter public key',
+    createAccountSucceed: 'Create Account Succeed',
+    createAccountFailed: 'Create Account Failed',
   },
   scatter: {
     loginPrompt: 'Dear user, if you are not logged in, please click the',

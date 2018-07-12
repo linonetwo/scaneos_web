@@ -36,15 +36,15 @@ class Tools extends Component<Props & Store> {
     return (
       <TabsContainer>
         <ScatterBtn />
-        <Tabs defaultActiveKey="createAccount">
-          <TabPane tab={t('createAccount.tab')} key="createAccount">
-            <CreateAccount eosAccount={eosAccount} />
+        <Tabs defaultActiveKey="manageAccount">
+          <TabPane tab={t('manageAccount.tab')} key="manageAccount">
+            <ManageAccount eosAccount={eosAccount} />
           </TabPane>
           <TabPane tab={t('transferEOS.tab')} key="transferEOS">
             <TransferEOS eosAccount={eosAccount} />
           </TabPane>
-          <TabPane tab={t('manageAccount.tab')} key="manageAccount">
-            <ManageAccount eosAccount={eosAccount} />
+          <TabPane tab={t('createAccount.tab')} key="createAccount">
+            <CreateAccount eosAccount={eosAccount} />
           </TabPane>
           {/* <TabPane tab={t('manageVoting.tab')} key="manageVoting">
             <ManageVoting />
@@ -62,4 +62,4 @@ const mapState = ({ tools: { tools }, info: { loading } }): Store => ({
   tools,
   loading,
 });
-export default translate('tools')(connect(mapState)(Tools));
+export default translate()(connect(mapState)(Tools));

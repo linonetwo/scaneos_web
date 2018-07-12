@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Form, Input, Button, Radio, InputNumber } from 'antd';
+import { Form, Input, Button, Radio, InputNumber, Modal } from 'antd';
 import getEosClient from '../../../components/Scatter/eosClient';
 import { formItemFieldConfig } from '../constants';
 
@@ -21,7 +21,7 @@ const purchaseType = ['Eos', 'bytes'];
 
 const purchaseInitValue = [1, 8192];
 
-export default class BuyRam extends Component<Props> {
+export default class BuyRam extends Component<Props, *> {
   state = {
     purchase: 0,
   };
@@ -64,10 +64,8 @@ export default class BuyRam extends Component<Props> {
     validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const {
-          store: { dispatch },
-        } = await import('../../../store');
-        const {
           eosAccount: { name: eosAccount, authority: eosAuth },
+          t,
         } = this.props;
         try {
           const EosClient = getEosClient();
@@ -82,9 +80,9 @@ export default class BuyRam extends Component<Props> {
           } else {
             await this.buyRAMBytes(params);
           }
-          dispatch.info.displayNotification('创建成功');
+          Modal.info({ title: t('buyRamSucceed') });
         } catch (error) {
-          dispatch.info.displayNotification(JSON.stringify(error));
+          Modal.error({ title: t('buyRamFailed'), content: JSON.stringify(error) });
         }
       }
     });

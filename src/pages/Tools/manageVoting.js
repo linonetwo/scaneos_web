@@ -104,4 +104,4 @@ const SellramComponent = Form.create()(DelegateAccount);
 const RefundComponent = Form.create()(DelegateAccount);
 const PermissionsComponent = Form.create()(DelegateAccount);
 
-export default translate('tools')();
+export default translate()();

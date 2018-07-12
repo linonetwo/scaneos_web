@@ -34,7 +34,7 @@ const Components = [DelegateAccount, UndelegateAccount, BuyRam];
 // const RefundComponent = Form.create()(DelegateAccount);
 // const PermissionsComponent = Form.create()(DelegateAccount);
 
-class BlockProducer extends Component<Props> {
+class BlockProducer extends Component<Props, *> {
   state = {
     componentsIndex: 0,
   };
@@ -54,13 +54,13 @@ class BlockProducer extends Component<Props> {
       <BlockPage>
         <BlockMenu defaultSelectedKeys={['1']} mode="inline" onClick={this.handleClick}>
           <Menu.Item key="1">
-            <span>Delegate Account(Stake)</span>
+            <span>{t('manageAccount.DelegateAccount')}</span>
           </Menu.Item>
           <Menu.Item key="2">
-            <span>Undelegate Account(Unstake)</span>
+            <span>{t('manageAccount.UndelegateAccount')}</span>
           </Menu.Item>
           <Menu.Item key="3">
-            <span>Buy Ram (EOS)</span>
+            <span>{t('manageAccount.BuyRam')}</span>
           </Menu.Item>
         </BlockMenu>
         <BlockLayout>
@@ -71,4 +71,4 @@ class BlockProducer extends Component<Props> {
   }
 }
 
-export default translate('tools')(BlockProducer);
+export default translate()(BlockProducer);

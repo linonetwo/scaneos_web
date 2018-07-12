@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Form, Input, Button, Switch } from 'antd';
+import { Form, Input, Button, Switch, Modal } from 'antd';
 import getEosClient from '../../../components/Scatter/eosClient';
 import { formItemFieldConfig } from '../constants';
 
@@ -28,10 +28,8 @@ export default class DelegateAccount extends Component<Props> {
     validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const {
-          store: { dispatch },
-        } = await import('../../../store');
-        const {
           eosAccount: { name: eosAccount, authority: eosAuth },
+          t
         } = this.props;
         try {
           const EosClient = getEosClient();
@@ -51,9 +49,9 @@ export default class DelegateAccount extends Component<Props> {
               { authorization: [{ actor: eosAccount, permission: eosAuth }] },
             );
           });
-          dispatch.info.displayNotification('创建成功');
+          Modal.info({ title: t('delegateSucceed') });
         } catch (error) {
-          dispatch.info.displayNotification(JSON.stringify(error));
+          Modal.error({ title: t('delegateFailed'), content: JSON.stringify(error) });
         }
       }
     });

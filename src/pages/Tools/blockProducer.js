@@ -154,4 +154,4 @@ class BlockProducer extends Component<Props> {
   }
 }
 
-export default translate('tools')(BlockProducer);
+export default translate()(BlockProducer);
