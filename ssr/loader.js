@@ -50,7 +50,6 @@ export default (req: $Request, res: $Response) => {
       '<div id="root"></div>',
       `
         <div id="root">${body}</div>
-        <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
         <script>window.__PRELOADED_STATE__ = ${state}</script>
         <script>window.__APOLLO_STATE__=${JSON.stringify(graphQLState).replace(/</g, '\\u003c')};</script>
       `,
