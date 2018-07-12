@@ -1,6 +1,8 @@
 // @flow
+import React from 'react';
 import Eos from 'eosjs';
-import get, { scatterConfig, scatterEosOptions } from '../API.config';
+import { Modal } from 'antd';
+import { scatterConfig, scatterEosOptions } from '../API.config';
 import { initEosClient } from '../components/Scatter/eosClient';
 
 const testnet = false;
@@ -65,6 +67,9 @@ export default (initialState: Object = {}) => ({
       } = rootState;
 
       try {
+        if (!scatter.getIdentity) {
+          throw new Error('浏览器没装 Scatter | No Scatter Found');
+        }
         if (scatter.identity) {
           await scatter.forgetIdentity();
         }
@@ -88,8 +93,28 @@ export default (initialState: Object = {}) => ({
           name: eosAccount,
           authority: accountAuth,
         });
-      } catch (err) {
-        // console.log(err);
+      } catch (error) {
+        if (error.message === '浏览器没装 Scatter | No Scatter Found') {
+          Modal.info({
+            title: error.message,
+            content: (
+              <>
+                <p>
+                  <a href="https://get-scatter.com/" target="_black" rel="noopener noreferrer">
+                    安装 Scatter | Install Scatter
+                  </a>
+                </p>
+                <p>
+                  <a href="https://www.google.com/chrome/" target="_black" rel="noopener noreferrer">
+                    安装 Chrome | Install Chrome
+                  </a>
+                </p>
+              </>
+            ),
+          });
+        } else {
+          Modal.error({ title: error.message });
+        }
       }
     },
   },

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Menu } from 'antd';
 import styled from 'styled-components';
@@ -54,8 +55,8 @@ type Dispatch = {
 };
 
 class ScatterTools extends Component<Props & Store & Dispatch> {
-  async componentWillMount() {
-    if (window.scatter) {
+  async componentDidMount() {
+    if (window && window.scatter) {
       this.props.onScatterLoaded(window.scatter);
       window.scatter = null;
       this.props.getEosClient();
@@ -77,13 +78,6 @@ class ScatterTools extends Component<Props & Store & Dispatch> {
   handleAccountClick = () => {
     this.props.getEosAccount();
   };
-
-  renderMenu = (
-    <Menu onClick={this.handleAccountClick}>
-      <Menu.Item key="1">Attach Account</Menu.Item>
-      <Menu.Item key="2">Sign out</Menu.Item>
-    </Menu>
-  );
 
   render() {
     const {
