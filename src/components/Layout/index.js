@@ -207,8 +207,6 @@ type RouteData = {
 };
 // list
 export const blockChainPaths: RouteData[] = [
-  { route: 'tools', display: 'Toolkit' },
-  {},
   { route: 'transactions', display: 'Transactions' },
   { route: 'blocks', display: 'Blocks' },
   { route: 'actions', display: 'Actions' },
@@ -231,6 +229,8 @@ export const blockChainDetailPaths: RouteData[] = [
 export const accountPaths: RouteData[] = [
   { route: 'accounts', display: 'Accounts' },
   { route: 'auctions', display: 'Auctions' },
+  {},
+  { route: 'tools', display: 'Toolkit' },
 ];
 // single data
 export const accountDetailPaths: RouteData[] = [

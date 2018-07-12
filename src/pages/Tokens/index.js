@@ -97,31 +97,4 @@ class Tokens extends Component<Props> {
   }
 }
 
-<<<<<<< HEAD
-const mapState = ({ token: { list }, info: { loading } }): Store => ({
-  list,
-  loading,
-});
-const mapDispatch = ({ token: { getTokens } }): Dispatch => ({
-  getTokens,
-});
-const frontload = async ({ loading, list, getTokens }: Store & Dispatch) => {
-  // 如果处于切换路由自动载入数据的逻辑无法覆盖到的地方，比如测试环境，那么自动加载数据
-  if (!loading && list.length === 0) {
-    return getTokens();
-  }
-  return Promise.resolve();
-};
-export default translate('token')(
-  connect(
-    mapState,
-    mapDispatch,
-  )(
-    frontloadConnect(frontload, {
-      onUpdate: false,
-    })(Tokens),
-  ),
-);
-=======
 export default translate('token')(Tokens);
->>>>>>> master

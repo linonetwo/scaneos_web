@@ -104,12 +104,11 @@ const About = Loadable({
   loading: Loading,
   modules: ['About'],
 });
-<<<<<<< HEAD
 const Tools = Loadable({
   loader: () => import(/* webpackChunkName: "Tools" */ './pages/Tools'),
   loading: Loading,
   modules: ['Tools'],
-=======
+});
 const Dictionary = Loadable({
   loader: () => import(/* webpackChunkName: "Dictionary" */ './pages/Dictionary'),
   loading: Loading,
@@ -119,7 +118,6 @@ const DictionaryEntry = Loadable({
   loader: () => import(/* webpackChunkName: "DictionaryEntry" */ './pages/DictionaryEntry'),
   loading: Loading,
   modules: ['DictionaryEntry'],
->>>>>>> master
 });
 
 function Title({ t }: { t: Function }) {

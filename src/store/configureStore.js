@@ -5,11 +5,7 @@ import { createBrowserHistory, createMemoryHistory } from 'history';
 import infoModel from './info';
 import historyModel from './history';
 import { isServer, getInitialStateFromServer } from './utils';
-<<<<<<< HEAD
-import priceModel from './price';
 import toolsModel from './tools';
-=======
->>>>>>> master
 
 const immer = immerPlugin();
 const configureStore = (initialState = {}) => {
@@ -33,11 +29,7 @@ const configureStore = (initialState = {}) => {
       models: {
         info: infoModel(infoInitialState),
         history: historyModel(historyInitialState),
-<<<<<<< HEAD
-        price: priceModel(priceInitialState),
         tools: toolsModel(),
-=======
->>>>>>> master
       },
       plugins: [immer],
     }),

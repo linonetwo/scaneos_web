@@ -84,10 +84,7 @@ export const en = {
   accountNum: 'Accounts',
   actionNum: 'Actions',
   blocksNum: 'Blocks',
-<<<<<<< HEAD
   Toolkit: 'toolkit',
-=======
 
   noResult: 'No Result...Try another.',
->>>>>>> master
 };
