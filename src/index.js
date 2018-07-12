@@ -14,7 +14,6 @@ import i18n from './i18n';
 import AppRoutes from './Routes';
 
 import { unregister } from './registerServiceWorker';
-import './polyfills';
 
 const Application = (
   <ApolloProvider client={client}>
