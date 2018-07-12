@@ -15,8 +15,7 @@ import {
   ACCOUNT_DASHBOARD_FRAGMENT,
   RESOURCE_PRICE_FRAGMENT,
 } from './AccountDashboard';
-import ActionsList from '../Action/ActionsList';
-import { ACTIONS_FRAGMENT } from '../Action';
+import { getAccountActionsList } from '../Action/ActionsList';
 
 type Props = {
   t: Function,
@@ -44,7 +43,6 @@ export const PRODUCER_INFO_FRAGMENT = gql`
     introduction
     slogan
     sloganZh
-    key
     organization
     nodes {
       location {
@@ -69,11 +67,6 @@ export const GET_ACCOUNT_DETAIL = gql`
   query GET_ACCOUNT_DETAIL($name: String!) {
     account(name: $name) {
       ...ACCOUNT_DASHBOARD_FRAGMENT
-      actions {
-        actions {
-          ...ACTIONS_FRAGMENT
-        }
-      }
       producerInfo {
         ...PRODUCER_INFO_FRAGMENT
       }
@@ -86,7 +79,6 @@ export const GET_ACCOUNT_DETAIL = gql`
     }
   }
   ${ACCOUNT_DASHBOARD_FRAGMENT}
-  ${ACTIONS_FRAGMENT}
   ${PRODUCER_INFO_FRAGMENT}
   ${RESOURCE_PRICE_FRAGMENT}
   fragment ACCOUNT_PERMISSION_FRAGMENT on Permissions {
@@ -174,20 +166,14 @@ function Account({ t, match }: Props) {
             );
           if (!data.account) return <Container>{t('noResult')}</Container>;
           const {
-            account: {
-              actions: { actions },
-              producerInfo,
-              ...account
-            },
+            account: { producerInfo, ...account },
             resourcePrice,
           } = data;
           if (producerInfo) return <Redirect to={`/producer/${accountName}`} />;
           return (
             <DetailTabsContainer column>
               {getAccountDetails({ ...account, ...resourcePrice }, t)}
-              <ActionsContainer column>
-                <ActionsList actions={actions} />
-              </ActionsContainer>
+              {getAccountActionsList(ActionsContainer, accountName, t)}
             </DetailTabsContainer>
           );
         }}
@@ -196,4 +182,4 @@ function Account({ t, match }: Props) {
   );
 }
 
-export default withRouter(translate('account')(Account));
+export default withRouter(translate(['account', 'action'])(Account));

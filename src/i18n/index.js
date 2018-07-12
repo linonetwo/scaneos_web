@@ -9,6 +9,8 @@ import * as price from './price';
 import * as about from './about';
 import * as layout from './layout';
 import * as tools from './tools';
+import * as status from './status';
+import * as dictionary from './dictionary';
 import * as bp from './bp';
 import * as mappingChecker from '../components/MappingChecking/i18n';
 
@@ -33,6 +35,8 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...price.zh,
         ...about.zh,
         ...layout.zh,
+        ...status.zh,
+        ...dictionary.zh,
         ...mappingChecker.zh,
         ...tools.zh,
       },
@@ -49,6 +53,8 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...price.en,
         ...about.en,
         ...layout.en,
+        ...status.en,
+        ...dictionary.en,
         ...mappingChecker.en,
         ...tools.en,
       },

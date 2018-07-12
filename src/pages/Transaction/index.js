@@ -12,7 +12,7 @@ import { DetailTabsContainer } from '../../components/Containers';
 import { LongListContainer, NoData } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 import { ACTIONS_FRAGMENT } from '../Action';
-import ActionsList from '../Action/ActionsList';
+import { ActionsList } from '../Action/ActionsList';
 
 type Props = {
   t: Function,
@@ -22,24 +22,31 @@ type Props = {
     },
   },
 };
+export const TRANSACTION_DETAIL_FRAGMENT = gql`
+  fragment TRANSACTION_DETAIL_FRAGMENT on Transaction {
+    transactionID
+    blockID
+    status
+    expiration
+    pending
+    createdAt
+    sequenceNum
+    refBlockNum
+    refBlockPrefix
+  }
+`;
 const GET_TRANSACTION_DETAIL = gql`
   query GET_TRANSACTION_DETAIL($id: String!) {
     transaction(id: $id) {
+      ...TRANSACTION_DETAIL_FRAGMENT
       actions {
         actions {
           ...ACTIONS_FRAGMENT
         }
       }
-      blockID
-      status
-      expiration
-      pending
-      createdAt
-      sequenceNum
-      refBlockNum
-      refBlockPrefix
     }
   }
+  ${TRANSACTION_DETAIL_FRAGMENT}
   ${ACTIONS_FRAGMENT}
 `;
 class Transaction extends PureComponent<Props, *> {

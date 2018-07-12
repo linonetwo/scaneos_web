@@ -1,10 +1,10 @@
 // @flow
 // Express requirements
 import bodyParser from 'body-parser';
-import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
 import i18nextExpressMiddleware from 'i18next-express-middleware';
+import serverTimingMiddleware from 'server-timing';
 import path from 'path';
 // import forceDomain from 'forcedomain';
 import Loadable from 'react-loadable';
@@ -17,28 +17,11 @@ import loader from './loader';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// NOTE: UNCOMMENT THIS IF YOU WANT THIS FUNCTIONALITY
-/*
-  Forcing www and https redirects in production, totally optional.
-  http://mydomain.com
-  http://www.mydomain.com
-  https://mydomain.com
-  Resolve to: https://www.mydomain.com
-*/
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(
-//     forceDomain({
-//       hostname: 'www.mydomain.com',
-//       protocol: 'https'
-//     })
-//   );
-// }
-
 // Compress, parse, log, and the i18n
-app.use(compression());
+app.use(serverTimingMiddleware());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(morgan('dev'));
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'tiny' : 'dev'));
 app.use(
   i18nextExpressMiddleware.handle(i18n, {
     removeLngFromUrl: false,
@@ -47,7 +30,9 @@ app.use(
 
 // Set up homepage, static assets, and capture everything else
 app.use(express.Router().get('/', loader));
-app.use(express.static(path.resolve(__dirname, '../build')));
+app.use(express.static(path.resolve(__dirname, '../build'), {
+  maxAge: 86400000,
+}));
 app.use(loader);
 
 // We tell React Loadable to load all required assets and start listening - ROCK AND ROLL!

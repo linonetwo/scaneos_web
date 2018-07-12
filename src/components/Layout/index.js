@@ -1,4 +1,4 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-array-index-key, react/destructuring-assignment */
 // @flow
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
@@ -10,9 +10,20 @@ import { translate } from 'react-i18next';
 import { withRouter, Link } from 'react-router-dom';
 import breakpoint from 'styled-components-breakpoint';
 import noScroll from 'no-scroll';
-
-import SearchBar from '../SearchBar';
+import Loadable from 'react-loadable';
+import { SearchContainer } from '../Containers';
 import translateLogo from './translate.png';
+
+// avoid cycle importing
+const SearchBar = Loadable({
+  loader: () => import(/* webpackChunkName: "SearchBar" */ '../SearchBar'),
+  loading: () => (
+    <SearchContainer>
+      <Icon type="loading" />
+    </SearchContainer>
+  ),
+  modules: ['SearchBar'],
+});
 
 const lang = {
   zh: '中文',
@@ -77,9 +88,9 @@ const MenuOpenIconContainer = styled(Flex)`
   `};
   position: absolute;
   height: inherit;
-  right: 5vw;
-  ${breakpoint('desktop')`
-    right: 50px;
+  right: 10vw;
+  ${is('search')`
+    right: 25vw;
   `};
 `;
 
@@ -196,37 +207,37 @@ type RouteData = {
 };
 // list
 export const blockChainPaths: RouteData[] = [
+  { route: 'tools', display: 'Toolkit' },
+  {},
   { route: 'transactions', display: 'Transactions' },
-  {},
   { route: 'blocks', display: 'Blocks' },
-  {},
-  { route: 'accounts', display: 'Accounts' },
-  { route: 'auctions', display: 'Auctions' },
-  {},
   { route: 'actions', display: 'Actions' },
+  {},
   { route: 'tokens', display: 'Tokens' },
+  {},
   { route: 'charts', display: 'Charts' },
+  { route: 'report', display: 'Report' },
 ];
 // single data
 export const blockChainDetailPaths: RouteData[] = [
   { route: 'transaction', display: 'Transactions' },
   { route: 'block', display: 'Blocks' },
-  { route: 'account', display: 'Accounts' },
-  { route: 'auction', display: 'Auctions' },
   { route: 'action', display: 'Actions' },
   { route: 'token', display: 'Tokens' },
   { route: 'chart', display: 'Charts' },
 ];
 
-export const ecosystemPaths: RouteData[] = [
-  { route: 'dictionary', display: 'Dictionary' },
-  { route: 'tools', display: 'Toolkit' },
-  { route: 'about', display: 'About' },
+// list
+export const accountPaths: RouteData[] = [
+  { route: 'accounts', display: 'Accounts' },
+  { route: 'auctions', display: 'Auctions' },
 ];
-export const ecosystemDetailPaths: RouteData[] = [
-  { route: 'dictionary-entry', display: 'DictionaryEntry' },
-  { route: 'about', display: 'About' },
+// single data
+export const accountDetailPaths: RouteData[] = [
+  { route: 'account', display: 'Accounts' },
+  { route: 'auction', display: 'Auctions' },
 ];
+
 class Header extends Component<Props & Store & Dispatch, *> {
   state = {
     sideMenuOpened: false,
@@ -234,7 +245,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
   };
 
   toggleSideMenu = () => {
-    this.setState({ sideMenuOpened: !this.state.sideMenuOpened });
+    this.setState(prevState => ({ sideMenuOpened: !prevState.sideMenuOpened }));
     noScroll.toggle();
   };
 
@@ -259,27 +270,12 @@ class Header extends Component<Props & Store & Dispatch, *> {
     </Menu>
   );
 
-  tokensMenu = () => (
+  getAccountMenu = () => (
     <Menu>
-      {tokenPaths.map(
+      {accountPaths.map(
         ({ route, display }, index) =>
           route && display ? (
-            <Menu.Item key={route} onClick={() => this.props.changeNavTab('tokens')}>
-              <Link to={`/${route}/`}>{this.props.t(display)}</Link>
-            </Menu.Item>
-          ) : (
-            <Menu.Divider key={index} />
-          ),
-      )}
-    </Menu>
-  );
-
-  ecosystemMenu = () => (
-    <Menu>
-      {ecosystemPaths.map(
-        ({ route, display }, index) =>
-          route && display ? (
-            <Menu.Item key={route} onClick={() => this.props.changeNavTab('ecosystem')}>
+            <Menu.Item key={route} onClick={() => this.props.changeNavTab('account')}>
               <Link to={`/${route}/`}>{this.props.t(display)}</Link>
             </Menu.Item>
           ) : (
@@ -302,15 +298,6 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
   getMobileMenu = () => (
     <Menu mode="inline" style={{ width: 256 }}>
-      <Menu.Item>
-        <NavDropDownsButtonLink
-          selected={this.props.navTab === 'home'}
-          onClick={() => this.props.changeNavTab('home')}
-          to="/"
-        >
-          {this.props.t('Home')}
-        </NavDropDownsButtonLink>
-      </Menu.Item>
       <Menu.SubMenu
         title={
           <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
@@ -330,12 +317,14 @@ class Header extends Component<Props & Store & Dispatch, *> {
         )}
       </Menu.SubMenu>
       <Menu.SubMenu
-        title={<NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>{this.props.t('Ecosystem')}</NavDropDownsButton>}
+        title={
+          <NavDropDownsButton selected={this.props.navTab === 'account'}>{this.props.t('Account')}</NavDropDownsButton>
+        }
       >
-        {ecosystemPaths.map(
+        {accountPaths.map(
           ({ route, display }, index) =>
             route && display ? (
-              <Menu.Item key={route} onClick={() => this.props.changeNavTab('ecosystem')}>
+              <Menu.Item key={route} onClick={() => this.props.changeNavTab('account')}>
                 <Link to={`/${route}/`}>{this.props.t(display)}</Link>
               </Menu.Item>
             ) : (
@@ -350,6 +339,15 @@ class Header extends Component<Props & Store & Dispatch, *> {
           to="/producers/"
         >
           {this.props.t('BlockProducers')}
+        </NavDropDownsButtonLink>
+      </Menu.Item>
+      <Menu.Item>
+        <NavDropDownsButtonLink
+          selected={this.props.navTab === 'dictionary'}
+          onClick={() => this.props.changeNavTab('dictionary')}
+          to="/dictionary"
+        >
+          {this.props.t('Dictionary')}
         </NavDropDownsButtonLink>
       </Menu.Item>
       <Menu.SubMenu
@@ -377,20 +375,25 @@ class Header extends Component<Props & Store & Dispatch, *> {
   getSelectedIndicator = tabName => <NavButtonSelectedIndicator visible={this.props.navTab === tabName} />;
 
   render() {
+    const { t, changeNavTab, navTab } = this.props;
+    const { sideMenuOpened, headerAffixed } = this.state;
     return (
       <Fragment>
         <HeaderAffix onChange={this.onHeaderChanged}>
-          <Fixed opened={this.state.sideMenuOpened} onClick={this.toggleSideMenu} />
-          <MobileMenuContainer opened={this.state.sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
-          <HeaderContainer affixed={this.state.headerAffixed}>
+          <Fixed opened={sideMenuOpened} onClick={this.toggleSideMenu} />
+          <MobileMenuContainer opened={sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
+          <HeaderContainer affixed={headerAffixed}>
             <Layout.Header>
-              <Link to="/" onClick={() => this.props.changeNavTab('home')}>
+              <Link to="/" onClick={() => changeNavTab('home')}>
                 <LogoContainer center>
-                  <LogoIcon src={this.props.t('logoIcon')} affixed={this.state.headerAffixed} />
+                  <LogoIcon src={t('logoIcon')} affixed={headerAffixed} />
                 </LogoContainer>
               </Link>
+              <MenuOpenIconContainer search center>
+                <Icon onClick={() => window && window.scroll(0, 1)} type="search" />
+              </MenuOpenIconContainer>
               <MenuOpenIconContainer center>
-                <Icon onClick={this.toggleSideMenu} type={this.state.sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
+                <Icon onClick={this.toggleSideMenu} type={sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
               </MenuOpenIconContainer>
 
               <DesktopSearchBarContainer>
@@ -398,36 +401,35 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </DesktopSearchBarContainer>
               <DropDownsContainer>
                 <NavDropDowns justifyEnd>
-                  <NavDropDownsButtonLink
-                    selected={this.props.navTab === 'home'}
-                    onClick={() => this.props.changeNavTab('home')}
-                    to="/"
-                  >
-                    {this.props.t('Home')}
-                    {this.getSelectedIndicator('home')}
-                  </NavDropDownsButtonLink>
-
                   <Dropdown overlay={this.getBlockChainMenu()}>
-                    <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
-                      {this.props.t('BlockChain')} <Icon type="down" />
+                    <NavDropDownsButton selected={navTab === 'blockChain'}>
+                      {t('BlockChain')} <Icon type="down" />
                       {this.getSelectedIndicator('blockChain')}
                     </NavDropDownsButton>
                   </Dropdown>
-
-                  <Dropdown overlay={this.ecosystemMenu()}>
-                    <NavDropDownsButton selected={this.props.navTab === 'ecosystem'}>
-                      {this.props.t('Ecosystem')} <Icon type="down" />
-                      {this.getSelectedIndicator('ecosystem')}
+                  <Dropdown overlay={this.getAccountMenu()}>
+                    <NavDropDownsButton selected={navTab === 'account'}>
+                      {t('Account')} <Icon type="down" />
+                      {this.getSelectedIndicator('account')}
                     </NavDropDownsButton>
                   </Dropdown>
 
                   <NavDropDownsButtonLink
-                    selected={this.props.navTab === 'producers'}
-                    onClick={() => this.props.changeNavTab('producers')}
+                    selected={navTab === 'producers'}
+                    onClick={() => changeNavTab('producers')}
                     to="/producers/"
                   >
-                    {this.props.t('BlockProducers')}
+                    {t('BlockProducers')}
                     {this.getSelectedIndicator('producers')}
+                  </NavDropDownsButtonLink>
+
+                  <NavDropDownsButtonLink
+                    selected={navTab === 'dictionary'}
+                    onClick={() => changeNavTab('dictionary')}
+                    to="/dictionary"
+                  >
+                    {t('Dictionary')}
+                    {this.getSelectedIndicator('dictionary')}
                   </NavDropDownsButtonLink>
 
                   <Dropdown overlay={this.localeMenu}>
@@ -438,10 +440,10 @@ class Header extends Component<Props & Store & Dispatch, *> {
                           height: '20px',
                           marginRight: '5px',
                         }}
-                        alt={this.props.t('Locale')}
+                        alt={t('Locale')}
                         src={translateLogo}
                       />
-                      {lang[this.props.t('locale')]}
+                      {lang[t('locale')]}
                       <Icon type="down" />
                       {this.getSelectedIndicator('locale')}
                     </NavDropDownsButton>
@@ -450,16 +452,13 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </DropDownsContainer>
             </Layout.Header>
           </HeaderContainer>
-          {this.state.headerAffixed && (
-            <MobileSearchBarContainer center affixed={this.state.headerAffixed}>
-              <SearchBar affixed={this.state.headerAffixed} />
+          {headerAffixed && (
+            <MobileSearchBarContainer center affixed={headerAffixed}>
+              <SearchBar affixed={headerAffixed} />
             </MobileSearchBarContainer>
           )}
         </HeaderAffix>
-        <HeaderAffixSpace affixed={this.state.headerAffixed} />
-        <MobileSearchBarContainer center>
-          <SearchBar />
-        </MobileSearchBarContainer>
+        <HeaderAffixSpace affixed={headerAffixed} />
       </Fragment>
     );
   }

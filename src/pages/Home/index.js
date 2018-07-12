@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 
-import PriceChart from '../../components/PriceChart';
-import VotingProgress from '../../components/VotingProgress';
 import TransactionList from './TransactionList';
 import BlockList from './BlockList';
 import AggregationList from './AggregationList';
@@ -28,8 +26,6 @@ export default class Home extends PureComponent<{}> {
     return (
       <Container alignCenter justifyBetween wrap="true">
         <AggregationList />
-        <VotingProgress />
-        <PriceChart />
         <BPList />
         <NameAuctionList />
         <BlockList />

@@ -15,7 +15,7 @@ import { Title } from '../Home/styles';
 import Loading from '../../components/Loading';
 import { BPInfoContainer } from '../../components/Containers';
 import { GET_ACCOUNT_DETAIL, getAccountDetails } from '../Account/index';
-import ActionsList from '../Action/ActionsList';
+import { getAccountActionsList } from '../Action/ActionsList';
 
 const BlockProducersMap = Loadable({
   loader: () =>
@@ -100,11 +100,8 @@ class BlockProducer extends PureComponent<Props> {
             );
           if (!data.account) return <Container>{t('noResult')}</Container>;
           const {
-            account: {
-              actions: { actions },
-              producerInfo,
-              ...account
-            },
+            account: { producerInfo, ...account },
+            resourcePrice,
           } = data;
           return (
             <Fragment>
@@ -163,12 +160,6 @@ class BlockProducer extends PureComponent<Props> {
                             <span>{producerInfo.organization}</span>
                           </DetailFieldContainer>
                         )}
-                        {producerInfo.key && (
-                          <DetailFieldContainer column>
-                            <h3>{t('key')}</h3>
-                            <span>{producerInfo.key}</span>
-                          </DetailFieldContainer>
-                        )}
                       </DetailContainer>
 
                       {producerInfo &&
@@ -206,8 +197,8 @@ class BlockProducer extends PureComponent<Props> {
                   </Fragment>
                 )}
                 <BPInfoContainer>
-                  {getAccountDetails(account, t)}
-                  <ActionsList actions={actions} />
+                  {getAccountDetails({ ...account, ...resourcePrice }, t)}
+                  {getAccountActionsList(Flex, accountName, t)}
                 </BPInfoContainer>
                 {producerInfo &&
                   typeof producerInfo.longitude === 'number' &&

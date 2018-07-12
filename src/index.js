@@ -1,7 +1,6 @@
 /* eslint-env browser */
 import React from 'react';
 import { hydrate, render } from 'react-dom';
-import { Frontload } from 'react-frontload';
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -22,9 +21,7 @@ const Application = (
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>
         <Router history={history}>
-          <Frontload noServerRender>
-            <AppRoutes />
-          </Frontload>
+          <AppRoutes />
         </Router>
       </Provider>
     </I18nextProvider>

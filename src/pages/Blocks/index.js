@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
-import { ListContainer } from '../../components/Table';
+import { ListContainer } from '../../components/Containers';
 
 type Props = {
   t: Function,

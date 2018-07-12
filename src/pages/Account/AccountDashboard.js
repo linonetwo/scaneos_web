@@ -11,6 +11,8 @@ import numeral from 'numeral';
 import prettySize from 'prettysize';
 
 import getListValueRendering from '../../components/getListValueRendering';
+import Tooltip from '../../components/Tooltip';
+import AuthTable from './AuthTable';
 
 type Props = {
   t?: Function,
@@ -48,10 +50,10 @@ const ProgressContainer = styled.div`
   }
 
   h4 {
-    span:first-child {
+    & > span:first-child {
       color: ${({ progress }) => progress || progressColor};
     }
-    span:nth-child(2) {
+    & > span:nth-child(2) {
       color: ${({ bg }) => bg || progressBackground};
       float: right;
     }
@@ -65,6 +67,7 @@ export const RESOURCE_STATUS_FRAGMENT = gql`
     available
     used
     selfDelegatedWeight
+    refund
   }
 `;
 export const RESOURCE_PRICE_FRAGMENT = gql`
@@ -76,6 +79,7 @@ export const RESOURCE_PRICE_FRAGMENT = gql`
 `;
 export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
   fragment ACCOUNT_DASHBOARD_FRAGMENT on Account {
+    accountName
     tokenBalance
     createdAt
     privileged
@@ -90,8 +94,6 @@ export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
     ram {
       ...RESOURCE_STATUS_FRAGMENT
     }
-
-    refundRequest
     voterInfo {
       owner
       producers
@@ -116,26 +118,29 @@ export class AccountDashboard extends PureComponent<Props> {
     const ramLiquidPercent = data.ram.max > 0 ? (data.ram.available / data.ram.max) * 100 : 0;
     // 资产价值
     const ramValue = (data.ram.max * data.ramPrice) / 1024;
-    const netValue = (data.net.max * data.netPrice) / 1024;
-    const cpuValue = (data.cpu.max * data.cpuPrice) / 1000;
-    const totalAssets = eosTotal + ramValue + netValue + cpuValue;
+    // 反抵押退款
+    const refund = data.net.refund + data.cpu.refund;
+    // data.eosStaked === netValue + cpuValue
+    const totalAssets = eosTotal + ramValue + refund;
     return (
       <DashboardContainer wrap="true" justifyBetween>
         <h3>
-          {t('totalAssets')}: {numeral(totalAssets).format('0,0.0000')} EOS{' '}
+          {t('totalAssets')}: {numeral(totalAssets).format('0,0.0000')} EOS<br />
           <small>
-            ({t('eosTotal')}: {numeral(eosTotal).format('0,0.0000')} EOS)
+            ({t('eosTotal')}: {numeral(eosTotal).format('0,0.0000')} EOS{ramValue > 0 &&
+              `, ${t('ramValue')}: ${numeral(ramValue).format('0,0.0000')} EOS`}
+            {refund > 0 && `, ${t('refund')}: ${numeral(refund).format('0,0.0000')} EOS`})
           </small>
         </h3>
         {/* 余额 */}
         <ProgressContainer column center progress="#1AA2DB" bg="#08668E">
           <h4>
             <span>
-              {t('eosBalance')}: {data.eosBalance} EOS
+              <Tooltip t={t} field="eosBalance" />: {data.eosBalance} EOS
             </span>
 
             <span>
-              {t('eosStaked')}: {data.eosStaked} EOS
+              <Tooltip t={t} field="eosStaked" />: {data.eosStaked} EOS
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={eosLiquidPercent} strokeWidth={20} />
@@ -144,38 +149,59 @@ export class AccountDashboard extends PureComponent<Props> {
         <ProgressContainer column center progress="#1AA1DB" bg="#08668E">
           <h4>
             <span>
-              {t('ramAvailable')}: {prettySize(data.ram.available, true, true, 3)}Byte
+              <Tooltip t={t} field="ramAvailable" />: {prettySize(data.ram.available, true, true, 3)}Byte
             </span>
             <span>
-              {t('ramMax')}: {prettySize(data.ram.max, true, true, 3)}Byte
+              <Tooltip t={t} field="ramMax" />: {prettySize(data.ram.max, true, true, 3)}Byte
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
         </ProgressContainer>
-        {/* 算力 */}
+        {/* 计算时间 */}
         <ProgressContainer column center progress="#50BEED" bg="#08668E">
           <h4>
             <span>
-              {t('cpuAvailable')}: {prettySize(data.cpu.available, true, true, 3)}ms
+              <Tooltip t={t} field="cpuAvailable" />: {prettySize(data.cpu.available, true, true, 3)}ms
             </span>
             <span>
-              {t('cpuMax')}: {prettySize(data.cpu.max, true, true, 3)}ms
+              <Tooltip t={t} field="cpuMax" />: {prettySize(data.cpu.max, true, true, 3)}ms
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
+          {data.cpu.refund > 0 && (
+            <h4>
+              <span />
+              <span>
+                <Tooltip t={t} field="cpuRefund" />: {data.cpu.refund} EOS
+              </span>
+            </h4>
+          )}
         </ProgressContainer>
         {/* 带宽 */}
         <ProgressContainer column center progress="#50BEED" bg="#08668E">
           <h4>
             <span>
-              {t('netAvailable')}: {prettySize(data.net.available, true, true, 3)}Byte
+              <Tooltip t={t} field="netAvailable" />: {prettySize(data.net.available, true, true, 3)}Byte
             </span>
             <span>
-              {t('netMax')}: {prettySize(data.net.max, true, true, 3)}Byte
+              <Tooltip t={t} field="netMax" />: {prettySize(data.net.max, true, true, 3)}Byte
             </span>
           </h4>
           <Progress showInfo={false} status="active" percent={ramLiquidPercent} strokeWidth={20} />
+          {data.net.refund > 0 && (
+            <h4>
+              <span />
+              <span>
+                <Tooltip t={t} field="netRefund" />: {data.net.refund} EOS
+              </span>
+            </h4>
+          )}
         </ProgressContainer>
+        <AuthTable
+          t={t}
+          width="100%"
+          permissions={data.permissions.map(({ requiredAuth, ...rest }) => ({ ...requiredAuth, ...rest }))}
+        />
       </DashboardContainer>
     );
   }
@@ -196,7 +222,12 @@ export class AccountDataOverview extends PureComponent<Props> {
         pagination={false}
         dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
       >
-        <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
+        <Table.Column
+          title={t('field')}
+          dataIndex="field"
+          key="field"
+          render={field => <Tooltip t={t} field={field} />}
+        />
         <Table.Column
           title={t('value')}
           dataIndex="value"

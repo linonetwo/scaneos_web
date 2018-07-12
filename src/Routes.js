@@ -69,11 +69,6 @@ const Actions = Loadable({
   loading: Loading,
   modules: ['Actions'],
 });
-const Dictionary = Loadable({
-  loader: () => import(/* webpackChunkName: "Dictionary" */ './pages/Dictionary'),
-  loading: Loading,
-  modules: ['Dictionary'],
-});
 const Tokens = Loadable({
   loader: () => import(/* webpackChunkName: "Tokens" */ './pages/Tokens'),
   loading: Loading,
@@ -94,20 +89,37 @@ const UnderDevelopment = Loadable({
   loading: Loading,
   modules: ['UnderDevelopment'],
 });
-const Charts = Loadable({
-  loader: () => import(/* webpackChunkName: "Charts" */ './pages/Charts'),
+const ChartsAndVisualizations = Loadable({
+  loader: () => import(/* webpackChunkName: "ChartsAndVisualizations" */ './pages/ChartsAndVisualizations'),
   loading: Loading,
-  modules: ['Charts'],
+  modules: ['ChartsAndVisualizations'],
+});
+const AutoReport = Loadable({
+  loader: () => import(/* webpackChunkName: "AutoReport" */ './pages/AutoReport'),
+  loading: Loading,
+  modules: ['AutoReport'],
 });
 const About = Loadable({
   loader: () => import(/* webpackChunkName: "About" */ './pages/About'),
   loading: Loading,
   modules: ['About'],
 });
+<<<<<<< HEAD
 const Tools = Loadable({
   loader: () => import(/* webpackChunkName: "Tools" */ './pages/Tools'),
   loading: Loading,
   modules: ['Tools'],
+=======
+const Dictionary = Loadable({
+  loader: () => import(/* webpackChunkName: "Dictionary" */ './pages/Dictionary'),
+  loading: Loading,
+  modules: ['Dictionary'],
+});
+const DictionaryEntry = Loadable({
+  loader: () => import(/* webpackChunkName: "DictionaryEntry" */ './pages/DictionaryEntry'),
+  loading: Loading,
+  modules: ['DictionaryEntry'],
+>>>>>>> master
 });
 
 function Title({ t }: { t: Function }) {
@@ -150,14 +162,16 @@ export default class App extends Component<{}> {
               <Route exact path="/accounts" component={Accounts} />
               <Route exact path="/action/:actionID" component={Action} />
               <Route exact path="/actions" component={Actions} />
-              <Route exact path="/dictionary" component={Dictionary} />
               <Route exact path="/tokens" component={Tokens} />
               <Route exact path="/auctions" component={NameAuctions} />
               <Route exact path="/auction/:accountName" component={NameAuction} />
               <Route exact path="/producers" component={BlockProducers} />
               <Route exact path="/producer/:accountName" component={BlockProducer} />
-              <Route exact path="/charts" component={Charts} />
+              <Route path="/charts" component={ChartsAndVisualizations} />
+              <Route path="/report" component={AutoReport} />
               <Route exact path="/about" component={About} />
+              <Route exact path="/dictionary" component={Dictionary} />
+              <Route exact path="/dictionary/:dictionaryField" component={DictionaryEntry} />
               <Route exact path="/" component={Home} />
               <Route component={UnderDevelopment} />
             </Switch>

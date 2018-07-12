@@ -13,7 +13,6 @@ import Helmet from 'react-helmet';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
-import { Frontload } from 'react-frontload';
 import Loadable from 'react-loadable';
 import { I18nextProvider } from 'react-i18next';
 import 'cross-fetch/polyfill';
@@ -88,6 +87,7 @@ export default (req: $Request, res: $Response) => {
         data for that page. We take all that information and compute the appropriate state to send to the user. This is
         then loaded into the correct components and sent as a Promise to be handled below.
       */
+    res.startTime('parsingReactTree', 'Server side React Parsing');
     const sheet = new ServerStyleSheet();
     const apolloClient = getApolloClient();
     const App = (
@@ -97,9 +97,7 @@ export default (req: $Request, res: $Response) => {
             <I18nextProvider i18n={req.i18n}>
               <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
-                  <Frontload isServer>
-                    <AppRoutes />
-                  </Frontload>
+                  <AppRoutes />
                 </StaticRouter>
               </Provider>
             </I18nextProvider>
@@ -107,11 +105,20 @@ export default (req: $Request, res: $Response) => {
         </StyleSheetManager>
       </Loadable.Capture>
     );
+    res.endTime('parsingReactTree');
+    res.startTime('getDataFromTree', 'Loading Data From GraphQL');
     getDataFromTree(App)
       .then(() => {
+        res.endTime('getDataFromTree');
+        res.startTime('renderToString', 'Render React App to HTML String');
         const body = renderToString(App);
+        res.endTime('renderToString');
+        res.startTime('getStyleTagsAndExtractData', 'StyledComponents to style tag');
         const style = sheet.getStyleTags();
+        res.endTime('getStyleTagsAndExtractData');
+        res.startTime('apolloClientExtract', 'GraphQL state to script tag');
         const initialGraphQLState = apolloClient.extract();
+        res.endTime('apolloClientExtract');
         return { body, style, initialGraphQLState };
       })
       .then(({ body, style, initialGraphQLState }) => {
@@ -125,6 +132,7 @@ export default (req: $Request, res: $Response) => {
         } else {
           // Otherwise, we carry on...
 
+          res.startTime('extractAssets', 'Code splitting');
           // Let's give ourself a function to load all our page-specific JS assets for code splitting
           const extractAssets = (assets, chunks) =>
             Object.keys(assets)
@@ -135,7 +143,9 @@ export default (req: $Request, res: $Response) => {
           const extraChunks = extractAssets(manifest, modules).map(
             c => `<script type="text/javascript" src="${c}"></script>`,
           );
+          res.endTime('extractAssets');
 
+          res.startTime('assembleHTML', 'Putting things into HTML');
           // We need to tell Helmet to compute the right meta tags, title, and such
           const helmet = Helmet.renderStatic();
 
@@ -155,6 +165,7 @@ export default (req: $Request, res: $Response) => {
             state: JSON.stringify(store.getState()).replace(/</g, '\\u003c'),
           });
 
+          res.endTime('assembleHTML');
           // We have all the final HTML, let's send it to the user already!
           res.send(html);
         }

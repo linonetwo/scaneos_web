@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
-import { ListContainer } from '../../components/Table';
+import { ListContainer } from '../../components/Containers';
 
 type Props = {
   t: Function,
@@ -52,7 +52,7 @@ class NameAuctions extends PureComponent<Props> {
           return (
             <ListContainer column>
               <Table
-                scroll={{ x: 1000 }}
+                scroll={{ x: 1200 }}
                 size="middle"
                 dataSource={nameAuctions}
                 rowKey="id"

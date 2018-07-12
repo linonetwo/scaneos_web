@@ -25,6 +25,11 @@ type Props = {
 };
 
 class BlockProducersMap extends Component<Props, *> {
+  static defaultProps = {
+    width: 0,
+    height: 400,
+  };
+
   state = {
     viewport: {
       latitude: 37.785164,
@@ -37,6 +42,7 @@ class BlockProducersMap extends Component<Props, *> {
     },
     popupInfo: null,
   };
+
   static getDerivedStateFromProps(nextProps: Props, prevState) {
     if (nextProps.points.length > 0) {
       return {
@@ -50,17 +56,21 @@ class BlockProducersMap extends Component<Props, *> {
     }
     return null;
   }
+
   /* eslint-disable no-undef */
   componentDidMount() {
     if (typeof window !== 'undefined') window.addEventListener('resize', this.onResize);
     this.onResize();
   }
+
   componentWillUnmount() {
     if (typeof window !== 'undefined') window.removeEventListener('resize', this.onResize);
   }
+
   onResize = () => {
     let width = 0;
     let height = 400;
+    const { viewport } = this.state;
     if (typeof window !== 'undefined') {
       width = window.innerWidth >= 1200 ? 1200 - 20 * 2 : window.innerWidth * 0.9 - 20 * 2;
       height = window.innerHeight * 0.5;
@@ -68,7 +78,7 @@ class BlockProducersMap extends Component<Props, *> {
     /* eslint-disable no-undef */
     this.setState({
       viewport: {
-        ...this.state.viewport,
+        ...viewport,
         width,
         height,
       },
@@ -78,9 +88,11 @@ class BlockProducersMap extends Component<Props, *> {
   ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,4.5,2,10c0,2,0.6,3.9,1.6,5.4c0,0.1,0.1,0.2,0.2,0.3
   c0,0,0.1,0.1,0.1,0.2c0.2,0.3,0.4,0.6,0.7,0.9c2.6,3.1,7.4,7.6,7.4,7.6s4.8-4.5,7.4-7.5c0.2-0.3,0.5-0.6,0.7-0.9
   C20.1,15.8,20.2,15.8,20.2,15.7z`;
+
   iconSize = 20;
-  renderCityMarker = (city, index) => (
-    <Marker key={`marker-${index}`} longitude={city.longitude} latitude={city.latitude}>
+
+  renderCityMarker = (city: Object, index) => (
+    <Marker key={`marker-${index}`} longitude={city?.longitude} latitude={city?.latitude}>
       <svg
         height={this.iconSize}
         viewBox="0 0 24 24"
@@ -97,15 +109,18 @@ class BlockProducersMap extends Component<Props, *> {
     </Marker>
   );
 
-  getPopUpInfo = info => (
-    <Flex column>
-      <div>{info.name}</div>
-      <div>
-        {this.props.t('location')}: {info.location || ''}
-      </div>
-      {info.image && <img width={240} src={info.image} alt={info.name} />}
-    </Flex>
-  );
+  getPopUpInfo = info => {
+    const { t } = this.props;
+    return (
+      <Flex column>
+        <div>{info.name}</div>
+        <div>
+          {t('location')}: {info.location || ''}
+        </div>
+        {info.image && <img width={240} src={info.image} alt={info.name} />}
+      </Flex>
+    );
+  };
 
   renderPopup() {
     const { popupInfo } = this.state;
@@ -124,19 +139,22 @@ class BlockProducersMap extends Component<Props, *> {
       )
     );
   }
+
   render() {
+    const { viewport } = this.state;
+    const { points } = this.props;
     return (
       <MapContainer center>
         <MapGL
-          {...this.state.viewport}
+          {...viewport}
           mapStyle="mapbox://styles/mapbox/satellite-streets-v9"
-          onViewportChange={viewport => this.setState({ viewport })}
+          onViewportChange={nextViewport => this.setState({ viewport: nextViewport })}
           mapboxApiAccessToken={MAPBOX_TOKEN}
         >
-          {Object.values(this.props.points).map(this.renderCityMarker)}
+          {points.map(this.renderCityMarker)}
           {this.renderPopup()}
           <MapNav className="nav">
-            <NavigationControl onViewportChange={viewport => this.setState({ viewport })} />
+            <NavigationControl onViewportChange={nextViewport => this.setState({ viewport: nextViewport })} />
           </MapNav>
         </MapGL>
       </MapContainer>

@@ -2,7 +2,11 @@
 import styled, { css } from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 
-import { getTableHeight } from '../store/utils';
+export const Title = styled.h3`
+  text-align: center;
+  font-size: 16px;
+  margin: 20px 0;
+`;
 
 export const adjustAntdTablePagination = css`
   .ant-table-pagination.ant-pagination {
@@ -24,31 +28,10 @@ export const adjustAntdTable = css`
     ${adjustAntdTablePagination};
   }
 `;
-export const ListContainer = styled.div`
-  ${adjustAntdTable};
-  min-height: calc(100vh - 64px);
-`;
 export const LongListContainer = styled.div`
   .ant-table {
     height: unset;
     margin-bottom: 50px;
-  }
-`;
-
-export const ProducerListContainer = styled.div`
-  ${adjustAntdTable};
-  .ant-table {
-    height: unset;
-    margin-bottom: 50px;
-    width: 95vw;
-    padding: 0;
-    ${breakpoint('desktop')`
-      width: calc(100% - 45px * 2);
-    `};
-  }
-
-  & small {
-    color: #999;
   }
 `;
 

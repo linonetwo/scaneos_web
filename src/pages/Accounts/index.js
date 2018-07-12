@@ -5,23 +5,35 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import prettySize from 'prettysize';
 
-import { getPageSize, formatTimeStamp } from '../../store/utils';
-import { ListContainer } from '../../components/Table';
+import { getPageSize } from '../../store/utils';
+import { ListContainer } from '../../components/Containers';
 
 type Props = {
   t: Function,
 };
 const GET_ACCOUNT_LIST = gql`
-  query GET_ACCOUNT_LIST($page: Int) {
-    accounts(page: $page, size: ${getPageSize()}) {
+  query GET_ACCOUNT_LIST($page: Int, $sortBy: String) {
+    accounts(sortBy: $sortBy, page: $page, size: ${getPageSize()}) {
       accounts {
         accountName
-        createdAt
+        eosBalance
+        eosStaked
+        ram {
+          max
+        }
+        cpu {
+          weight
+        }
+        net {
+          weight
+        }
       }
       pageInfo {
         page
         totalElements
+        sortBy
       }
     }
   }
@@ -31,7 +43,7 @@ class Accounts extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_ACCOUNT_LIST} notifyOnNetworkStatusChange>
+      <Query query={GET_ACCOUNT_LIST} variables={{ sortBy: 'eos' }} notifyOnNetworkStatusChange>
         {({ loading, error, data, fetchMore }) => {
           if (error) return <ListContainer column>{error.message}</ListContainer>;
           if (loading)
@@ -43,13 +55,13 @@ class Accounts extends PureComponent<Props> {
           const {
             accounts: {
               accounts,
-              pageInfo: { page, totalElements },
+              pageInfo: { page, totalElements, sortBy },
             },
           } = data;
           return (
             <ListContainer column>
               <Table
-                scroll={{ x: 500 }}
+                scroll={{ x: 1200 }}
                 size="middle"
                 dataSource={accounts}
                 rowKey="id"
@@ -57,14 +69,16 @@ class Accounts extends PureComponent<Props> {
                   pageSize: getPageSize(),
                   current: page + 1,
                   total: totalElements,
-                  onChange: nextPageInPagination =>
-                    fetchMore({
-                      variables: {
-                        page: nextPageInPagination - 1,
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
-                    }),
                 }}
+                onChange={({ current: nextPageInPagination }, filter, { columnKey: nextSortBy }) =>
+                  fetchMore({
+                    variables: {
+                      page: nextPageInPagination - 1,
+                      sortBy: nextSortBy,
+                    },
+                    updateQuery: (prev, { fetchMoreResult }) => fetchMoreResult,
+                  })
+                }
               >
                 <Table.Column
                   title={t('name')}
@@ -73,10 +87,44 @@ class Accounts extends PureComponent<Props> {
                   render={accountName => <Link to={`/account/${accountName}/`}>{accountName}</Link>}
                 />
                 <Table.Column
-                  title={t('createdAt')}
-                  dataIndex="createdAt"
-                  key="createdAt"
-                  render={createdAt => formatTimeStamp(createdAt, t('locale'))}
+                  sortOrder={sortBy === 'eos' && 'descend'}
+                  sorter
+                  title={t('eosBalance')}
+                  dataIndex="eosBalance"
+                  key="eos"
+                  render={eosBalance => `${eosBalance} EOS`}
+                />
+                <Table.Column
+                  sortOrder={sortBy === 'staked' && 'descend'}
+                  sorter
+                  title={t('eosStaked')}
+                  dataIndex="eosStaked"
+                  key="staked"
+                  render={eosStaked => `${eosStaked} EOS`}
+                />
+                <Table.Column
+                  sortOrder={sortBy === 'ram' && 'descend'}
+                  sorter
+                  title={t('ramMax')}
+                  dataIndex="ram"
+                  key="ram"
+                  render={({ max }) => prettySize(max, true, true, 3)}
+                />
+                <Table.Column
+                  sortOrder={sortBy === 'net' && 'descend'}
+                  sorter
+                  title={t('netWeight')}
+                  dataIndex="net"
+                  key="net"
+                  render={({ weight }) => `${weight} EOS`}
+                />
+                <Table.Column
+                  sortOrder={sortBy === 'cpu' && 'descend'}
+                  sorter
+                  title={t('cpuWeight')}
+                  dataIndex="cpu"
+                  key="cpu"
+                  render={({ weight }) => `${weight} EOS`}
                 />
               </Table>
             </ListContainer>

@@ -8,13 +8,13 @@ export const zh = {
   Home: '首页',
   Block: '区块',
   Transaction: '交易',
-  BlockChain: '区块链',
+  BlockChain: '区块数据',
   Tokens: '通证',
   Token: '通证',
   TokenTransfers: '通证转移',
   Resources: '资源',
   Ecosystem: '生态',
-  Dictionary: '词典',
+  Dictionary: '百科',
   PendingTransactions: '待确认交易',
   ContractInternalTransactions: '合约内交易',
   Blocks: '区块列表',
@@ -33,6 +33,9 @@ export const zh = {
   BlockProducer: '超级节点',
   ViewAll: '查看全部',
   ViewIt: '查看',
+  Report: '报告',
+  Reports: '报告',
+  Voting: '投票',
   VerifiedContracts: '已确认合约',
 
   introduction: '介绍',
@@ -55,6 +58,8 @@ export const zh = {
   Connecting: '连接中',
 
   Toolkit: '工具集',
+  Syncing: '刷新数据中',
+  noResult: ' 暂无结果，请再试试？',
 };
 
 export const en = {
@@ -79,5 +84,10 @@ export const en = {
   accountNum: 'Accounts',
   actionNum: 'Actions',
   blocksNum: 'Blocks',
+<<<<<<< HEAD
   Toolkit: 'toolkit',
+=======
+
+  noResult: 'No Result...Try another.',
+>>>>>>> master
 };
