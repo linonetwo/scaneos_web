@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { Form, Input, Button, Radio, InputNumber, Modal } from 'antd';
-import getEosClient from '../../../components/Scatter/eosClient';
-import { formItemFieldConfig } from '../constants';
+import getEosClient from '../../../../components/Scatter/eosClient';
+import { formItemFieldConfig } from '../../constants';
 
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
@@ -80,9 +80,9 @@ export default class BuyRam extends Component<Props, *> {
           } else {
             await this.buyRAMBytes(params);
           }
-          Modal.info({ title: t('buyRamSucceed') });
+          Modal.info({ title: t('manageAccount.buyRamSucceed') });
         } catch (error) {
-          Modal.error({ title: t('buyRamFailed'), content: JSON.stringify(error) });
+          Modal.error({ title: t('manageAccount.buyRamFailed'), content: JSON.stringify(error) });
         }
       }
     });

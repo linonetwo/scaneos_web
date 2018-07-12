@@ -28,13 +28,8 @@ const BlockLayout = styled.div`
 `;
 
 const Components = [DelegateAccount, UndelegateAccount, BuyRam];
-// const UndelegateAccountComponent = Form.create()(DelegateAccount);
-// const BuyramComponent = Form.create()(DelegateAccount);
-// const SellramComponent = Form.create()(DelegateAccount);
-// const RefundComponent = Form.create()(DelegateAccount);
-// const PermissionsComponent = Form.create()(DelegateAccount);
 
-class BlockProducer extends Component<Props, *> {
+class ManageAccount extends Component<Props, *> {
   state = {
     componentsIndex: 0,
   };
@@ -71,4 +66,4 @@ class BlockProducer extends Component<Props, *> {
   }
 }
 
-export default translate()(BlockProducer);
+export default translate()(ManageAccount);

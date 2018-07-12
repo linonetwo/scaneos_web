@@ -1,15 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import { Tabs, Dropdown, Menu } from 'antd';
+import { Tabs } from 'antd';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { DetailTabsContainer } from '../../components/Containers';
-import CreateAccount from './createAccount';
-import ManageAccount from './manageAccount';
+import CreateAccount from './CreateAccount';
+import ManageAccount from './ManageAccount';
 // import ManageVoting from './manageVoting';
-import TransferEOS from './transferEOS';
+import TransferEOS from './TransferEOS';
 import type { ToolsInfo } from '../../store/tools';
 import ScatterBtn from '../../components/Scatter';
 
@@ -17,7 +17,6 @@ const TabsContainer = styled(DetailTabsContainer)`
   flex-direction: column;
 `;
 
-const TabPane = Tabs.TabPane;
 type Props = {
   t: Function,
 };
@@ -37,21 +36,21 @@ class Tools extends Component<Props & Store> {
       <TabsContainer>
         <ScatterBtn />
         <Tabs defaultActiveKey="manageAccount">
-          <TabPane tab={t('manageAccount.tab')} key="manageAccount">
+          <Tabs.TabPane tab={t('manageAccount.tab')} key="manageAccount">
             <ManageAccount eosAccount={eosAccount} />
-          </TabPane>
-          <TabPane tab={t('transferEOS.tab')} key="transferEOS">
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={t('transferEOS.tab')} key="transferEOS">
             <TransferEOS eosAccount={eosAccount} />
-          </TabPane>
-          <TabPane tab={t('createAccount.tab')} key="createAccount">
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={t('createAccount.tab')} key="createAccount">
             <CreateAccount eosAccount={eosAccount} />
-          </TabPane>
-          {/* <TabPane tab={t('manageVoting.tab')} key="manageVoting">
+          </Tabs.TabPane>
+          {/* <Tabs.TabPane tab={t('manageVoting.tab')} key="manageVoting">
             <ManageVoting />
-          </TabPane> */}
-          {/* <TabPane tab={t('blockProducer.tab')} key="blockProducer">
+          </Tabs.TabPane> */}
+          {/* <Tabs.TabPane tab={t('blockProducer.tab')} key="blockProducer">
             <BlockProducer />
-          </TabPane> */}
+          </Tabs.TabPane> */}
         </Tabs>
       </TabsContainer>
     );
