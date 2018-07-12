@@ -32,8 +32,8 @@ export const zh = {
     createAccountFailed: '账户创建失败',
   },
   scatter: {
-    loginPrompt: '亲爱的用户, 您还未登录请点击',
-    login: '登录',
+    loginPrompt: '亲爱的用户，您还未连接Scatter钱包，请点击',
+    login: '连接Scatter',
   },
 };
 
@@ -73,7 +73,7 @@ export const en = {
     createAccountFailed: 'Create Account Failed',
   },
   scatter: {
-    loginPrompt: 'Dear user, if you are not logged in, please click the',
-    login: 'login',
+    loginPrompt: 'Dear user, your scatter is not attached, please click',
+    login: 'Attach',
   },
 };
