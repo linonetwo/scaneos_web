@@ -13,6 +13,7 @@
     "test": "yarn clear:babel-cache && react-app-rewired test --env=jsdom",
     "docker-build": "docker build . -t scaneos_web",
     "docker-run": "docker kill /scaneos_web && docker run --rm -d --name scaneos_web -p 3000:3000 scaneos_web",
+    "analyse": "webpack-bundle-analyzer ./build/stats.json ./build",
     "eject": "react-scripts eject"
   },
   "dependencies": {
