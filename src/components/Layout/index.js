@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key, react/destructuring-assignment */
 // @flow
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is from 'styled-is';
@@ -241,6 +241,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
   state = {
     sideMenuOpened: false,
     headerAffixed: false,
+    inputFocused: false,
   };
 
   toggleSideMenu = () => {
@@ -375,28 +376,29 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
   render() {
     const { t, changeNavTab, navTab } = this.props;
-    const { sideMenuOpened, headerAffixed } = this.state;
+    const { sideMenuOpened, headerAffixed, inputFocused } = this.state;
     return (
       <Fragment>
         <HeaderAffix onChange={this.onHeaderChanged}>
           <Fixed opened={sideMenuOpened} onClick={this.toggleSideMenu} />
           <MobileMenuContainer opened={sideMenuOpened}>{this.getMobileMenu()}</MobileMenuContainer>
-          <HeaderContainer affixed={headerAffixed}>
+          <HeaderContainer affixed={inputFocused || headerAffixed}>
             <Layout.Header>
               <Link to="/" onClick={() => changeNavTab('home')}>
                 <LogoContainer center>
-                  <LogoIcon src={t('logoIcon')} affixed={headerAffixed} />
+                  <LogoIcon src={t('logoIcon')} affixed={inputFocused || headerAffixed} />
                 </LogoContainer>
               </Link>
               <MenuOpenIconContainer search center>
                 <Icon
-                  onClick={() =>
-                    window &&
-                    window.scroll({
-                      top: 30,
-                      behavior: 'smooth',
-                    })
-                  }
+                  onClick={() => {
+                    if (window) {
+                      window.scroll({
+                        top: 30,
+                        behavior: 'smooth',
+                      });
+                    }
+                  }}
                   type="search"
                 />
               </MenuOpenIconContainer>
@@ -460,13 +462,16 @@ class Header extends Component<Props & Store & Dispatch, *> {
               </DropDownsContainer>
             </Layout.Header>
           </HeaderContainer>
-          {headerAffixed && (
-            <MobileSearchBarContainer center affixed={headerAffixed}>
-              <SearchBar affixed={headerAffixed} />
+          {(inputFocused || headerAffixed) && (
+            <MobileSearchBarContainer center affixed={inputFocused || headerAffixed}>
+              <SearchBar
+                affixed={inputFocused || headerAffixed}
+                focusInput={isFocused => this.setState({ inputFocused: isFocused })}
+              />
             </MobileSearchBarContainer>
           )}
         </HeaderAffix>
-        <HeaderAffixSpace affixed={headerAffixed} />
+        <HeaderAffixSpace affixed={inputFocused || headerAffixed} />
       </Fragment>
     );
   }
