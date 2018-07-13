@@ -22,11 +22,18 @@ type Props = {
 const DashboardContainer = styled(Flex)`
   width: 100%;
 
+  h2,
   h3 {
-    margin: 30px;
+    margin: 0px;
     text-align: center;
     width: 100%;
     color: #08668e;
+  }
+  h2 {
+    margin-bottom: 10px;
+  }
+  h3 {
+    margin-bottom: 30px;
   }
 `;
 const progressBackground = '#2B95D6';
@@ -124,6 +131,7 @@ export class AccountDashboard extends PureComponent<Props> {
     const totalAssets = eosTotal + ramValue + refund;
     return (
       <DashboardContainer wrap="true" justifyBetween>
+        <h2>{data.accountName}</h2>
         <h3>
           {t('totalAssets')}: {numeral(totalAssets).format('0,0.0000')} EOS<br />
           <small>

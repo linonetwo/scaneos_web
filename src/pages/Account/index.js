@@ -8,7 +8,7 @@ import { translate } from 'react-i18next';
 
 import { getBreadcrumb } from '../../components/Layout';
 import { Container, DetailTabsContainer, ActionsContainer } from '../../components/Containers';
-import { LongListContainer } from '../../components/Table';
+import { LongListContainer, Title } from '../../components/Table';
 import {
   AccountDataOverview,
   AccountDashboard,
@@ -128,7 +128,8 @@ export function getAccountDetails(accountData: Object, t: Function) {
         }
         key="overview"
       >
-        <LongListContainer>
+        <LongListContainer column>
+          <Title>{accountData.accountName}</Title>
           <AccountDataOverview data={accountData} />
         </LongListContainer>
       </Tabs.TabPane>
@@ -161,10 +162,18 @@ function Account({ t, match }: Props) {
           if (loading)
             return (
               <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <Container />
+                <Container center>
+                  <Title>{accountName}</Title>
+                </Container>
               </Spin>
             );
-          if (!data.account) return <Container>{t('noResult')}</Container>;
+          if (!data.account)
+            return (
+              <Container column>
+                <Title>{accountName}</Title>
+                {t('noResult')}
+              </Container>
+            );
           const {
             account: { producerInfo, ...account },
             resourcePrice,
