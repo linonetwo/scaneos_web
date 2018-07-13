@@ -83,7 +83,7 @@ class Blocks extends Component<Props> {
                     dataIndex="blockID"
                     key="blockID"
                     render={blockID => (
-                      <Link to={`/transaction/${blockID}/`}>{truncate(blockID, { length: 14, omission: '..' })}</Link>
+                      <Link to={`/block/${blockID}/`}>{truncate(blockID, { length: 14, omission: '..' })}</Link>
                     )}
                   />
                   <Table.Column
@@ -97,7 +97,7 @@ class Blocks extends Component<Props> {
                     title={t('producerAccountID')}
                     dataIndex="producerAccountID"
                     key="producerAccountID"
-                    render={producerAccountID => <Link to={`/account/${producerAccountID}/`}>{producerAccountID}</Link>}
+                    render={producerAccountID => <Link to={`/producer/${producerAccountID}/`}>{producerAccountID}</Link>}
                   />
                   <Table.Column
                     title={t('pending')}
