@@ -52,6 +52,7 @@ injectGlobal`
   *::-webkit-scrollbar { 
       display: none;  /* Safari and Chrome */
   }
+  button,input[type="button"]{-webkit-appearance:none;*overflow:visible;}
 
   .ant-table, .ant-list-item-content, .ant-dropdown-menu-item {
     font-size: 12px !important;
