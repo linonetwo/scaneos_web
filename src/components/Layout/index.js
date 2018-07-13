@@ -389,7 +389,7 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 </LogoContainer>
               </Link>
               <MenuOpenIconContainer search center>
-                <Icon onClick={() => window && window.scroll(0, 10)} type="search" />
+                <Icon onClick={() => window && window.scroll(0, 30)} type="search" />
               </MenuOpenIconContainer>
               <MenuOpenIconContainer center>
                 <Icon onClick={this.toggleSideMenu} type={sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
