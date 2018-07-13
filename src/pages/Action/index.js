@@ -23,6 +23,7 @@ type Props = {
 
 export const ACTIONS_FRAGMENT = gql`
   fragment ACTIONS_FRAGMENT on Action {
+    id
     name
     data
     transactionID

@@ -26,18 +26,20 @@ const ActionName = styled.div`
   padding: 5px;
 `;
 
-export const renderActionName = (actionName: string, t: Function) => (
-  <ActionName
-    color={randomColor({
-      luminosity: 'dark',
-      format: 'rgba',
-      alpha: 0.7,
-      hue: 'blue',
-      seed: actionName,
-    })}
-  >
-    {t(actionName)}
-  </ActionName>
+export const renderActionName = (actionName: string, id: string, t: Function) => (
+  <Link to={`/action/${id}/`}>
+    <ActionName
+      color={randomColor({
+        luminosity: 'dark',
+        format: 'rgba',
+        alpha: 0.7,
+        hue: 'blue',
+        seed: actionName,
+      })}
+    >
+      {t(actionName)}
+    </ActionName>
+  </Link>
 );
 
 /** 针对一些个例，调整 action 的类型名等参数，创造出子类型等 */
@@ -63,7 +65,7 @@ function ActionsListRaw({ t, actions, accountName }: Props) {
           title={t('name')}
           dataIndex="name"
           key="name"
-          render={(name) => renderActionName(name, t)}
+          render={(name, { id }) => renderActionName(name, id, t)}
         />
         <Table.Column
           title={t('data')}

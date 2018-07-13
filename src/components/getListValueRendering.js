@@ -13,8 +13,8 @@ export default function getListValueRendering(field: string, value: any, t: Func
   switch (field) {
     case 'id':
       return value.id;
-    case 'blockId':
-    case 'prevBlockId':
+    case 'blockID':
+    case 'prevBlockID':
     case 'blockNum':
     case 'refBlockNum':
       return <Link to={`/block/${value}/`}>{value}</Link>;
@@ -58,7 +58,7 @@ export default function getListValueRendering(field: string, value: any, t: Func
     case 'lastVoteWeight':
     case 'proxiedVoteWeight':
     case 'isProxy':
-    case 'deferredTrxId':
+    case 'deferredTrxID':
     case 'lastUnstakeTime':
     case 'unstaking':
     case 'from':
@@ -84,7 +84,7 @@ export default function getListValueRendering(field: string, value: any, t: Func
         </span>
       );
 
-    case 'transactionId':
+    case 'transactionID':
       return <Link to={`/transaction/${value}/`}>{value}</Link>;
     default: {
       if (typeof value === 'string' || typeof value === 'number') {

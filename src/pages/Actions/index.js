@@ -70,12 +70,11 @@ class Actions extends PureComponent<Props> {
                     }),
                 }}
               >
-                <Table.Column dataIndex="id" key="id" render={id => <Link to={`/action/${id}/`}>{t('ViewIt')}</Link>} />
                 <Table.Column
                   title={t('name')}
                   dataIndex="name"
                   key="name"
-                  render={name => renderActionName(name, t)}
+                  render={(name, { id }) => renderActionName(name, id, t)}
                 />
                 <Table.Column
                   title={t('transactionID')}
