@@ -143,23 +143,14 @@ class Action extends PureComponent<Props> {
                       return (
                         <Container column center>
                           <Title>{t('ActionsInSameTransaction')}</Title>
-                          {error.message}
+                          {result.error.message}
                         </Container>
                       );
                     if (result.loading)
                       return (
                         <Container column alignCenter>
                           <Title>{t('ActionsInSameTransaction')}</Title>
-                          <Spin
-                            style={{
-                              display: 'unset',
-                              opacity: 1,
-                              position: 'unset',
-                            }}
-                            tip={t('Connecting')}
-                            spinning={loading}
-                            size="large"
-                          />
+                          <Spin tip={t('Connecting')} spinning={result.loading} size="large" />
                         </Container>
                       );
                     if (!result.data.transaction)

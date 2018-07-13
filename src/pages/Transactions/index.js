@@ -13,17 +13,22 @@ import { ListContainer } from '../../components/Containers';
 type Props = {
   t: Function,
 };
+export const TRANSACTIONS_LIST_FRAGMENT = gql`
+  fragment TRANSACTIONS_LIST_FRAGMENT on Transaction {
+    transactionID
+    blockID
+    actionNum
+    status
+    expiration
+    pending
+    createdAt
+  }
+`;
 const GET_TRANSACTIONS_LIST = gql`
   query GET_TRANSACTIONS_LIST($page: Int) {
     transactions(page: $page, size: ${getPageSize()}) {
       transactions {
-        transactionID
-        blockID
-        actionNum
-        status
-        expiration
-        pending
-        createdAt
+        ...TRANSACTIONS_LIST_FRAGMENT
       }
       pageInfo {
         page
@@ -31,6 +36,7 @@ const GET_TRANSACTIONS_LIST = gql`
       }
     }
   }
+  ${TRANSACTIONS_LIST_FRAGMENT}
 `;
 
 class Transactions extends PureComponent<Props> {

@@ -9,7 +9,7 @@ import { Query } from 'react-apollo';
 
 import { getBreadcrumb } from '../../components/Layout';
 import { DetailTabsContainer } from '../../components/Containers';
-import { LongListContainer, NoData } from '../../components/Table';
+import { LongListContainer, NoData, Title } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 import { ACTIONS_FRAGMENT } from '../Action';
 import ActionsList from '../Action/ActionsList';
@@ -98,6 +98,7 @@ class Transaction extends PureComponent<Props, *> {
                           render={(value, { field }) => getListValueRendering(field, value, t)}
                         />
                       </Table>
+                      <Title>{t('Actions')}</Title>
                       <ActionsList actions={actions || []} t={t} />
                     </LongListContainer>
                   </Tabs.TabPane>
