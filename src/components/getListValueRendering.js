@@ -91,7 +91,7 @@ export default function getListValueRendering(field: string, value: any, t: Func
         return value;
       }
       return (
-        <pre>
+        <pre style={{ 'white-space': 'pre-wrap' }}>
           <code>{JSON.stringify(value, null, '  ')}</code>
         </pre>
       );
@@ -121,9 +121,9 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
             </Link>{' '}
             <mark>{quantity}</mark>
           </div>
-          <div>
+          <pre style={{ 'white-space': 'pre-wrap' }}>
             <em>{memo}</em>
-          </div>
+          </pre>
         </ActionDataContainer>
       );
     }
@@ -141,9 +141,29 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
             </Link>{' '}
             <mark>{quantity}</mark>
           </div>
-          <div>
+          <pre style={{ 'white-space': 'pre-wrap' }}>
             <em>{memo}</em>
+          </pre>
+        </ActionDataContainer>
+      );
+    }
+    case 'transfer': {
+      const { from, to, memo, quantity } = value;
+      return (
+        <ActionDataContainer column>
+          <div>
+            <Link to={`/account/${from}/`}>
+              <mark>{from}</mark>
+            </Link>{' '}
+            {t('transferTo')}{' '}
+            <Link to={`/account/${to}/`}>
+              <mark>{to}</mark>
+            </Link>{' '}
+            <mark>{quantity}</mark>
           </div>
+          <pre style={{ 'white-space': 'pre-wrap' }}>
+            <em>{memo}</em>
+          </pre>
         </ActionDataContainer>
       );
     }
@@ -303,11 +323,7 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
             </Link>{' '}
             {t('updateauth')} <mark>{permission}</mark>
           </div>
-          <AuthTable
-            t={t}
-            permissions={[{ permName: permission, parent, ...auth }]}
-            width={400}
-          />
+          <AuthTable t={t} permissions={[{ permName: permission, parent, ...auth }]} width={400} />
         </ActionDataContainer>
       );
     }
@@ -316,7 +332,7 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
         return value;
       }
       return (
-        <pre>
+        <pre style={{ 'white-space': 'pre-wrap' }}>
           <code>{JSON.stringify(value, null, '  ')}</code>
         </pre>
       );

@@ -110,7 +110,7 @@ class Action extends PureComponent<Props> {
                         pagination={false}
                         dataSource={toPairs(action).map(([field, value]) => ({ field, value, key: field }))}
                       >
-                        <Table.Column title={t('field')} dataIndex="field" key="field" render={t} />
+                        <Table.Column width={100} title={t('field')} dataIndex="field" key="field" render={t} />
                         <Table.Column
                           title={t('value')}
                           dataIndex="value"

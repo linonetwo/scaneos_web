@@ -24,6 +24,7 @@ const ActionName = styled.div`
   color: ${({ color }) => color};
   border: 1px solid ${({ color }) => color};
   padding: 5px;
+  min-width: 120px;
 `;
 
 export const renderActionName = (actionName: string, id: string, t: Function) => (
@@ -37,7 +38,7 @@ export const renderActionName = (actionName: string, id: string, t: Function) =>
         seed: actionName,
       })}
     >
-      {t(actionName)}
+      {t(`action:${actionName}`)}
     </ActionName>
   </Link>
 );
