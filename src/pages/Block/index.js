@@ -6,6 +6,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { formatTimeStamp } from '../../store/utils';
 import { getBreadcrumb } from '../../components/Layout';
@@ -61,6 +62,11 @@ class Block extends PureComponent<Props> {
     return (
       <Fragment>
         {getBreadcrumb('block', t)}
+        <Helmet>
+          <title>
+            EOS {t('blockInfo')} {blockNumOrID} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Query query={GET_BLOCK_DETAIL} variables={{ blockNumOrID }}>
           {({ loading, error, data }) => {
             if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
@@ -74,6 +80,7 @@ class Block extends PureComponent<Props> {
             const { block } = data;
             return (
               <DetailTabsContainer column>
+                <Title>{blockNumOrID}</Title>
                 <Tabs defaultActiveKey="data">
                   <Tabs.TabPane
                     tab={

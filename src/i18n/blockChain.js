@@ -22,6 +22,7 @@ const zhShared = {
 export const zh = {
   block: {
     ...zhShared,
+    blockInfo: '区块信息',
     producerAccountID: '超级节点',
     prevBlockID: '父区块ID',
     blockNum: '区块高度',
@@ -154,6 +155,7 @@ const enShared = {
 export const en = {
   block: {
     ...enShared,
+    blockInfo: 'Block Info',
     account: 'Account',
     producerAccountID: 'Producer',
     blockID: 'BlockID',

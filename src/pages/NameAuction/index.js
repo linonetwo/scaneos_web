@@ -43,6 +43,11 @@ class NameAuction extends PureComponent<Props> {
     return (
       <Fragment>
         {getBreadcrumb('auction', t)}
+        <Helmet>
+          <title>
+            EOS {t('Auction')} {accountName} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Query query={GET_NAME_AUCTION_DETAIL} variables={{ name: accountName }}>
           {({ loading, error, data }) => {
             if (error) return <ListContainer>{error.message}</ListContainer>;
@@ -56,7 +61,7 @@ class NameAuction extends PureComponent<Props> {
             return (
               <ListContainer column>
                 <Helmet>
-                  <title>{`${nameAuction.newName} ${nameAuction.highBid}EOS ${t('Auction')} | ${t(
+                  <title>{`EOS ${t('Auction')} ${nameAuction.newName} ${nameAuction.highBid}EOS | ${t(
                     'webSiteTitle',
                   )}`}</title>
                 </Helmet>

@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import AutoLinkText from 'react-autolink-text2';
 import Loadable from 'react-loadable';
+import { Helmet } from 'react-helmet';
 
 import { Title } from '../Home/styles';
 import Loading from '../../components/Loading';
@@ -89,23 +90,23 @@ class BlockProducer extends PureComponent<Props> {
     const { t, match } = this.props;
     const { accountName } = match.params;
     return (
-      <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
-        {({ loading, error, data }) => {
-          if (error) return <Container>{error.message}</Container>;
-          if (loading)
+      <Container column justifyCenter alignCenter wrap="true">
+        <Helmet>
+          <title>
+            EOS {t('BlockProducer')} {accountName} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
+        <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
+          {({ loading, error, data }) => {
+            if (error) return error.message;
+            if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
+            if (!data.account) return t('noResult');
+            const {
+              account: { producerInfo, ...account },
+              resourcePrice,
+            } = data;
             return (
-              <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <Container />
-              </Spin>
-            );
-          if (!data.account) return <Container>{t('noResult')}</Container>;
-          const {
-            account: { producerInfo, ...account },
-            resourcePrice,
-          } = data;
-          return (
-            <Fragment>
-              <Container justifyBetween wrap="true">
+              <Fragment>
                 {producerInfo && (
                   <Fragment>
                     {producerInfo.image && (
@@ -114,6 +115,11 @@ class BlockProducer extends PureComponent<Props> {
                       </BPInfoContainer>
                     )}
                     <BPInfoContainer>
+                      <Helmet>
+                        <title>
+                          EOS {t('BlockProducer')} {producerInfo.name} | {accountName} | {t('webSiteTitle')}
+                        </title>
+                      </Helmet>
                       <Title justifyBetween alignCenter>
                         <span>
                           <Avatar src={producerInfo.logo} /> {t('BlockProducers')}{' '}
@@ -209,11 +215,11 @@ class BlockProducer extends PureComponent<Props> {
                       </BPInfoContainer>
                     </BlockProducersMapContainer>
                   )}
-              </Container>
-            </Fragment>
-          );
-        }}
-      </Query>
+              </Fragment>
+            );
+          }}
+        </Query>
+      </Container>
     );
   }
 }

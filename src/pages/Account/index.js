@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { withRouter, Redirect } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 import { getBreadcrumb } from '../../components/Layout';
 import { Container, DetailTabsContainer, ActionsContainer } from '../../components/Containers';
@@ -156,6 +157,9 @@ function Account({ t, match }: Props) {
   return (
     <Fragment>
       {getBreadcrumb('account', t)}
+      <Helmet>
+        <title>EOS {t('account')} {accountName} | {t('webSiteTitle')}</title>
+      </Helmet>
       <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
         {({ loading, error, data }) => {
           if (error) return <Container>{error.message}</Container>;

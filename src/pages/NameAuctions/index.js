@@ -6,6 +6,7 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { getPageSize, formatTimeStamp } from '../../store/utils';
 import { ListContainer } from '../../components/Containers';
@@ -34,23 +35,23 @@ class NameAuctions extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_NAME_AUCTION_LIST} notifyOnNetworkStatusChange>
-        {({ loading, error, data, fetchMore }) => {
-          if (error) return <ListContainer column>{error.message}</ListContainer>;
-          if (loading)
+      <ListContainer column justifyCenter>
+        <Helmet>
+          <title>
+            EOS {t('Auctions')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
+        <Query query={GET_NAME_AUCTION_LIST} notifyOnNetworkStatusChange>
+          {({ loading, error, data, fetchMore }) => {
+            if (error) return error.message;
+            if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
+            const {
+              nameAuctions: {
+                nameAuctions,
+                pageInfo: { page, totalElements },
+              },
+            } = data;
             return (
-              <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <ListContainer />
-              </Spin>
-            );
-          const {
-            nameAuctions: {
-              nameAuctions,
-              pageInfo: { page, totalElements },
-            },
-          } = data;
-          return (
-            <ListContainer column>
               <Table
                 scroll={{ x: 1200 }}
                 size="middle"
@@ -94,10 +95,10 @@ class NameAuctions extends PureComponent<Props> {
                   render={lastBidTime => formatTimeStamp(lastBidTime, t('locale'))}
                 />
               </Table>
-            </ListContainer>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </ListContainer>
     );
   }
 }

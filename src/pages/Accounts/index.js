@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import prettySize from 'prettysize';
+import { Helmet } from 'react-helmet';
 
 import { getPageSize } from '../../store/utils';
 import { ListContainer } from '../../components/Containers';
@@ -43,23 +44,23 @@ class Accounts extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_ACCOUNT_LIST} variables={{ sortBy: 'eos' }} notifyOnNetworkStatusChange>
-        {({ loading, error, data, fetchMore }) => {
-          if (error) return <ListContainer column>{error.message}</ListContainer>;
-          if (loading)
+      <ListContainer column justifyCenter>
+        <Helmet>
+          <title>
+            EOS {t('Accounts')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
+        <Query query={GET_ACCOUNT_LIST} variables={{ sortBy: 'eos' }} notifyOnNetworkStatusChange>
+          {({ loading, error, data, fetchMore }) => {
+            if (error) return error.message;
+            if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
+            const {
+              accounts: {
+                accounts,
+                pageInfo: { page, totalElements, sortBy },
+              },
+            } = data;
             return (
-              <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <ListContainer />
-              </Spin>
-            );
-          const {
-            accounts: {
-              accounts,
-              pageInfo: { page, totalElements, sortBy },
-            },
-          } = data;
-          return (
-            <ListContainer column>
               <Table
                 scroll={{ x: 1200 }}
                 size="middle"
@@ -127,10 +128,10 @@ class Accounts extends PureComponent<Props> {
                   render={({ weight }) => `${weight} EOS`}
                 />
               </Table>
-            </ListContainer>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </ListContainer>
     );
   }
 }

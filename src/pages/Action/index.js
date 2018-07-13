@@ -7,6 +7,7 @@ import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Loadable from 'react-loadable';
+import { Helmet } from 'react-helmet';
 
 import { getBreadcrumb } from '../../components/Layout';
 import { DetailTabsContainer, Container } from '../../components/Containers';
@@ -71,6 +72,11 @@ class Action extends PureComponent<Props> {
     return (
       <Fragment>
         {getBreadcrumb('action', t)}
+        <Helmet>
+          <title>
+            EOS {t('Action')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Query query={GET_ACTION_DETAIL} variables={{ id: actionID }}>
           {({ loading, error, data }) => {
             if (error)

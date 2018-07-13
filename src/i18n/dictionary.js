@@ -6,7 +6,7 @@ export const zh = {
 };
 
 export const en = {
-  field: 'EOSDataField',
+  field: 'EOS Data Field',
   titleZh: 'ChineseTranslation',
   title: 'EnglishMeaning',
   noDirectionEntry: 'No Explanation About This Data',

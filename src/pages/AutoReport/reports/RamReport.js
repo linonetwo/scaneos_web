@@ -9,6 +9,7 @@ import { translate } from 'react-i18next';
 import prettySize from 'prettysize';
 import it from 'param.macro';
 import numeral from 'numeral';
+import { Helmet } from 'react-helmet';
 
 import { Container } from '../../../components/Containers';
 
@@ -45,54 +46,56 @@ const Content = styled.article`
 
 function RamReport({ t }: { t: Function }) {
   return (
-    <Query query={GET_ACCOUNT_TREND}>
-      {({ loading, error, data }) => {
-        if (error) return <Container>{error.message}</Container>;
-        if (loading)
-          return (
-            <Spin tip={t('Connecting')} spinning={loading} size="large">
-              <Container />
-            </Spin>
-          );
-        const { accountTrend } = data;
-        if (!accountTrend || !accountTrend.length || accountTrend.length <= 0)
-          return <Container>{t('noResult')}</Container>;
+    <Container column alignCenter>
+      <Helmet>
+        <title>
+          EOS {t('block:ram')} {t('Report')} | {t('webSiteTitle')}
+        </title>
+      </Helmet>
+      <Query query={GET_ACCOUNT_TREND}>
+        {({ loading, error, data }) => {
+          if (error) return error.message;
+          if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
+          const { accountTrend } = data;
+          if (!accountTrend || !accountTrend.length || accountTrend.length <= 0) return t('noResult');
 
-        const [latestPositionData] = accountTrend;
-        const Ram前 = (range: number) => {
-          const 持仓量 = prettySize(sum(take(latestPositionData.ramPosition, range)));
-          const 流动EOS余额 = ` ${toUpper(
-            numeral(sumBy(take(latestPositionData.ramTopAccountsDetail, range), it.eosBalance)).format('(0,0.000 a)'),
-          )} `;
-          const 他们 = () => sample(['他们', '这组用户']);
-          const 仅仅 = () => sample(['只', '']);
-          const 要达到盈亏平衡 = () => sample(['要达到盈亏平衡', '如果想盈利', '为达到盈利']);
+          const [latestPositionData] = accountTrend;
+          const Ram前 = (range: number) => {
+            const 持仓量 = prettySize(sum(take(latestPositionData.ramPosition, range)));
+            const 流动EOS余额 = ` ${toUpper(
+              numeral(sumBy(take(latestPositionData.ramTopAccountsDetail, range), it.eosBalance)).format('(0,0.000 a)'),
+            )} `;
+            const 他们 = () => sample(['他们', '这组用户']);
+            const 仅仅 = () => sample(['只', '']);
+            const 要达到盈亏平衡 = () => sample(['要达到盈亏平衡', '如果想盈利', '为达到盈利']);
+            return (
+              <Fragment>
+                <h4>Ram前{range}名大户</h4>
+                <p>
+                  持仓共{持仓量}，可用流动EOS余额共计{流动EOS余额}EOS。
+                </p>
+                <p>
+                  前{range}名大户的平均历史成本为 EOS/kB，{要达到盈亏平衡()}，{他们()}
+                  {仅仅()}需要内存价格达到 EOS/kB。
+                </p>
+              </Fragment>
+            );
+          };
           return (
             <Fragment>
-              <h4>Ram前{range}名大户</h4>
-              <p>
-                持仓共{持仓量}，可用流动EOS余额共计{流动EOS余额}EOS。
-              </p>
-              <p>
-                前{range}名大户的平均历史成本为 EOS/kB，{要达到盈亏平衡()}，{他们()}{仅仅()}需要内存价格达到 EOS/kB。
-              </p>
+              <Title>Ram持仓统计</Title>
+              <Time>{latestPositionData.timestamp.split('T')[0]}</Time>
+              <Content>
+                {Ram前(10)}
+                {Ram前(20)}
+                {Ram前(60)}
+                {Ram前(100)}
+              </Content>
             </Fragment>
           );
-        };
-        return (
-          <Container column>
-            <Title>Ram持仓统计</Title>
-            <Time>{latestPositionData.timestamp.split('T')[0]}</Time>
-            <Content>
-              {Ram前(10)}
-              {Ram前(20)}
-              {Ram前(60)}
-              {Ram前(100)}
-            </Content>
-          </Container>
-        );
-      }}
-    </Query>
+        }}
+      </Query>
+    </Container>
   );
 }
 
