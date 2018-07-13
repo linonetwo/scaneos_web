@@ -1,10 +1,10 @@
+/* eslint-disable react/require-default-props */
 // @flow
 import { truncate, flatten, size } from 'lodash';
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Table, Select, Spin, Icon } from 'antd';
-import { translate } from 'react-i18next';
 import randomColor from 'randomcolor';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -43,7 +43,7 @@ export const renderActionName = (actionName: string, id: string, t: Function) =>
 );
 
 /** 针对一些个例，调整 action 的类型名等参数，创造出子类型等 */
-function formatActionList(actions: Object[], accountName): Object[] {
+function formatActionList(actions: Object[], accountName?: string): Object[] {
   return actions.map(action => {
     if (action.name === 'transfer') {
       if (action.data.from === accountName) {
@@ -56,8 +56,8 @@ function formatActionList(actions: Object[], accountName): Object[] {
     return action;
   });
 }
-type Props = { t: Function, actions: Object[], accountName: string };
-function ActionsListRaw({ t, actions, accountName }: Props) {
+type Props = { t: Function, actions: Object[], accountName?: string };
+export default function ActionsList({ t, actions, accountName }: Props) {
   return (
     <Fragment>
       <Table scroll={{ x: 1200 }} size="middle" dataSource={formatActionList(actions, accountName)} rowKey="id">
@@ -106,7 +106,6 @@ function ActionsListRaw({ t, actions, accountName }: Props) {
     </Fragment>
   );
 }
-export const ActionsList = translate('action')(ActionsListRaw);
 
 export const GET_ACCOUNT_ACTIONS = gql`
   query GET_ACCOUNT_ACTIONS($name: String!, $filterBy: JSON) {
@@ -210,7 +209,7 @@ export function getAccountActionsList(Container: ComponentType<*>, accountName: 
               ].map(actionName => <Select.Option key={actionName}>{t(`action:${actionName}`)}</Select.Option>)}
             </Select>
 
-            <ActionsList actions={actions} accountName={accountName} />
+            <ActionsList actions={actions} accountName={accountName} t={t} />
           </Container>
         );
       }}

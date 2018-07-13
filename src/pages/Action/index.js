@@ -6,11 +6,19 @@ import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import Loadable from 'react-loadable';
 
 import { getBreadcrumb } from '../../components/Layout';
-import { DetailTabsContainer } from '../../components/Containers';
-import { LongListContainer, NoData } from '../../components/Table';
+import { DetailTabsContainer, Container } from '../../components/Containers';
+import { LongListContainer, NoData, Title } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
+import Loading from '../../components/Loading';
+
+const ActionsList = Loadable({
+  loader: () => import(/* webpackChunkName: "ActionsList" */ './ActionsList'),
+  loading: Loading,
+  modules: ['ActionsList'],
+});
 
 type Props = {
   t: Function,
@@ -43,6 +51,18 @@ const GET_ACTION_DETAIL = gql`
   }
   ${ACTIONS_FRAGMENT}
 `;
+const GET_RELATED_TRANSACTION_ACTIONS = gql`
+  query GET_TRANSACTION_DETAIL($id: String!) {
+    transaction(id: $id) {
+      actions {
+        actions {
+          ...ACTIONS_FRAGMENT
+        }
+      }
+    }
+  }
+  ${ACTIONS_FRAGMENT}
+`;
 
 class Action extends PureComponent<Props> {
   render() {
@@ -53,17 +73,27 @@ class Action extends PureComponent<Props> {
         {getBreadcrumb('action', t)}
         <Query query={GET_ACTION_DETAIL} variables={{ id: actionID }}>
           {({ loading, error, data }) => {
-            if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
+            if (error)
+              return (
+                <Container center column>
+                  {error.message}
+                </Container>
+              );
             if (loading)
               return (
-                <Spin tip={t('Connecting')} spinning={loading} size="large">
-                  <DetailTabsContainer />
-                </Spin>
+                <Container center column>
+                  <Spin tip={t('Connecting')} spinning={loading} size="large" />
+                </Container>
               );
             const { action } = data;
-            if (!action) return <NoData>{t('noResult')}</NoData>;
+            if (!action)
+              return (
+                <Container center column>
+                  <NoData>{t('noResult')}</NoData>
+                </Container>
+              );
             return (
-              <DetailTabsContainer>
+              <DetailTabsContainer column>
                 <Tabs defaultActiveKey="overview">
                   <Tabs.TabPane
                     tab={
@@ -105,6 +135,53 @@ class Action extends PureComponent<Props> {
                     </pre>
                   </Tabs.TabPane>
                 </Tabs>
+
+                {/* 相关消息 */}
+                <Query ssr={false} query={GET_RELATED_TRANSACTION_ACTIONS} variables={{ id: action.transactionID }}>
+                  {result => {
+                    if (result.error)
+                      return (
+                        <Container column center>
+                          <Title>{t('ActionsInSameTransaction')}</Title>
+                          {error.message}
+                        </Container>
+                      );
+                    if (result.loading)
+                      return (
+                        <Container column alignCenter>
+                          <Title>{t('ActionsInSameTransaction')}</Title>
+                          <Spin
+                            style={{
+                              display: 'unset',
+                              opacity: 1,
+                              position: 'unset',
+                            }}
+                            tip={t('Connecting')}
+                            spinning={loading}
+                            size="large"
+                          />
+                        </Container>
+                      );
+                    if (!result.data.transaction)
+                      return (
+                        <Container column>
+                          <Title>{t('ActionsInSameTransaction')}</Title>
+                          {t('noResult')}
+                        </Container>
+                      );
+                    const {
+                      transaction: {
+                        actions: { actions },
+                      },
+                    } = result.data;
+                    return (
+                      <Container column>
+                        <Title>{t('ActionsInSameTransaction')}</Title>
+                        <ActionsList actions={actions} t={t} />
+                      </Container>
+                    );
+                  }}
+                </Query>
               </DetailTabsContainer>
             );
           }}

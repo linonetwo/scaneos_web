@@ -27,6 +27,7 @@ export const zh = {
   Actions: '消息列表',
   Transactions: '交易列表',
   Action: '消息',
+  ActionsInSameTransaction: '同一交易中的其他消息',
   Charts: '图表',
   Auctions: '靓号列表',
   BlockProducers: '超级节点',
@@ -70,6 +71,7 @@ export const en = {
   ViewIt: 'View',
   Auction: 'Name Auction',
   Auctions: 'NameAuctions',
+  ActionsInSameTransaction: 'Actions In Same Transaction',
 
   introduction: 'Intro',
   Locale: 'Language',
