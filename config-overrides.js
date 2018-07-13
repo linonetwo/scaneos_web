@@ -8,7 +8,6 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 module.exports = function override(config, env) {
-  config = injectBabelPlugin('macros', config);
   config = injectBabelPlugin('transform-decorators-legacy', config);
   config = injectBabelPlugin('@babel/plugin-proposal-do-expressions', config);
   config = injectBabelPlugin('@babel/plugin-proposal-optional-chaining', config);
@@ -24,7 +23,6 @@ module.exports = function override(config, env) {
     console.log('⚡ Production build with optimization ⚡');
     config = injectBabelPlugin('closure-elimination', config);
     config = injectBabelPlugin('@babel/plugin-transform-react-inline-elements', config);
-    config = injectBabelPlugin('@babel/plugin-transform-react-constant-elements', config);
   } else {
     config = injectBabelPlugin(
       [
