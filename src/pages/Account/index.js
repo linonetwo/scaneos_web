@@ -10,12 +10,8 @@ import { Helmet } from 'react-helmet';
 import { getBreadcrumb } from '../../components/Layout';
 import { Container, DetailTabsContainer, ActionsContainer } from '../../components/Containers';
 import { LongListContainer, Title } from '../../components/Table';
-import {
-  AccountDataOverview,
-  AccountDashboard,
-  ACCOUNT_DASHBOARD_FRAGMENT,
-  RESOURCE_PRICE_FRAGMENT,
-} from './AccountDashboard';
+import AccountDashboard, { ACCOUNT_DASHBOARD_FRAGMENT, RESOURCE_PRICE_FRAGMENT } from './AccountDashboard';
+import AccountDataOverview from './AccountDataOverview';
 import { getAccountActionsList } from '../Action/ActionsList';
 
 type Props = {
@@ -104,6 +100,7 @@ export const GET_ACCOUNT_DETAIL = gql`
 `;
 
 export function getAccountDetails(accountData: Object, t: Function) {
+  console.log(AccountDashboard);
   return (
     <Tabs defaultActiveKey="dashboard">
       <Tabs.TabPane
@@ -158,7 +155,9 @@ function Account({ t, match }: Props) {
     <Fragment>
       {getBreadcrumb('account', t)}
       <Helmet>
-        <title>EOS {t('account')} {accountName} | {t('webSiteTitle')}</title>
+        <title>
+          EOS {t('account')} {accountName} | {t('webSiteTitle')}
+        </title>
       </Helmet>
       <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
         {({ loading, error, data }) => {

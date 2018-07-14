@@ -41,9 +41,6 @@ require('@babel/register')({
   ignore: [/\/build\//, /\/node_modules(?![\\/](react-echarts-v3|antd|rc-.+)[\\/])/],
   presets: ['@babel/env', 'react-app'],
   plugins: [
-    'macros',
-    'transform-decorators-legacy',
-    '@babel/plugin-syntax-dynamic-import',
     'dynamic-import-node-babel-7',
     'react-loadable/babel',
     [
@@ -59,6 +56,7 @@ require('@babel/register')({
     '@babel/plugin-transform-react-constant-elements',
     ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
     'lodash',
+    'date-fns',
   ],
 });
 

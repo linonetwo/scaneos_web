@@ -8,17 +8,12 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 module.exports = function override(config, env) {
-  config = injectBabelPlugin('macros', config);
   config = injectBabelPlugin('transform-decorators-legacy', config);
   config = injectBabelPlugin('@babel/plugin-proposal-do-expressions', config);
   config = injectBabelPlugin('@babel/plugin-proposal-optional-chaining', config);
   config = injectBabelPlugin(['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }], config);
   config = injectBabelPlugin('lodash', config);
   config = injectBabelPlugin('date-fns', config);
-  config = rewireLess.withLoaderOptions({
-    modifyVars: { '@primary-color': '#1aa2db' },
-    javascriptEnabled: true,
-  })(config, env);
 
   if (env === 'production') {
     console.log('⚡ Production build with optimization ⚡');
@@ -40,16 +35,20 @@ module.exports = function override(config, env) {
 
   // remove eslint in eslint, we only need it on VSCode
   config.module.rules.splice(1, 1);
-
+  
   config.resolve = {
     alias: {
       'mapbox-gl$': path.join(resolveApp('node_modules'), '/mapbox-gl/dist/mapbox-gl.js'),
     },
   };
-
-  config.module.rules[1].oneOf[2].include.push(path.join(resolveApp('node_modules'), 'react-echarts-v3/src'));
-  config.module.rules[1].oneOf[2].exclude = /node_modules(?![\\/]react-echarts-v3[\\/]src[\\/])/;
-
+  
+  config.module.rules[1].oneOf[1].include.push(path.join(resolveApp('node_modules'), 'react-echarts-v3/src'));
+  config.module.rules[1].oneOf[1].exclude = /node_modules(?![\\/]react-echarts-v3[\\/]src[\\/])/;
+  
+  config = rewireLess.withLoaderOptions({
+    modifyVars: { '@primary-color': '#1aa2db' },
+    javascriptEnabled: true,
+  })(config, env);
   config.plugins.push(new StatsWebpackPlugin('stats.json', { chunkModules: true }));
 
   return config;
