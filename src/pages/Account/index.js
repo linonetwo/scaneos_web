@@ -100,7 +100,6 @@ export const GET_ACCOUNT_DETAIL = gql`
 `;
 
 export function getAccountDetails(accountData: Object, t: Function) {
-  console.log(AccountDashboard);
   return (
     <Tabs defaultActiveKey="dashboard">
       <Tabs.TabPane
