@@ -72,7 +72,7 @@ class Actions extends PureComponent<Props> {
                 }}
               >
                 <Table.Column
-                  title={t('name')}
+                  title={`${t('name')}  (${t('clickOpenDetail')})`}
                   dataIndex="name"
                   key="name"
                   render={(name, { id }) => renderActionName(name, id, t)}

@@ -63,7 +63,7 @@ export default function ActionsList({ t, actions, accountName }: Props) {
     <Fragment>
       <Table scroll={{ x: 1200 }} size="middle" dataSource={formatActionList(actions, accountName)} rowKey="id">
         <Table.Column
-          title={t('name')}
+          title={`${t('name')}  (${t('clickOpenDetail')})`}
           dataIndex="name"
           key="name"
           render={(name, { id }) => renderActionName(name, id, t)}

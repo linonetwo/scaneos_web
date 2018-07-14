@@ -207,4 +207,4 @@ class AccountDashboard extends PureComponent<Props> {
     );
   }
 }
-export default translate()(AccountDashboard);
+export default translate('account')(AccountDashboard);

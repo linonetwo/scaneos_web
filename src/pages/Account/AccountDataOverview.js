@@ -38,4 +38,4 @@ class AccountDataOverviewOriginal extends PureComponent<Props> {
     );
   }
 }
-export default translate()(AccountDataOverviewOriginal);
+export default translate('account')(AccountDataOverviewOriginal);

@@ -58,7 +58,8 @@ export const zh = {
 
   Connecting: '连接中',
   Syncing: '刷新数据中',
-  noResult: ' 暂无结果，请再试试？',
+  noResult: '暂无结果，请再试试？',
+  clickOpenDetail: '点击打开详情',
 };
 
 export const en = {
@@ -86,4 +87,5 @@ export const en = {
   blocksNum: 'Blocks',
 
   noResult: 'No Result...Try another.',
+  clickOpenDetail: 'click for detail',
 };
