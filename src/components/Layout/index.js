@@ -397,6 +397,8 @@ class Header extends Component<Props & Store & Dispatch, *> {
                         top: 30,
                         behavior: 'smooth',
                       });
+                    } else if (document) {
+                      document.documentElement.scrollTop = document.body.scrollTop = 30;
                     }
                   }}
                   type="search"
