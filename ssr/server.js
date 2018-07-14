@@ -30,9 +30,7 @@ app.use(
 
 // Set up homepage, static assets, and capture everything else
 app.use(express.Router().get('/', loader));
-app.use(express.static(path.resolve(__dirname, '../build'), {
-  maxAge: 86400000,
-}));
+app.use(express.static(path.resolve(__dirname, '../build')));
 app.use(loader);
 
 // We tell React Loadable to load all required assets and start listening - ROCK AND ROLL!
