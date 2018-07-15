@@ -5,16 +5,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { withRouter, Redirect } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 import { getBreadcrumb } from '../../components/Layout';
 import { Container, DetailTabsContainer, ActionsContainer } from '../../components/Containers';
-import { LongListContainer } from '../../components/Table';
-import {
-  AccountDataOverview,
-  AccountDashboard,
-  ACCOUNT_DASHBOARD_FRAGMENT,
-  RESOURCE_PRICE_FRAGMENT,
-} from './AccountDashboard';
+import { LongListContainer, Title } from '../../components/Table';
+import AccountDashboard, { ACCOUNT_DASHBOARD_FRAGMENT, RESOURCE_PRICE_FRAGMENT } from './AccountDashboard';
+import AccountDataOverview from './AccountDataOverview';
 import { getAccountActionsList } from '../Action/ActionsList';
 
 type Props = {
@@ -128,7 +125,8 @@ export function getAccountDetails(accountData: Object, t: Function) {
         }
         key="overview"
       >
-        <LongListContainer>
+        <LongListContainer column>
+          <Title>{accountData.accountName}</Title>
           <AccountDataOverview data={accountData} />
         </LongListContainer>
       </Tabs.TabPane>
@@ -155,16 +153,29 @@ function Account({ t, match }: Props) {
   return (
     <Fragment>
       {getBreadcrumb('account', t)}
+      <Helmet>
+        <title>
+          EOS {t('account')} {accountName} | {t('webSiteTitle')}
+        </title>
+      </Helmet>
       <Query query={GET_ACCOUNT_DETAIL} variables={{ name: accountName }}>
         {({ loading, error, data }) => {
           if (error) return <Container>{error.message}</Container>;
           if (loading)
             return (
               <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <Container />
+                <Container center>
+                  <Title>{accountName}</Title>
+                </Container>
               </Spin>
             );
-          if (!data.account) return <Container>{t('noResult')}</Container>;
+          if (!data.account)
+            return (
+              <Container column>
+                <Title>{accountName}</Title>
+                {t('noResult')}
+              </Container>
+            );
           const {
             account: { producerInfo, ...account },
             resourcePrice,

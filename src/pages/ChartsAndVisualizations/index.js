@@ -5,6 +5,8 @@ import Flex from 'styled-flex-component';
 import { Route, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import { translate } from 'react-i18next';
+import { Helmet } from 'react-helmet';
+
 import Loading from '../../components/Loading';
 import { getBreadcrumb } from '../../components/Layout';
 
@@ -52,6 +54,11 @@ class ChartsAndVisualizations extends PureComponent<Props> {
     return (
       <Container column>
         {getBreadcrumb('chart', t, true)}
+        <Helmet>
+          <title>
+            EOS {t('Charts')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Switch>
           <Route exact path={`${url}/`} component={ChartList} />
           <Route path={`${url}/eos`} component={EOSPriceChart} />

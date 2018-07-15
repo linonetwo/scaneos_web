@@ -1,10 +1,10 @@
+/* eslint-disable react/require-default-props */
 // @flow
 import { truncate, flatten, size } from 'lodash';
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Table, Select, Spin, Icon } from 'antd';
-import { translate } from 'react-i18next';
 import randomColor from 'randomcolor';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -24,24 +24,27 @@ const ActionName = styled.div`
   color: ${({ color }) => color};
   border: 1px solid ${({ color }) => color};
   padding: 5px;
+  min-width: 120px;
 `;
 
-export const renderActionName = (actionName: string, t: Function) => (
-  <ActionName
-    color={randomColor({
-      luminosity: 'dark',
-      format: 'rgba',
-      alpha: 0.7,
-      hue: 'blue',
-      seed: actionName,
-    })}
-  >
-    {t(actionName)}
-  </ActionName>
+export const renderActionName = (actionName: string, id: string, t: Function) => (
+  <Link to={`/action/${id}/`}>
+    <ActionName
+      color={randomColor({
+        luminosity: 'dark',
+        format: 'rgba',
+        alpha: 0.7,
+        hue: 'blue',
+        seed: actionName,
+      })}
+    >
+      {t(`action:${actionName}`)}
+    </ActionName>
+  </Link>
 );
 
 /** 针对一些个例，调整 action 的类型名等参数，创造出子类型等 */
-function formatActionList(actions: Object[], accountName): Object[] {
+function formatActionList(actions: Object[], accountName?: string): Object[] {
   return actions.map(action => {
     if (action.name === 'transfer') {
       if (action.data.from === accountName) {
@@ -54,16 +57,16 @@ function formatActionList(actions: Object[], accountName): Object[] {
     return action;
   });
 }
-type Props = { t: Function, actions: Object[], accountName: string };
-function ActionsListRaw({ t, actions, accountName }: Props) {
+type Props = { t: Function, actions: Object[], accountName?: string };
+export default function ActionsList({ t, actions, accountName }: Props) {
   return (
     <Fragment>
       <Table scroll={{ x: 1200 }} size="middle" dataSource={formatActionList(actions, accountName)} rowKey="id">
         <Table.Column
-          title={t('name')}
+          title={`${t('name')}  (${t('clickOpenDetail')})`}
           dataIndex="name"
           key="name"
-          render={(name) => renderActionName(name, t)}
+          render={(name, { id }) => renderActionName(name, id, t)}
         />
         <Table.Column
           title={t('data')}
@@ -104,7 +107,6 @@ function ActionsListRaw({ t, actions, accountName }: Props) {
     </Fragment>
   );
 }
-export const ActionsList = translate('action')(ActionsListRaw);
 
 export const GET_ACCOUNT_ACTIONS = gql`
   query GET_ACCOUNT_ACTIONS($name: String!, $filterBy: JSON) {
@@ -208,7 +210,7 @@ export function getAccountActionsList(Container: ComponentType<*>, accountName: 
               ].map(actionName => <Select.Option key={actionName}>{t(`action:${actionName}`)}</Select.Option>)}
             </Select>
 
-            <ActionsList actions={actions} accountName={accountName} />
+            <ActionsList actions={actions} accountName={accountName} t={t} />
           </Container>
         );
       }}

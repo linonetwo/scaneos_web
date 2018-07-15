@@ -12,7 +12,6 @@ import * as tools from './tools';
 import * as status from './status';
 import * as dictionary from './dictionary';
 import * as bp from './bp';
-import * as mappingChecker from '../components/MappingChecking/i18n';
 
 export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).init({
   preload: ['en', 'zh-CN'],
@@ -37,7 +36,6 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...layout.zh,
         ...status.zh,
         ...dictionary.zh,
-        ...mappingChecker.zh,
         ...tools.zh,
       },
     },
@@ -55,7 +53,6 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...layout.en,
         ...status.en,
         ...dictionary.en,
-        ...mappingChecker.en,
         ...tools.en,
       },
     },

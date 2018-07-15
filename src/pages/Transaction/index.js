@@ -6,13 +6,14 @@ import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { getBreadcrumb } from '../../components/Layout';
 import { DetailTabsContainer } from '../../components/Containers';
-import { LongListContainer, NoData } from '../../components/Table';
+import { LongListContainer, NoData, Title } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 import { ACTIONS_FRAGMENT } from '../Action';
-import { ActionsList } from '../Action/ActionsList';
+import ActionsList from '../Action/ActionsList';
 
 type Props = {
   t: Function,
@@ -56,6 +57,11 @@ class Transaction extends PureComponent<Props, *> {
     return (
       <Fragment>
         {getBreadcrumb('transaction', t)}
+        <Helmet>
+          <title>
+            EOS {t('Transaction')} {transactionID} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Query query={GET_TRANSACTION_DETAIL} variables={{ id: transactionID }}>
           {({ loading, error, data }) => {
             if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
@@ -85,6 +91,7 @@ class Transaction extends PureComponent<Props, *> {
                     key="overview"
                   >
                     <LongListContainer column>
+                      <Title>{transactionID}</Title>
                       <Table
                         size="middle"
                         pagination={false}
@@ -98,6 +105,7 @@ class Transaction extends PureComponent<Props, *> {
                           render={(value, { field }) => getListValueRendering(field, value, t)}
                         />
                       </Table>
+                      <Title>{t('Actions')}</Title>
                       <ActionsList actions={actions || []} t={t} />
                     </LongListContainer>
                   </Tabs.TabPane>

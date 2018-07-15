@@ -14,7 +14,9 @@ import { TRANSACTION_DETAIL_FRAGMENT } from '../pages/Transaction';
 type Props = {
   t: Function,
   history: Object,
+  focusInput?: boolean => void,
   affixed?: boolean,
+  searchBarRef: any,
 };
 
 const SEARCH_BAR = gql`
@@ -40,6 +42,7 @@ const SEARCH_BAR = gql`
 class SearchBar extends PureComponent<Props, { loading: boolean }> {
   static defaultProps = {
     affixed: false,
+    focusInput: () => {},
   };
 
   state = {
@@ -75,13 +78,16 @@ class SearchBar extends PureComponent<Props, { loading: boolean }> {
   };
 
   render() {
-    const { t, affixed } = this.props;
+    const { t, affixed, focusInput } = this.props;
     const { loading } = this.state;
     return (
       <ApolloConsumer>
         {client => (
           <SearchContainer affixed={affixed}>
             <Input.Search
+              autoFocus
+              onBlur={() => focusInput && focusInput(false)}
+              onFocus={() => focusInput && focusInput(true)}
               enterButton={loading ? <Icon type="loading" /> : <Icon type="search" />}
               placeholder={t('cansearch')}
               onSearch={keyWord => this.search(keyWord, client)}

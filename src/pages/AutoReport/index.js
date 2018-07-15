@@ -5,6 +5,8 @@ import Flex from 'styled-flex-component';
 import { Route, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import { translate } from 'react-i18next';
+import { Helmet } from 'react-helmet';
+
 import Loading from '../../components/Loading';
 import { getBreadcrumb } from '../../components/Layout';
 
@@ -46,6 +48,11 @@ class AutoReport extends PureComponent<Props> {
     return (
       <Container column>
         {getBreadcrumb('report', t, true)}
+        <Helmet>
+          <title>
+            EOS {t('Report')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Switch>
           <Route exact path={`${url}/`} component={ReportList} />
           <Route path={`${url}/ram`} component={RamReport} />

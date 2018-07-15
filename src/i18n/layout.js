@@ -27,6 +27,7 @@ export const zh = {
   Actions: '消息列表',
   Transactions: '交易列表',
   Action: '消息',
+  ActionsInSameTransaction: '同一交易中的其他消息',
   Charts: '图表',
   Auctions: '靓号列表',
   BlockProducers: '超级节点',
@@ -59,7 +60,8 @@ export const zh = {
 
   Toolkit: '工具集',
   Syncing: '刷新数据中',
-  noResult: ' 暂无结果，请再试试？',
+  noResult: '暂无结果，请再试试？',
+  clickOpenDetail: '点击打开详情',
 };
 
 export const en = {
@@ -72,6 +74,7 @@ export const en = {
   ViewIt: 'View',
   Auction: 'Name Auction',
   Auctions: 'NameAuctions',
+  ActionsInSameTransaction: 'Actions In Same Transaction',
 
   introduction: 'Intro',
   Locale: 'Language',
@@ -87,4 +90,5 @@ export const en = {
   Toolkit: 'toolkit',
 
   noResult: 'No Result...Try another.',
+  clickOpenDetail: 'click for detail',
 };

@@ -1,32 +1,37 @@
 // @flow
-import { toPairs } from 'lodash';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
-import { Table, Progress } from 'antd';
+import { Progress } from 'antd';
 import gql from 'graphql-tag';
 import { translate } from 'react-i18next';
 import numeral from 'numeral';
 import prettySize from 'prettysize';
 
-import getListValueRendering from '../../components/getListValueRendering';
 import Tooltip from '../../components/Tooltip';
 import AuthTable from './AuthTable';
 
 type Props = {
-  t?: Function,
+  t: Function,
   data: Object,
 };
 
 const DashboardContainer = styled(Flex)`
   width: 100%;
 
+  h2,
   h3 {
-    margin: 30px;
+    margin: 0px;
     text-align: center;
     width: 100%;
     color: #08668e;
+  }
+  h2 {
+    margin-bottom: 10px;
+  }
+  h3 {
+    margin-bottom: 30px;
   }
 `;
 const progressBackground = '#2B95D6';
@@ -103,12 +108,7 @@ export const ACCOUNT_DASHBOARD_FRAGMENT = gql`
   ${RESOURCE_STATUS_FRAGMENT}
 `;
 
-@translate('account')
-export class AccountDashboard extends PureComponent<Props> {
-  static defaultProps = {
-    t: (a: string) => a,
-  };
-
+class AccountDashboard extends PureComponent<Props> {
   render() {
     const { t = a => a, data } = this.props;
     // 余额
@@ -124,6 +124,7 @@ export class AccountDashboard extends PureComponent<Props> {
     const totalAssets = eosTotal + ramValue + refund;
     return (
       <DashboardContainer wrap="true" justifyBetween>
+        <h2>{data.accountName}</h2>
         <h3>
           {t('totalAssets')}: {numeral(totalAssets).format('0,0.0000')} EOS<br />
           <small>
@@ -206,35 +207,4 @@ export class AccountDashboard extends PureComponent<Props> {
     );
   }
 }
-
-@translate('account')
-export class AccountDataOverview extends PureComponent<Props> {
-  static defaultProps = {
-    t: (a: string) => a,
-  };
-
-  render() {
-    const { t = a => a, data } = this.props;
-    return (
-      <Table
-        scroll={{ x: 1000 }}
-        size="middle"
-        pagination={false}
-        dataSource={toPairs(data).map(([field, value]) => ({ field, value, key: field }))}
-      >
-        <Table.Column
-          title={t('field')}
-          dataIndex="field"
-          key="field"
-          render={field => <Tooltip t={t} field={field} />}
-        />
-        <Table.Column
-          title={t('value')}
-          dataIndex="value"
-          key="value"
-          render={(value, { field }) => getListValueRendering(field, value, t)}
-        />
-      </Table>
-    );
-  }
-}
+export default translate('account')(AccountDashboard);

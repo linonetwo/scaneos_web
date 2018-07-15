@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { getBreadcrumb } from '../../components/Layout';
 import { Container } from '../../components/Containers';
@@ -49,6 +50,11 @@ class DictionaryEntry extends PureComponent<Props> {
     return (
       <Fragment>
         {getBreadcrumb('dictionary', t, true, true)}
+        <Helmet>
+          <title>
+            {t('field')} {dictionaryField} {t('Dictionary')} {t('titleZh')} {t('title')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Query query={GET_DICTIONARY_ENTRY} variables={{ field: dictionaryField }}>
           {({ loading, error, data }) => {
             if (error) return <Container>{error.message}</Container>;

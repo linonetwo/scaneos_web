@@ -7,6 +7,7 @@ import { Table, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { getPageSize } from '../../store/utils';
 import { ProducerListContainer } from '../../components/Containers';
@@ -41,29 +42,24 @@ class BlockProducers extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_PRODUCER_LIST} notifyOnNetworkStatusChange>
-        {({ loading, error, data, fetchMore }) => {
-          if (error)
+      <ProducerListContainer justifyCenter column>
+        <Helmet>
+          <title>
+            EOS {t('BlockProducers')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
+        <Query query={GET_PRODUCER_LIST} notifyOnNetworkStatusChange>
+          {({ loading, error, data, fetchMore }) => {
+            if (error) return error.message;
+            if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
+            const {
+              producers: {
+                producers,
+                pageInfo: { page, totalElements, filterBy },
+              },
+              status: { totalProducerVoteWeight },
+            } = data;
             return (
-              <ProducerListContainer center column>
-                {error.message}
-              </ProducerListContainer>
-            );
-          if (loading)
-            return (
-              <ProducerListContainer center>
-                <Spin tip={t('Connecting')} spinning={loading} size="large" />
-              </ProducerListContainer>
-            );
-          const {
-            producers: {
-              producers,
-              pageInfo: { page, totalElements, filterBy },
-            },
-            status: { totalProducerVoteWeight },
-          } = data;
-          return (
-            <ProducerListContainer>
               <Table
                 scroll={{ x: 1200 }}
                 size="small"
@@ -156,10 +152,10 @@ class BlockProducers extends PureComponent<Props> {
                 />
                 <Table.Column title={t('homepage')} dataIndex="homepage" />
               </Table>
-            </ProducerListContainer>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </ProducerListContainer>
     );
   }
 }

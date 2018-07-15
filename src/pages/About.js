@@ -1,8 +1,9 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import { translate, Trans } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 const Container = styled.div`
   overflow-x: hidden;
@@ -19,13 +20,16 @@ const ContentTitle = styled.h2`
   text-align: center;
 `;
 
-class About extends Component<{ t: Function }, *> {
-  state = {};
-
+class About extends PureComponent<{ t: Function }> {
   render() {
     const { t } = this.props;
     return (
       <Container>
+        <Helmet>
+          <title>
+            ScanEOS {t('About')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Content column>
           <ContentTitle>{t('thisSite')}</ContentTitle>
           <Trans i18nKey="aboutThisSite">

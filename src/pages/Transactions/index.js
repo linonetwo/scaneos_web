@@ -6,6 +6,7 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { formatTimeStamp, getPageSize } from '../../store/utils';
 import { ListContainer } from '../../components/Containers';
@@ -13,17 +14,22 @@ import { ListContainer } from '../../components/Containers';
 type Props = {
   t: Function,
 };
+export const TRANSACTIONS_LIST_FRAGMENT = gql`
+  fragment TRANSACTIONS_LIST_FRAGMENT on Transaction {
+    transactionID
+    blockID
+    actionNum
+    status
+    expiration
+    pending
+    createdAt
+  }
+`;
 const GET_TRANSACTIONS_LIST = gql`
   query GET_TRANSACTIONS_LIST($page: Int) {
     transactions(page: $page, size: ${getPageSize()}) {
       transactions {
-        transactionID
-        blockID
-        actionNum
-        status
-        expiration
-        pending
-        createdAt
+        ...TRANSACTIONS_LIST_FRAGMENT
       }
       pageInfo {
         page
@@ -31,29 +37,30 @@ const GET_TRANSACTIONS_LIST = gql`
       }
     }
   }
+  ${TRANSACTIONS_LIST_FRAGMENT}
 `;
 
 class Transactions extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_TRANSACTIONS_LIST} notifyOnNetworkStatusChange>
-        {({ loading, error, data, fetchMore }) => {
-          if (error) return <ListContainer column>{error.message}</ListContainer>;
-          if (loading)
+      <ListContainer justifyCenter column>
+        <Helmet>
+          <title>
+            EOS {t('Transactions')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
+        <Query query={GET_TRANSACTIONS_LIST} notifyOnNetworkStatusChange>
+          {({ loading, error, data, fetchMore }) => {
+            if (error) return error.message;
+            if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
+            const {
+              transactions: {
+                transactions,
+                pageInfo: { page, totalElements },
+              },
+            } = data;
             return (
-              <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <ListContainer />
-              </Spin>
-            );
-          const {
-            transactions: {
-              transactions,
-              pageInfo: { page, totalElements },
-            },
-          } = data;
-          return (
-            <ListContainer column>
               <Table
                 scroll={{ x: 1200 }}
                 size="middle"
@@ -98,10 +105,10 @@ class Transactions extends PureComponent<Props> {
                   )}
                 />
               </Table>
-            </ListContainer>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </ListContainer>
     );
   }
 }

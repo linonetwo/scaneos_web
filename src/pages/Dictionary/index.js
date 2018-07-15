@@ -5,6 +5,7 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { getPageSize } from '../../store/utils';
 import { ListContainer } from '../../components/Containers';
@@ -33,28 +34,23 @@ class Dictionary extends PureComponent<Props> {
   render() {
     const { t } = this.props;
     return (
-      <Query query={GET_DICTIONARY} notifyOnNetworkStatusChange>
-        {({ loading, error, data, fetchMore }) => {
-          if (error)
+      <ListContainer column justifyCenter>
+        <Helmet>
+          <title>
+            EOS {t('Dictionary')} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
+        <Query query={GET_DICTIONARY} notifyOnNetworkStatusChange>
+          {({ loading, error, data, fetchMore }) => {
+            if (error) return error.message;
+            if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
+            const {
+              dictionaryEntries: {
+                dictionaryEntries,
+                pageInfo: { page, totalElements },
+              },
+            } = data;
             return (
-              <ListContainer center column>
-                {error.message}
-              </ListContainer>
-            );
-          if (loading)
-            return (
-              <ListContainer center column>
-                <Spin tip={t('Connecting')} spinning={loading} size="large" />
-              </ListContainer>
-            );
-          const {
-            dictionaryEntries: {
-              dictionaryEntries,
-              pageInfo: { page, totalElements },
-            },
-          } = data;
-          return (
-            <ListContainer column>
               <Table
                 scroll={{ x: 1200 }}
                 size="middle"
@@ -92,10 +88,10 @@ class Dictionary extends PureComponent<Props> {
                   render={(title, { field }) => <Link to={`/dictionary/${field}/`}>{title}</Link>}
                 />
               </Table>
-            </ListContainer>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </ListContainer>
     );
   }
 }

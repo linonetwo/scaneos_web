@@ -1,16 +1,19 @@
 // @flow
-import { toPairs } from 'lodash';
+import { toPairs, truncate } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
+import { formatTimeStamp } from '../../store/utils';
 import { getBreadcrumb } from '../../components/Layout';
-import { DetailTabsContainer } from '../../components/Containers';
-import { LongListContainer, NoData } from '../../components/Table';
+import { DetailTabsContainer, ListContainer } from '../../components/Containers';
+import { LongListContainer, NoData, Title } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
+import { TRANSACTIONS_LIST_FRAGMENT } from '../Transactions';
 
 type Props = {
   match: {
@@ -35,19 +38,21 @@ const GET_BLOCK_DETAIL = gql`
   query GET_BLOCK_DETAIL($blockNumOrID: String!) {
     block(blockNumOrID: $blockNumOrID) {
       ...BLOCK_DETAIL_FRAGMENT
+    }
+  }
+  ${BLOCK_DETAIL_FRAGMENT}
+`;
+const GET_BLOCK_TRANSACTIONS = gql`
+  query GET_BLOCK_TRANSACTIONS($blockNumOrID: String!) {
+    block(blockNumOrID: $blockNumOrID) {
       transactions {
         transactions {
-          transactionID
-          actionNum
-          status
-          expiration
-          pending
-          createdAt
+          ...TRANSACTIONS_LIST_FRAGMENT
         }
       }
     }
   }
-  ${BLOCK_DETAIL_FRAGMENT}
+  ${TRANSACTIONS_LIST_FRAGMENT}
 `;
 
 class Block extends PureComponent<Props> {
@@ -57,6 +62,11 @@ class Block extends PureComponent<Props> {
     return (
       <Fragment>
         {getBreadcrumb('block', t)}
+        <Helmet>
+          <title>
+            EOS {t('blockInfo')} {blockNumOrID} | {t('webSiteTitle')}
+          </title>
+        </Helmet>
         <Query query={GET_BLOCK_DETAIL} variables={{ blockNumOrID }}>
           {({ loading, error, data }) => {
             if (error) return <DetailTabsContainer>{error.message}</DetailTabsContainer>;
@@ -67,14 +77,10 @@ class Block extends PureComponent<Props> {
                 </Spin>
               );
             if (!data.block) return <NoData>{t('noResult')}</NoData>;
-            const {
-              block: {
-                transactions: { transactions },
-                ...block
-              },
-            } = data;
+            const { block } = data;
             return (
-              <DetailTabsContainer>
+              <DetailTabsContainer column>
+                <Title>{blockNumOrID}</Title>
                 <Tabs defaultActiveKey="data">
                   <Tabs.TabPane
                     tab={
@@ -117,6 +123,69 @@ class Block extends PureComponent<Props> {
                     </pre>
                   </Tabs.TabPane>
                 </Tabs>
+                <Query ssr={false} query={GET_BLOCK_TRANSACTIONS} variables={{ blockNumOrID }}>
+                  {result => {
+                    if (result.error)
+                      return (
+                        <DetailTabsContainer column alignCenter>
+                          <Title>{t('Transactions')}</Title>
+                          {result.error.message}
+                        </DetailTabsContainer>
+                      );
+                    if (result.loading)
+                      return (
+                        <DetailTabsContainer column alignCenter>
+                          <Title>{t('Transactions')}</Title>
+                          <Spin tip={t('Connecting')} spinning={result.loading} size="large" />
+                        </DetailTabsContainer>
+                      );
+                    if (!result?.data?.block?.transactions?.transactions)
+                      return (
+                        <DetailTabsContainer column alignCenter>
+                          <Title>{t('Transactions')}</Title>
+                          <NoData>{t('noResult')}</NoData>
+                        </DetailTabsContainer>
+                      );
+                    const {
+                      block: {
+                        transactions: { transactions },
+                      },
+                    } = result.data;
+
+                    return (
+                      <ListContainer column>
+                        <Title>{t('Transactions')}</Title>
+                        <Table scroll={{ x: 1200 }} size="middle" dataSource={transactions} rowKey="id">
+                          <Table.Column
+                            title={t('transactionID')}
+                            dataIndex="transactionID"
+                            key="transactionID"
+                            render={transactionID => (
+                              <Link to={`/transaction/${transactionID}/`}>
+                                {truncate(transactionID, { length: 14, omission: '..' })}
+                              </Link>
+                            )}
+                          />
+                          <Table.Column
+                            title={t('createdAt')}
+                            dataIndex="createdAt"
+                            key="createdAt"
+                            render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
+                          />
+                          <Table.Column title={t('actionNum')} dataIndex="actionNum" key="actionNum" />
+                          <Table.Column
+                            title={t('blockID')}
+                            dataIndex="blockID"
+                            key="blockID"
+                            render={blockID => (
+                              <Link to={`/block/${blockID}/`}>{truncate(blockID, { length: 14, omission: '..' })}</Link>
+                            )}
+                          />
+                        </Table>
+                      </ListContainer>
+                    );
+                  }}
+                </Query>
               </DetailTabsContainer>
             );
           }}
