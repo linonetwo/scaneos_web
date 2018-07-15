@@ -9,7 +9,7 @@ const zhShared = {
   transactionID: '交易ID',
   actionID: '消息ID',
   account: '账户',
-  pending: '等待',
+  pending: '待确认',
   createdAt: '创建日期',
   updatedAt: '更新日期',
   cpu: '计算时间',
