@@ -148,7 +148,7 @@ class CreateAccount extends Component<Props> {
             <Input placeholder="Required to store account" id="ram" type="number" />,
           )}
         </FormItem>
-        <FormItem label="Transfer" {...FormItemLayout}>
+        <FormItem label={t('delegateAccount.transferLabel')} {...FormItemLayout}>
           {getFieldDecorator('transfer')(<Switch id="transfer" />)}
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 4 }}>

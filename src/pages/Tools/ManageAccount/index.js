@@ -7,6 +7,9 @@ import Flex from 'styled-flex-component';
 import DelegateAccount from './comps/DelegateAccount';
 import UndelegateAccount from './comps/UndelegateAccount';
 import BuyRam from './comps/BuyRam';
+import SellRam from './comps/SellRam';
+import Refund from './comps/Refund';
+import Permissions from './comps/Permissions';
 
 type Props = {
   t: Function,
@@ -27,7 +30,7 @@ const BlockLayout = styled.div`
   padding: 10px;
 `;
 
-const Components = [DelegateAccount, UndelegateAccount, BuyRam];
+const Components = [DelegateAccount, UndelegateAccount, BuyRam, SellRam, Refund, Permissions];
 
 class ManageAccount extends Component<Props, *> {
   state = {
@@ -56,6 +59,15 @@ class ManageAccount extends Component<Props, *> {
           </Menu.Item>
           <Menu.Item key="3">
             <span>{t('manageAccount.BuyRam')}</span>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <span>{t('manageAccount.SellRam')}</span>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <span>{t('manageAccount.Refund')}</span>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <span>{t('manageAccount.Permissions')}</span>
           </Menu.Item>
         </BlockMenu>
         <BlockLayout>

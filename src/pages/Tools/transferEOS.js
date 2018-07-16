@@ -68,12 +68,12 @@ class CreateAccount extends Component<Props> {
       <Form onSubmit={this.handelSubmit}>
         <FormItem label="Recepient" {...FormItemLayout}>
           {getFieldDecorator('name', formItemFieldConfig())(
-            <Input placeholder="The account that receives the EOS" id="name" />,
+            <Input placeholder={t('transferEOS.nameLabel')} id="name" />,
           )}
         </FormItem>
-        <FormItem label="Sender" {...FormItemLayout}>
+        <FormItem label={t('transferEOS.creatorLabel')} {...FormItemLayout}>
           {getFieldDecorator('creator', formItemFieldConfig(name))(
-            <Input placeholder="Attach an Account" id="creator" />,
+            <Input placeholder={t('delegateAccount.creatorPlaceholder')} id="creator" />,
           )}
         </FormItem>
         <FormItem label="Quantity (in EOS)" {...FormItemLayout}>

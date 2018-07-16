@@ -96,6 +96,7 @@ export default class BuyRam extends Component<Props, *> {
 
   render() {
     const {
+      t,
       form: { getFieldDecorator },
       eosAccount: { name },
     } = this.props;
@@ -104,17 +105,17 @@ export default class BuyRam extends Component<Props, *> {
 
     return (
       <Form onSubmit={this.handelSubmit}>
-        <FormItem label="Receiver Account Name" {...FormItemLayout}>
+        <FormItem label={t('buyRam.receivesLabel')} {...FormItemLayout}>
           {getFieldDecorator('name', formItemFieldConfig())(
-            <Input placeholder="The account that receives the RAM" id="name" />,
+            <Input placeholder={t('buyRam.receivesPlaceholder')} id="name" />,
           )}
         </FormItem>
-        <FormItem label="Payer" {...FormItemLayout}>
+        <FormItem label={t('buyRam.payerLabel')} {...FormItemLayout}>
           {getFieldDecorator('creator', formItemFieldConfig(name))(
-            <Input placeholder="Scatter account" id="creator" />,
+            <Input placeholder={t('buyRam.payerPlaceholder')} id="creator" />,
           )}
         </FormItem>
-        <FormItem label="Purchase unit:" {...FormItemLayout}>
+        <FormItem label={t('buyRam.purchaseLabel')} {...FormItemLayout}>
           {getFieldDecorator('Purchase', {
             initialValue: 0,
           })(
@@ -124,7 +125,7 @@ export default class BuyRam extends Component<Props, *> {
             </RadioGroup>,
           )}
         </FormItem>
-        <FormItem label={`Ram purchase (in ${purchaseType[purchase]})`} {...FormItemLayout}>
+        <FormItem label={`${t('buyRam.quantityLabel')} (${purchaseType[purchase]})`} {...FormItemLayout}>
           {getFieldDecorator('quantity', {
             rules: [
               {

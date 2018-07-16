@@ -29,7 +29,7 @@ export default class DelegateAccount extends Component<Props> {
       if (!err) {
         const {
           eosAccount: { name: eosAccount, authority: eosAuth },
-          t
+          t,
         } = this.props;
         try {
           const EosClient = getEosClient();
@@ -59,20 +59,21 @@ export default class DelegateAccount extends Component<Props> {
 
   render() {
     const {
+      t,
       form: { getFieldDecorator },
       eosAccount: { name },
     } = this.props;
 
     return (
       <Form onSubmit={this.handelSubmit}>
-        <FormItem label="Recepient" {...FormItemLayout}>
+        <FormItem label={t('delegateAccount.recepientLabel')} {...FormItemLayout}>
           {getFieldDecorator('name', formItemFieldConfig())(
-            <Input placeholder="The account that receives the EOS" id="name" />,
+            <Input placeholder={t('delegateAccount.recepientPlaceholder')} id="name" />,
           )}
         </FormItem>
-        <FormItem label="Sender" {...FormItemLayout}>
+        <FormItem label={t('delegateAccount.creatorLabel')} {...FormItemLayout}>
           {getFieldDecorator('creator', formItemFieldConfig(name))(
-            <Input placeholder="Attach an Account" id="creator" />,
+            <Input placeholder={t('delegateAccount.creatorPlaceholder')} id="creator" />,
           )}
         </FormItem>
         <FormItem label="Net Stake (in EOS)" {...FormItemLayout}>
@@ -85,7 +86,7 @@ export default class DelegateAccount extends Component<Props> {
             <Input placeholder="How much EOS to stake" id="cpu" type="number" />,
           )}
         </FormItem>
-        <FormItem label="Transfer" {...FormItemLayout}>
+        <FormItem label={t('delegateAccount.transferLabel')} {...FormItemLayout}>
           {getFieldDecorator('transfer')(<Switch id="transfer" />)}
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 6 }}>

@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { DetailTabsContainer } from '../../components/Containers';
-import CreateAccount from './CreateAccount';
+import CreateAccount from './createAccount';
 import ManageAccount from './ManageAccount';
 // import ManageVoting from './manageVoting';
-import TransferEOS from './TransferEOS';
+import TransferEOS from './transferEOS';
 import type { ToolsInfo } from '../../store/tools';
 import ScatterBtn from '../../components/Scatter';
 
@@ -47,9 +47,6 @@ class Tools extends Component<Props & Store> {
           </Tabs.TabPane>
           {/* <Tabs.TabPane tab={t('manageVoting.tab')} key="manageVoting">
             <ManageVoting />
-          </Tabs.TabPane> */}
-          {/* <Tabs.TabPane tab={t('blockProducer.tab')} key="blockProducer">
-            <BlockProducer />
           </Tabs.TabPane> */}
         </Tabs>
       </TabsContainer>
