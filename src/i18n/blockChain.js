@@ -99,6 +99,7 @@ export const zh = {
     threshold: '动用账户所需的最小权限',
     keys: '公钥列表',
     subAccounts: '子账户列表',
+    actor: '角色',
   },
   action: {
     ...zhShared,
