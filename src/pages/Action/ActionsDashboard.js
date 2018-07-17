@@ -1,15 +1,11 @@
 /* eslint-disable react/require-default-props */
 // @flow
-import { truncate } from 'lodash';
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Table, Select, Spin, Icon } from 'antd';
 
 import { formatTimeStamp } from '../../store/utils';
-import { Title } from '../../components/Table';
 import { getActionListValueRendering } from '../../components/getListValueRendering';
-import Tooltip from '../../components/Tooltip';
 import renderActionName from './renderActionName';
 
 const Content = styled.article`

@@ -13,6 +13,9 @@ export const Container = styled(Flex)`
   ${breakpoint('desktop')`
     width: 1200px;
   `};
+
+  background-color: white;
+  opacity: 0.85;
 `;
 
 export const DetailTabsContainer = styled(Container)`
