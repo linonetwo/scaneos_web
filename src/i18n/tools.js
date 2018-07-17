@@ -48,10 +48,10 @@ export const zh = {
   permissions: {
     creatorLabel: '更改权限',
     creatorPlaceholder: '确认你的Scatter账户',
-    activeLabel: 'Active 公钥(仅在您想要更改时填写)',
-    activePlaceholder: '请输入账户公钥',
-    ownerLabel: 'owner 公钥(仅在您想要更改时填写)',
-    ownerPlaceholder: '请输入账户公钥',
+    activeLabel: 'Active 公钥',
+    activePlaceholder: '请输入账户公钥 (仅在您想要更改 active 公钥时填写)',
+    ownerLabel: 'owner 公钥',
+    ownerPlaceholder: '请输入账户公钥 (仅在您想要更改 owner 公钥时填写)',
   },
   buyRam: {
     receivesLabel: '接收的帐户名',
@@ -125,10 +125,10 @@ export const en = {
   permissions: {
     creatorLabel: 'Change permission on',
     creatorPlaceholder: 'Scatter Account',
-    activeLabel: 'Active Permission (Only complete if you want to change)',
-    activePlaceholder: 'Public key for account name',
-    ownerLabel: 'Owner Permission (Only complete if you want to change)',
-    ownerPlaceholder: 'Public key for account name',
+    activeLabel: 'Active Permission',
+    activePlaceholder: 'Public key for account name (Only complete if you want to change)',
+    ownerLabel: 'Owner Permission',
+    ownerPlaceholder: 'Public key for account name (Only complete if you want to change)',
   },
   buyRam: {
     receivesLabel: 'Receiver Account Name',
