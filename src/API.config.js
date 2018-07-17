@@ -1,11 +1,10 @@
 // @flow
-exports.API = 'https://scaneos.io/api';
-exports.GRAPHQL_API =
+const API = 'https://scaneos.io/api';
+const GRAPHQL_API =
   process.env.NODE_ENV === 'development' ? 'http://localhost:3002/graphql' : 'https://scaneos.io/gqapi/graphql';
 
-exports.MAPBOX_TOKEN =
-  'pk.eyJ1IjoibGlub25ldHdvMDEyIiwiYSI6ImNqaHhjcHhmcjBhZDkzcXBxejh3a3RrOGUifQ.EOAmFP8NJxRc_iLce8VCVw';
-exports.CMS_TOKEN = 'aQVetMaDdbxSPORiloeWjNYBgkaIyggs';
+const MAPBOX_TOKEN = 'pk.eyJ1IjoibGlub25ldHdvMDEyIiwiYSI6ImNqaHhjcHhmcjBhZDkzcXBxejh3a3RrOGUifQ.EOAmFP8NJxRc_iLce8VCVw';
+const CMS_TOKEN = 'aQVetMaDdbxSPORiloeWjNYBgkaIyggs';
 // Are we on the testnet?
 const testnet = false;
 
@@ -36,7 +35,18 @@ const eosConfig = {
     : 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906', // Or null to fetch automatically ( takes longer )
 };
 
-module.exports = { scatterConfig, scatterEosOptions, eosConfig, testnet };
 const CMS_BASE = 'https://scaneos.io/cmsapi/';
-exports.CMS_BASE = CMS_BASE;
-exports.CMS_API = `${CMS_BASE}api/1.1/`;
+const CMS_API = `${CMS_BASE}api/1.1/`;
+
+module.exports = {
+  scatterConfig,
+  scatterEosOptions,
+  eosConfig,
+  testnet,
+  API,
+  GRAPHQL_API,
+  MAPBOX_TOKEN,
+  CMS_TOKEN,
+  CMS_BASE,
+  CMS_API,
+};
