@@ -2,7 +2,7 @@
 import { toPairs, truncate } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -149,9 +149,9 @@ class Action extends PureComponent<Props> {
                       return (
                         <Container column center>
                           <Title>
-                            <a href={`/transaction/${action.transactionID}`} target="_black" rel="noopener noreferrer">
+                            <Link to={`/transaction/${action.transactionID}`}>
                               {truncate(action.transactionID, { length: 15, omission: '...' })}
-                            </a>{' '}
+                            </Link>{' '}
                             {t('ActionsInSameTransaction')}
                           </Title>
                           {result.error.message}
@@ -161,9 +161,9 @@ class Action extends PureComponent<Props> {
                       return (
                         <Container column alignCenter>
                           <Title>
-                            <a href={`/transaction/${action.transactionID}`} target="_black" rel="noopener noreferrer">
+                            <Link to={`/transaction/${action.transactionID}`}>
                               {truncate(action.transactionID, { length: 15, omission: '...' })}
-                            </a>{' '}
+                            </Link>{' '}
                             {t('ActionsInSameTransaction')}
                           </Title>
                           <Spin tip={t('Connecting')} spinning={result.loading} size="large" />
@@ -173,9 +173,9 @@ class Action extends PureComponent<Props> {
                       return (
                         <Container column>
                           <Title>
-                            <a href={`/transaction/${action.transactionID}`} target="_black" rel="noopener noreferrer">
+                            <Link to={`/transaction/${action.transactionID}`}>
                               {truncate(action.transactionID, { length: 15, omission: '...' })}
-                            </a>{' '}
+                            </Link>{' '}
                             {t('ActionsInSameTransaction')}
                           </Title>
                           {t('noResult')}
@@ -189,9 +189,9 @@ class Action extends PureComponent<Props> {
                     return (
                       <Container column>
                         <Title>
-                          <a href={`/transaction/${action.transactionID}`} target="_black" rel="noopener noreferrer">
+                          <Link to={`/transaction/${action.transactionID}`}>
                             {truncate(action.transactionID, { length: 15, omission: '...' })}
-                          </a>{' '}
+                          </Link>{' '}
                           {t('ActionsInSameTransaction')}
                         </Title>
                         <ActionsList actions={actions} t={t} />
