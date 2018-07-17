@@ -36,7 +36,7 @@ export const ACTIONS_FRAGMENT = gql`
     name
     data
     transactionID
-    createdAt
+    timestamp
     authorization {
       permission
       actor

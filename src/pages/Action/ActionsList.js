@@ -84,9 +84,9 @@ export default function ActionsList({ t, actions, accountName }: Props) {
           )}
         />
         <Table.Column
-          title={t('createdAt')}
-          dataIndex="createdAt"
-          key="createdAt"
+          title={t('timestamp')}
+          dataIndex="timestamp"
+          key="timestamp"
           render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
         />
         <Table.Column
