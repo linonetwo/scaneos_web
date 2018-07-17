@@ -60,11 +60,12 @@ export default class UndelegateAccount extends Component<Props> {
     const {
       form: { getFieldDecorator },
       eosAccount: { name },
+      t,
     } = this.props;
 
     return (
       <Form onSubmit={this.handelSubmit}>
-        <p>Unstaking takes three days. Unstaking lowers your vote weight immediately</p>
+        <p>{t('delegateAccount.unStakingInformation')}</p>
         <FormItem label="Stake Holder" {...FormItemLayout}>
           {getFieldDecorator('name', formItemFieldConfig())(
             <Input placeholder="Who currently holds the stake" id="name" />,
