@@ -63,10 +63,10 @@ class ManageAccount extends Component<Props, *> {
           <Menu.Item key="4">
             <span>{t('manageAccount.SellRam')}</span>
           </Menu.Item>
-          <Menu.Item key="4">
+          <Menu.Item key="5">
             <span>{t('manageAccount.Refund')}</span>
           </Menu.Item>
-          <Menu.Item key="4">
+          <Menu.Item key="6">
             <span>{t('manageAccount.Permissions')}</span>
           </Menu.Item>
         </BlockMenu>
