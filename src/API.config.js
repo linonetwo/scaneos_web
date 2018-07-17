@@ -1,4 +1,5 @@
-// @flow
+const camelize = require('camelize');
+
 const API = 'https://scaneos.io/api';
 const GRAPHQL_API =
   process.env.NODE_ENV === 'development' ? 'http://localhost:3002/graphql' : 'https://scaneos.io/gqapi/graphql';
@@ -35,10 +36,21 @@ const eosConfig = {
     : 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906', // Or null to fetch automatically ( takes longer )
 };
 
+const EOS_API = 'https://scaneos.io/eosapi/v1';
+
+const postEOS = (path, body) =>
+  fetch(`${EOS_API}${path}`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+    .then(res => res.json())
+    .then(camelize);
+
 const CMS_BASE = 'https://scaneos.io/cmsapi/';
 const CMS_API = `${CMS_BASE}api/1.1/`;
 
 module.exports = {
+  postEOS,
   scatterConfig,
   scatterEosOptions,
   eosConfig,
