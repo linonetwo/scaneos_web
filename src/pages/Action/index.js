@@ -15,6 +15,11 @@ import { LongListContainer, NoData, Title } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 import Loading from '../../components/Loading';
 
+const ActionsDashboard = Loadable({
+  loader: () => import(/* webpackChunkName: "ActionsDashboard" */ './ActionsDashboard'),
+  loading: Loading,
+  modules: ['ActionsDashboard'],
+});
 const ActionsList = Loadable({
   loader: () => import(/* webpackChunkName: "ActionsList" */ './ActionsList'),
   loading: Loading,
@@ -100,7 +105,20 @@ class Action extends PureComponent<Props> {
               );
             return (
               <DetailTabsContainer column>
-                <Tabs defaultActiveKey="overview">
+                <Tabs defaultActiveKey="dashboard">
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="solution" />
+                        {t('Dashboard')}
+                      </span>
+                    }
+                    key="dashboard"
+                  >
+                    <LongListContainer column>
+                      <ActionsDashboard action={action} t={t} />
+                    </LongListContainer>
+                  </Tabs.TabPane>
                   <Tabs.TabPane
                     tab={
                       <span>
