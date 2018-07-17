@@ -99,7 +99,6 @@
     "react-cosmos-fetch-proxy": "^4.4.0",
     "react-cosmos-redux-proxy": "^4.4.0",
     "react-cosmos-router-proxy": "^4.5.0",
-    "socks5-node-fetch": "^0.0.4",
     "stats-webpack-plugin": "^0.6.2",
     "webpack-bundle-analyzer": "^2.13.1"
   },
