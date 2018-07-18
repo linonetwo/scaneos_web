@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Form, Input, Button, Switch } from 'antd';
+import { Form, Input, Button, Switch, Modal } from 'antd';
 import { translate } from 'react-i18next';
 import getEosClient from '../../components/Scatter/eosClient';
 import { formItemFieldConfig } from './constants';
@@ -23,6 +23,7 @@ class CreateAccount extends Component<Props> {
     e.preventDefault();
 
     const {
+      t,
       form: { validateFieldsAndScroll },
     } = this.props;
 
@@ -31,9 +32,6 @@ class CreateAccount extends Component<Props> {
         const {
           eosAccount: { name: eosAccount, authority: eosAuth },
         } = this.props;
-        const {
-          store: { dispatch },
-        } = await import('../../store');
         try {
           const EosClient = getEosClient();
           EosClient.transaction(tr => {
@@ -69,8 +67,9 @@ class CreateAccount extends Component<Props> {
               { authorization: [{ actor: eosAccount, permission: eosAuth }] },
             );
           });
+          Modal.info({ title: t('manageAccount.createAccountSucceed') });
         } catch (error) {
-          dispatch.info.displayNotification(JSON.stringify(error));
+          Modal.error({ title: t('manageAccount.createAccountFailed'), content: JSON.stringify(error) });
         }
       }
     });
@@ -119,33 +118,31 @@ class CreateAccount extends Component<Props> {
             <Input placeholder={t('createAccount.activePlaceholder')} id="activeKey" />,
           )}
         </FormItem>
-        <FormItem label="Net State(in EOS)" {...FormItemLayout}>
+        <FormItem label={t('createAccount.netLabel')} {...FormItemLayout}>
           {getFieldDecorator('net', {
             ...formItemFieldConfig(),
             rules: [
               {
                 required: true,
                 whitespace: true,
-                message: 'Net State is required',
               },
             ],
-          })(<Input placeholder="Required to use network" id="net" type="number" />)}
+          })(<Input placeholder={t('createAccount.netPlaceholder')} id="net" type="number" />)}
         </FormItem>
-        <FormItem label="CPU State(in EOS)" {...FormItemLayout}>
+        <FormItem label={t('createAccount.cpuLabel')} {...FormItemLayout}>
           {getFieldDecorator('cpu', {
             ...formItemFieldConfig(),
             rules: [
               {
                 required: true,
                 whitespace: true,
-                message: 'Required to process transactions',
               },
             ],
-          })(<Input placeholder="Required to process transactions" id="cpu" type="number" />)}
+          })(<Input placeholder={t('createAccount.cpuPlaceholder')} id="cpu" type="number" />)}
         </FormItem>
-        <FormItem label="Ram Purchase (in bytes)" {...FormItemLayout}>
+        <FormItem label={t('createAccount.ramLabel')} {...FormItemLayout}>
           {getFieldDecorator('ram', formItemFieldConfig())(
-            <Input placeholder="Required to store account" id="ram" type="number" />,
+            <Input placeholder={t('createAccount.ramPlaceholder')} id="ram" type="number" />,
           )}
         </FormItem>
         <FormItem label={t('delegateAccount.transferLabel')} {...FormItemLayout}>
@@ -153,12 +150,9 @@ class CreateAccount extends Component<Props> {
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 4 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            {t('scatter.submit')}
           </Button>
-          <p>
-            By executing this action you are agreeing to the EOS constitution and this actions associated ricardian
-            contract.
-          </p>
+          <p>{t('scatter.execut')}</p>
         </FormItem>
       </Form>
     );

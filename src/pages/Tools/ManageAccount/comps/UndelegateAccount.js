@@ -58,42 +58,39 @@ export default class UndelegateAccount extends Component<Props> {
 
   render() {
     const {
+      t,
       form: { getFieldDecorator },
       eosAccount: { name },
-      t,
     } = this.props;
 
     return (
       <Form onSubmit={this.handelSubmit}>
         <p>{t('delegateAccount.unStakingInformation')}</p>
-        <FormItem label="Stake Holder" {...FormItemLayout}>
+        <FormItem label={t('undelegateAccount.nameLabel')} {...FormItemLayout}>
           {getFieldDecorator('name', formItemFieldConfig())(
-            <Input placeholder="Who currently holds the stake" id="name" />,
+            <Input placeholder={t('undelegateAccount.namePlaceholder')} id="name" />,
           )}
         </FormItem>
-        <FormItem label="Stake Owner" {...FormItemLayout}>
+        <FormItem label={t('undelegateAccount.creatorLabel')} {...FormItemLayout}>
           {getFieldDecorator('creator', formItemFieldConfig(name))(
-            <Input placeholder="Scatter account" id="creator" />,
+            <Input placeholder={t('undelegateAccount.creatorPlaceholder')} id="creator" />,
           )}
         </FormItem>
-        <FormItem label="Net Unstake (in EOS)" {...FormItemLayout}>
+        <FormItem label={t('undelegateAccount.netLabel')} {...FormItemLayout}>
           {getFieldDecorator('net', formItemFieldConfig())(
-            <Input placeholder="How much EOS to unstake" id="net" type="number" />,
+            <Input placeholder={t('undelegateAccount.netPlaceholder')} id="net" type="number" />,
           )}
         </FormItem>
-        <FormItem label="CPU Unstake (in EOS)" {...FormItemLayout}>
+        <FormItem label={t('undelegateAccount.cpuLabel')} {...FormItemLayout}>
           {getFieldDecorator('cpu', formItemFieldConfig())(
-            <Input placeholder="How much EOS to unstake" id="cpu" type="number" />,
+            <Input placeholder={t('undelegateAccount.cpuPlaceholder')} id="cpu" type="number" />,
           )}
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 6 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            {t('scatter.submit')}
           </Button>
-          <p>
-            By executing this action you are agreeing to the EOS constitution and this actions associated ricardian
-            contract.
-          </p>
+          <p>{t('scatter.execut')}</p>
         </FormItem>
       </Form>
     );

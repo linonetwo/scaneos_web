@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { DetailTabsContainer } from '../../components/Containers';
 import CreateAccount from './createAccount';
 import ManageAccount from './ManageAccount';
-// import ManageVoting from './manageVoting';
 import TransferEOS from './transferEOS';
 import type { ToolsInfo } from '../../store/tools';
 import ScatterBtn from '../../components/Scatter';
@@ -45,9 +44,6 @@ class Tools extends Component<Props & Store> {
           <Tabs.TabPane tab={t('createAccount.tab')} key="createAccount">
             <CreateAccount eosAccount={eosAccount} />
           </Tabs.TabPane>
-          {/* <Tabs.TabPane tab={t('manageVoting.tab')} key="manageVoting">
-            <ManageVoting />
-          </Tabs.TabPane> */}
         </Tabs>
       </TabsContainer>
     );

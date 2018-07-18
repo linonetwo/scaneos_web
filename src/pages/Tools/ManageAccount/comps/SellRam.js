@@ -60,18 +60,19 @@ export default class SellRam extends Component<Props, *> {
 
   render() {
     const {
+      t,
       form: { getFieldDecorator },
       eosAccount: { name },
     } = this.props;
 
     return (
       <Form onSubmit={this.handelSubmit}>
-        <FormItem label="Seller" {...FormItemLayout}>
+        <FormItem label={t('sellRam.creatorLabel')} {...FormItemLayout}>
           {getFieldDecorator('creator', formItemFieldConfig(name))(
-            <Input placeholder="Scatter account" id="creator" />,
+            <Input placeholder={t('sellRam.creatorPlaceholder')} id="creator" />,
           )}
         </FormItem>
-        <FormItem label="Ram to Sell (in bytes)" {...FormItemLayout}>
+        <FormItem label={t('sellRam.ramLabel')} {...FormItemLayout}>
           {getFieldDecorator('ram', {
             rules: [
               {
@@ -81,16 +82,13 @@ export default class SellRam extends Component<Props, *> {
               },
             ],
             initialValue: 8192,
-          })(<InputNumber placeholder="How many bytes to sell" id="ram" />)}
+          })(<InputNumber placeholder={t('sellRam.ramplaceholder')} id="ram" />)}
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 6 }}>
           <Button type="primary" htmlType="submit">
-            Sell
+            {t('sellRam.submit')}
           </Button>
-          <p>
-            By executing this action you are agreeing to the EOS constitution and this actions associated ricardian
-            contract.
-          </p>
+          <p>{t('scatter.execut')}</p>
         </FormItem>
       </Form>
     );

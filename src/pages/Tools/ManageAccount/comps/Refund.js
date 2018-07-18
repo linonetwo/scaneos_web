@@ -73,12 +73,9 @@ export default class Refund extends Component<Props, *> {
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 6 }}>
           <Button type="primary" htmlType="submit">
-            Refund
+            {t('refund.Submit')}
           </Button>
-          <p>
-            By executing this action you are agreeing to the EOS constitution and this actions associated ricardian
-            contract.
-          </p>
+          <p>{t('scatter.execut')}</p>
         </FormItem>
       </Form>
     );

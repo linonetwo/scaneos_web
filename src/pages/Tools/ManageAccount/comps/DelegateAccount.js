@@ -76,14 +76,14 @@ export default class DelegateAccount extends Component<Props> {
             <Input placeholder={t('delegateAccount.creatorPlaceholder')} id="creator" />,
           )}
         </FormItem>
-        <FormItem label="Net Stake (in EOS)" {...FormItemLayout}>
+        <FormItem label={t('delegateAccount.netLabel')} {...FormItemLayout}>
           {getFieldDecorator('net', formItemFieldConfig())(
-            <Input placeholder="How much EOS to stake" id="net" type="number" />,
+            <Input placeholder={t('delegateAccount.netPlaceholder')} id="net" type="number" />,
           )}
         </FormItem>
-        <FormItem label="CPU Stake (in EOS)" {...FormItemLayout}>
+        <FormItem label={t('delegateAccount.cpuLabel')} {...FormItemLayout}>
           {getFieldDecorator('cpu', formItemFieldConfig())(
-            <Input placeholder="How much EOS to stake" id="cpu" type="number" />,
+            <Input placeholder={t('delegateAccount.cpuPlaceholder')} id="cpu" type="number" />,
           )}
         </FormItem>
         <FormItem label={t('delegateAccount.transferLabel')} {...FormItemLayout}>
@@ -91,12 +91,9 @@ export default class DelegateAccount extends Component<Props> {
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 6 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            {t('scatter.submit')}
           </Button>
-          <p>
-            By executing this action you are agreeing to the EOS constitution and this actions associated ricardian
-            contract.
-          </p>
+          <p>{t('scatter.execut')}</p>
         </FormItem>
       </Form>
     );

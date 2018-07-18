@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Modal } from 'antd';
 import { translate } from 'react-i18next';
 import getEosClient from '../../components/Scatter/eosClient';
 import { formItemFieldConfig } from './constants';
@@ -23,14 +23,12 @@ class CreateAccount extends Component<Props> {
     e.preventDefault();
 
     const {
+      t,
       form: { validateFieldsAndScroll },
     } = this.props;
 
     validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        const {
-          store: { dispatch },
-        } = await import('../../store');
         const {
           eosAccount: { name: eosAccount, authority: eosAuth },
         } = this.props;
@@ -49,9 +47,9 @@ class CreateAccount extends Component<Props> {
             { authorization: [{ actor: eosAccount, permission: eosAuth }] },
           );
 
-          dispatch.info.displayNotification('Transfer Successd');
+          Modal.info({ title: t('manageAccount.transferEOSSucceed') });
         } catch (error) {
-          dispatch.info.displayNotification(JSON.stringify(error));
+          Modal.error({ title: t('manageAccount.transferEOSFailed'), content: JSON.stringify(error) });
         }
       }
     });
@@ -66,9 +64,9 @@ class CreateAccount extends Component<Props> {
 
     return (
       <Form onSubmit={this.handelSubmit}>
-        <FormItem label="Recepient" {...FormItemLayout}>
+        <FormItem label={t('transferEOS.nameLabel')} {...FormItemLayout}>
           {getFieldDecorator('name', formItemFieldConfig())(
-            <Input placeholder={t('transferEOS.nameLabel')} id="name" />,
+            <Input placeholder={t('transferEOS.namePlaceholder')} id="name" />,
           )}
         </FormItem>
         <FormItem label={t('transferEOS.creatorLabel')} {...FormItemLayout}>
@@ -76,24 +74,21 @@ class CreateAccount extends Component<Props> {
             <Input placeholder={t('delegateAccount.creatorPlaceholder')} id="creator" />,
           )}
         </FormItem>
-        <FormItem label="Quantity (in EOS)" {...FormItemLayout}>
+        <FormItem label={t('transferEOS.quantityLabel')} {...FormItemLayout}>
           {getFieldDecorator('quantity', formItemFieldConfig())(
-            <Input placeholder="How much EOS to send" id="quantity" />,
+            <Input placeholder={t('transferEOS.quantityPlaceholder')} id="quantity" />,
           )}
         </FormItem>
-        <FormItem label="Memo" {...FormItemLayout}>
+        <FormItem label={t('transferEOS.memoLabel')} {...FormItemLayout}>
           {getFieldDecorator('memo', formItemFieldConfig())(
-            <Input placeholder="A memo to attach to transfer" id="memo" />,
+            <Input placeholder={t('transferEOS.memoPlaceholder')} id="memo" />,
           )}
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 4 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            {t('scatter.submit')}
           </Button>
-          <p>
-            By executing this action you are agreeing to the EOS constitution and this actions associated ricardian
-            contract.
-          </p>
+          <p>{t('scatter.execut')}</p>
         </FormItem>
       </Form>
     );

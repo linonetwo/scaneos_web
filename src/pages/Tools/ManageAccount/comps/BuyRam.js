@@ -141,10 +141,7 @@ export default class BuyRam extends Component<Props, *> {
           <Button type="primary" htmlType="submit">
             Purchase
           </Button>
-          <p>
-            By executing this action you are agreeing to the EOS constitution and this actions associated ricardian
-            contract.
-          </p>
+          <p>{t('scatter.execut')}</p>
         </FormItem>
       </Form>
     );
