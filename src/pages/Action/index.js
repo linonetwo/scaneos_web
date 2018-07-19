@@ -1,8 +1,8 @@
 // @flow
-import { toPairs } from 'lodash';
+import { toPairs, truncate } from 'lodash';
 import React, { PureComponent, Fragment } from 'react';
 import { Spin, Table, Tabs, Icon } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -15,6 +15,11 @@ import { LongListContainer, NoData, Title } from '../../components/Table';
 import getListValueRendering from '../../components/getListValueRendering';
 import Loading from '../../components/Loading';
 
+const ActionsDashboard = Loadable({
+  loader: () => import(/* webpackChunkName: "ActionsDashboard" */ './ActionsDashboard'),
+  loading: Loading,
+  modules: ['ActionsDashboard'],
+});
 const ActionsList = Loadable({
   loader: () => import(/* webpackChunkName: "ActionsList" */ './ActionsList'),
   loading: Loading,
@@ -36,7 +41,7 @@ export const ACTIONS_FRAGMENT = gql`
     name
     data
     transactionID
-    createdAt
+    timestamp
     authorization {
       permission
       actor
@@ -100,7 +105,20 @@ class Action extends PureComponent<Props> {
               );
             return (
               <DetailTabsContainer column>
-                <Tabs defaultActiveKey="overview">
+                <Tabs defaultActiveKey="dashboard">
+                  <Tabs.TabPane
+                    tab={
+                      <span>
+                        <Icon type="solution" />
+                        {t('Dashboard')}
+                      </span>
+                    }
+                    key="dashboard"
+                  >
+                    <LongListContainer column>
+                      <ActionsDashboard action={action} t={t} />
+                    </LongListContainer>
+                  </Tabs.TabPane>
                   <Tabs.TabPane
                     tab={
                       <span>
@@ -148,21 +166,36 @@ class Action extends PureComponent<Props> {
                     if (result.error)
                       return (
                         <Container column center>
-                          <Title>{t('ActionsInSameTransaction')}</Title>
+                          <Title>
+                            <Link to={`/transaction/${action.transactionID}`}>
+                              {truncate(action.transactionID, { length: 15, omission: '...' })}
+                            </Link>{' '}
+                            {t('ActionsInSameTransaction')}
+                          </Title>
                           {result.error.message}
                         </Container>
                       );
                     if (result.loading)
                       return (
                         <Container column alignCenter>
-                          <Title>{t('ActionsInSameTransaction')}</Title>
+                          <Title>
+                            <Link to={`/transaction/${action.transactionID}`}>
+                              {truncate(action.transactionID, { length: 15, omission: '...' })}
+                            </Link>{' '}
+                            {t('ActionsInSameTransaction')}
+                          </Title>
                           <Spin tip={t('Connecting')} spinning={result.loading} size="large" />
                         </Container>
                       );
                     if (!result.data.transaction)
                       return (
                         <Container column>
-                          <Title>{t('ActionsInSameTransaction')}</Title>
+                          <Title>
+                            <Link to={`/transaction/${action.transactionID}`}>
+                              {truncate(action.transactionID, { length: 15, omission: '...' })}
+                            </Link>{' '}
+                            {t('ActionsInSameTransaction')}
+                          </Title>
                           {t('noResult')}
                         </Container>
                       );
@@ -173,7 +206,12 @@ class Action extends PureComponent<Props> {
                     } = result.data;
                     return (
                       <Container column>
-                        <Title>{t('ActionsInSameTransaction')}</Title>
+                        <Title>
+                          <Link to={`/transaction/${action.transactionID}`}>
+                            {truncate(action.transactionID, { length: 15, omission: '...' })}
+                          </Link>{' '}
+                          {t('ActionsInSameTransaction')}
+                        </Title>
                         <ActionsList actions={actions} t={t} />
                       </Container>
                     );

@@ -20,6 +20,7 @@ const KeyContainer = styled(Flex)`
   color: white;
   width: 450px;
   border-radius: 2px;
+  margin: 1px 0;
 `;
 
 class AuthTable extends PureComponent<Props> {
@@ -32,7 +33,7 @@ class AuthTable extends PureComponent<Props> {
     return (
       <Table
         style={{ width, margin: '20px 0' }}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1600 }}
         size="middle"
         pagination={false}
         dataSource={permissions}
@@ -65,7 +66,19 @@ class AuthTable extends PureComponent<Props> {
           title={<Tooltip t={t} field="subAccounts" />}
           dataIndex="accounts"
           key="accounts"
-          render={accounts => accounts && accounts.length > 0 && JSON.stringify(accounts)}
+          render={accounts =>
+            accounts &&
+            accounts.length > 0 &&
+            accounts.map(subAccount => (
+              <KeyContainer justifyBetween>
+                <span>
+                  {t('weight')}:{subAccount.weight}
+                </span>
+                <span>{t('actor')}: {subAccount.permission.actor}</span>
+                <span>{t('permission')}: {subAccount.permission.permission}</span>
+              </KeyContainer>
+            ))
+          }
         />
       </Table>
     );

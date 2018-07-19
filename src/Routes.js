@@ -94,10 +94,10 @@ const ChartsAndVisualizations = Loadable({
   loading: Loading,
   modules: ['ChartsAndVisualizations'],
 });
-const AutoReport = Loadable({
-  loader: () => import(/* webpackChunkName: "AutoReport" */ './pages/AutoReport'),
+const Report = Loadable({
+  loader: () => import(/* webpackChunkName: "Report" */ './pages/Report'),
   loading: Loading,
-  modules: ['AutoReport'],
+  modules: ['Report'],
 });
 const About = Loadable({
   loader: () => import(/* webpackChunkName: "About" */ './pages/About'),
@@ -166,7 +166,7 @@ export default class App extends Component<{}> {
               <Route exact path="/producers" component={BlockProducers} />
               <Route exact path="/producer/:accountName" component={BlockProducer} />
               <Route path="/charts" component={ChartsAndVisualizations} />
-              <Route path="/report" component={AutoReport} />
+              <Route path="/report" component={Report} />
               <Route exact path="/about" component={About} />
               <Route exact path="/dictionary" component={Dictionary} />
               <Route exact path="/dictionary/:dictionaryField" component={DictionaryEntry} />

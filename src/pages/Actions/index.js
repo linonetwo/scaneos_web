@@ -11,7 +11,7 @@ import { Helmet } from 'react-helmet';
 import { getPageSize, formatTimeStamp } from '../../store/utils';
 import { ListContainer } from '../../components/Containers';
 import { ACTIONS_FRAGMENT } from '../Action';
-import { renderActionName } from '../Action/ActionsList';
+import renderActionName from '../Action/renderActionName';
 
 type Props = {
   t: Function,

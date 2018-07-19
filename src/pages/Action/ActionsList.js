@@ -2,10 +2,8 @@
 // @flow
 import { truncate, flatten, size } from 'lodash';
 import React, { Fragment } from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Table, Select, Spin, Icon } from 'antd';
-import randomColor from 'randomcolor';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -16,32 +14,7 @@ import { Title } from '../../components/Table';
 import { getActionListValueRendering } from '../../components/getListValueRendering';
 import { ACTIONS_FRAGMENT } from './index';
 import Tooltip from '../../components/Tooltip';
-
-const ActionName = styled.div`
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: ${({ color }) => color};
-  border: 1px solid ${({ color }) => color};
-  padding: 5px;
-  min-width: 120px;
-`;
-
-export const renderActionName = (actionName: string, id: string, t: Function) => (
-  <Link to={`/action/${id}/`}>
-    <ActionName
-      color={randomColor({
-        luminosity: 'dark',
-        format: 'rgba',
-        alpha: 0.7,
-        hue: 'blue',
-        seed: actionName,
-      })}
-    >
-      {t(`action:${actionName}`)}
-    </ActionName>
-  </Link>
-);
+import renderActionName from './renderActionName';
 
 /** 针对一些个例，调整 action 的类型名等参数，创造出子类型等 */
 function formatActionList(actions: Object[], accountName?: string): Object[] {
@@ -84,9 +57,9 @@ export default function ActionsList({ t, actions, accountName }: Props) {
           )}
         />
         <Table.Column
-          title={t('createdAt')}
-          dataIndex="createdAt"
-          key="createdAt"
+          title={t('timestamp')}
+          dataIndex="timestamp"
+          key="timestamp"
           render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
         />
         <Table.Column
