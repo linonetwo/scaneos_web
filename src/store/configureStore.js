@@ -5,6 +5,7 @@ import { createBrowserHistory, createMemoryHistory } from 'history';
 import infoModel from './info';
 import historyModel from './history';
 import { isServer, getInitialStateFromServer } from './utils';
+import toolsModel from './tools';
 
 const immer = immerPlugin();
 const configureStore = (initialState = {}) => {
@@ -28,6 +29,7 @@ const configureStore = (initialState = {}) => {
       models: {
         info: infoModel(infoInitialState),
         history: historyModel(historyInitialState),
+        tools: toolsModel(),
       },
       plugins: [immer],
     }),

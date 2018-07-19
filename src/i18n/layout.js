@@ -57,6 +57,8 @@ export const zh = {
   About: '关于我们',
 
   Connecting: '连接中',
+
+  Toolkit: '工具集',
   Syncing: '刷新数据中',
   noResult: '暂无结果，请再试试？',
   clickOpenDetail: '点击打开详情',
@@ -85,6 +87,7 @@ export const en = {
   accountNum: 'Accounts',
   actionNum: 'Actions',
   blocksNum: 'Blocks',
+  Toolkit: 'toolkit',
 
   noResult: 'No Result...Try another.',
   clickOpenDetail: 'click for detail',

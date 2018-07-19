@@ -8,6 +8,7 @@ import * as blockChain from './blockChain';
 import * as price from './price';
 import * as about from './about';
 import * as layout from './layout';
+import * as tools from './tools';
 import * as status from './status';
 import * as dictionary from './dictionary';
 import * as bp from './bp';
@@ -35,6 +36,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...layout.zh,
         ...status.zh,
         ...dictionary.zh,
+        ...tools.zh,
       },
     },
     en: {
@@ -51,6 +53,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
         ...layout.en,
         ...status.en,
         ...dictionary.en,
+        ...tools.en,
       },
     },
   },

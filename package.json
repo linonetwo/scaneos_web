@@ -28,6 +28,8 @@
     "cross-fetch": "^2.2.2",
     "date-fns": "^1.29.0",
     "echarts": "^4.1.0",
+    "eosjs": "^15.0.3",
+    "ethereumjs-abi": "^0.6.5",
     "flow-bin": "^0.76.0",
     "flow-runtime": "^0.17.0",
     "fs-extra": "^6.0.1",
