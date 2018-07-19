@@ -7,7 +7,7 @@ import { formItemFieldConfig } from '../../constants';
 const FormItem = Form.Item;
 
 const FormItemLayout = {
-  labelCol: { span: 6 },
+  labelCol: { span: 8 },
   wrapperCol: { span: 14 },
 };
 

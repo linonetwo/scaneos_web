@@ -6,7 +6,7 @@ import { formItemFieldConfig } from '../../constants';
 
 const FormItem = Form.Item;
 const FormItemLayout = {
-  labelCol: { span: 6 },
+  labelCol: { span: 8 },
   wrapperCol: { span: 14 },
 };
 
@@ -84,7 +84,7 @@ export default class SellRam extends Component<Props, *> {
             initialValue: 8192,
           })(<InputNumber placeholder={t('sellRam.ramplaceholder')} id="ram" />)}
         </FormItem>
-        <FormItem wrapperCol={{ span: 12, offset: 6 }}>
+        <FormItem wrapperCol={{ span: 12, offset: 8 }}>
           <Button type="primary" htmlType="submit">
             {t('sellRam.submit')}
           </Button>

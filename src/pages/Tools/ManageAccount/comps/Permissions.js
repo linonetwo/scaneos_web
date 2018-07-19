@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 
 const FormItemLayout = {
   labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
+  wrapperCol: { span: 24 },
 };
 
 type Props = {
@@ -89,7 +89,7 @@ export default class Permissions extends Component<Props> {
             <Input placeholder={t('permissions.ownerPlaceholder')} id="ownerKey" />,
           )}
         </FormItem>
-        <FormItem wrapperCol={{ span: 12, offset: 6 }}>
+        <FormItem wrapperCol={{ span: 18 }}>
           <Button type="primary" htmlType="submit">
             {t('permissions.submit')}
           </Button>

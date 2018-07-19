@@ -1,7 +1,7 @@
 export const zh = {
   transferEOS: {
     tab: '兑换 EOS',
-    nameLabel: 'Recepient',
+    nameLabel: '接收方',
     namePlaceholder: '收到 EOS 的帐户',
     creatorLabel: '发送者',
     creatorPlaceholder: '确认您的 Scatter 账户',
@@ -62,7 +62,7 @@ export const zh = {
     ramPlaceholder: '需要存储帐户',
   },
   permissions: {
-    creatorLabel: '更改权限',
+    creatorLabel: '更改权限者',
     creatorPlaceholder: '确认您的 Scatter 账户',
     activeLabel: 'Active 公钥',
     activePlaceholder: '请输入账户公钥 (仅在您想要更改 active 公钥时填写)',
@@ -80,24 +80,24 @@ export const zh = {
   },
   delegateAccount: {
     recepientLabel: '委托账户',
-    recepientPlaceholder: '将获得股份的账户',
+    recepientPlaceholder: '将获得内存和CPU的账户',
     creatorLabel: '利益所有者',
     creatorPlaceholder: '确认您的 Scatter 账户',
     transferLabel: '转让',
     unStakingInformation: '取消抵押要花费三天的时间来退款，但会立即降低您的投票权重。',
-    netLabel: '抵押的 Net (以 EOS 为单位)',
+    netLabel: '抵押的带宽',
     netPlaceholder: '需要抵押多少 EOS',
-    cpuLabel: '抵押的 CPU (以 EOS 为单位)',
+    cpuLabel: '抵押的 CPU',
     cpuPlaceholder: '需要抵押多少 EOS',
   },
   undelegateAccount: {
-    nameLabel: '股权持有人',
-    namePlaceholder: '当前股权持有者',
+    nameLabel: '持有人',
+    namePlaceholder: '当前带宽和CPU的持有者',
     creatorLabel: '利益所有者',
     creatorPlaceholder: '确认你的 Scatter 账户',
-    netLabel: '取消抵押的 Net (以 EOS 为单位)',
+    netLabel: '取消抵押的带宽',
     netPlaceholder: '需要取消抵押多少 EOS',
-    cpuLabel: '取消抵押的 CPU (以 EOS 为单位)',
+    cpuLabel: '取消抵押的 CPU',
     cpuPlaceholder: '需要取消抵押多少 EOS',
   },
   scatter: {
@@ -107,13 +107,13 @@ export const zh = {
     execut: '通过执行此操作，即表示您同意 EOS 章程以及与此相关的合同。',
   },
   refund: {
-    Submit: 'Refund',
+    Submit: '退款',
   },
   sellRam: {
     submit: '出售',
     creatorLabel: '卖家',
     creatorPlaceholder: '确认你的 Scatter 账户',
-    ramLabel: '出售的 Ram（以字节为单位）',
+    ramLabel: '出售的内存量',
     ramplaceholder: '要出售多少字节',
   },
 };
@@ -183,9 +183,9 @@ export const en = {
   permissions: {
     creatorLabel: 'Change permission on',
     creatorPlaceholder: 'Scatter Account',
-    activeLabel: 'Active Permission',
+    activeLabel: 'Active Permission Key',
     activePlaceholder: 'Public key for account name (Only complete if you want to change)',
-    ownerLabel: 'Owner Permission',
+    ownerLabel: 'Owner Permission Key',
     ownerPlaceholder: 'Public key for account name (Only complete if you want to change)',
     submit: 'Update',
   },

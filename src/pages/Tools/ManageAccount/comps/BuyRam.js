@@ -7,7 +7,7 @@ import { formItemFieldConfig } from '../../constants';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const FormItemLayout = {
-  labelCol: { span: 6 },
+  labelCol: { span: 8 },
   wrapperCol: { span: 14 },
 };
 
@@ -137,7 +137,7 @@ export default class BuyRam extends Component<Props, *> {
             initialValue: purchaseInitValue[purchase],
           })(<InputNumber id="quantity" />)}
         </FormItem>
-        <FormItem wrapperCol={{ span: 12, offset: 6 }}>
+        <FormItem wrapperCol={{ span: 12, offset: 8 }}>
           <Button type="primary" htmlType="submit">
             Purchase
           </Button>
