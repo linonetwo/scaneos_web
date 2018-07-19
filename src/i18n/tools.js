@@ -107,7 +107,7 @@ export const zh = {
     execut: '通过执行此操作，即表示您同意 EOS 章程以及与此相关的合同。',
   },
   refund: {
-    submit: 'Refund',
+    Submit: 'Refund',
   },
   sellRam: {
     submit: '出售',
@@ -227,7 +227,7 @@ export const en = {
       'By executing this action you are agreeing to the EOS constitution and this actions associated ricardian contract.',
   },
   refund: {
-    submit: 'Refund',
+    Submit: 'Refund',
   },
   sellRam: {
     submit: 'Sell',
