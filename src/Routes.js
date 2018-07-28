@@ -59,6 +59,11 @@ const Accounts = Loadable({
   loading: Loading,
   modules: ['Accounts'],
 });
+const AccountsMonitore = Loadable({
+  loader: () => import(/* webpackChunkName: "Accounts" */ './pages/AccountsMonitore'),
+  loading: Loading,
+  modules: ['AccountsMonitore'],
+});
 const Action = Loadable({
   loader: () => import(/* webpackChunkName: "Action" */ './pages/Action'),
   loading: Loading,
@@ -157,7 +162,8 @@ export default class App extends Component<{}> {
               <Route exact path="/transaction/:transactionID" component={Transaction} />
               <Route exact path="/transactions" component={Transactions} />
               <Route exact path="/account/:accountName" component={Account} />
-              <Route exact path="/accounts" component={Accounts} />
+              <Route exact path="/accounts" component={AccountsMonitore} />
+              <Route exact path="/accounts/:type" component={Accounts} />
               <Route exact path="/action/:actionID" component={Action} />
               <Route exact path="/actions" component={Actions} />
               <Route exact path="/tokens" component={Tokens} />

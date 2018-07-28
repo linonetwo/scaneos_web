@@ -100,6 +100,23 @@ export const zh = {
     keys: '公钥列表',
     subAccounts: '子账户列表',
     actor: '角色',
+    moreInfo: '查看更多详情',
+
+    EosTop: {
+      title: 'EOS 余额排名前十的账户',
+    },
+    CpuTop: {
+      title: 'CPU 排名前十的账户',
+    },
+    NetTop: {
+      title: 'Net 排名前十的账户',
+    },
+    RamTop: {
+      title: 'Ram 排名前十的账户',
+    },
+    StakedTop: {
+      title: 'CPU 质押权重排名前十的账户',
+    },
   },
   action: {
     ...zhShared,
@@ -206,6 +223,23 @@ export const en = {
     tryName: 'Search a name you want',
     notInAuction: 'Not in auction. ',
     nearestResult: 'Displaying a most similar result for you.',
+    moreInfo: 'More Info',
+
+    EosTop: {
+      title: 'Top 10 accounts for EOS balances',
+    },
+    CpuTop: {
+      title: 'Top 10 accounts for CPU',
+    },
+    NetTop: {
+      title: 'Top 10 accounts for NET',
+    },
+    RamTop: {
+      title: 'Top 10 accounts for RAM',
+    },
+    StakedTop: {
+      title: 'Top 10 accounts for Staked CPU',
+    },
   },
   action: {
     ...enShared,

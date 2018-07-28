@@ -145,3 +145,14 @@ export const ListContainer = styled(Flex)`
   ${adjustAntdTable};
   min-height: calc(100vh - 64px);
 `;
+
+export const PageContainer = styled(Flex)`
+  min-height: calc(100vh - 64px);
+  padding-bottom: 50px;
+  margin: auto;
+  width: 90vw;
+  ${breakpoint('desktop')`
+    width: 1200px;
+  `};
+  opacity: 0.85;
+`;
