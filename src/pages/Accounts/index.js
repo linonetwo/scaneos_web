@@ -13,6 +13,11 @@ import { ListContainer } from '../../components/Containers';
 
 type Props = {
   t: Function,
+  match: {
+    params: {
+      type: string,
+    },
+  },
 };
 const GET_ACCOUNT_LIST = gql`
   query GET_ACCOUNT_LIST($page: Int, $sortBy: String) {
@@ -42,7 +47,9 @@ const GET_ACCOUNT_LIST = gql`
 
 class Accounts extends PureComponent<Props> {
   render() {
-    const { t } = this.props;
+    const { t, match } = this.props;
+    const { params: { type }} = match;
+
     return (
       <ListContainer column justifyCenter>
         <Helmet>
@@ -50,7 +57,7 @@ class Accounts extends PureComponent<Props> {
             EOS {t('Accounts')} | {t('webSiteTitle')}
           </title>
         </Helmet>
-        <Query query={GET_ACCOUNT_LIST} variables={{ sortBy: 'eos' }} notifyOnNetworkStatusChange>
+        <Query query={GET_ACCOUNT_LIST} variables={{ sortBy: type }} notifyOnNetworkStatusChange>
           {({ loading, error, data, fetchMore }) => {
             if (error) return error.message;
             if (loading) return <Spin tip={t('Connecting')} spinning={loading} size="large" />;
