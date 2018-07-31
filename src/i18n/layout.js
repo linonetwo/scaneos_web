@@ -87,7 +87,7 @@ export const en = {
   accountNum: 'Accounts',
   actionNum: 'Actions',
   blocksNum: 'Blocks',
-  Toolkit: 'toolkit',
+  Toolkit: 'Toolkit',
 
   noResult: 'No Result...Try another.',
   clickOpenDetail: 'click for detail',
