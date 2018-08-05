@@ -82,9 +82,9 @@ export default function ActionsList({ t, actions, accountName }: Props) {
 }
 
 export const GET_ACCOUNT_ACTIONS = gql`
-  query GET_ACCOUNT_ACTIONS($name: String!, $filterBy: JSON) {
+  query GET_ACCOUNT_MESSAGES($name: String!, $filterBy: JSON) {
     account(name: $name) {
-      actions(filterBy: $filterBy, size: 9999) {
+      messageList(filterBy: $filterBy, size: 9999) {
         actions {
           ...ACTIONS_FRAGMENT
         }
