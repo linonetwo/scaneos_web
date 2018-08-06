@@ -12,11 +12,11 @@ const Container = styled(Flex)`
   padding: 100px;
 `;
 
-function Loading(props: { t: Function }) {
+function Loading({ t }: { t: Function }) {
   return (
     <Container center column>
       <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
-      <p>{props.t('LoadingModule')}</p>
+      <p>{t('LoadingModule')}</p>
     </Container>
   );
 }
