@@ -19,7 +19,7 @@ import 'cross-fetch/polyfill';
 
 // Our store, entrypoint, and manifest
 import createStore from '../src/store/configureStore';
-import AppRoutes from '../src/Routes';
+import App from '../src/App';
 import manifest from '../build/asset-manifest.json';
 import getApolloClient from '../src/graphql/ssr';
 
@@ -86,7 +86,7 @@ function processSSR(htmlData, req, res) {
           <I18nextProvider i18n={req.i18n}>
             <Provider store={store}>
               <StaticRouter location={req.url} context={context}>
-                <AppRoutes />
+                <App />
               </StaticRouter>
             </Provider>
           </I18nextProvider>
