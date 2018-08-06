@@ -1,17 +1,11 @@
 // @flow
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Layout, BackTop } from 'antd';
-import { translate } from 'react-i18next';
-import { Helmet } from 'react-helmet';
 import Loadable from 'react-loadable';
-import { ThemeProvider } from 'styled-components';
 
 import { store } from './store';
 
-import Header, { Footer } from './components/Layout';
 import Loading from './components/Loading';
-import ScrollToTop from './components/ScrollToTop';
 import './GlobalStyles';
 
 const Home = Loadable({
@@ -130,24 +124,6 @@ const DApps = Loadable({
   modules: ['DApps'],
 });
 
-
-function Title({ t }: { t: Function }) {
-  return (
-    <Helmet>
-      <title>{t('webSiteTitle')}</title>
-      <meta name="description" content={t('webSiteIntroduction')} />
-    </Helmet>
-  );
-}
-const DynamicTitle = translate()(Title);
-
-const theme = {
-  breakpoints: {
-    mobile: 0,
-    tablet: 737,
-    desktop: 1200,
-  },
-};
 export default class App extends Component<{}> {
   componentDidMount() {
     store.dispatch.history.updateNavTab();
@@ -155,41 +131,31 @@ export default class App extends Component<{}> {
 
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <ScrollToTop>
-          <Layout>
-            <DynamicTitle />
-            <BackTop />
-            <Header />
-            <Switch>
-              <Route exact path="/blocks" component={Blocks} />
-              <Route exact path="/tools" component={Tools} />
-              <Route exact path="/block/:blockNumOrID" component={Block} />
-              <Route exact path="/transaction/:transactionID" component={Transaction} />
-              <Route exact path="/transactions" component={Transactions} />
-              <Route exact path="/account/:accountName" component={Account} />
-              <Route exact path="/accounts" component={AccountsMonitore} />
-              <Route exact path="/accounts/:type" component={Accounts} />
-              <Route exact path="/action/:actionID" component={Action} />
-              <Route exact path="/actions" component={Actions} />
-              <Route exact path="/tokens" component={Tokens} />
-              <Route exact path="/auctions" component={NameAuctions} />
-              <Route exact path="/auction/:accountName" component={NameAuction} />
-              <Route exact path="/producers" component={BlockProducers} />
-              <Route exact path="/producer/:accountName" component={BlockProducer} />
-              <Route path="/charts" component={ChartsAndVisualizations} />
-              <Route path="/dapps" component={DApps} />
-              <Route path="/report" component={Report} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/dictionary" component={Dictionary} />
-              <Route exact path="/dictionary/:dictionaryField" component={DictionaryEntry} />
-              <Route exact path="/" component={Home} />
-              <Route component={UnderDevelopment} />
-            </Switch>
-            <Footer />
-          </Layout>
-        </ScrollToTop>
-      </ThemeProvider>
+      <Switch>
+        <Route exact path="/blocks" component={Blocks} />
+        <Route exact path="/tools" component={Tools} />
+        <Route exact path="/block/:blockNumOrID" component={Block} />
+        <Route exact path="/transaction/:transactionID" component={Transaction} />
+        <Route exact path="/transactions" component={Transactions} />
+        <Route exact path="/account/:accountName" component={Account} />
+        <Route exact path="/accounts" component={AccountsMonitore} />
+        <Route exact path="/accounts/:type" component={Accounts} />
+        <Route exact path="/action/:actionID" component={Action} />
+        <Route exact path="/actions" component={Actions} />
+        <Route exact path="/tokens" component={Tokens} />
+        <Route exact path="/auctions" component={NameAuctions} />
+        <Route exact path="/auction/:accountName" component={NameAuction} />
+        <Route exact path="/producers" component={BlockProducers} />
+        <Route exact path="/producer/:accountName" component={BlockProducer} />
+        <Route path="/charts" component={ChartsAndVisualizations} />
+        <Route path="/dapps" component={DApps} />
+        <Route path="/report" component={Report} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/dictionary" component={Dictionary} />
+        <Route exact path="/dictionary/:dictionaryField" component={DictionaryEntry} />
+        <Route exact path="/" component={Home} />
+        <Route component={UnderDevelopment} />
+      </Switch>
     );
   }
 }

@@ -11,7 +11,7 @@ import { store, history } from './store';
 import client from './graphql';
 import i18n from './i18n';
 
-import AppRoutes from './Routes';
+import App from './App';
 
 import register from './registerServiceWorker';
 
@@ -20,7 +20,7 @@ const Application = (
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>
         <Router history={history}>
-          <AppRoutes />
+          <App />
         </Router>
       </Provider>
     </I18nextProvider>
