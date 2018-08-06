@@ -51,5 +51,7 @@ module.exports = function override(config, env) {
   })(config, env);
   config.plugins.push(new StatsWebpackPlugin('stats.json', { chunkModules: true }));
 
+  // add this untill https://github.com/facebook/create-react-app/issues/4769 is closed
+  config.optimization.splitChunks.name = undefined;
   return config;
 };
