@@ -183,7 +183,7 @@ class Chart extends PureComponent<Props> {
             }}
           </Query>
         </PartsLayout>
-        <Link to="/dapp/ram/">
+        <Link to="/dapps/ram/">
           <GotoDetail center>
             {t('enterRamTopic')}
             <Icon type="right" />
