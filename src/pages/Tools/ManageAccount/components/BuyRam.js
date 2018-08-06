@@ -106,7 +106,7 @@ export default class BuyRam extends Component<Props, *> {
     return (
       <Form onSubmit={this.handelSubmit}>
         <FormItem label={t('buyRam.receivesLabel')} {...FormItemLayout}>
-          {getFieldDecorator('name', formItemFieldConfig())(
+          {getFieldDecorator('name', formItemFieldConfig(name))(
             <Input placeholder={t('buyRam.receivesPlaceholder')} id="name" />,
           )}
         </FormItem>
@@ -139,7 +139,7 @@ export default class BuyRam extends Component<Props, *> {
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 8 }}>
           <Button type="primary" htmlType="submit">
-            Purchase
+            {t('Purchase')}
           </Button>
           <p>{t('scatter.execut')}</p>
         </FormItem>

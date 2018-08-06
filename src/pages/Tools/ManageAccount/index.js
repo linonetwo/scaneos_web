@@ -4,12 +4,12 @@ import { Form, Menu } from 'antd';
 import { translate } from 'react-i18next';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import DelegateAccount from './comps/DelegateAccount';
-import UndelegateAccount from './comps/UndelegateAccount';
-import BuyRam from './comps/BuyRam';
-import SellRam from './comps/SellRam';
-import Refund from './comps/Refund';
-import Permissions from './comps/Permissions';
+import DelegateAccount from './components/DelegateAccount';
+import UndelegateAccount from './components/UndelegateAccount';
+import BuyRam from './components/BuyRam';
+import SellRam from './components/SellRam';
+import Refund from './components/Refund';
+import Permissions from './components/Permissions';
 
 type Props = {
   t: Function,

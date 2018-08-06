@@ -244,10 +244,14 @@ export function getActionListValueRendering(actionName: string, value: any, t: F
                 {t('ram')} {quant}
               </mark>{' '}
             </span>
-            {t('to')}
-            <Link to={`/account/${receiver}/`}>
-              <mark>{receiver}</mark>
-            </Link>
+            {receiver !== payer && (
+              <span>
+                {t('to')}
+                <Link to={`/account/${receiver}/`}>
+                  <mark>{receiver}</mark>
+                </Link>
+              </span>
+            )}
           </div>
         </ActionDataContainer>
       );

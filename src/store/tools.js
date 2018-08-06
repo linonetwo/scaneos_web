@@ -6,64 +6,53 @@ import { scatterConfig, scatterEosOptions } from '../API.config';
 import { initEosClient } from '../components/Scatter/eosClient';
 
 const testnet = false;
-export type ToolsInfo = {
-  scatter: Object,
-  eosAccount: {
+
+export type Store = {
+  scatter?: Object,
+  eosClient?: Object,
+  eosAccount?: {
     name: string,
     authority: string,
   },
 };
-
-type Store = { loading: boolean, tools: ToolsInfo };
 const defaultState = {
-  loading: false,
-  tools: {
-    scatter: {},
-    eosAccount: {
-      name: 'Attach an Account',
-      authority: ' ',
-    },
+  scatter: {},
+  eosAccount: {
+    name: 'Attach an Account',
+    authority: ' ',
   },
 };
 export default (initialState: Object = {}) => ({
   state: { ...defaultState, ...initialState },
   reducers: {
-    toggleLoading(state: Store) {
-      state.loading = !state.loading;
-      return state;
-    },
     onScatterLoaded(state: Store, scatter: Object) {
-      state.tools.scatter = scatter;
+      state.scatter = scatter;
       return state;
     },
-    onEosClientLoaded(state: Store, eosClient) {
-      state.tools.eosClient = eosClient;
+    onEosClientLoaded(state: Store, eosClient: Object) {
+      state.eosClient = eosClient;
       return state;
     },
     attachedAccount(state: Store, eosAccount: Object) {
-      state.tools.eosAccount = eosAccount;
+      state.eosAccount = eosAccount;
       return state;
     },
     detachedAccount(state: Store) {
-      state.tools.eosAccount = defaultState.tools.eosAccount;
+      state.eosAccount = defaultState.eosAccount;
       return state;
     },
   },
   effects: {
-    getEosClient(payload, rootState) {
+    getEosClient(_: any, rootState: Store) {
       const {
-        tools: {
-          tools: { scatter },
-        },
+        tools: { scatter },
       } = rootState;
       const eosClient = scatter.eos(scatterConfig, Eos, scatterEosOptions, testnet ? 'http' : 'https');
       initEosClient(eosClient);
     },
-    async getEosAccount(payload, rootState) {
+    async getEosAccount(_: any, rootState: Store) {
       const {
-        tools: {
-          tools: { scatter },
-        },
+        tools: { scatter },
       } = rootState;
 
       try {

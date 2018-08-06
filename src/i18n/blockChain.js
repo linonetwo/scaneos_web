@@ -55,6 +55,8 @@ export const zh = {
     netMax: '总带宽',
     cpuMax: '总计算时间',
     ramValue: '内存价值',
+    enterRamTopic: '进入内存专题',
+    
 
     voterInfo: '投票质押信息',
     proxy: '代理',
@@ -167,6 +169,7 @@ const enShared = {
   timestamp: 'Timestamp',
   createdAt: 'Created',
   updatedAt: 'Updated',
+  ram: 'RAM',
   cpu: 'CPUTime',
   net: 'NetBandWidth',
 };
@@ -223,6 +226,7 @@ export const en = {
     tryName: 'Search a name you want',
     notInAuction: 'Not in auction. ',
     nearestResult: 'Displaying a most similar result for you.',
+    enterRamTopic: 'Enter RAM Topic',
     moreInfo: 'More Info',
 
     EosTop: {

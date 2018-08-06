@@ -20,23 +20,23 @@ export default function ActionsDashboard({ t, action }: Props) {
       {renderActionName(name, id, t, { noLink: true })}
 
       <Content>
-        <p>{getActionListValueRendering(name, data, t)}</p>
-        <p>
+        <article>{getActionListValueRendering(name, data, t)}</article>
+        <article>
           <h4>{t('createdAt')}:</h4>
           {formatTimeStamp(timestamp, t('locale'))}
-        </p>
-        <p>
+        </article>
+        <article>
           <h4>{t('authorization')}:</h4>
           {authorization.map(({ actor, permission }) => (
             <Link key={actor + permission} to={`/account/${actor}/`}>
               {actor} ({t('permission')}: {permission}){' '}
             </Link>
           ))}
-        </p>
-        <p>
+        </article>
+        <article>
           <h4>{t('transactionID')}:</h4>
           <Link to={`/transaction/${transactionID}/`}>{transactionID}</Link>
-        </p>
+        </article>
       </Content>
     </Fragment>
   );

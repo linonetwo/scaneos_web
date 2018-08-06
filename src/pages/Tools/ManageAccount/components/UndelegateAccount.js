@@ -67,7 +67,7 @@ export default class UndelegateAccount extends Component<Props> {
       <Form onSubmit={this.handelSubmit}>
         <p>{t('delegateAccount.unStakingInformation')}</p>
         <FormItem label={t('undelegateAccount.nameLabel')} {...FormItemLayout}>
-          {getFieldDecorator('name', formItemFieldConfig())(
+          {getFieldDecorator('name', formItemFieldConfig(name))(
             <Input placeholder={t('undelegateAccount.namePlaceholder')} id="name" />,
           )}
         </FormItem>

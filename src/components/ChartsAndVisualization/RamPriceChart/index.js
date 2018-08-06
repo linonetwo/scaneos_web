@@ -6,19 +6,21 @@ import Flex from 'styled-flex-component';
 import breakpoint from 'styled-components-breakpoint';
 import { translate } from 'react-i18next';
 import { Icon, Spin, Progress } from 'antd';
-import { format } from 'date-fns';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import numeral from 'numeral';
 import prettySize from 'prettysize';
 import IEcharts from 'react-echarts-v3/src/lite';
 import echarts from 'echarts/lib/echarts';
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/dataZoom';
+import 'echarts/lib/chart/candlestick';
 import 'echarts/lib/chart/line';
-import { it, _ } from 'param.macro';
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/markPoint';
+import 'echarts/lib/component/markLine';
+import 'echarts/lib/component/dataZoom';
 
 import { Title } from '../../../pages/Home/styles';
+import getRAMCandleStickOption from './getRAMCandleStickOption';
 
 const PriceChartContainer = styled(Flex)`
   height: 500px;
@@ -75,58 +77,18 @@ const AggregationItem = styled(Flex)`
   }
 `;
 
-const chartOption = {
-  grid: {
-    x: 50, // 默认是80px
-    y: 40, // 默认是60px
-    x2: 20, // 默认80px
-    y2: 30, // 默认60px
-  },
-  color: ['#1aa2db'],
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross',
-    },
-  },
-  dataZoom: [
-    {
-      id: 'dataZoomX',
-      type: 'slider',
-      xAxisIndex: [0],
-    },
-  ],
-  legend: {
-    data: ['EOSPrice'],
-    bottom: 10,
-    left: 'center',
-  },
-  yAxis: [
-    {
-      type: 'value',
-      name: 'EOS',
-      position: 'left',
-      splitLine: {
-        show: false,
-      },
-      min: 'dataMin',
-      max: 'dataMax',
-      axisLabel: {
-        formatter: value => numeral(value).format('0.0[0]'),
-      },
-    },
-  ],
-};
-
 type Props = {
   t: Function,
 };
 const GET_RAM_PRICE_CHART = gql`
   query GET_RAM_PRICE_CHART {
-    resourcePriceChart {
-      ramPrice {
+    resourcePriceChart(range: "5d") {
+      ramKChart(kChartChunkSize: 20) {
         time
-        value
+        open
+        close
+        lowest
+        highest
       }
     }
     resourcePrice {
@@ -174,40 +136,13 @@ function RamPriceChart({ t }: Props) {
           );
 
         const {
-          resourcePriceChart: { ramPrice },
+          resourcePriceChart: { ramKChart },
           resourcePrice,
           status: { maxRamSize, totalRamBytesReserved },
         } = data;
 
         const ramReservedPercent = (totalRamBytesReserved / maxRamSize) * 100;
 
-        const series = [
-          {
-            name: 'EOS',
-            data: ramPrice.map(it.value),
-            type: 'line',
-            showSymbol: false,
-            hoverAnimation: false,
-          },
-        ];
-        const xAxis = [
-          {
-            type: 'category',
-            boundaryGap: false,
-            splitLine: {
-              show: false,
-            },
-            data: ramPrice.map(it.time),
-            axisLabel: {
-              formatter: format(_, 'MM-DD HH:mm:ss'),
-            },
-            axisPointer: {
-              label: {
-                formatter: format(_.value, 'MM-DD HH:mm:ss'),
-              },
-            },
-          },
-        ];
         if (typeof window === 'undefined') {
           global.window = {};
         }
@@ -260,7 +195,7 @@ function RamPriceChart({ t }: Props) {
             </ProgressContainer>
 
             <ChartContainer>
-              <IEcharts option={{ ...chartOption, series, xAxis }} echarts={echarts} />
+              <IEcharts theme="light" option={getRAMCandleStickOption(ramKChart)} echarts={echarts} />
             </ChartContainer>
           </PriceChartContainer>
         );

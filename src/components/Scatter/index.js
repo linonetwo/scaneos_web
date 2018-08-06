@@ -96,7 +96,7 @@ class ScatterTools extends Component<Props & Store & Dispatch> {
   }
 }
 
-const mapState = ({ tools: { tools }, info: { loading } }): Store => ({
+const mapState = ({ tools, info: { loading } }): Store => ({
   tools,
   loading,
 });

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key, react/destructuring-assignment */
 // @flow
-import React, { Component, Fragment, createRef } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is from 'styled-is';
@@ -39,12 +39,13 @@ const HeaderContainer = styled.div`
   z-index: 10;
   .ant-layout-header {
     padding: 0 calc((100vw - 1200px) / 2);
+    padding-left: calc((100vw - 1200px) / 2 + 130px + 25px);
     width: 100vw;
     background-color: white;
     border-bottom: 1px solid #eeeeee;
     height: inherit;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
 
     position: fixed;
   }
@@ -119,6 +120,9 @@ const DropDownsContainer = styled.nav`
   `};
   font-size: 14px;
 `;
+const UtilityContainer = styled(DropDownsContainer)`
+  margin-left: auto;
+`;
 const NavDropDowns = styled(Flex)``;
 const NavDropDownsButton = styled.a`
   margin-left: 20px;
@@ -147,12 +151,16 @@ const NavDropDownsButtonLink = NavDropDownsButton.extend`
 `.withComponent(Link);
 
 const NavButtonSelectedIndicator = styled.div`
-  width: 160%;
+  width: 40%;
+  padding-left: 10%;
+  margin: auto;
+  ${is('forceCenter')`
+    margin-left: 20%;
+  `};
   height: 2px;
   background-color: #3498db;
 
   margin-top: -2px;
-  margin-left: -30%;
 
   display: none;
   ${is('visible')`
@@ -162,7 +170,7 @@ const NavButtonSelectedIndicator = styled.div`
 const DesktopSearchBarContainer = styled(Flex)`
   display: none;
   ${breakpoint('desktop')`
-    display: unset;
+    display: inline-flex;
   `};
 `;
 const MobileSearchBarContainer = styled(Flex)`
@@ -212,6 +220,7 @@ export const blockChainPaths: RouteData[] = [
   { route: 'actions', display: 'Actions' },
   {},
   { route: 'tokens', display: 'Tokens' },
+  { route: 'dapps', display: 'DApps' },
   {},
   { route: 'charts', display: 'Charts' },
   { route: 'report', display: 'Report' },
@@ -222,7 +231,8 @@ export const blockChainDetailPaths: RouteData[] = [
   { route: 'block', display: 'Blocks' },
   { route: 'action', display: 'Actions' },
   { route: 'token', display: 'Tokens' },
-  { route: 'chart', display: 'Charts' },
+  { route: 'dapp', display: 'DApp' },
+  { route: 'chart', display: 'Chart' },
 ];
 
 // list
@@ -299,6 +309,15 @@ class Header extends Component<Props & Store & Dispatch, *> {
 
   getMobileMenu = () => (
     <Menu mode="inline" style={{ width: 256 }}>
+      <Menu.Item>
+        <NavDropDownsButtonLink
+          selected={this.props.navTab === 'home'}
+          onClick={() => this.props.changeNavTab('home')}
+          to="/"
+        >
+          {this.props.t('Home')}
+        </NavDropDownsButtonLink>
+      </Menu.Item>
       <Menu.SubMenu
         title={
           <NavDropDownsButton selected={this.props.navTab === 'blockChain'}>
@@ -373,7 +392,9 @@ class Header extends Component<Props & Store & Dispatch, *> {
     </Menu>
   );
 
-  getSelectedIndicator = tabName => <NavButtonSelectedIndicator visible={this.props.navTab === tabName} />;
+  getSelectedIndicator = tabName => (
+    <NavButtonSelectedIndicator forceCenter={tabName === 'blockChain'} visible={this.props.navTab === tabName} />
+  );
 
   render() {
     const { t, changeNavTab, navTab } = this.props;
@@ -409,9 +430,6 @@ class Header extends Component<Props & Store & Dispatch, *> {
                 <Icon onClick={this.toggleSideMenu} type={sideMenuOpened ? 'menu-fold' : 'menu-unfold'} />
               </MenuOpenIconContainer>
 
-              <DesktopSearchBarContainer>
-                <SearchBar />
-              </DesktopSearchBarContainer>
               <DropDownsContainer>
                 <NavDropDowns justifyEnd>
                   <Dropdown overlay={this.getBlockChainMenu()}>
@@ -444,7 +462,11 @@ class Header extends Component<Props & Store & Dispatch, *> {
                     {t('Dictionary')}
                     {this.getSelectedIndicator('dictionary')}
                   </NavDropDownsButtonLink>
-
+                </NavDropDowns>
+              </DropDownsContainer>
+              <UtilityContainer>
+                <DesktopSearchBarContainer>
+                  <SearchBar />
                   <Dropdown overlay={this.localeMenu}>
                     <NavDropDownsButton>
                       <img
@@ -461,8 +483,8 @@ class Header extends Component<Props & Store & Dispatch, *> {
                       {this.getSelectedIndicator('locale')}
                     </NavDropDownsButton>
                   </Dropdown>
-                </NavDropDowns>
-              </DropDownsContainer>
+                </DesktopSearchBarContainer>
+              </UtilityContainer>
             </Layout.Header>
           </HeaderContainer>
           {(inputFocused || headerAffixed) && (

@@ -9,7 +9,7 @@ import { DetailTabsContainer } from '../../components/Containers';
 import CreateAccount from './createAccount';
 import ManageAccount from './ManageAccount';
 import TransferEOS from './transferEOS';
-import type { ToolsInfo } from '../../store/tools';
+import type { Store as ToolsInfo } from '../../store/tools';
 import ScatterBtn from '../../components/Scatter';
 
 const TabsContainer = styled(DetailTabsContainer)`
@@ -50,7 +50,7 @@ class Tools extends Component<Props & Store> {
   }
 }
 
-const mapState = ({ tools: { tools }, info: { loading } }): Store => ({
+const mapState = ({ tools, info: { loading } }): Store => ({
   tools,
   loading,
 });

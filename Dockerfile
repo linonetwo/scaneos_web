@@ -4,10 +4,9 @@ FROM mhart/alpine-node:10.8.0
 # Create app directory
 RUN mkdir -p /usr/src/app
 
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN apk update && apk upgrade && \
-    echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
-    echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
+RUN echo http://mirrors.ustc.edu.cn/alpine/edge/main > /etc/apk/repositories; \
+    echo http://mirrors.ustc.edu.cn/alpine/edge/community >> /etc/apk/repositories
+RUN apk update && apk upgrade
 RUN apk add git make gcc g++ python linux-headers paxctl gnupg
 
 # bundle app source

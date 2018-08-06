@@ -123,7 +123,7 @@ export function getAccountActionsList(Container: ComponentType<*>, accountName: 
               <Spin tip={t('Connecting')} spinning={loading} size="large" />
             </Container>
           );
-        if (!data.account)
+        if (!data?.account?.actions?.actions)
           return (
             <Container column>
               <Title>

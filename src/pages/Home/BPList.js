@@ -1,14 +1,28 @@
 // @flow
 import { toUpper } from 'lodash';
 import React from 'react';
+import styled from 'styled-components';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { Table, Icon, Spin } from 'antd';
+import { Table, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import numeral from 'numeral';
 
-import { Title, ListContainer, ViewAll } from './styles';
+import { Title, ListContainer, More } from './styles';
+
+const BPListContainer = styled(ListContainer)`
+  margin-top: 20px;
+  height: 730px;
+
+
+  th:first-child {
+    padding-left: 23px !important;
+  }
+  td:first-child {
+    padding-left: 30px !important;
+  }
+`;
 
 type Props = {
   t: Function,
@@ -32,11 +46,16 @@ function BPList({ t }: Props) {
   return (
     <Query query={GET_BP_LIST_HOME_PAGE}>
       {({ loading, error, data }) => {
-        if (error) return <ListContainer large>{error.message}</ListContainer>;
+        if (error)
+          return (
+            <BPListContainer center large>
+              {error.message}
+            </BPListContainer>
+          );
         if (loading)
           return (
             <Spin tip={t('Connecting')} spinning={loading} size="large">
-              <ListContainer large />
+              <BPListContainer center large />
             </Spin>
           );
         const {
@@ -44,19 +63,15 @@ function BPList({ t }: Props) {
           status: { totalProducerVoteWeight },
         } = data;
         return (
-          <ListContainer large>
+          <BPListContainer column large>
             <Title justifyBetween alignCenter>
-              <span>
-                <Icon type="solution" /> {t('BlockProducers')}
-              </span>
+              <span>{t('BlockProducers')}</span>
               <Link to="/producers/">
-                <ViewAll>{t('ViewAll')}</ViewAll>
+                <More>{t('More')}</More>
               </Link>
             </Title>
             <Table
-              pagination={{
-                pageSize: 21,
-              }}
+              pagination={false}
               size="small"
               dataSource={producers}
               scroll={{ x: 450 }}
@@ -88,7 +103,7 @@ function BPList({ t }: Props) {
                 render={account => <Link to={`/producer/${account}`}>{account}</Link>}
               />
             </Table>
-          </ListContainer>
+          </BPListContainer>
         );
       }}
     </Query>

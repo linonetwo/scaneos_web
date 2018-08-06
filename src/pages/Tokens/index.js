@@ -20,7 +20,7 @@ const GET_TOKENS_LIST = gql`
       tokens {
         issuer
         maximumSupply
-        createdAt
+        timestamp
       }
       pageInfo {
         totalPages
@@ -79,8 +79,8 @@ class Tokens extends Component<Props> {
                 <Table.Column title={t('maximumSupply')} dataIndex="maximumSupply" key="maximumSupply" />
                 <Table.Column
                   title={t('createdAt')}
-                  dataIndex="createdAt"
-                  key="createdAt"
+                  dataIndex="timestamp"
+                  key="timestamp"
                   render={timeStamp => formatTimeStamp(timeStamp, t('locale'))}
                 />
               </Table>

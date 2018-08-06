@@ -49,6 +49,7 @@
       }
     ],
     "react/no-multi-comp": "off",
+    "no-continue": "off",
     "no-param-reassign": "off",
     "no-restricted-syntax": "off",
     "no-undef": ["error", { "typeof": false }],

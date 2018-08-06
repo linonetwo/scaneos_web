@@ -1,12 +1,14 @@
+// @flow
+import React from 'react';
+import { Icon } from 'antd';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component';
-import is from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
 
 export const Title = styled(Flex)`
   width: 100%;
   font-size: 16px;
-  padding: 0;
+  padding: 20px 20px 10px;
   color: #333;
 
   & a {
@@ -17,17 +19,13 @@ export const Title = styled(Flex)`
   }
 `;
 
-export const ListContainer = styled.div`
+export const ListContainer = styled(Flex)`
   width: 90vw;
-  min-height: 500px;
-  margin: 15px auto 0;
+  margin: 0px auto;
   overflow-y: hidden;
   ${breakpoint('desktop')`
     width: calc((1200px - 24px) / 2);
-    margin: 24px 0 0;
-  `};
-  ${is('large')`
-    height: 820px;
+    margin: 0;
   `};
   .ant-list {
     margin: 0;
@@ -36,7 +34,7 @@ export const ListContainer = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    padding: 10px 0;
+    padding: 0;
     border-bottom: 1px solid #f3f3f3 !important;
   }
   .ant-list-item-content {
@@ -46,68 +44,51 @@ export const ListContainer = styled.div`
     display: none;
   }
   .ant-table-tbody > tr > td {
-    border-bottom: 1px solid #f3f3f3 !important;
+    border-bottom: none !important;
   }
   .ant-table-small {
     border: none;
+    th {
+      border-bottom: none !important;
+      background-color: #fafafa !important;
+    }
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+    td {
+      border-bottom: none;
+      padding: 6px 8px !important;
+    }
   }
 
   background-color: white;
   box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
-  padding: 20px;
-  padding-bottom: 5px;
 `;
-export const KeyInfoItemContainer = styled(Flex)`
-  flex-direction: column;
+export const WideListContainer = styled(Flex)`
+  width: 90vw;
+  margin: 0 auto;
+  padding: 5px 10px;
   ${breakpoint('desktop')`
-    flex-direction: row;
-  `};
-`;
-export const KeyInfoContainer = styled(Flex)`
-  background-color: gray;
-  width: 100%;
-  ${breakpoint('desktop')`
-    width: 170px;
-    min-width: 170px;
-    ${is('larger')`
-      width: 180px;
-      min-width: 180px;
-    `};
-  `};
-
-  overflow: hidden;
-
-  height: 70px;
-  margin: 10px 0;
-  ${breakpoint('desktop')`
+    width: 1200px;
     margin: 0;
-    margin-right: 20px;
+    padding: 10px;
   `};
-  padding: 20px;
-
-  color: white;
-  & a {
-    color: white;
-  }
-  &:hover {
-    opacity: 0.8;
-  }
-
-  white-space: pre-wrap;
+  background-color: white;
+  box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.02);
 `;
-export const ViewAll = styled(Flex)`
-  border: 1px solid gray;
-  padding: 5px 13px;
+
+const ViewAllContainer = styled.div`
+  color: #333;
   font-size: 12px;
-  white-space: nowrap;
-
-  cursor: pointer;
-  color: gray;
-  &:hover {
-    background-color: gray;
-    color: white;
-  }
 `;
+export function More({ children }: { children: string }) {
+  return (
+    <ViewAllContainer>
+      {children}
+      <Icon type="right" />
+    </ViewAllContainer>
+  );
+}
 
 export const ActionPreview = styled.div`
   & a + a {

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Flex from 'styled-flex-component';
 import is from 'styled-is';
 import breakpoint from 'styled-components-breakpoint';
-import { Table, Icon, Input, Spin, Modal } from 'antd';
+import { Table, Input, Spin, Modal } from 'antd';
 import gql from 'graphql-tag';
 import { Query, ApolloConsumer } from 'react-apollo';
 import { Link } from 'react-router-dom';
@@ -12,14 +12,30 @@ import { translate } from 'react-i18next';
 
 import { formatTimeStamp } from '../../store/utils';
 
-import { Title, ListContainer, ViewAll } from './styles';
+import { Title, ListContainer, More } from './styles';
+
+const NameAuctionListContainer = styled(ListContainer)`
+  margin-top: 20px;
+  ${breakpoint('desktop')`
+    height: 730px;
+  `};
+  ${breakpoint('mobile', 'desktop')`
+    padding-bottom: 10px;
+  `};
+
+  th:first-child {
+    padding-left: 23px !important;
+  }
+  td:first-child {
+    padding-left: 23px !important;
+  }
+`;
 
 const SearchContainer = styled(Flex)`
-  width: 100%;
-  margin-top: 10px;
+  margin: 10px 20px 20px;
   ${breakpoint('desktop')`
     display: none;
-    margin-top: 0px;
+    margin: 0px;
     margin-left: 20px;
     .ant-input-search {
       width: 260px;
@@ -64,9 +80,15 @@ const SEARCH_AUCTION = gql`
 function SearchResult({ nameAuction, t }: Object) {
   return (
     <Flex column>
-      <h4><a href={`/auction/${nameAuction.newName}/`}>{nameAuction.newName}</a></h4>
-      <p>{t('highBidder')}: <a href={`/account/${nameAuction.highBidder}/`}>{nameAuction.highBidder}</a></p>
-      <p>{t('offerBid')}: <span>{nameAuction.highBid} EOS</span></p>
+      <h4>
+        <a href={`/auction/${nameAuction.newName}/`}>{nameAuction.newName}</a>
+      </h4>
+      <p>
+        {t('highBidder')}: <a href={`/account/${nameAuction.highBidder}/`}>{nameAuction.highBidder}</a>
+      </p>
+      <p>
+        {t('offerBid')}: <span>{nameAuction.highBid} EOS</span>
+      </p>
       <p>{formatTimeStamp(nameAuction.lastBidTime, t('locale'), { distance: false })}</p>
     </Flex>
   );
@@ -104,25 +126,28 @@ class NameAuctionList extends PureComponent<Props> {
     return (
       <Query query={GET_AUCTIONS_HOME_PAGE}>
         {({ loading, error, data }) => {
-          if (error) return <ListContainer large>{error.message}</ListContainer>;
+          if (error)
+            return (
+              <NameAuctionListContainer center large>
+                {error.message}
+              </NameAuctionListContainer>
+            );
           if (loading)
             return (
               <Spin tip={t('Connecting')} spinning={loading} size="large">
-                <ListContainer large />
+                <NameAuctionListContainer center large />
               </Spin>
             );
           const {
             nameAuctions: { nameAuctions },
           } = data;
           return (
-            <ListContainer large>
+            <NameAuctionListContainer large column>
               <ApolloConsumer>
                 {client => (
                   <Fragment>
                     <Title justifyBetween alignCenter>
-                      <span>
-                        <Icon type="database" /> {t('Auction')}
-                      </span>
+                      <span>{t('Auction')}</span>
                       <SearchContainer desktop>
                         <Input.Search
                           size="small"
@@ -131,7 +156,7 @@ class NameAuctionList extends PureComponent<Props> {
                         />
                       </SearchContainer>
                       <Link to="/auctions/">
-                        <ViewAll>{t('ViewAll')}</ViewAll>
+                        <More>{t('More')}</More>
                       </Link>
                     </Title>
                     <SearchContainer>
@@ -182,7 +207,7 @@ class NameAuctionList extends PureComponent<Props> {
                   render={lastBidTime => formatTimeStamp(lastBidTime, t('locale'), { distance: false })}
                 />
               </Table>
-            </ListContainer>
+            </NameAuctionListContainer>
           );
         }}
       </Query>

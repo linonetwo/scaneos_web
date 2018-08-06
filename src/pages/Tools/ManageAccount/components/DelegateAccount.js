@@ -67,7 +67,7 @@ export default class DelegateAccount extends Component<Props> {
     return (
       <Form onSubmit={this.handelSubmit}>
         <FormItem label={t('delegateAccount.recepientLabel')} {...FormItemLayout}>
-          {getFieldDecorator('name', formItemFieldConfig())(
+          {getFieldDecorator('name', formItemFieldConfig(name))(
             <Input placeholder={t('delegateAccount.recepientPlaceholder')} id="name" />,
           )}
         </FormItem>

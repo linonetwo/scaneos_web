@@ -124,6 +124,12 @@ const DictionaryEntry = Loadable({
   loading: Loading,
   modules: ['DictionaryEntry'],
 });
+const DApps = Loadable({
+  loader: () => import(/* webpackChunkName: "DApps" */ './pages/DApp'),
+  loading: Loading,
+  modules: ['DApps'],
+});
+
 
 function Title({ t }: { t: Function }) {
   return (
@@ -172,6 +178,7 @@ export default class App extends Component<{}> {
               <Route exact path="/producers" component={BlockProducers} />
               <Route exact path="/producer/:accountName" component={BlockProducer} />
               <Route path="/charts" component={ChartsAndVisualizations} />
+              <Route path="/dapps" component={DApps} />
               <Route path="/report" component={Report} />
               <Route exact path="/about" component={About} />
               <Route exact path="/dictionary" component={Dictionary} />

@@ -1,6 +1,5 @@
 export const zh = {
   country: '地区',
-  rank: '排名',
   name: '超级节点',
   account: '账户',
   latitude: '纬度',
