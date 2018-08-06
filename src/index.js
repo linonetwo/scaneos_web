@@ -13,7 +13,7 @@ import i18n from './i18n';
 
 import AppRoutes from './Routes';
 
-import register from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 const Application = (
   <ApolloProvider client={client}>
@@ -35,4 +35,4 @@ if (root.hasChildNodes()) {
 } else {
   render(Application, root);
 }
-register();
+unregister();
