@@ -79,7 +79,7 @@ function processSSR(htmlData, req, res) {
   res.startTime('parsingReactTree', 'Server side React Parsing');
   const sheet = new ServerStyleSheet();
   const apolloClient = getApolloClient();
-  const App = (
+  const AppTree = (
     <Loadable.Capture report={m => modules.push(m)}>
       <StyleSheetManager sheet={sheet.instance}>
         <ApolloProvider client={apolloClient}>
@@ -96,11 +96,11 @@ function processSSR(htmlData, req, res) {
   );
   res.endTime('parsingReactTree');
   res.startTime('getDataFromTree', 'Loading Data From GraphQL');
-  getDataFromTree(App)
+  getDataFromTree(AppTree)
     .then(() => {
       res.endTime('getDataFromTree');
       res.startTime('renderToString', 'Render React App to HTML String');
-      const body = renderToString(App);
+      const body = renderToString(AppTree);
       res.endTime('renderToString');
       res.startTime('getStyleTagsAndExtractData', 'StyledComponents to style tag');
       const style = sheet.getStyleTags();
