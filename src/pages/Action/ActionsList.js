@@ -84,12 +84,13 @@ export default function ActionsList({ t, actions, accountName }: Props) {
 export const GET_ACCOUNT_ACTIONS = gql`
   query GET_ACCOUNT_MESSAGES($name: String!, $filterBy: JSON) {
     account(name: $name) {
-      messageList(filterBy: $filterBy, size: 9999) {
+      actions(filterBy: $filterBy, size: 9999) {
         actions {
           ...ACTIONS_FRAGMENT
         }
         pageInfo {
           filterBy
+          filters
           totalPages
           totalElements
           page
@@ -135,7 +136,7 @@ export function getAccountActionsList(Container: ComponentType<*>, accountName: 
           account: {
             actions: {
               actions,
-              pageInfo: { filterBy },
+              pageInfo: { filterBy, filters },
             },
           },
         } = data;
@@ -163,24 +164,9 @@ export function getAccountActionsList(Container: ComponentType<*>, accountName: 
                 })
               }
             >
-              {[
-                'transfer',
-                'setabi',
-                'newaccount',
-                'updateauth',
-                'buyram',
-                'buyrambytes',
-                'sellram',
-                'delegatebw',
-                'undelegatebw',
-                'refund',
-                'regproducer',
-                'bidname',
-                'voteproducer',
-                'claimrewards',
-                'create',
-                'issue',
-              ].map(actionName => <Select.Option key={actionName}>{t(`action:${actionName}`)}</Select.Option>)}
+              {filters.name.map(actionName => (
+                <Select.Option key={actionName}>{t(`action:${actionName}`)}</Select.Option>
+              ))}
             </Select>
 
             <ActionsList actions={actions} accountName={accountName} t={t} />
