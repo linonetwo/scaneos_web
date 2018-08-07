@@ -64,7 +64,7 @@ type Props = {
 };
 const GET_ACTIONS_DAPP_RAM = gql`
   query GET_ACTIONS_DAPP_RAM {
-    actions(size: 10, filterBy: { match: "ram" }) {
+    actions(size: 10, filterBy: { match: "sellram,buyram" }) {
       actions {
         name
         data
