@@ -97,7 +97,7 @@ const GET_RAM_PRICE_CHART = gql`
 `;
 const GET_RAM_DATA = gql`
   query GET_RAM_DATA {
-    accounts(sortBy: "ram", page: 1, size: 8) {
+    accounts(sortBy: "ram", size: 8) {
       accounts {
         accountName
         eosBalance
