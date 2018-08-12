@@ -31,6 +31,11 @@ const VotingProgress = Loadable({
   loading: Loading,
   modules: ['VotingProgress'],
 });
+const CommitChart = Loadable({
+  loader: () => import(/* webpackChunkName: "RamPriceChart" */ '../../components/ChartsAndVisualization/CommitChart'),
+  loading: Loading,
+  modules: ['CommitChart'],
+});
 
 const Container = styled(Flex)`
   min-height: calc(100vh - 64px);
@@ -64,6 +69,7 @@ class ChartsAndVisualizations extends PureComponent<Props> {
           <Route path={`${url}/eos`} component={EOSPriceChart} />
           <Route path={`${url}/ram`} component={RamPriceChart} />
           <Route path={`${url}/voting`} component={VotingProgress} />
+          <Route path={`${url}/commit`} component={CommitChart} />
         </Switch>
       </Container>
     );

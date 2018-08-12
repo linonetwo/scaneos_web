@@ -6,6 +6,7 @@ import { isServer } from '../store/utils';
 
 import * as blockChain from './blockChain';
 import * as price from './price';
+import * as repo from './repo';
 import * as about from './about';
 import * as layout from './layout';
 import * as tools from './tools';
@@ -32,6 +33,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
       translation: {
         locale: 'zh',
         ...price.zh,
+        ...repo.zh,
         ...about.zh,
         ...layout.zh,
         ...status.zh,
@@ -49,6 +51,7 @@ export default i18n.use(isServer ? LanguageDetector : BrowserLanguageDetector).i
       translation: {
         locale: 'en',
         ...price.en,
+        ...repo.en,
         ...about.en,
         ...layout.en,
         ...status.en,
